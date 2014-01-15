@@ -15,8 +15,9 @@ import android.widget.TextView;
 
 public class GetMessageViewObject implements GetMessageResponse {
 	String msgId = null;
-	IMMNService immnSrvc;
+	IMMNService immnSrvc ;//= new IMMNService(fqdn, token);
 	TextView messageTextView;
+	Message message;
 
 	
 	public GetMessageViewObject(String msgId) {
@@ -24,11 +25,11 @@ public class GetMessageViewObject implements GetMessageResponse {
 		this.msgId = msgId;		
 	}
 
-	public TextView GetMessage(String msgId) {
+	public Message GetMessage(String msgId) {
 		
 		GetMessageTask getMessageTask = new GetMessageTask();
 		getMessageTask.execute(msgId);
-		return messageTextView;
+		return message;
 
 	}
 	public class  GetMessageTask extends AsyncTask<String,Void,Message> {
@@ -56,7 +57,8 @@ public class GetMessageViewObject implements GetMessageResponse {
 		protected void onPostExecute(Message result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			messageTextView.setText(result.getText());
+			//messageTextView.setText(result.getText());
+			message = result;
 		}
 		
 	}

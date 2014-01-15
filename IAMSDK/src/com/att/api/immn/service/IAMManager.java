@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 public class IAMManager {
 	
-	public TextView GetMessage(String msgId) {
+	public Message GetMessage(String msgId) {
 		GetMessageViewObject getMessageViewObj = new GetMessageViewObject(msgId) ;
 		return getMessageViewObj.GetMessage(msgId);
 		
