@@ -43,17 +43,17 @@ public class APIGetMessageContent implements ATTIAMListener {
 		}
 
 		@Override
-		protected void onPostExecute(MessageContent result) {
+		protected void onPostExecute(MessageContent msgContent) {
 			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			onSuccess(result);
+			super.onPostExecute(msgContent);
+			onSuccess(msgContent);
 		}
 		
 	}
 	
 
 	@Override
-	public void onSuccess(Object adViewResponse) {
+	public void onSuccess(Object response) {
 		// TODO Auto-generated method stub
 		
 	}

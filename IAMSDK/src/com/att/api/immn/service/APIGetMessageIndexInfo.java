@@ -58,7 +58,7 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 	}
 
 	@Override
-	public void onSuccess(Object adViewResponse) {
+	public void onSuccess(Object response) {
 		// TODO Auto-generated method stub
 		
 	}

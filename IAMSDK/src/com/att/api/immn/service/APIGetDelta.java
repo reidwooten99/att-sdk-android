@@ -58,7 +58,7 @@ public class APIGetDelta implements ATTIAMListener {
 	}
 
 	@Override
-	public void onSuccess(Object adViewResponse) {
+	public void onSuccess(Object response) {
 		// TODO Auto-generated method stub
 		
 	}
