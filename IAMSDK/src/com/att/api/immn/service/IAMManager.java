@@ -73,4 +73,8 @@ public class IAMManager {
 	}
 		
 	
+	public void SendMessage(String address, String message) {
+		APISendMessage sendMessage = new APISendMessage(address, message, immnSrvc, iamListener);
+		sendMessage.SendMessage();
+	}
 }
