@@ -29,8 +29,8 @@ public class IAMManager {
 	 * @param msgId
 	 */
 	public void GetMessage(String msgId) {
-		APIGetMessage getMessageViewObj = new APIGetMessage(msgId, immnSrvc, iamListener);
-		getMessageViewObj.GetMessage(msgId);
+		APIGetMessage getMessage = new APIGetMessage(msgId, immnSrvc, iamListener);
+		getMessage.GetMessage(msgId);
 	}
 	
 	/**
@@ -70,11 +70,5 @@ public class IAMManager {
 	public void GetMessageIndexInfo() {
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
 		getMessageIndexInfo.GetMessageIndexInfo();
-	}
-		
-	
-	public void SendMessage(String address, String message) {
-		APISendMessage sendMessage = new APISendMessage(address, message, immnSrvc, iamListener);
-		sendMessage.SendMessage();
 	}
 }

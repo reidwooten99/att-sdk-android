@@ -1,4 +1,4 @@
-package com.att.api.immn.service;
+/*package com.att.api.immn.service;
 
 import java.text.ParseException;
 
@@ -65,3 +65,4 @@ public class GetMessageViewObject implements GetMessageResponse {
 
 	
 }
+*/
