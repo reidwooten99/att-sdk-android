@@ -71,4 +71,20 @@ public class IAMManager {
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
 		getMessageIndexInfo.GetMessageIndexInfo();
 	}
+	/**
+	 * @param queues
+	 */
+	public  void GetNotificationConnectionDetails(String queues) {
+		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
+						new APIGetNotificationConnectionDetails(queues,immnSrvc,iamListener); 
+		getNotificationConnectionDetails.GetNotificationConnectionDetails();
+	}
+	/**
+	 * 
+	 */
+	/*public void CreateMessageIndex() {
+		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
+		createMessageIndex.CreateMessageIndex();
+		
+	}*/
 }
