@@ -57,20 +57,44 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 		protected void onPostExecute(NotificationConnectionDetails notificationDetails) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(notificationDetails);
-			onSuccess(notificationDetails);
+			if(null != notificationDetails) {
+				onSuccess((NotificationConnectionDetails) notificationDetails);
+			} else {
+				onError((NotificationConnectionDetails) notificationDetails);
+			}
+			
 		}
 		
 	}
 
 	@Override
-	public void onSuccess(Object response) {
+	public void onSuccess(final Object notificationDetails) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+		    	 if(null != iamListener) { 
+					iamListener.onSuccess((NotificationConnectionDetails) notificationDetails);
+				}
+				
+			}
+		});
 		
 	}
 
 	@Override
-	public void onError(Object error) {
+	public void onError(final Object error) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			public void run() {
+				if(null != iamListener) {
+					iamListener.onError((Exception) error);
+				}
+				
+			}
+		});
 		
 	}
 	

@@ -56,20 +56,47 @@ public class APIGetMessageList implements ATTIAMListener {
 		protected void onPostExecute(MessageList messageList) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(messageList);
-			onSuccess(messageList);
+			if( null != messageList ) {
+				onSuccess((MessageList) messageList);
+			} else {
+				onError((MessageList) messageList);
+			}
+			
 		}
 		
 	}
 
 	@Override
-	public void onSuccess(Object response) {
+	public void onSuccess(final Object messageList) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if (null != iamListener) {
+					iamListener.onSuccess((MessageList) messageList);
+				}
+			}
+			
+		});
 		
 	}
 
 	@Override
-	public void onError(Object error) {
+	public void onError(final Object error) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(null != iamListener) {
+					iamListener.onError((Exception) error);
+				}
+				
+			}
+		});
 		
 	}
 

@@ -1,8 +1,8 @@
 package com.att.api.immn.service;
 
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.APIUpdateMessage.APIUpdateMessageParams;
 import com.att.api.oauth.OAuthToken;
-
 /**
  * @author dg185p
  * @author ps350r
@@ -82,9 +82,44 @@ public class IAMManager {
 	/**
 	 * 
 	 */
-	/*public void CreateMessageIndex() {
+	public void CreateMessageIndex() {		
 		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
-		createMessageIndex.CreateMessageIndex();
-		
-	}*/
+		createMessageIndex.CreateMessageIndex();	
+	}
+	
+	/**
+	 * 
+	 */
+	public void DeleteMessage(String msgId) {		
+		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, immnSrvc, iamListener);
+		deleteMessage.DeleteMessage();		
+	}
+	/**
+	 * @param msgIds
+	 */
+	public void DeleteMessages(String[] msgIds) {
+		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, immnSrvc, iamListener);
+		deleteMessages.DeleteMessages();
+	}
+	
+	/**
+	 * @param messages
+	 */
+	public void UpdateMessages(DeltaChange[] messages) {
+		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, immnSrvc, iamListener);
+		updateMessages.UpdateMessages();
+	}
+	/**
+	 * @param msgId
+	 * @param isUnread
+	 * @param isFavorite
+	 */
+	public void UpdateMessage(String msgId, Boolean isUnread, Boolean isFavorite) {
+		APIUpdateMessage updateMessage = new APIUpdateMessage();
+		APIUpdateMessage.APIUpdateMessageParams params = 
+					updateMessage.new APIUpdateMessageParams(msgId, isUnread, isFavorite );
+
+		updateMessage.set(params, immnSrvc, iamListener);
+		updateMessage.UpdateMessage();
+	}
 }

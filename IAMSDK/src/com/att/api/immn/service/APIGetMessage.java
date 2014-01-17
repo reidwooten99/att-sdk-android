@@ -35,10 +35,10 @@ public class APIGetMessage implements ATTIAMListener {
 
 		@Override
 		protected Message doInBackground(String... msgId) {
-			Message m = null ;
+			Message message = null ;
 			try {
 				Log.d("IAMSDK", "Async Task : " +  msgId[0]);
-				 m = immnSrvc.getMessage(msgId[0]);
+				message = immnSrvc.getMessage(msgId[0]);
 			} catch (RESTException e) {
 				onError(e);
 			} catch (JSONException e) {
@@ -46,28 +46,32 @@ public class APIGetMessage implements ATTIAMListener {
 			} catch (ParseException e) {
 				onError(e);
 			}
-			if(null != m)
+			if(null != message)
 				Log.d("IAMSDK", "M not null");
 			else
 				Log.d("IAMSDK", "M is null");
-			return m;
+			return message;
 		}
 
 		@Override
-		protected void onPostExecute(Message result) {
+		protected void onPostExecute(Message message) {
 			
-			super.onPostExecute(result);
-			onSuccess((Message)result);
+			super.onPostExecute(message);
+			if(null != message) {
+				onSuccess((Message)message);
+			} else {
+				onError((Message)message);
+			}
 		}
 	}
 
 	@Override
-	public void onSuccess(final Object response) {
+	public void onSuccess(final Object message) {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
 				if (null != iamListener) {
-					iamListener.onSuccess((Message)response);
+					iamListener.onSuccess((Message)message);
 				}
 			}
 		});

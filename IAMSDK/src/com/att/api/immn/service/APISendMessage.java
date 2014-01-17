@@ -38,9 +38,9 @@ public class APISendMessage implements ATTIAMListener {
 
 		@Override
 		protected SendResponse doInBackground(String... params) {
-			SendResponse resp = null;
+			SendResponse sendMessageResponse = null;
 			try {
-				resp = immnSrvc.sendMessage(params[0], params[1]);
+				sendMessageResponse = immnSrvc.sendMessage(params[0], params[1]);
 			} catch (RESTException e) {
 				onError(e);
 			} catch (JSONException e) {
@@ -48,24 +48,29 @@ public class APISendMessage implements ATTIAMListener {
 			} catch (ParseException e) {
 				onError(e);
 			}
-			return resp;
+			return sendMessageResponse;
 		}
 
 		@Override
-		protected void onPostExecute(SendResponse response) {
+		protected void onPostExecute(SendResponse sendMessageResponse) {
 
-			super.onPostExecute(response);
-			onSuccess((SendResponse) response);
+			super.onPostExecute(sendMessageResponse);
+			if( null != sendMessageResponse) {
+				onSuccess((SendResponse) sendMessageResponse);
+			} else {
+				onError((SendResponse) sendMessageResponse);
+
+			}
 		}
 	}
 
 	@Override
-	public void onSuccess(final Object response) {
+	public void onSuccess(final Object sendMessageResponse) {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
 				if (null != iamListener) {
-					iamListener.onSuccess((SendResponse) response);
+					iamListener.onSuccess((SendResponse) sendMessageResponse);
 				}
 			}
 		});

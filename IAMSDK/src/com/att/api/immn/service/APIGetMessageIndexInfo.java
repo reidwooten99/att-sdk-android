@@ -52,20 +52,45 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 		protected void onPostExecute(MessageIndexInfo messageIndexInfo) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(messageIndexInfo);
-			onSuccess(messageIndexInfo);
+			if(null != messageIndexInfo) {
+				onSuccess((MessageIndexInfo) messageIndexInfo);
+			} else {
+				onError((MessageIndexInfo) messageIndexInfo);
+			}
 		}
 		
 	}
 
 	@Override
-	public void onSuccess(Object response) {
+	public void onSuccess(final Object messageIndexInfo) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+		    	 if(null != iamListener) { 
+					iamListener.onSuccess((MessageIndexInfo) messageIndexInfo);
+				}
+				
+			}
+		});
+
 		
 	}
 
 	@Override
-	public void onError(Object error) {
+	public void onError(final Object error) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			public void run() {
+				if(null != iamListener) {
+					iamListener.onError((Exception) error);
+				}
+				
+			}
+		});
+
 		
 	}
 

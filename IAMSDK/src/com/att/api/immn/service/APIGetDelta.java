@@ -52,20 +52,44 @@ public class APIGetDelta implements ATTIAMListener {
 		protected void onPostExecute(DeltaResponse deltaResponse) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(deltaResponse);
-			onSuccess(deltaResponse);
+			if(null != deltaResponse) {
+				onSuccess((DeltaResponse) deltaResponse);
+			} else {
+				onError((DeltaResponse) deltaResponse);
+			}
+			
 		}
 		
 	}
 
 	@Override
-	public void onSuccess(Object response) {
+	public void onSuccess(final Object deltaResponse) {
 		// TODO Auto-generated method stub
-		
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(null != iamListener) {
+					iamListener.onSuccess((DeltaResponse) deltaResponse);
+				}
+			}
+		});
 	}
 
 	@Override
-	public void onError(Object error) {
+	public void onError(final Object error) {
 		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(null != iamListener) {
+					iamListener.onError((Exception) error);
+				}
+			}
+		});
 		
 	}
 
