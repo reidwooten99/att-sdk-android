@@ -273,7 +273,7 @@ public class IMMNService extends APIService {
             .setHeader("Accept", "application/json")
             .addAuthorizationHeader(getToken())
             .addParameter("messageIds", msgIdsStr)
-            .httpDelete();
+            .httpDeleteMessages();
 
         if (response.getStatusCode() != 204) {
             final int code = response.getStatusCode();
@@ -288,7 +288,7 @@ public class IMMNService extends APIService {
         final APIResponse response = new RESTClient(endpoint)
             .setHeader("Accept", "application/json")
             .addAuthorizationHeader(getToken())
-            .httpDelete();
+            .httpDeleteMessage();
 
         if (response.getStatusCode() != 204) {
             final int code = response.getStatusCode();

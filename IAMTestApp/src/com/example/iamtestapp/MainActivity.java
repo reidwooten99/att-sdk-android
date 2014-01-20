@@ -1,14 +1,21 @@
 package com.example.iamtestapp;
 
+import android.R.string;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.DeltaChange;
+import com.att.api.immn.service.DeltaResponse;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.IMMNService;
 import com.att.api.immn.service.Message;
+import com.att.api.immn.service.MessageContent;
+import com.att.api.immn.service.MessageIndexInfo;
+import com.att.api.immn.service.MessageList;
+import com.att.api.immn.service.NotificationConnectionDetails;
 import com.att.api.immn.service.SendResponse;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
@@ -19,8 +26,8 @@ public class MainActivity extends Activity {
 	IMMNService immnSrvc;
 	IAMManager iamManager;
 	TextView value;
-	TextView messageView;
-
+	TextView messageView;	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,7 +35,7 @@ public class MainActivity extends Activity {
 
 		// Use the app settings from developer.att.com for the following
 		// values. Make sure IMMN is enabled for the app key/secret.
-		final String fqdn = "https://api-stage.mars.bf.sl.attcompute.com";
+		final String fqdn = "https://api.att.com"; //"https://api-stage.mars.bf.sl.attcompute.com";
 
 		// Enter the value from 'App Key' field
 		final String clientId = "ENTER VALUE!";
@@ -49,18 +56,314 @@ public class MainActivity extends Activity {
 
 		// Get OAuth token using the code
 		// OAuthToken token = osrvc.getTokenUsingCode(oauthCode);
-		OAuthToken token = new OAuthToken("bY02hSSp3BCxD9dGqi0W38NS7F0WDXZY",
+		OAuthToken token = new OAuthToken("kZe5Ac3Bxmwg9ukAYPQFzZRtzxAbAAF4",
 				0, null);
 
 		// SendMessage Call from SampleApp
-		iamManager = new IAMManager(fqdn, token, new sendMessageListener());
+		/*iamManager = new IAMManager(fqdn, token, new sendMessageListener());
 		iamManager.SendMessage("4257492983",
-				"This is an example message for Android App");
+				"This is an example message for Android App");*/
 
 		// GetMessage Call from SampleApp
-		iamManager = new IAMManager(fqdn, token, new getMessageListener());
-		iamManager.GetMessage("SVC0001");
+		/*iamManager = new IAMManager(fqdn, token, new getMessageListener());
+		iamManager.GetMessage("t191");*/
+		
+		//GetMessageList call from SampleApp
+		/*iamManager = new IAMManager(fqdn, token, new getMessageListListener());
+		iamManager.GetMessageList(10, 0);*/
+		
+		//GetMessageContent call from SampleApp
+		/*iamManager = new IAMManager(fqdn, token, new getMessageContentListener());
+		iamManager.GetMessageContent("S60", "0");*/
+		
+		//GetDelta call from SampleApp
+		/*iamManager = new IAMManager(fqdn, token, new getDeltaListener());
+		iamManager.GetDelta("1390033973822");*/
+		
+		//DeleteMessages call from SampleApp
+		/*String[] delMessageIds = {"t191", "t192"};
+		iamManager = new IAMManager(fqdn, token, new deleteMessagesListener());
+		iamManager.DeleteMessages(delMessageIds);*/
+		
+		//DeleteMessage call from SampleApp
+		/*iamManager = new IAMManager(fqdn, token,  new deleteMessageListener());
+		iamManager.DeleteMessage("t179");*/
+		
+		//CreateMessageIndexInfo call from Sample App
+		/*iamManager = new IAMManager(fqdn, token,  new createMessageIndexListener());
+		iamManager.CreateMessageIndex();*/
+		
+		//GetMessageIndexInfo call from Sample App
+		/*iamManager = new IAMManager(fqdn, token, new getMessageIndexInfoListener());
+		iamManager.GetMessageIndexInfo();*/
+		
+		//GetNotificationConnectionDetails call from Sample App
+		/*iamManager = new IAMManager(fqdn, token,  new getNotificationConnectionDetailsListener());
+		iamManager.GetNotificationConnectionDetails("MMS");*/
+		
+		//UpdateMessages call from Sample App
+		/*DeltaChange[] updateMessages = new DeltaChange[1];
+		updateMessages[0] = new DeltaChange("t204",true,true);	
+		iamManager = new IAMManager(fqdn, token, new updateMessagesListener());
+		iamManager.UpdateMessages(updateMessages);*/
+		
+		//UpdateMessage call form Sample App
+		/*iamManager = new IAMManager(fqdn, token, new updateMessageListener());
+		iamManager.UpdateMessage("t204", true, true);*/
+	}
+	
+	private class updateMessageListener implements ATTIAMListener {
+		
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"updateMessageListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
 
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  updateMessageListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+
+	
+	private class updateMessagesListener implements ATTIAMListener {
+		
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"updateMessagesListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  updateMessagesListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+
+	private class getNotificationConnectionDetailsListener implements ATTIAMListener {
+		
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			NotificationConnectionDetails msg = (NotificationConnectionDetails) response;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"getNotificationConnectionDetailsListener onSuccess : Message : " + msg.getUsername(), Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getNotificationConnectionDetailsListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+
+	
+	
+	private class getMessageIndexInfoListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			MessageIndexInfo msg = (MessageIndexInfo) response;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"getMessageIndexInfoListener onSuccess : Message : " + msg.getState(), Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getMessageIndexInfoListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+	
+	private class createMessageIndexListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"createMessageIndexListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  createMessageIndexListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+
+	
+	private class deleteMessageListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"deleteMessageListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  deleteMessageListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+	
+	private class deleteMessagesListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"deleteMessagesListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  deleteMessagesListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+
+	private class getDeltaListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			DeltaResponse msg = (DeltaResponse) response;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"getDeltaListener onSuccess : Message : " + msg.getState(), Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getDeltaListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+		
+	private class getMessageContentListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			MessageContent msg = (MessageContent) response;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"getMessageContentListener onSuccess : Message : " + msg.getContentType(), Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getMessageContentListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
+	}
+	
+	private class getMessageListListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			MessageList msg = (MessageList) response;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"getMessageListListener onSuccess : Message : " + msg.getMessages(), Toast.LENGTH_LONG);
+				toast.show();
+			}
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getMessageListListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}		
+		
 	}
 
 	private class getMessageListener implements ATTIAMListener {
@@ -69,7 +372,7 @@ public class MainActivity extends Activity {
 		public void onError(Object arg0) {
 			// TODO Auto-generated method stub
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in Error Callback", Toast.LENGTH_LONG);
+					+ "Iam in  getMessageListener Error Callback", Toast.LENGTH_LONG);
 			toast.show();
 		}
 
@@ -79,7 +382,7 @@ public class MainActivity extends Activity {
 			Message msg = (Message) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"Message : " + msg.getText(), Toast.LENGTH_LONG);
+						" getMessageListener onSuccess Message : " + msg.getText(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}
@@ -90,8 +393,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onError(Object arg0) {
 			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in Error Callback", Toast.LENGTH_LONG);
+			Toast toast = Toast.makeText(getApplicationContext(), " Message :  "
+					+ "Iam in sendMessageListener Error Callback", Toast.LENGTH_LONG);
 			toast.show();
 		}
 
@@ -101,7 +404,7 @@ public class MainActivity extends Activity {
 			SendResponse msg = (SendResponse) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"SendMessage onSuccess : Message : " + msg.getId(), Toast.LENGTH_LONG);
+						"sendMessageListener onSuccess : Message : " + msg.getId(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}

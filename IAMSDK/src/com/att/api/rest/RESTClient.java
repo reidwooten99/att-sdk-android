@@ -853,13 +853,42 @@ public class RESTClient {
         }
     }
 
-    public APIResponse httpDelete() throws RESTException {
+    public APIResponse httpDeleteMessages() throws RESTException {
         HttpClient httpClient = null;
         HttpResponse response = null;
 
         try {
             httpClient = createClient();
+            
+            String query = "";
+            if (!buildQuery().equals("")) {
+                query = "?" + buildQuery();
+            }
 
+            HttpDelete httpDelete = new HttpDelete(this.url + query);
+
+            addInternalHeaders(httpDelete);
+
+            response = httpClient.execute(httpDelete);
+
+            APIResponse apiResponse = buildResponse(response);
+            return apiResponse;
+        } catch (IOException ioe) {
+            throw new RESTException(ioe);
+        } finally {
+            if (response != null) {
+                this.releaseConnection(response);
+            }
+        }
+    }
+    
+    public APIResponse httpDeleteMessage() throws RESTException {
+        HttpClient httpClient = null;
+        HttpResponse response = null;
+
+        try {
+            httpClient = createClient();
+            
             HttpDelete httpDelete = new HttpDelete(this.url);
 
             addInternalHeaders(httpDelete);
