@@ -81,7 +81,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				
 		/*OAuthToken token = new OAuthToken("Fc2cS00WsFv0AHxzbH88Y8Ip7KWNgSz7",
 				0, null);*/
-		Intent i = new Intent(this,UserConsentActivity.class);
+		Intent i = new Intent(this,com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", fqdn);
 		i.putExtra("clientId", clientId);
 		i.putExtra("clientSecret", clientSecret);
