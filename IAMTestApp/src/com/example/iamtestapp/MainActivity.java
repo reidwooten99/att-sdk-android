@@ -1,8 +1,17 @@
 package com.example.iamtestapp;
 
+import java.text.ParseException;
+
+import org.json.JSONException;
+
 import android.R.string;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,32 +28,45 @@ import com.att.api.immn.service.NotificationConnectionDetails;
 import com.att.api.immn.service.SendResponse;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-import com.example.mavensampleapp.R;
+import com.att.api.rest.RESTException;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ATTIAMListener {
 
 	IMMNService immnSrvc;
 	IAMManager iamManager;
 	TextView value;
-	TextView messageView;	
+	OAuthService osrvc;
+	final int REQUEST_CODE = 1;
+	OAuthToken msg ;
+	final String fqdn = "https://api.att.com"; //"https://api-stage.mars.bf.sl.attcompute.com";
+
+	// Enter the value from 'App Key' field
+	final String clientId = "hahcoflonje5cxctdbpwtjg966imi6v1";
+
+	// Enter the value from 'Secret' field
+	final String clientSecret = "csy2s6hseuwkydi2lcixj8j6emh6skq8";
+
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		value = (TextView) findViewById(R.id.textView);
+		value.setText("Textview");
+		
 		// Use the app settings from developer.att.com for the following
 		// values. Make sure IMMN is enabled for the app key/secret.
-		final String fqdn = "https://api.att.com"; //"https://api-stage.mars.bf.sl.attcompute.com";
+		/*final String fqdn = "https://api.att.com"; //"https://api-stage.mars.bf.sl.attcompute.com";
 
 		// Enter the value from 'App Key' field
-		final String clientId = "ENTER VALUE!";
+		final String clientId = "hahcoflonje5cxctdbpwtjg966imi6v1";
 
 		// Enter the value from 'Secret' field
-		final String clientSecret = "ENTER VALUE!";
-
+		final String clientSecret = "csy2s6hseuwkydi2lcixj8j6emh6skq8";
+*/
 		// Create service for requesting an OAuth token
-		OAuthService osrvc = new OAuthService(fqdn, clientId, clientSecret);
+		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
 		// Get the OAuth code by opening a browser to the following URL:
 		// https://api.att.com/oauth/authorize?client_id=CLIENT_ID&scope=SCOPE&redirect_uri=REDIRECT_URI
@@ -55,9 +77,16 @@ public class MainActivity extends Activity {
 		final String oauthCode = "ENTER VALUE!";
 
 		// Get OAuth token using the code
-		// OAuthToken token = osrvc.getTokenUsingCode(oauthCode);
-		OAuthToken token = new OAuthToken("kZe5Ac3Bxmwg9ukAYPQFzZRtzxAbAAF4",
-				0, null);
+		//osrvc.Authorize(this, new getTokenListener());
+				
+		/*OAuthToken token = new OAuthToken("Fc2cS00WsFv0AHxzbH88Y8Ip7KWNgSz7",
+				0, null);*/
+		Intent i = new Intent(this,UserConsentActivity.class);
+		i.putExtra("fqdn", fqdn);
+		i.putExtra("clientId", clientId);
+		i.putExtra("clientSecret", clientSecret);
+		startActivityForResult(i, REQUEST_CODE);
+
 
 		// SendMessage Call from SampleApp
 		/*iamManager = new IAMManager(fqdn, token, new sendMessageListener());
@@ -69,9 +98,9 @@ public class MainActivity extends Activity {
 		iamManager.GetMessage("t191");*/
 		
 		//GetMessageList call from SampleApp
-		/*iamManager = new IAMManager(fqdn, token, new getMessageListListener());
+		/*iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
 		iamManager.GetMessageList(10, 0);*/
-		
+	
 		//GetMessageContent call from SampleApp
 		/*iamManager = new IAMManager(fqdn, token, new getMessageContentListener());
 		iamManager.GetMessageContent("S60", "0");*/
@@ -90,7 +119,7 @@ public class MainActivity extends Activity {
 		iamManager.DeleteMessage("t179");*/
 		
 		//CreateMessageIndexInfo call from Sample App
-		/*iamManager = new IAMManager(fqdn, token,  new createMessageIndexListener());
+		/*iamManager = new IAMManager(fqdn, msg,  new createMessageIndexListener());
 		iamManager.CreateMessageIndex();*/
 		
 		//GetMessageIndexInfo call from Sample App
@@ -110,6 +139,62 @@ public class MainActivity extends Activity {
 		//UpdateMessage call form Sample App
 		/*iamManager = new IAMManager(fqdn, token, new updateMessageListener());
 		iamManager.UpdateMessage("t204", true, true);*/
+	}
+	 
+	//getTokenListener gtnl = new getTokenListener();
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		String oAuthCode = null;
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == REQUEST_CODE) {
+			if(resultCode == RESULT_OK) {
+				 oAuthCode  = data.getStringExtra("oAuthCode");
+				 Log.i("mainActivity","oAuthCode:" + oAuthCode );
+				 if(null != oAuthCode) {
+					 osrvc.getOAuthToken(oAuthCode,new getTokenListener());				  
+				 } else {
+					 Log.i("mainActivity","oAuthCode: is null" );
+
+				 }
+			}
+		}
+		 
+	}
+
+	private class getTokenListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			 msg = (OAuthToken) response;
+			if(null != msg) {
+				Log.i("getTokenListener","onSuccess Message : "  + msg.getAccessToken());
+				/*Toast toast = Toast.makeText(getApplicationContext(),
+						" getTokenListener onSuccess Message : " + msg.getAccessToken(), Toast.LENGTH_LONG);
+				toast.show();
+*/			}
+			iamManager = new IAMManager(fqdn, msg,  new createMessageIndexListener());
+			iamManager.CreateMessageIndex();
+			
+			iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
+			iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
+			
+			iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
+			iamManager.GetMessageList(10, 0);
+			
+			
+			
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getTokenListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}
+		
 	}
 	
 	private class updateMessageListener implements ATTIAMListener {
@@ -350,8 +435,10 @@ public class MainActivity extends Activity {
 			MessageList msg = (MessageList) response;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"getMessageListListener onSuccess : Message : " + msg.getMessages(), Toast.LENGTH_LONG);
+						"getMessageListListener onSuccess : Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom(), Toast.LENGTH_LONG);
 				toast.show();
+				Log.i("getMessageListListener onSuccess " ,": Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom());
+
 			}
 			
 		}
@@ -408,5 +495,17 @@ public class MainActivity extends Activity {
 				toast.show();
 			}
 		}
+	}
+
+	@Override
+	public void onSuccess(Object adViewResponse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onError(Object error) {
+		// TODO Auto-generated method stub
+		
 	}
 }
