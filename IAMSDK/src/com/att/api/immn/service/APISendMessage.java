@@ -14,6 +14,7 @@ import com.att.api.rest.RESTException;
 public class APISendMessage implements ATTIAMListener {
 
 	String address = null;
+	String[] addresses = null;
 	String message = null;
 	private ATTIAMListener iamListener;
 	IMMNService immnSrvc;
@@ -27,7 +28,12 @@ public class APISendMessage implements ATTIAMListener {
 		this.iamListener = iamListener;
 		this.immnSrvc = immnService;
 	}
-
+	
+	public APISendMessage(String[] addresses, String message) {
+		this.message = message;
+		this.addresses = addresses;
+	}
+	
 	public void SendMessage() {
 
 		SendMessageTask sendMessageTask = new SendMessageTask();

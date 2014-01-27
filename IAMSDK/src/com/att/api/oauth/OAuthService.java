@@ -14,8 +14,29 @@
 
 package com.att.api.oauth;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.sax.StartElementListener;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+import android.app.Activity;
+
+
+import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.IAMManager;
+import com.att.api.immn.service.Message;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
@@ -80,7 +101,7 @@ import org.json.JSONObject;
  * @since 1.0
  * @see <a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0 Framework</a>
  */
-public class OAuthService {
+public class OAuthService extends Activity implements ATTIAMListener {
 
     /** Added to fqdn to use for sending OAuth requests. */
     public static final String API_URL = "/oauth/token";
@@ -93,6 +114,14 @@ public class OAuthService {
 
     /** Client secret to use for requestion an OAuth token. */
     private final String clientSecret;
+    
+	private ATTIAMListener iamListener;
+	
+	protected Handler handler = new Handler();
+	
+	private final int REQUEST_CODE = 1;
+
+
 
     /**
      * Parses the API response from the API server when an access token was
@@ -205,7 +234,8 @@ public class OAuthService {
      * @throws JSONException 
      */
     public OAuthToken getToken(String scope) throws RESTException, JSONException, ParseException {
-        RESTClient client =
+    	
+    	RESTClient client =
             new RESTClient(this.fqdn + API_URL)
             .addParameter("client_id", clientId)
             .addParameter("client_secret", clientSecret)
@@ -216,6 +246,14 @@ public class OAuthService {
 
         return parseResponse(apiResponse);
 
+    }
+    
+    public void getOAuthToken(String code, ATTIAMListener iamListener){
+    	
+    	this.iamListener = iamListener;
+    	
+    	GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
+		getTokenUsingCodetask.execute(code);
     }
 
     /**
@@ -250,4 +288,93 @@ public class OAuthService {
 
         return parseResponse(response);
     }
+    
+    /*public void Authorize(Context context, ATTIAMListener iamAttiamListener) {
+    	
+    	this.iamListener = iamAttiamListener;
+    	
+    	Intent i = new Intent(context, com.example.iamsdk.WebViewActivity.class);
+    	startActivityForResult(i, REQUEST_CODE);
+    		
+    }*/
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		String oAuthCode = null;
+		if(requestCode == REQUEST_CODE) {
+			if(resultCode == RESULT_OK) {
+				oAuthCode = data.getStringExtra("oAuthCode");
+				
+				GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
+				getTokenUsingCodetask.execute(oAuthCode);
+				
+			} else {
+				onError(oAuthCode);
+			}
+		}
+	}
+    
+    public class GetTokenUsingCodeTask extends AsyncTask<String, Void, OAuthToken> {
+
+		@Override
+		protected OAuthToken doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			OAuthToken accestoken = null;
+			try {
+				accestoken = getTokenUsingCode(params[0]);
+			} catch (RESTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return accestoken;
+		}
+
+		@Override
+		protected void onPostExecute(OAuthToken accestoken) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(accestoken);
+			if(null != accestoken) {
+				onSuccess(accestoken);		
+			} else {
+				onError(accestoken);
+			}
+		}
+    	
+    }
+
+    @Override
+	public void onSuccess(final Object accestoken) {
+		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (null != iamListener) {
+					iamListener.onSuccess((OAuthToken) accestoken);
+				}
+			}
+		});
+
+		
+	}
+
+	@Override
+	public void onError(final Object accestoken) {
+		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (null != iamListener) {
+					iamListener.onError((Exception) accestoken);
+				}
+			}
+		});
+	}
 }

@@ -1,16 +1,3 @@
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 */
-
-/*
- * ====================================================================
- * LICENSE: Licensed by AT&T under the 'Software Development Kit Tools
- * Agreement.' 2013.
- * TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTIONS:
- * http://developer.att.com/sdk_agreement/
- *
- * Copyright 2013 AT&T Intellectual Property. All rights reserved.
- * For more information contact developer.support@att.com
- * ====================================================================
- */
 
 package com.att.api.immn.service;
 
@@ -55,19 +42,21 @@ public class IMMNService extends APIService {
         return this.sendMessage(addrs, msg);
     }
 
+    
     public SendResponse sendMessage(String[] addresses, String msg) throws RESTException, JSONException, ParseException {
-        return this.sendMessage(addresses, msg, null, false, null);
+        return this.sendMessage(addresses, msg, null, false, null);     //SMS
+
     }
 
     public SendResponse sendMessage(String address, String subject, 
             boolean group) throws RESTException, JSONException, ParseException {
-        return sendMessage(address, null, subject, group);
+        return sendMessage(address, null, subject, group);     //Group Message
     }
 
     public SendResponse sendMessage(String address, String msg, String subject, 
             boolean group) throws RESTException, JSONException, ParseException {
         String[] addrs = {address};
-        return sendMessage(addrs, null, subject, group);
+        return sendMessage(addrs, null, subject, group); //Group Message
     }
 
     public SendResponse sendMessage(String[] addresses, String subject, 
@@ -83,7 +72,7 @@ public class IMMNService extends APIService {
     public SendResponse sendMessage(String address, String msg, 
             String subject, boolean group, String[] attachments) throws RESTException, JSONException, ParseException {
         String[] addrs = {address};
-        return sendMessage(addrs, msg, subject, group, attachments);
+        return sendMessage(addrs, msg, subject, group, attachments); // MMS
     }
 
     public SendResponse sendMessage(String[] addresses, String msg, 
