@@ -10,12 +10,14 @@ import android.widget.TextView;
 import com.att.api.immn.service.Message;
 
 public class ListCustomAdapter extends BaseAdapter {
+	
 	private static Message[] messageList;
-
 	private LayoutInflater mInflater;
+	private Context ctx;
 
 	public ListCustomAdapter(Context context, Message[] results) {
 		messageList = results;
+		this.ctx = context;  
 		mInflater = LayoutInflater.from(context);
 	}
 
@@ -32,7 +34,9 @@ public class ListCustomAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
 		ViewHolder holder;
+		String contactName;
 		
 		if (convertView == null) {
 			
@@ -49,9 +53,20 @@ public class ListCustomAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		holder.txtName.setText(messageList[position].getFrom());
-		holder.txtMessage.setText(messageList[position].getText());
-		holder.txtTime.setText(messageList[position].getTimeStamp());
+		contactName = Utils.getContactName(ctx, messageList[position].getFrom());
+		if(null == contactName)
+			holder.txtName.setText(messageList[position].getFrom());
+		else
+			holder.txtName.setText(contactName);
+		
+		if(null == messageList[position].getText())
+			holder.txtMessage.setText("< Empty Message >");
+		else if(messageList[position].getText().equalsIgnoreCase(""))
+			holder.txtMessage.setText("< Empty Message >");
+		else
+			holder.txtMessage.setText(messageList[position].getText());
+
+		holder.txtTime.setText(messageList[position].getTimeStamp().replace('T', ' '));
 		
 		return convertView;
 	}
