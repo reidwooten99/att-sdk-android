@@ -60,6 +60,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.att.api.oauth.OAuthToken;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
@@ -512,6 +514,7 @@ public class RESTClient {
             if (!buildQuery().equals("")) {
                 query = "?" + buildQuery();
             }
+            Log.d("Request", url+query);
             HttpGet httpGet = new HttpGet(url + query);
             addInternalHeaders(httpGet);
 
@@ -574,8 +577,10 @@ public class RESTClient {
             HttpClient httpClient = createClient();
 
             HttpPost httpPost = new HttpPost(url);
+            Log.d("Request",url);
             addInternalHeaders(httpPost);
             if (body != null && !body.equals("")) {
+            	Log.d("Request : body - ",body);
                 httpPost.setEntity(new StringEntity(body));
             }
 

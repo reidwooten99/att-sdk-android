@@ -22,7 +22,7 @@ public class NewMessage extends Activity {
 
 	private static final int PICK_CONTACT_REQUEST = 0;
 	private static final String TAG = "IAM_NewMessage";
-	final String fqdn = "https://api-stage.mars.bf.sl.attcompute.com";
+	final String fqdn = Config.fqdn();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,8 +145,8 @@ public class NewMessage extends Activity {
 			return;
 		}
 
-		OAuthToken token = new OAuthToken("bY02hSSp3BCxD9dGqi0W38NS7F0WDXZY",
-				0, null);
+		OAuthToken token = new OAuthToken(Config.token(),
+				OAuthToken.NO_EXPIRATION , Config.refreshToken());
 		IAMManager iamManager = new IAMManager(fqdn, token,
 				new sendMessageListener());
 		iamManager.SendMessage(contactsWidget.getText().toString(),

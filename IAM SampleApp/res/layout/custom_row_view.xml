@@ -10,19 +10,27 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp" />
 
     <TextView
         android:id="@+id/message"
-        android:textColor="#B0C4DE"
+        android:textColor="#084B8A"
         android:textStyle="bold"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp" />
 
     <TextView
         android:id="@+id/time"
         android:textSize="12sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#6E6E6E"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="3dp" />
     
 </LinearLayout>

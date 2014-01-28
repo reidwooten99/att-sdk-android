@@ -29,9 +29,6 @@ public class ConversationList extends Activity {
 	OAuthService osrvc;
 	final int REQUEST_CODE = 1;
 	OAuthToken authToken;
-	final String fqdn = "https://api.att.com";
-	final String clientId = "yhqcpjz7flanrld8sqptx2fwhewxmp22";
-	final String clientSecret = "vvuxtumi4gkpmlio2dckired2uctldfh";
 	MessageIndexInfo msgIndexInfo;
 	DeltaResponse delta;
 	MessageList msgList;
@@ -44,9 +41,9 @@ public class ConversationList extends Activity {
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
 
 		// Create service for requesting an OAuth token
-		osrvc = new OAuthService(fqdn, clientId, clientSecret);
-		authToken = new OAuthToken("8fcDqmtIsFsAcEMt2Hf8l0F3cdpuj4Zw",
-				OAuthToken.NO_EXPIRATION, "Z2tnGWanB3Uxc608j6tuIQbyyIdEkDtA");
+		osrvc = new OAuthService(Config.fqdn(), Config.clientID(), Config.secretKey());
+		authToken = new OAuthToken(Config.token(),
+				OAuthToken.NO_EXPIRATION, Config.refreshToken());
 	}
 
 	public void onResume() {
@@ -82,7 +79,7 @@ public class ConversationList extends Activity {
 	public void createMessageIndex() {
 
 		// CreateMessageIndexInfo call from Sample App
-		iamManager = new IAMManager(fqdn, authToken,
+		iamManager = new IAMManager(Config.fqdn(), authToken,
 				new createMessageIndexListener());
 		iamManager.CreateMessageIndex();
 	}
@@ -90,12 +87,12 @@ public class ConversationList extends Activity {
 	public void getMessageList() {
 
 		// GetMessageList call from SampleApp
-		iamManager = new IAMManager(fqdn, authToken,
+		iamManager = new IAMManager(Config.fqdn(), authToken,
 				new getMessageListListener());
 
 		// Check how can you provide a dynamic values here ???
 		//iamManager.GetMessageList(10, 0);
-		iamManager.GetMessageList(2, 0);
+		iamManager.GetMessageList(Config.messageLimit(), Config.getMessageOffset());
 	}
 
 	private class createMessageIndexListener implements ATTIAMListener {
@@ -129,7 +126,7 @@ public class ConversationList extends Activity {
 	
 	public void getMessageIndexInfo(){
 		
-		iamManager = new IAMManager(fqdn, authToken, new getMessageIndexInfoListener()); 
+		iamManager = new IAMManager(Config.fqdn(), authToken, new getMessageIndexInfoListener()); 
 		iamManager.GetMessageIndexInfo();
 	}
 	
@@ -137,7 +134,7 @@ public class ConversationList extends Activity {
 	public void getDelta(String state){
 		
 		// GetDelta call from SampleApp
-		 iamManager = new IAMManager(fqdn, authToken, new getDeltaListener());
+		 iamManager = new IAMManager(Config.fqdn(), authToken, new getDeltaListener());
 		 iamManager.GetDelta(state);
 		 
 	}
@@ -145,7 +142,7 @@ public class ConversationList extends Activity {
 	public void getMessage(String messageID){
 		
 		// GetMessage Call from SampleApp
-		 iamManager = new IAMManager(fqdn, authToken, new getMessageListener());
+		 iamManager = new IAMManager(Config.fqdn(), authToken, new getMessageListener());
 		 iamManager.GetMessage(messageID);
 	}
 
@@ -267,7 +264,7 @@ public class ConversationList extends Activity {
 						+ ", From : " + msgList.getMessages()[0].getFrom());
 
 				adapter = new ListCustomAdapter(getApplicationContext(),
-						msgList);
+						msgList.getMessages());
 				messageListView.setAdapter(adapter);
 				
 				getMessageIndexInfo();
