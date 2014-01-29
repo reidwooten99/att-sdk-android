@@ -1,6 +1,7 @@
 package com.att.iamsampleapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,9 @@ public class ConversationList extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_conversation_list);
+		showProgressDialog("Loading Messages .. ");
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
+		
 
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn(), Config.clientID(), Config.secretKey());
@@ -50,6 +53,25 @@ public class ConversationList extends Activity {
 		super.onResume();
 
 		createMessageIndex();
+	}
+	
+	ProgressDialog pDialog;
+	
+    // Progress Dialog
+    public void showProgressDialog(String dialogMessage) {
+    	
+    	if(null == pDialog)
+    		pDialog = new ProgressDialog(this);
+    	pDialog.setCancelable(false);
+    	pDialog.setMessage(dialogMessage);
+    	pDialog.show();
+    }
+    
+    public void dismissProgressDialog() {
+	    	
+    	if(null != pDialog){
+	    	pDialog.dismiss();
+    	}
 	}
 
 	public void newMessage(View v) {
@@ -266,6 +288,8 @@ public class ConversationList extends Activity {
 				adapter = new ListCustomAdapter(getApplicationContext(),
 						msgList.getMessages());
 				messageListView.setAdapter(adapter);
+				
+				dismissProgressDialog();
 				
 				getMessageIndexInfo();
 			}
