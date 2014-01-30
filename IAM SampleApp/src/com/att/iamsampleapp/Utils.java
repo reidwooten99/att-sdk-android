@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract.PhoneLookup;
+import android.widget.Toast;
 
 public class Utils {
 
@@ -31,5 +32,9 @@ public class Utils {
 		}
 
 		return contactName;
+	}
+	
+	public static void toastMe(Toast toast){
+		//toast.show();
 	}
 }

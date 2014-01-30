@@ -1,11 +1,15 @@
 package com.att.iamsampleapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,37 +45,124 @@ public class ConversationList extends Activity {
 		setContentView(R.layout.activity_conversation_list);
 		showProgressDialog("Loading Messages .. ");
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
-		
 
 		// Create service for requesting an OAuth token
-		osrvc = new OAuthService(Config.fqdn(), Config.clientID(), Config.secretKey());
-		authToken = new OAuthToken(Config.token(),
-				OAuthToken.NO_EXPIRATION, Config.refreshToken());
+		osrvc = new OAuthService(Config.fqdn(), Config.clientID(),
+				Config.secretKey());
+		authToken = new OAuthToken(Config.token(), OAuthToken.NO_EXPIRATION,
+				Config.refreshToken());
 	}
 
 	public void onResume() {
 		super.onResume();
 
 		createMessageIndex();
+
+		setupMessageListListener();
 	}
+
+	// MessageList Listener
+	public void setupMessageListListener() {
+
+		messageListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				// Launch the Message View Screen here
+				Toast toast = Toast.makeText(
+						getApplicationContext(),
+						"Message : "
+								+ msgList.getMessages()[position].getText(),
+						Toast.LENGTH_LONG);
+				toast.show();
+			}
+		});
+
+		messageListView
+				.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+					public boolean onItemLongClick(AdapterView<?> arg0, View v,
+							int position, long arg3) {
+
+						Message msg = (Message) messageListView
+								.getItemAtPosition(position);
+
+						CharSequence popUpList[] = new CharSequence[] {
+								"Delete Message", "Remove favorite",
+								"Mark as Unread" };
+						if (msg.isFavorite())
+							popUpList[1] = "Add to favorites";
+						if (msg.isUnread())
+							popUpList[2] = "Mark as Read";
+
+						popUpActionList(popUpList, msg, position);
+
+						return true;
+					}
+				});
+	}
+
+	public void popUpActionList(final CharSequence popUpList[], final Message msg,
+			int position) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Message Options");
+		builder.setItems(popUpList, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// the user clicked on colors[which]
+				switch (which) {
+					case 0:
+						deleteMessage(msg);
+						break;
 	
+					case 1:{
+						if(popUpList[1].toString().equalsIgnoreCase("Add to favorites")){
+							// Set message as favorite
+						}
+						else{
+							// Remove favorite
+						}
+					}
+					break;
+					
+					case 2:{
+						if(popUpList[2].toString().equalsIgnoreCase("Mark as Unread")){
+							// Set as unread
+						}
+						else{
+							// Mark as read
+						}
+					}
+				}
+			}
+		});
+		builder.show();
+	}
+
+	public void deleteMessage(Message msg) {
+		iamManager = new IAMManager(Config.fqdn(), authToken, new deleteMessagesListener());
+		iamManager.DeleteMessage(msg.getMessageId());
+	}
+
 	ProgressDialog pDialog;
-	
-    // Progress Dialog
-    public void showProgressDialog(String dialogMessage) {
-    	
-    	if(null == pDialog)
-    		pDialog = new ProgressDialog(this);
-    	pDialog.setCancelable(false);
-    	pDialog.setMessage(dialogMessage);
-    	pDialog.show();
-    }
-    
-    public void dismissProgressDialog() {
-	    	
-    	if(null != pDialog){
-	    	pDialog.dismiss();
-    	}
+
+	// Progress Dialog
+	public void showProgressDialog(String dialogMessage) {
+
+		if (null == pDialog)
+			pDialog = new ProgressDialog(this);
+		pDialog.setCancelable(false);
+		pDialog.setMessage(dialogMessage);
+		pDialog.show();
+	}
+
+	public void dismissProgressDialog() {
+
+		if (null != pDialog) {
+			pDialog.dismiss();
+		}
 	}
 
 	public void newMessage(View v) {
@@ -92,8 +183,7 @@ public class ConversationList extends Activity {
 				String result = data.getStringExtra("MessageResponse");
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Message Sent : " + result, Toast.LENGTH_LONG);
-				toast.show();
-
+				Utils.toastMe(toast);
 			}
 		}
 	}
@@ -113,8 +203,32 @@ public class ConversationList extends Activity {
 				new getMessageListListener());
 
 		// Check how can you provide a dynamic values here ???
-		//iamManager.GetMessageList(10, 0);
-		iamManager.GetMessageList(Config.messageLimit(), Config.getMessageOffset());
+		// iamManager.GetMessageList(10, 0);
+		iamManager.GetMessageList(Config.messageLimit(),
+				Config.getMessageOffset());
+	}
+	
+	private class deleteMessagesListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"deleteMessagesListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+				toast.show();
+			}
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  deleteMessagesListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}
 	}
 
 	private class createMessageIndexListener implements ATTIAMListener {
@@ -128,7 +242,7 @@ public class ConversationList extends Activity {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"createMessageIndexListener onSuccess : Message : "
 								+ msg, Toast.LENGTH_LONG);
-				toast.show();
+				Utils.toastMe(toast);
 			}
 
 			getMessageList();
@@ -141,31 +255,33 @@ public class ConversationList extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  createMessageIndexListener Error Callback",
 					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastMe(toast);
 		}
 
 	}
-	
-	public void getMessageIndexInfo(){
-		
-		iamManager = new IAMManager(Config.fqdn(), authToken, new getMessageIndexInfoListener()); 
+
+	public void getMessageIndexInfo() {
+
+		iamManager = new IAMManager(Config.fqdn(), authToken,
+				new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
 	}
-	
-	
-	public void getDelta(String state){
-		
+
+	public void getDelta(String state) {
+
 		// GetDelta call from SampleApp
-		 iamManager = new IAMManager(Config.fqdn(), authToken, new getDeltaListener());
-		 iamManager.GetDelta(state);
-		 
+		iamManager = new IAMManager(Config.fqdn(), authToken,
+				new getDeltaListener());
+		iamManager.GetDelta(state);
+
 	}
-	
-	public void getMessage(String messageID){
-		
+
+	public void getMessage(String messageID) {
+
 		// GetMessage Call from SampleApp
-		 iamManager = new IAMManager(Config.fqdn(), authToken, new getMessageListener());
-		 iamManager.GetMessage(messageID);
+		iamManager = new IAMManager(Config.fqdn(), authToken,
+				new getMessageListener());
+		iamManager.GetMessage(messageID);
 	}
 
 	public void onMessageListReady(MessageList messageList) {
@@ -174,7 +290,7 @@ public class ConversationList extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	private class getMessageListener implements ATTIAMListener {
 
 		@Override
@@ -183,7 +299,7 @@ public class ConversationList extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  getMessageListener Error Callback",
 					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastMe(toast);
 		}
 
 		@Override
@@ -195,11 +311,11 @@ public class ConversationList extends Activity {
 						getApplicationContext(),
 						" getMessageListener onSuccess Message : "
 								+ msg.getText(), Toast.LENGTH_LONG);
-				toast.show();
+				Utils.toastMe(toast);
 			}
 		}
 	}
-	
+
 	private class getDeltaListener implements ATTIAMListener {
 
 		@Override
@@ -212,17 +328,19 @@ public class ConversationList extends Activity {
 						getApplicationContext(),
 						"getDeltaListener onSuccess : Message : "
 								+ delta.getState(), Toast.LENGTH_LONG);
-				toast.show();
-				
-				/*String getMsgID = delta.delta[0].getUpdates()[0].getMessageId();
-				
-				Log.i(TAG,delta.delta[0].getUpdates()[0].getMessageId());
-				
-				getMessage(delta.delta[0].getUpdates()[0].getMessageId());*/
-				
+				Utils.toastMe(toast);
+
+				/*
+				 * String getMsgID =
+				 * delta.delta[0].getUpdates()[0].getMessageId();
+				 * 
+				 * Log.i(TAG,delta.delta[0].getUpdates()[0].getMessageId());
+				 * 
+				 * getMessage(delta.delta[0].getUpdates()[0].getMessageId());
+				 */
+
 			}
 
-			
 		}
 
 		@Override
@@ -231,11 +349,11 @@ public class ConversationList extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  getDeltaListener Error Callback",
 					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastMe(toast);
 		}
 
 	}
-	
+
 	private class getMessageIndexInfoListener implements ATTIAMListener {
 
 		@Override
@@ -247,8 +365,8 @@ public class ConversationList extends Activity {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"getMessageIndexInfoListener onSuccess : Message : "
 								+ msgIndexInfo.getState(), Toast.LENGTH_LONG);
-				toast.show();
-			
+				Utils.toastMe(toast);
+
 				getDelta(msgIndexInfo.getState());
 			}
 
@@ -260,7 +378,7 @@ public class ConversationList extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  getMessageIndexInfoListener Error Callback",
 					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastMe(toast);
 		}
 
 	}
@@ -280,17 +398,17 @@ public class ConversationList extends Activity {
 								+ ", From : "
 								+ msgList.getMessages()[0].getFrom(),
 						Toast.LENGTH_LONG);
-				toast.show();
-				Log.i(TAG, "getMessageListListener onSuccess "
-						+ ": Message : " + msgList.getMessages()[0].getText()
-						+ ", From : " + msgList.getMessages()[0].getFrom());
+				Utils.toastMe(toast);
+				Log.i(TAG, "getMessageListListener onSuccess " + ": Message : "
+						+ msgList.getMessages()[0].getText() + ", From : "
+						+ msgList.getMessages()[0].getFrom());
 
 				adapter = new ListCustomAdapter(getApplicationContext(),
 						msgList.getMessages());
 				messageListView.setAdapter(adapter);
-				
+
 				dismissProgressDialog();
-				
+
 				getMessageIndexInfo();
 			}
 		}
@@ -301,7 +419,7 @@ public class ConversationList extends Activity {
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  getMessageListListener Error Callback",
 					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastMe(toast);
 		}
 
 	}
