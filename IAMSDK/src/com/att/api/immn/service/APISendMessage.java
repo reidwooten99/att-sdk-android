@@ -13,6 +13,7 @@ import com.att.api.rest.RESTException;
 
 public class APISendMessage implements ATTIAMListener {
 
+	SendMessageParams sendMessageParams = null;
 	String address = null;
 	String[] addresses = null;
 	String message = null;
@@ -29,24 +30,31 @@ public class APISendMessage implements ATTIAMListener {
 		this.immnSrvc = immnService;
 	}
 	
-	public APISendMessage(String[] addresses, String message) {
-		this.message = message;
-		this.addresses = addresses;
+	public APISendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments,
+						  IMMNService immnService, ATTIAMListener iamListener) {
+		
+		sendMessageParams = new SendMessageParams(addresses, message, group, attachments, subject);
+		this.iamListener = iamListener;
+		this.immnSrvc = immnService;
 	}
 	
 	public void SendMessage() {
 
 		SendMessageTask sendMessageTask = new SendMessageTask();
-		sendMessageTask.execute(address, message);
+		sendMessageTask.execute(sendMessageParams);
 	}
 
-	public class SendMessageTask extends AsyncTask<String, Void, SendResponse> {
+	public class SendMessageTask extends AsyncTask<SendMessageParams, Void, SendResponse> {
 
 		@Override
-		protected SendResponse doInBackground(String... params) {
+		protected SendResponse doInBackground(SendMessageParams... params) {
 			SendResponse sendMessageResponse = null;
 			try {
-				sendMessageResponse = immnSrvc.sendMessage(params[0], params[1]);
+				sendMessageResponse = immnSrvc.sendMessage(params[0].getAddresses(),
+														   params[0].getMessage(),
+														   params[0].getSubject(),
+														   params[0].getGroup(),
+														   params[0].getAttachments());
 			} catch (RESTException e) {
 				onError(e);
 			} catch (JSONException e) {

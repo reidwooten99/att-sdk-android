@@ -54,10 +54,17 @@ public class IAMManager {
 	 * It becomes a mandatory field if Attachment(s) is NOT provided in the request.
 	 * 
 	 * */
-	public void SendMessage(String address, String message) {
+	/*public void SendMessage(String address, String message) {
 		APISendMessage sendMessage = new APISendMessage(address, message, immnSrvc, iamListener);
 		sendMessage.SendMessage();
 	}
+*/	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
+		APISendMessage sendMessage = new APISendMessage(addresses, message, subject, group, attachments, 
+														immnSrvc, iamListener);
+		sendMessage.SendMessage();
+	}
+
+	
 	/**
 	 * The Application will request message content from the AT&T Systems by providing a content 
 	 * identifier and the associated message identifier.

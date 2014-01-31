@@ -178,7 +178,13 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			iamManager.CreateMessageIndex();
 			
 			iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
-			iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
+			//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
+			String addresses[] = { "4257492983" };
+			String attachments[] = { null };
+		
+			iamManager.SendMessage(addresses, "This is an example message for Android App Demo rehearsal",
+									null, false, attachments);
+
 			
 			iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
 			iamManager.GetMessageList(10, 0);
