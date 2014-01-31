@@ -1,6 +1,7 @@
 package com.att.iamsampleapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,11 +98,14 @@ public class ListCustomAdapter extends BaseAdapter {
 
 		// Message Read
 		int typeFace;
-		if (messageList[position].isUnread())
+		if (messageList[position].isUnread()){
 			typeFace = Typeface.BOLD_ITALIC;
-		else
+			convertView.setBackgroundColor(Utils.UnreadBG);
+		}
+		else{
 			typeFace = Typeface.NORMAL;
-
+			convertView.setBackgroundColor(Utils.ReadBG);
+		}
 		holder.txtName.setTypeface(null, typeFace);
 		holder.txtMessage.setTypeface(null, typeFace);
 		holder.txtTime.setTypeface(null, typeFace);

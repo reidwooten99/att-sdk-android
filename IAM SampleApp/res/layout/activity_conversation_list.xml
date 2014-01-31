@@ -8,11 +8,10 @@
         android:id="@+id/messageListViewItem"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/newMessage"
         android:fastScrollEnabled="false"
         android:layout_alignParentTop="true" />
     
-    <ImageButton
+    <!-- <ImageButton
         android:id="@+id/newMessage"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -21,6 +20,6 @@
         android:onClick="newMessage"
         android:src="@drawable/btn_compose"
         android:fadingEdgeLength="10dp"
-        android:requiresFadingEdge="vertical"/>
+        android:requiresFadingEdge="vertical"/>  -->
 
 </RelativeLayout>

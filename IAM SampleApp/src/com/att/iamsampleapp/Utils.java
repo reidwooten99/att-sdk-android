@@ -8,6 +8,9 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.widget.Toast;
 
 public class Utils {
+	
+	public static int UnreadBG = 0xFFF1F1F1;
+	public static int ReadBG = 0xFFFFFFFF;
 
 	private Utils() {
 	}

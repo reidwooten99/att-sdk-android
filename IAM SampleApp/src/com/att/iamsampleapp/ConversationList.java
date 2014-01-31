@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.DeltaChange;
 import com.att.api.immn.service.DeltaResponse;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.IMMNService;
@@ -53,6 +57,33 @@ public class ConversationList extends Activity {
 				Config.refreshToken());
 	}
 
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_conversation_list, menu);
+ 
+        return super.onCreateOptionsMenu(menu);
+    }
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Take appropriate action for each action item click
+        switch (item.getItemId()) {
+        
+        case R.id.action_new_message:
+        {
+        	Intent newMessage = new Intent(getApplicationContext(),
+					NewMessage.class);
+			startActivityForResult(newMessage, REQUEST_CODE);
+        }
+        case R.id.action_settings:
+            // refresh
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+	
 	public void onResume() {
 		super.onResume();
 
@@ -89,10 +120,10 @@ public class ConversationList extends Activity {
 								.getItemAtPosition(position);
 
 						CharSequence popUpList[] = new CharSequence[] {
-								"Delete Message", "Remove favorite",
+								"Delete Message", "Add to favorites",
 								"Mark as Unread" };
 						if (msg.isFavorite())
-							popUpList[1] = "Add to favorites";
+							popUpList[1] = "Remove favorite";
 						if (msg.isUnread())
 							popUpList[2] = "Mark as Read";
 
@@ -103,46 +134,70 @@ public class ConversationList extends Activity {
 				});
 	}
 
-	public void popUpActionList(final CharSequence popUpList[], final Message msg,
-			int position) {
+	public void popUpActionList(final CharSequence popUpList[],
+			final Message msg, int position) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Message Options");
 		builder.setItems(popUpList, new DialogInterface.OnClickListener() {
+			@SuppressWarnings("null")
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				DeltaChange[] statusChange = new DeltaChange[1];
 				// the user clicked on colors[which]
 				switch (which) {
-					case 0:
-						deleteMessage(msg);
-						break;
-	
-					case 1:{
-						if(popUpList[1].toString().equalsIgnoreCase("Add to favorites")){
-							// Set message as favorite
-						}
-						else{
-							// Remove favorite
-						}
-					}
+				case 0:
+					deleteMessage(msg);
 					break;
-					
-					case 2:{
-						if(popUpList[2].toString().equalsIgnoreCase("Mark as Unread")){
-							// Set as unread
-						}
-						else{
-							// Mark as read
-						}
+
+				case 1: {
+					if (popUpList[1].toString().equalsIgnoreCase(
+							"Add to favorites")) {
+						// Set message as favorite
+						statusChange[0] = new DeltaChange(msg.getMessageId(),
+								true, msg.isUnread());
+					} else {
+						// Remove favorite
+						statusChange[0] = new DeltaChange(msg.getMessageId(),
+								false, msg.isUnread());
 					}
+					updateMessageStatus(statusChange);
+				}
+					break;
+
+				case 2: {
+					if (popUpList[2].toString().equalsIgnoreCase(
+							"Mark as Unread")) {
+						// Set as unread
+						statusChange[0] = new DeltaChange(msg.getMessageId(),
+								msg.isFavorite(), true);
+					} else {
+						// Mark as read
+						statusChange[0] = new DeltaChange(msg.getMessageId(),
+								msg.isFavorite(), false);
+					}
+					updateMessageStatus(statusChange);
+				}
+					break;
+
+				default:
+					break;
 				}
 			}
 		});
 		builder.show();
 	}
 
+	public void updateMessageStatus(DeltaChange[] statusChange) {
+		iamManager = new IAMManager(Config.fqdn(), authToken,
+				new updateMessageStatusListener());
+		iamManager.UpdateMessages(statusChange);
+
+	}
+
 	public void deleteMessage(Message msg) {
-		iamManager = new IAMManager(Config.fqdn(), authToken, new deleteMessagesListener());
+		iamManager = new IAMManager(Config.fqdn(), authToken,
+				new deleteMessagesListener());
 		iamManager.DeleteMessage(msg.getMessageId());
 	}
 
@@ -167,11 +222,9 @@ public class ConversationList extends Activity {
 
 	public void newMessage(View v) {
 
-		if (v.getId() == R.id.newMessage) {
 			Intent newMessage = new Intent(getApplicationContext(),
 					NewMessage.class);
 			startActivityForResult(newMessage, REQUEST_CODE);
-		}
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -207,17 +260,45 @@ public class ConversationList extends Activity {
 		iamManager.GetMessageList(Config.messageLimit(),
 				Config.getMessageOffset());
 	}
-	
+
+	private class updateMessageStatusListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+
+			Boolean msg = (Boolean) response;
+			if (msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"updateMessagesListener onSuccess : Message : " + msg,
+						Toast.LENGTH_LONG);
+				toast.show();
+			}
+
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  updateMessagesListener Error Callback",
+					Toast.LENGTH_LONG);
+			toast.show();
+		}
+
+	}
+
 	private class deleteMessagesListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			// TODO Auto-generated method stub
-			
+
 			Boolean msg = (Boolean) response;
 			if (msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"deleteMessagesListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+						"deleteMessagesListener onSuccess : Message : " + msg,
+						Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}
@@ -226,7 +307,8 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 			// TODO Auto-generated method stub
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  deleteMessagesListener Error Callback", Toast.LENGTH_LONG);
+					+ "Iam in  deleteMessagesListener Error Callback",
+					Toast.LENGTH_LONG);
 			toast.show();
 		}
 	}
