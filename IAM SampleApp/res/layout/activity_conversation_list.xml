@@ -11,15 +11,4 @@
         android:fastScrollEnabled="false"
         android:layout_alignParentTop="true" />
     
-    <!-- <ImageButton
-        android:id="@+id/newMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="newMessage"
-        android:src="@drawable/btn_compose"
-        android:fadingEdgeLength="10dp"
-        android:requiresFadingEdge="vertical"/>  -->
-
 </RelativeLayout>
