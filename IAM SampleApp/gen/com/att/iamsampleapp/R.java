@@ -32,7 +32,9 @@ public final class R {
         public static final int ic_transparent=0x7f020008;
     }
     public static final class id {
+        public static final int action_attachments=0x7f08000b;
         public static final int action_new_message=0x7f08000a;
+        public static final int action_send=0x7f08000c;
         public static final int action_settings=0x7f080009;
         public static final int attachment=0x7f080005;
         public static final int contacts=0x7f080001;
@@ -50,17 +52,19 @@ public final class R {
         public static final int custom_row_view=0x7f030002;
     }
     public static final class menu {
-        public static final int conversation_list=0x7f070000;
-        public static final int new_message=0x7f070001;
+        public static final int action_conversation_list=0x7f070000;
+        public static final int action_new_message=0x7f070001;
     }
     public static final class string {
-        public static final int action_new_message=0x7f050002;
-        public static final int action_settings=0x7f050001;
         /**  <string name="app_name">Conversations</string> 
          */
         public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050003;
-        public static final int title_activity_new_message=0x7f050004;
+        public static final int hello_world=0x7f050005;
+        public static final int lbl_action_attachments=0x7f050003;
+        public static final int lbl_action_new_message=0x7f050002;
+        public static final int lbl_action_send=0x7f050004;
+        public static final int lbl_action_settings=0x7f050001;
+        public static final int title_activity_new_message=0x7f050006;
     }
     public static final class style {
         /** 

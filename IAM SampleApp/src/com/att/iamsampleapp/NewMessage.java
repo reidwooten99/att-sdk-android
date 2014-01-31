@@ -135,6 +135,7 @@ public class NewMessage extends Activity {
 
 		EditText contactsWidget = (EditText) findViewById(R.id.contacts);
 		EditText messageWidget = (EditText) findViewById(R.id.message);
+		EditText subjectWidget = (EditText) findViewById(R.id.subject);
 
 		if (contactsWidget.getText().toString().equalsIgnoreCase("")) {
 			infoDialog("Enter the contacts !!", false);
@@ -149,9 +150,13 @@ public class NewMessage extends Activity {
 				OAuthToken.NO_EXPIRATION , Config.refreshToken());
 		IAMManager iamManager = new IAMManager(fqdn, token,
 				new sendMessageListener());
-		iamManager.SendMessage(contactsWidget.getText().toString(),
-				messageWidget.getText().toString());
-
+		
+		String addresses[] = {};
+		addresses[0] = contactsWidget.getText().toString();
+		String attachments[] = { null };
+	
+		iamManager.SendMessage(addresses,
+				messageWidget.getText().toString(), subjectWidget.getText().toString(), false, attachments);
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {

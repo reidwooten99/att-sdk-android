@@ -1,15 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:icon="@drawable/act_settings"
-        android:title="@string/action_settings"/>
-    
     <item android:id="@+id/action_new_message"
           android:icon="@drawable/btn_compose"
-          android:title="@string/action_new_message"
+          android:title="@string/lbl_action_new_message"
           android:showAsAction="always" />
-
+    
+    <item
+        android:id="@+id/action_settings"
+        android:showAsAction="always"
+        android:icon="@drawable/act_settings"
+        android:title="@string/lbl_action_settings"/>
+    
 </menu>
