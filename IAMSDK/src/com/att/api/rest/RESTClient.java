@@ -499,6 +499,7 @@ public class RESTClient {
 		return this;
 	}
 
+
 	/**
 	 * Alias for httpGet().
 	 * 
@@ -597,8 +598,10 @@ public class RESTClient {
             HttpClient httpClient = createClient();
 
             HttpPost httpPost = new HttpPost(url);
+            Log.d("Request",url);
             addInternalHeaders(httpPost);
             if (body != null && !body.equals("")) {
+            	Log.d("Request : body - ",body);
                 httpPost.setEntity(new StringEntity(body));
             }
 
