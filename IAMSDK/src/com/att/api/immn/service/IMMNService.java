@@ -97,7 +97,8 @@ public class IMMNService extends APIService {
 
         JSONArray jaddrs = new JSONArray();
         for (String addr : addresses)
-            jaddrs.put(addr);
+        	if(addr != null)
+        		jaddrs.put(addr);
 
         body.put("addresses", jaddrs);
         jsonBody.put("messageRequest", body);

@@ -95,12 +95,14 @@ public abstract class APIService {
         String[] fStr = new String[addresses.length];
         for (int i = 0; i < addresses.length; ++i) {
             String address = addresses[i];
-            address = address.replaceAll(" ", "");
-            address = address.replaceAll("-", "");
-            address = address.replaceAll("tel:", "");
-            address = address.trim();
-            if (!address.contains("@"))
-                address = "tel:" + address;
+            if(address != null) {
+            	address = address.replaceAll(" ", "");
+            	address = address.replaceAll("-", "");
+            	address = address.replaceAll("tel:", "");
+            	address = address.trim();
+            	if (!address.contains("@"))
+            		address = "tel:" + address;
+            }
             fStr[i] = address;
         }
         return fStr;
