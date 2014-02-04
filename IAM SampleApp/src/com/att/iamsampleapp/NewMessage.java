@@ -1,10 +1,5 @@
 package com.att.iamsampleapp;
 
-import com.att.api.immn.listener.ATTIAMListener;
-import com.att.api.immn.service.IAMManager;
-import com.att.api.immn.service.SendResponse;
-import com.att.api.oauth.OAuthToken;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,16 +8,24 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.IAMManager;
+import com.att.api.immn.service.SendResponse;
+import com.att.api.oauth.OAuthToken;
+
 public class NewMessage extends Activity {
 
 	private static final int PICK_CONTACT_REQUEST = 0;
 	private static final String TAG = "IAM_NewMessage";
-	final String fqdn = Config.fqdn();
+	final String fqdn = Config.fqdn;
+	//String attachments[] = { null };
+	String attachments[] = new String[10];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,11 @@ public class NewMessage extends Activity {
 				toastHere(pickedContact.toString());
 				retrieveContactName(pickedContact);
 				retrieveContactNumber(pickedContact);
+			}
+		}else if(requestCode == SELECT_PICTURE){
+			if(resultCode == RESULT_OK){
+				Uri pickedAttachment = intentContact.getData();
+				attachments[0] = pickedAttachment.toString();
 			}
 		}
 	}
@@ -146,17 +154,16 @@ public class NewMessage extends Activity {
 			return;
 		}
 
-		OAuthToken token = new OAuthToken(Config.token(),
-				OAuthToken.NO_EXPIRATION , Config.refreshToken());
+		OAuthToken token = new OAuthToken(Config.token,
+				OAuthToken.NO_EXPIRATION, Config.refreshToken);
 		IAMManager iamManager = new IAMManager(fqdn, token,
 				new sendMessageListener());
-		
-		String addresses[] = {};
+
+		String addresses[] = new String[Config.maxRecipients];
 		addresses[0] = contactsWidget.getText().toString();
-		String attachments[] = { null };
-	
-		iamManager.SendMessage(addresses,
-				messageWidget.getText().toString(), subjectWidget.getText().toString(), false, attachments);
+
+		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
+				subjectWidget.getText().toString(), false, attachments);
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {
@@ -177,7 +184,7 @@ public class NewMessage extends Activity {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Message : " + msg.getId(), Toast.LENGTH_LONG);
 				toast.show();
-				
+
 				sendMessageResponsetoParentActivity(msg.getId());
 			}
 		}
@@ -189,6 +196,30 @@ public class NewMessage extends Activity {
 		newMessageIntent.putExtra("MessageResponse", responseID);
 		this.setResult(RESULT_OK, newMessageIntent);
 		finish();
+	}
+
+	public void addAttachment(View v) {
+
+		openImageIntent();
+	}
+
+	private static final int SELECT_PICTURE = 1;
+
+	void openImageIntent() {
+		
+		Intent pickIntent = new Intent();
+		pickIntent.setType("image/*");
+		pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+		Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+		String pickTitle = "Select or take a new Picture"; // Or get from
+															// strings.xml
+		Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+				new Intent[] { takePhotoIntent });
+
+		startActivityForResult(chooserIntent, SELECT_PICTURE);
 	}
 
 	// Info Dialog
