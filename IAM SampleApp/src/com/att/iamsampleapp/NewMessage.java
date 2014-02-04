@@ -1,5 +1,13 @@
 package com.att.iamsampleapp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+
+import org.apache.http.entity.mime.content.FileBody;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -64,7 +72,32 @@ public class NewMessage extends Activity {
 		}else if(requestCode == SELECT_PICTURE){
 			if(resultCode == RESULT_OK){
 				Uri pickedAttachment = intentContact.getData();
-				attachments[0] = pickedAttachment.toString();
+				//attachments[0] = pickedAttachment.getPath();
+				String mime = getContentResolver().getType(pickedAttachment);
+				
+				String str = getRealPathFromURI(pickedAttachment);
+				
+				Log.d(TAG, str);
+				
+				attachments[0] = str;
+				
+				/*File f = new File(pickedAttachment.toString());
+				Log.d(TAG, f.getName() + " --- " + f.getAbsolutePath());
+				Log.d(TAG, mime);
+				FileBody fb = new FileBody(f, mime, "UTF-8");
+				
+				try {
+					InputStream is = getContentResolver().openInputStream(pickedAttachment);
+					//String str = URLConnection.guessContentTypeFromStream(is);
+					//String str = URLConnection.guessContentTypeFromStream(getContentResolver().openInputStream(pickedAttachment));
+					Log.d(TAG,str);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
 			}
 		}
 	}
@@ -161,9 +194,22 @@ public class NewMessage extends Activity {
 
 		String addresses[] = new String[Config.maxRecipients];
 		addresses[0] = contactsWidget.getText().toString();
+		//attachments[0] = "content://media/external/images/media/348";
 
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
 				subjectWidget.getText().toString(), false, attachments);
+	}
+	
+	public String getRealPathFromURI (Uri contentUri) {
+	    String path = null;
+	    String[] proj = { MediaStore.MediaColumns.DATA };
+	    Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+	    if (cursor.moveToFirst()) {
+	       int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+	       path = cursor.getString(column_index);
+	    }
+	    cursor.close();
+	    return path;
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {
