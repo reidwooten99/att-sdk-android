@@ -1,13 +1,5 @@
 package com.att.iamsampleapp;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
-
-import org.apache.http.entity.mime.content.FileBody;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +10,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,147 +24,77 @@ import com.att.api.oauth.OAuthToken;
 
 public class NewMessage extends Activity {
 
-	private static final int PICK_CONTACT_REQUEST = 0;
 	private static final String TAG = "IAM_NewMessage";
 	final String fqdn = Config.fqdn;
-	//String attachments[] = { null };
+	// String attachments[] = { null };
 	String attachments[] = new String[10];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_message);
-		// pickContact();
 	}
 
-	@SuppressWarnings("unused")
-	private void pickContact() {
-		Intent pickContactIntent = new Intent(Intent.ACTION_PICK,
-				ContactsContract.Contacts.CONTENT_URI);
-		pickContactIntent
-				.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-		startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.action_new_message, menu);
+
+		return super.onCreateOptionsMenu(menu);
 	}
 
-	public void toastHere(String message) {
-		Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-				+ message, Toast.LENGTH_SHORT);
-		toast.show();
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		Intent intent = new Intent();
+		String attachmentContentType;
+		String title;
+		int requestCode;
+		switch (item.getItemId()) {
+
+		case R.id.action_ImageAttachment: {
+			attachmentContentType = "image/*";
+			title = "Choose image file";
+			requestCode = SELECT_PICTURE;
+			break;
+		}
+		case R.id.action_AudioAttachment: {
+			attachmentContentType = "audio/*";
+			title = "Choose audio file";
+			requestCode = SELECT_AUDIO;
+			break;
+		}
+		case R.id.action_VideoAttachment: {
+			attachmentContentType = "video/*";
+			title = "Choose video file";
+			requestCode = SELECT_VIDEO;
+			break;
+		}
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
+		intent.setType(attachmentContentType);
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+		startActivityForResult(Intent.createChooser(intent, title), requestCode);
+
+		return true;
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intentContact) {
 		super.onActivityResult(requestCode, resultCode, intentContact);
-		if (requestCode == PICK_CONTACT_REQUEST) {
-
+		if (requestCode == SELECT_PICTURE || requestCode == SELECT_AUDIO
+				|| requestCode == SELECT_VIDEO) {
 			if (resultCode == RESULT_OK) {
-				Uri pickedContact = intentContact.getData();
-				// handle the picked phone number in here.
-				toastHere(pickedContact.toString());
-				retrieveContactName(pickedContact);
-				retrieveContactNumber(pickedContact);
-			}
-		}else if(requestCode == SELECT_PICTURE){
-			if(resultCode == RESULT_OK){
 				Uri pickedAttachment = intentContact.getData();
-				//attachments[0] = pickedAttachment.getPath();
 				String mime = getContentResolver().getType(pickedAttachment);
-				
 				String str = getRealPathFromURI(pickedAttachment);
-				
-				Log.d(TAG, str);
-				
 				attachments[0] = str;
-				
-				/*File f = new File(pickedAttachment.toString());
-				Log.d(TAG, f.getName() + " --- " + f.getAbsolutePath());
-				Log.d(TAG, mime);
-				FileBody fb = new FileBody(f, mime, "UTF-8");
-				
-				try {
-					InputStream is = getContentResolver().openInputStream(pickedAttachment);
-					//String str = URLConnection.guessContentTypeFromStream(is);
-					//String str = URLConnection.guessContentTypeFromStream(getContentResolver().openInputStream(pickedAttachment));
-					Log.d(TAG,str);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
+				Utils.toastHere(getApplicationContext(), TAG, "File Path : " + str);
 			}
 		}
-	}
-
-	private void retrieveContactNumber(Uri uriContact) {
-
-		String contactNumber = null;
-
-		// getting contacts ID
-		Cursor cursorID = getContentResolver().query(uriContact,
-				new String[] { ContactsContract.Contacts._ID }, null, null,
-				null);
-
-		String contactID = null;
-		if (cursorID.moveToFirst()) {
-
-			contactID = cursorID.getString(cursorID
-					.getColumnIndex(ContactsContract.Contacts._ID));
-		}
-
-		cursorID.close();
-
-		Log.d(TAG, "Contact ID: " + contactID);
-
-		// Using the contact ID now we will get contact phone number
-		Cursor cursorPhone = getContentResolver().query(
-				ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-				new String[] { ContactsContract.CommonDataKinds.Phone.NUMBER },
-
-				ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND "
-						+ ContactsContract.CommonDataKinds.Phone.TYPE + " = "
-						+ ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
-
-				new String[] { contactID }, null);
-
-		if (cursorPhone.moveToFirst()) {
-			contactNumber = cursorPhone
-					.getString(cursorPhone
-							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-		}
-
-		cursorPhone.close();
-
-		toastHere(contactNumber);
-		Log.d(TAG, "Contact Phone Number: " + contactNumber);
-	}
-
-	private void retrieveContactName(Uri uriContact) {
-
-		String contactName = null;
-
-		// querying contact data store
-		Cursor cursor = getContentResolver().query(uriContact, null, null,
-				null, null);
-
-		if (cursor.moveToFirst()) {
-
-			int idx = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-			// id = cursor.getString(idx);
-
-			idx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-			contactName = cursor.getString(idx);
-
-			toastHere(contactName);
-		}
-
-		cursor.close();
-	}
-
-	@SuppressWarnings("unused")
-	private void getDelta() {
-
 	}
 
 	public void sendMessage(View v) {
@@ -194,22 +119,28 @@ public class NewMessage extends Activity {
 
 		String addresses[] = new String[Config.maxRecipients];
 		addresses[0] = contactsWidget.getText().toString();
-		//attachments[0] = "content://media/external/images/media/348";
+		// attachments[0] = "content://media/external/images/media/348";
 
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
 				subjectWidget.getText().toString(), false, attachments);
+		/*
+		 * iamManager.SendMessage(addresses, messageWidget.getText().toString(),
+		 * subjectWidget.getText().toString(), false, null);
+		 */
 	}
-	
-	public String getRealPathFromURI (Uri contentUri) {
-	    String path = null;
-	    String[] proj = { MediaStore.MediaColumns.DATA };
-	    Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-	    if (cursor.moveToFirst()) {
-	       int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-	       path = cursor.getString(column_index);
-	    }
-	    cursor.close();
-	    return path;
+
+	public String getRealPathFromURI(Uri contentUri) {
+		String path = null;
+		String[] proj = { MediaStore.MediaColumns.DATA };
+		Cursor cursor = getContentResolver().query(contentUri, proj, null,
+				null, null);
+		if (cursor.moveToFirst()) {
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+			path = cursor.getString(column_index);
+		}
+		cursor.close();
+		return path;
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {
@@ -250,9 +181,11 @@ public class NewMessage extends Activity {
 	}
 
 	private static final int SELECT_PICTURE = 1;
+	private static final int SELECT_AUDIO = 2;
+	private static final int SELECT_VIDEO = 3;
 
 	void openImageIntent() {
-		
+
 		Intent pickIntent = new Intent();
 		pickIntent.setType("image/*");
 		pickIntent.setAction(Intent.ACTION_GET_CONTENT);
