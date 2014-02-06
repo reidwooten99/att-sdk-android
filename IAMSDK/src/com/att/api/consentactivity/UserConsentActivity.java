@@ -8,6 +8,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.example.iamsdk.R;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -94,6 +95,15 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			} else if(url.contains("sms:")) {
+				String smsUrl = url;
+				String[] splitNumber = smsUrl.split(":");
+				String phNumber = splitNumber[1];
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.addCategory(Intent.CATEGORY_DEFAULT);
+				intent.setType("vnd.android-dir/mms-sms");
+				intent.putExtra("address", phNumber);
+				startActivity(intent);
 			}
 		}
     	
