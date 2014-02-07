@@ -1,11 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/action_attachments"
+    
+    <item android:id="@+id/action_ImageAttachment"
           android:icon="@drawable/ic_attachment"
-          android:title="@string/lbl_action_attachments"
+          android:title="Image Attachment"
           android:showAsAction="always" />
 
-    <item android:id="@+id/action_send"
+    <item android:id="@+id/action_AudioAttachment"
           android:icon="@drawable/ic_attachment"
-          android:title="@string/lbl_action_send"
+          android:title="Audio Attachment"
+          android:showAsAction="always" />
+    
+    <item android:id="@+id/action_VideoAttachment"
+          android:icon="@drawable/ic_attachment"
+          android:title="Video Attachment"
           android:showAsAction="always" />
 </menu>

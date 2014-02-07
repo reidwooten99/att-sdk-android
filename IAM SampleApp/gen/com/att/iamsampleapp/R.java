@@ -37,21 +37,24 @@ public final class R {
         public static final int ic_transparent=0x7f020008;
     }
     public static final class id {
-        public static final int action_attachments=0x7f08000d;
-        public static final int action_new_message=0x7f08000c;
-        public static final int action_send=0x7f08000e;
-        public static final int action_settings=0x7f08000b;
-        public static final int attachment=0x7f080005;
-        public static final int authorizing=0x7f080007;
+        public static final int action_AudioAttachment=0x7f080010;
+        public static final int action_ImageAttachment=0x7f08000f;
+        public static final int action_VideoAttachment=0x7f080011;
+        public static final int action_new_message=0x7f08000e;
+        public static final int action_settings=0x7f08000d;
+        public static final int attachment=0x7f080009;
+        public static final int attachmentList=0x7f080005;
+        public static final int authorizing=0x7f080008;
         public static final int contacts=0x7f080001;
-        public static final int favorite=0x7f08000a;
+        public static final int favorite=0x7f08000c;
+        public static final int lblAttachments=0x7f080004;
         public static final int message=0x7f080003;
         public static final int messageListViewItem=0x7f080000;
-        public static final int name=0x7f080008;
-        public static final int sendButton=0x7f080004;
+        public static final int name=0x7f08000a;
+        public static final int sendButton=0x7f080006;
         public static final int subject=0x7f080002;
-        public static final int time=0x7f080009;
-        public static final int userConsentView=0x7f080006;
+        public static final int time=0x7f08000b;
+        public static final int userConsentView=0x7f080007;
     }
     public static final class layout {
         public static final int activity_conversation_list=0x7f030000;

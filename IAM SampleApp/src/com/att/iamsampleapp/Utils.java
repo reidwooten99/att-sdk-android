@@ -8,7 +8,7 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.widget.Toast;
 
 public class Utils {
-	
+
 	public static int UnreadBG = 0xFFF1F1F1;
 	public static int ReadBG = 0xFFFFFFFF;
 
@@ -36,8 +36,10 @@ public class Utils {
 
 		return contactName;
 	}
-	
-	public static void toastMe(Toast toast){
-		//toast.show();
+
+	public static void toastHere(Context ctx, String TAG, String message) {
+		Toast toast = Toast.makeText(ctx, "Message : " + message,
+				Toast.LENGTH_SHORT);
+		toast.show();
 	}
 }

@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,39 +50,37 @@ public class ConversationList extends Activity {
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
 
 		// Create service for requesting an OAuth token
-		osrvc = new OAuthService(Config.fqdn, Config.clientID,
-				Config.secretKey);
+		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
 		authToken = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
 				Config.refreshToken);
 	}
 
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_conversation_list, menu);
- 
-        return super.onCreateOptionsMenu(menu);
-    }
-	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.action_conversation_list, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Take appropriate action for each action item click
-        switch (item.getItemId()) {
-        
-        case R.id.action_new_message:
-        {
-        	Intent newMessage = new Intent(getApplicationContext(),
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Take appropriate action for each action item click
+		switch (item.getItemId()) {
+
+		case R.id.action_new_message: {
+			Intent newMessage = new Intent(getApplicationContext(),
 					NewMessage.class);
 			startActivityForResult(newMessage, REQUEST_CODE);
-        }
-        case R.id.action_settings:
-            // refresh
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-	
+		}
+		case R.id.action_settings:
+			// refresh
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 	public void onResume() {
 		super.onResume();
 
@@ -101,12 +98,8 @@ public class ConversationList extends Activity {
 					int position, long id) {
 
 				// Launch the Message View Screen here
-				Toast toast = Toast.makeText(
-						getApplicationContext(),
-						"Message : "
-								+ msgList.getMessages()[position].getText(),
-						Toast.LENGTH_LONG);
-				toast.show();
+				Utils.toastHere(getApplicationContext(), TAG, "Message : "
+								+ msgList.getMessages()[position].getText());
 			}
 		});
 
@@ -221,9 +214,9 @@ public class ConversationList extends Activity {
 
 	public void newMessage(View v) {
 
-			Intent newMessage = new Intent(getApplicationContext(),
-					NewMessage.class);
-			startActivityForResult(newMessage, REQUEST_CODE);
+		Intent newMessage = new Intent(getApplicationContext(),
+				NewMessage.class);
+		startActivityForResult(newMessage, REQUEST_CODE);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -232,10 +225,8 @@ public class ConversationList extends Activity {
 
 			if (resultCode == RESULT_OK) {
 
-				String result = data.getStringExtra("MessageResponse");
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"Message Sent : " + result, Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
+				Utils.toastHere(getApplicationContext(), TAG, "Message Sent : "
+						+ data.getStringExtra("MessageResponse"));
 			}
 		}
 	}
@@ -256,15 +247,14 @@ public class ConversationList extends Activity {
 
 		// Check how can you provide a dynamic values here ???
 		// iamManager.GetMessageList(10, 0);
-		iamManager.GetMessageList(Config.messageLimit,
-				Config.messageOffset);
+		iamManager.GetMessageList(Config.messageLimit, Config.messageOffset);
 	}
 
 	private class updateMessageStatusListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			Boolean msg = (Boolean) response;
 			if (msg) {
@@ -278,7 +268,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
+			
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  updateMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
@@ -291,7 +281,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			Boolean msg = (Boolean) response;
 			if (msg) {
@@ -304,7 +294,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
+			
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  deleteMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
@@ -316,29 +306,23 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			Boolean msg = (Boolean) response;
-			if (msg) {
-				Toast toast = Toast.makeText(getApplicationContext(),
+			if (msg)
+				Utils.toastHere(getApplicationContext(), TAG,
 						"createMessageIndexListener onSuccess : Message : "
-								+ msg, Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
-			}
+								+ msg);
 
 			getMessageList();
-
 		}
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  createMessageIndexListener Error Callback",
-					Toast.LENGTH_LONG);
-			Utils.toastMe(toast);
+			
+			Utils.toastHere(getApplicationContext(), TAG, "Message : "
+					+ "Iam in  createMessageIndexListener Error Callback");
 		}
-
 	}
 
 	public void getMessageIndexInfo() {
@@ -376,23 +360,20 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object arg0) {
-			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getMessageListener Error Callback",
-					Toast.LENGTH_LONG);
-			Utils.toastMe(toast);
+			
+			Utils.toastHere(getApplicationContext(), TAG, "Message : "
+					+ "Iam in  getMessageListener Error Callback");
 		}
 
 		@Override
 		public void onSuccess(Object arg0) {
-			// TODO Auto-generated method stub
+			
 			Message msg = (Message) arg0;
 			if (null != msg) {
-				Toast toast = Toast.makeText(
-						getApplicationContext(),
+				Utils.toastHere(
+						getApplicationContext(), TAG,
 						" getMessageListener onSuccess Message : "
-								+ msg.getText(), Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
+								+ msg.getText());
 			}
 		}
 	}
@@ -401,15 +382,14 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			delta = (DeltaResponse) response;
 			if (null != delta) {
-				Toast toast = Toast.makeText(
-						getApplicationContext(),
+				Utils.toastHere(
+						getApplicationContext(), TAG,
 						"getDeltaListener onSuccess : Message : "
-								+ delta.getState(), Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
+								+ delta.getState());
 
 				/*
 				 * String getMsgID =
@@ -419,34 +399,29 @@ public class ConversationList extends Activity {
 				 * 
 				 * getMessage(delta.delta[0].getUpdates()[0].getMessageId());
 				 */
-
 			}
 
 		}
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getDeltaListener Error Callback",
-					Toast.LENGTH_LONG);
-			Utils.toastMe(toast);
+			
+			Utils.toastHere(getApplicationContext(), TAG, "Message : "
+					+ "Iam in  getDeltaListener Error Callback");
 		}
-
 	}
 
 	private class getMessageIndexInfoListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			msgIndexInfo = (MessageIndexInfo) response;
 			if (null != msgIndexInfo) {
-				Toast toast = Toast.makeText(getApplicationContext(),
+				Utils.toastHere(getApplicationContext(), TAG,
 						"getMessageIndexInfoListener onSuccess : Message : "
-								+ msgIndexInfo.getState(), Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
+								+ msgIndexInfo.getState());
 
 				getDelta(msgIndexInfo.getState());
 			}
@@ -455,11 +430,9 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getMessageIndexInfoListener Error Callback",
-					Toast.LENGTH_LONG);
-			Utils.toastMe(toast);
+			
+			Utils.toastHere(getApplicationContext(), TAG, "Message : "
+					+ "Iam in  getMessageIndexInfoListener Error Callback");
 		}
 
 	}
@@ -468,39 +441,28 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
+			
 
 			msgList = (MessageList) response;
 			if (null != msgList) {
-				Toast toast = Toast.makeText(
-						getApplicationContext(),
-						"getMessageListListener onSuccess : Message : "
+				Utils.toastHere(getApplicationContext(), TAG, "getMessageListListener onSuccess : Message : "
 								+ msgList.getMessages()[0].getText()
 								+ ", From : "
-								+ msgList.getMessages()[0].getFrom(),
-						Toast.LENGTH_LONG);
-				Utils.toastMe(toast);
-				Log.i(TAG, "getMessageListListener onSuccess " + ": Message : "
-						+ msgList.getMessages()[0].getText() + ", From : "
-						+ msgList.getMessages()[0].getFrom());
-
-				adapter = new ListCustomAdapter(getApplicationContext(),
+								+ msgList.getMessages()[0].getFrom());
+								adapter = new ListCustomAdapter(getApplicationContext(),
 						msgList.getMessages());
+								
 				messageListView.setAdapter(adapter);
 
 				dismissProgressDialog();
-
 				getMessageIndexInfo();
 			}
 		}
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getMessageListListener Error Callback",
-					Toast.LENGTH_LONG);
-			Utils.toastMe(toast);
+			Utils.toastHere(getApplicationContext(), TAG, "Message : "
+					+ "Iam in  getMessageListListener Error Callback");
 		}
 
 	}
