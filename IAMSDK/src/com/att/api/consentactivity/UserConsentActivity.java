@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class UserConsentActivity extends Activity implements ATTIAMListener{
 
@@ -85,17 +86,13 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 					returnIntent.putExtra("oAuthCode", oAuthCode);
 					setResult(RESULT_OK,returnIntent);
 					finish();
-
-					
-					/*GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
-					getTokenUsingCodetask.execute(oAuthCode);
-					*/
 											
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} else if(url.contains("sms:")) {
+			}  else if(url.contains("sms:")) {
+				finish();
 				String smsUrl = url;
 				String[] splitNumber = smsUrl.split(":");
 				String phNumber = splitNumber[1];
@@ -103,14 +100,14 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 				intent.addCategory(Intent.CATEGORY_DEFAULT);
 				intent.setType("vnd.android-dir/mms-sms");
 				intent.putExtra("address", phNumber);
-				//startActivity(intent);
-				//intent.putExtra("exit_on_sent", true);
-				startActivityForResult(intent, 2);
-				
+				intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				startActivity(intent);
 			}
-		}
+	}
     	
     }
+	
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -118,7 +115,10 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == 2) {
 			if(resultCode == RESULT_OK);
+			 Log.i("Finished sending SMS...", "");
 			Log.i("UserConsentActivity","requestCode:" + requestCode );
+			Intent intent = new Intent(this,UserConsentActivity.class);
+			startActivity(intent);
 		}
 			
 	}
