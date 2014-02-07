@@ -14,18 +14,11 @@
  */
 
 /**
- * Provides classes for working with version 1 of AT&amp;T In-app Messaging
- * from Mobile Number(IMMN) API.
+ * Provides classes for working with  AT&amp;T In-app Messaging.
  *
- * <p>
- * For more information, refer to the documenation at
- * <a href="https://developer.att.com/docs/apis/rest/1/In-app%20Messaging%20from%20Mobile%20Number">IMMN</a>.
- * </p>
  *
- * @author pk9069
- * @author kh455g
- * @since 1.0
- * @see com.att.api.mmn.service.IMMNService
+ * @author dg185p
+ * @author ps350r
  */
 
 package com.att.api.immn.service;

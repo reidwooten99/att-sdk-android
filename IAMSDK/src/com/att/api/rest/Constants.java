@@ -2,7 +2,7 @@ package com.att.api.rest;
 
 
 
-/**
+/*
  * Class encapsulating all of the constants and some are default values. 
  * 
  * @author ATT

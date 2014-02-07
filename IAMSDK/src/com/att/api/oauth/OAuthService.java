@@ -96,28 +96,29 @@ import org.json.JSONObject;
  * }
  * </pre>
  *
- * @author pk9069
- * @version 1.0
- * @since 1.0
- * @see <a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0 Framework</a>
+ * @author dg185p,ps350r
+ * 
  */
+//@see <a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0 Framework</a>
 public class OAuthService extends Activity implements ATTIAMListener {
 
-    /** Added to fqdn to use for sending OAuth requests. */
+    /* Added to fqdn to use for sending OAuth requests. */
     public static final String API_URL = "/oauth/token";
 
-    /** Fully qualified domain name. */
+    /*Fully qualified domain name. */
     private final String fqdn;
 
-    /** Client id to use for requesting an OAuth token. */
+    /* Client id to use for requesting an OAuth token. */
     private final String clientId;
 
-    /** Client secret to use for requestion an OAuth token. */
+    /* Client secret to use for requestion an OAuth token. */
     private final String clientSecret;
     
-	private ATTIAMListener iamListener;
+	/* Listener */
+    private ATTIAMListener iamListener;
 	
-	protected Handler handler = new Handler();
+	/* Handler */
+    protected Handler handler = new Handler();
 	
 	private final int REQUEST_CODE = 1;
 
@@ -215,7 +216,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
     }
 
     /**
-     * Gets an access token using the specified code.
+     * Gets an access token using the specified scope.
      *
      * <p>
      * The parameters set during object creation will be used when requesting
@@ -247,7 +248,20 @@ public class OAuthService extends Activity implements ATTIAMListener {
         return parseResponse(apiResponse);
 
     }
-    
+    /**
+     * Gets an access token using the specified code and returns the token to the listener which will handle 
+     * success and error call backs.
+     *  <p>
+     * The parameters set during object creation will be used when requesting
+     * the access token.
+     * </p>
+     * <p>
+     * The token request is done using the 'authorization_code' grant type.
+     * </p>
+     *
+     * @param code code to use when requesting access token
+     * @param iamListener listener to implement success/error call back
+     */
     public void getOAuthToken(String code, ATTIAMListener iamListener){
     	
     	this.iamListener = iamListener;
@@ -315,7 +329,13 @@ public class OAuthService extends Activity implements ATTIAMListener {
 			}
 		}
 	}
-    
+    /**
+     * Background task to get the access token
+     * 
+     * @param code code to use when requesting access token
+     * @return OAuthToken object if successful
+     *
+     */
     public class GetTokenUsingCodeTask extends AsyncTask<String, Void, OAuthToken> {
 
 		@Override
@@ -337,6 +357,11 @@ public class OAuthService extends Activity implements ATTIAMListener {
 			return accestoken;
 		}
 
+		/**
+		 * @param accestoken OAuthToken object returned from the background task
+		 * <p>
+		 * if the  accestoken is not null calls the onSuccess callback else calls onError callback
+		 */
 		@Override
 		protected void onPostExecute(OAuthToken accestoken) {
 			// TODO Auto-generated method stub
@@ -350,6 +375,9 @@ public class OAuthService extends Activity implements ATTIAMListener {
     	
     }
 
+    /**
+     * onSuccess callback
+     */
     @Override
 	public void onSuccess(final Object accestoken) {
 		// TODO Auto-generated method stub
@@ -365,6 +393,9 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		
 	}
 
+    /**
+     * onError callback
+     */
 	@Override
 	public void onError(final Object accestoken) {
 		// TODO Auto-generated method stub

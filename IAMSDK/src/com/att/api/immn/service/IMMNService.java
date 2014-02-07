@@ -14,24 +14,8 @@ import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
 
-/**
- * Used to interact with version 1 of the In-app Messaging from Mobile
- * Number(IMMN) API.
- *
- * @author pk9069
- * @author kh455g
- * @version 1.0
- * @since 1.0
- * @see <a href="https://developer.att.com/docs/apis/rest/1/In-app%20Messaging%20from%20Mobile%20Number">Documentation</a>
- */
 public class IMMNService extends APIService {
 
-    /**
-     * Creates an IMMNService object.
-     *
-     * @param fqdn fully qualified domain name to use for sending requests
-     * @param token OAuth token to use for authorization
-     */
     public IMMNService(String fqdn, OAuthToken token) {
         super(fqdn, token);
     }

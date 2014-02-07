@@ -12,7 +12,7 @@
  * ====================================================================
  */
 
-/**
+/*
  * Provides classes for sending RESTFul requests and handling responses.
  *
  * <p>

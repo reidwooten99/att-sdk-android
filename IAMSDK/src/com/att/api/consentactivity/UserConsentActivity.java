@@ -103,11 +103,25 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 				intent.addCategory(Intent.CATEGORY_DEFAULT);
 				intent.setType("vnd.android-dir/mms-sms");
 				intent.putExtra("address", phNumber);
-				startActivity(intent);
+				//startActivity(intent);
+				//intent.putExtra("exit_on_sent", true);
+				startActivityForResult(intent, 2);
+				
 			}
 		}
     	
     }
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == 2) {
+			if(resultCode == RESULT_OK);
+			Log.i("UserConsentActivity","requestCode:" + requestCode );
+		}
+			
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -65,7 +65,7 @@ import android.util.Log;
 import com.att.api.oauth.OAuthToken;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
-/**
+/*
  * Client used to send RESTFul requests.
  * 
  * <p>
@@ -101,28 +101,28 @@ public class RESTClient {
 
 	static SSLSocketFactory sslSocketFactory;
 
-	/**
+	/*
 	 * Whether to trust all SSL certificates, which may be used for self-signed
 	 * or invalidly-signed certs.
 	 */
 	private final boolean trustAllCerts;
 
-	/** Proxy host to use, if any. */
+	/* Proxy host to use, if any. */
 	private final String proxyHost;
 
-	/** Proxy port to use, if any. */
+	/* Proxy port to use, if any. */
 	private final int proxyPort;
 
-	/** URL that request will be sent to. */
+	/* URL that request will be sent to. */
 	private final String url;
 
-	/** Http headers to send. */
+	/* Http headers to send. */
 	private final Map<String, List<String>> headers;
 
-	/** Http parameters to send. */
+	/* Http parameters to send. */
 	private final Map<String, List<String>> parameters;
 
-	/**
+	/*
 	 * Internal method used to build an APIResponse using the specified
 	 * HttpResponse object.
 	 * 
@@ -146,7 +146,7 @@ public class RESTClient {
 		return apir;
 	}
 
-	/**
+	/*
 	 * Used to release any resources used by the connection.
 	 * 
 	 * @param response
@@ -173,7 +173,7 @@ public class RESTClient {
 		}
 	}
 
-	/**
+	/*
 	 * Sets headers to the http message.
 	 * 
 	 * @param httpMsg
@@ -193,7 +193,7 @@ public class RESTClient {
 		}
 	}
 
-	/**
+	/*
 	 * Builds the query part of a URL using the UTF-8 encoding.
 	 * 
 	 * @return query
@@ -230,7 +230,7 @@ public class RESTClient {
 		return sb.toString();
 	}
 
-	/**
+	/*
 	 * Sets the proxy attributes for the specified http client.
 	 * 
 	 * @param httpClient
@@ -244,7 +244,7 @@ public class RESTClient {
 		}
 	}
 
-	/**
+	/*
 	 * Creates an http client that can be used for sending http requests.
 	 * 
 	 * <p>
@@ -314,7 +314,7 @@ public class RESTClient {
 		}
 	}
 
-	/**
+	/*
 	 * Creates a RESTClient with the specified URL, proxy host, and proxy port.
 	 * 
 	 * <p>
@@ -339,7 +339,7 @@ public class RESTClient {
 		this(new RESTConfig(url, proxyHost, proxyPort));
 	}
 
-	/**
+	/*
 	 * Creates a RESTClient with the specified URL.
 	 * 
 	 * <p>
@@ -360,7 +360,7 @@ public class RESTClient {
 		this(new RESTConfig(url));
 	}
 
-	/**
+	/*
 	 * Creates a RESTClient with the RESTConfig object.
 	 * 
 	 * @param cfg
@@ -378,7 +378,7 @@ public class RESTClient {
 		this.proxyPort = cfg.getProxyPort();
 	}
 
-	/**
+	/*
 	 * Adds parameter to be sent during http request.
 	 * 
 	 * <p>
@@ -403,7 +403,7 @@ public class RESTClient {
 		return this;
 	}
 
-	/**
+	/*
 	 * Sets parameter to be sent during http request.
 	 * 
 	 * <p>
@@ -426,7 +426,7 @@ public class RESTClient {
 		return this;
 	}
 
-	/**
+	/*
 	 * Adds http header to be sent during http request.
 	 * 
 	 * <p>
@@ -450,7 +450,7 @@ public class RESTClient {
 		return this;
 	}
 
-	/**
+	/*
 	 * Sets http header to be sent during http request.
 	 * 
 	 * <p>
@@ -473,7 +473,7 @@ public class RESTClient {
 		return this;
 	}
 
-	/**
+	/*
 	 * Convenience method for adding the authorization header using the
 	 * specified OAuthToken object.
 	 * 
@@ -486,7 +486,7 @@ public class RESTClient {
 		return addAuthorizationHeader(token.getAccessToken());
 	}
 
-	/**
+	/*
 	 * Convenience method for adding the authorization header using the
 	 * specified access token.
 	 * 
@@ -500,7 +500,7 @@ public class RESTClient {
 	}
 
 
-	/**
+	/*
 	 * Alias for httpGet().
 	 * 
 	 * @return api response
@@ -512,7 +512,7 @@ public class RESTClient {
 		return httpGet();
 	}
 
-	/**
+	/*
 	 * Sends an http GET request using the parameters and headers previously
 	 * set.
 	 * 
@@ -547,7 +547,7 @@ public class RESTClient {
 		}
 	}
 
-	/**
+	/*
 	 * Alias for <code>httpPost()</code>.
 	 * 
 	 * @see RESTClient#httpPost()
@@ -559,7 +559,7 @@ public class RESTClient {
 		return httpPost();
 	}
 
-	/**
+	/*
 	 * Sends an http POST request.
 	 * 
 	 * <p>
@@ -576,7 +576,7 @@ public class RESTClient {
 		return response;
 	}
 
-	/**
+	/*
 	 * Sends an http POST request using the specified body.
 	 * 
 	 * <p>
@@ -621,7 +621,7 @@ public class RESTClient {
         return apiresponse;
     }
 
-	/**
+	/*
 	 * Sends an http POST request with the POST body set to the file.
 	 * 
 	 * <p>
@@ -659,7 +659,7 @@ public class RESTClient {
 	}
 
 	// TODO (pk9069): This should probably be moved to a util class
-	/**
+	/*
 	 * Gets MIME type for specified file.
 	 * 
 	 * <p>
@@ -748,7 +748,7 @@ public class RESTClient {
 		return contentType;
 	}
 
-	/**
+	/*
 	 * Sends an http POST multipart request.
 	 * 
 	 * @param jsonObj
@@ -795,7 +795,7 @@ public class RESTClient {
 					type = "application/octet-stream";
 				}
 				
-				type = "JPEG";
+				//type = "image/jpeg";
 
 				FileBody fb = new FileBody(new File(fname), type, "UTF-8");
 				/*FormBodyPart fileBodyPart = new FormBodyPart(fb.getFilename(),

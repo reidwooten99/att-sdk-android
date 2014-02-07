@@ -16,7 +16,7 @@ package com.att.api.service;
 
 import com.att.api.oauth.OAuthToken;
 
-/**
+/*
  * Provides a common interface, as well as common functionality, for API
  * services.
  *
@@ -27,13 +27,13 @@ import com.att.api.oauth.OAuthToken;
  */
 public abstract class APIService {
 
-    /** Fully qualified domain name used for request. */
+    /* Fully qualified domain name used for request. */
     private String fqdn;
 
-    /** OAuth token used for request. */
+    /* OAuth token used for request. */
     private OAuthToken token;
 
-    /**
+    /*
      * Gets the fully qualified domain name.
      *
      * @return fully qualified domain name
@@ -42,7 +42,7 @@ public abstract class APIService {
         return fqdn;
     }
 
-    /**
+    /*
      * Gets the OAuth token used for authorization.
      *
      * @return OAuth token
@@ -51,7 +51,7 @@ public abstract class APIService {
         return token;
     }
 
-    /**
+    /*
      * Creates an APIService object with the specified fully qualified domain
      * name and OAuth token.
      *
@@ -69,7 +69,7 @@ public abstract class APIService {
         this.token = token;
     }
 
-    /**
+    /*
      * Utility method for converting a raw string to an array of formated
      * addresses that is usable by the API.
      *
@@ -84,7 +84,7 @@ public abstract class APIService {
         return APIService.formatAddresses(rawString.split(","));
     }
 
-    /**
+    /*
      * Utility method for converting a an array of addresses to an array of
      * formated addresses that is usable by the API.
      *

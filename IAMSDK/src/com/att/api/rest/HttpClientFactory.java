@@ -10,7 +10,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 
-/**
+/*
  * added to solve the trusted authentication exception while sending data to
  * server and thread-safe client singleton.
  * 
@@ -20,7 +20,7 @@ public class HttpClientFactory {
 	private static DefaultHttpClient client;
 	private static SSLSocketFactory sslSocketFactory;
 
-	/**
+	/*
 	 * Creates a new HTTP client from parameters and a new thread safe
 	 * connection manager.
 	 * 
@@ -38,7 +38,7 @@ public class HttpClientFactory {
 		return client;
 	}
 
-	/**
+	/*
 	 * Creates a new HTTP client from parameters and a new thread safe
 	 * connection manager.
 	 * 
@@ -55,7 +55,7 @@ public class HttpClientFactory {
 		//client = new DefaultHttpClient(new ThreadSafeClientConnManager(params,getAdSchemeRegistry(client)), params);
 		return client;
 	}	
-	/**
+	/*
 	 * Reset the HTTP client and clear the cookie store.
 	 */
 	public static void resetClient() {
@@ -65,7 +65,7 @@ public class HttpClientFactory {
 		}
 	}
 
-	/**
+	/*
 	 * get the scheme register used by this connection manager.
 	 * 
 	 * @param client
@@ -84,7 +84,7 @@ public class HttpClientFactory {
 		}
 	}
 
-	/**
+	/*
 	 * set the SSLSocketFactory can be used to validate the identity of the
 	 * HTTPS server against a list of trusted certificates and to authenticate
 	 * to the HTTPS server using a private key.

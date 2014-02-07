@@ -54,32 +54,29 @@ import java.util.Properties;
  * </code>
  * </pre>
  *
- * @author pk9069
- * @version 1.0
- * @since 1.0
- * @see <a href="https://tools.ietf.org/html/rfc6749">OAuth 2.0 Framework</a>
+ * @author dg185p,ps350r
  */
 public class OAuthToken {
 
-    /** Static synchronization object. */
+    /* Static synchronization object. */
     private final static Object LOCK_OBJECT = new Object();
 
-    /** Cache tokens loaded from file to speed up load times. */
+    /* Cache tokens loaded from file to speed up load times. */
     private static HashMap<String, OAuthToken> cachedTokens = null;
 
-    /** Access token. */
+    /* Access token. */
     private final String accessToken;
 
-    /** Unix timestamp, in seconds, to denote access token expiry. */
+    /* Unix timestamp, in seconds, to denote access token expiry. */
     private final long accessTokenExpiry;
 
-    /** Refresh token. */
+    /* Refresh token. */
     private final String refreshToken;
 
-    /** Whether to cache OAuth tokens, thereby saving file IO. */
+    /* Whether to cache OAuth tokens, thereby saving file IO. */
     private static volatile boolean useCaching = true;
 
-    /** Used to indicate access token does not expire. */
+    /* Used to indicate access token does not expire. */
     public static final long NO_EXPIRATION = -1;
 
     /**
@@ -160,7 +157,7 @@ public class OAuthToken {
         return refreshToken;
     }
 
-    /**
+    /*
      * Saves this token to a file in an asynchronous-safe manner.
      *
      * @param fpath file path
@@ -195,7 +192,7 @@ public class OAuthToken {
         }
     }
 
-    /**
+    /*
      * Attempts to load an OAuthToken from a file in an asynchronous-safe
      * manner.
      *
@@ -251,7 +248,7 @@ public class OAuthToken {
         }
     }
 
-    /**
+    /*
      * Not yet implemented.
      *
      * @param useCaching not yet implemented

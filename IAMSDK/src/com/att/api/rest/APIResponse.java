@@ -20,7 +20,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-/**
+/*
  * Immutable class that holds API response information.
  *
  * @author pk9069
@@ -29,16 +29,16 @@ import org.apache.http.util.EntityUtils;
  */
 public class APIResponse {
 
-    /** HTTP status code. */
+    /* HTTP status code. */
     private final int statusCode;
 
-    /** HTTP response body. */
+    /* HTTP response body. */
     private final String responseBody;
 
-    /** Array of HTTP headers. */
+    /* Array of HTTP headers. */
     private final HttpHeader[] headers;
 
-    /**
+    /*
      * Given an HttpResponse object, this method generates an array of HTTP
      * headers.
      *
@@ -60,7 +60,7 @@ public class APIResponse {
         return httpHeaders;
     }
 
-    /**
+    /*
      * Creates an API response with the specified status code, response body,
      * and http headers.
      *
@@ -78,7 +78,7 @@ public class APIResponse {
         this.headers = APIResponse.copyHeaders(headers);
     }
 
-    /**
+    /*
      * Create an API response from an <code>HttpResponse</code> object.
      *
      * @param httpResponse used for creating API response
@@ -97,7 +97,7 @@ public class APIResponse {
         }
     }
 
-    /**
+    /*
      * Gets HTTP status code.
      *
      * @return http status code
@@ -106,7 +106,7 @@ public class APIResponse {
         return this.statusCode;
     }
 
-    /**
+    /*
      * Gets HTTP response body.
      *
      * @return http response body
@@ -115,7 +115,7 @@ public class APIResponse {
         return this.responseBody;
     }
 
-    /**
+    /*
      * Gets an array of all http headers returned.
      *
      * <p>
@@ -131,7 +131,7 @@ public class APIResponse {
         return APIResponse.copyHeaders(this.headers);
     }
 
-    /**
+    /*
      * Gets the the value of the specified http header name or <tt>null</tt> if
      * none is found.
      *
@@ -154,7 +154,7 @@ public class APIResponse {
         return null;
     }
 
-    /**
+    /*
      * Alias for <code>valueOf()</code>.
      *
      * @param httpResponse used for creating API response
@@ -169,7 +169,7 @@ public class APIResponse {
         return APIResponse.valueOf(httpResponse);
     }
 
-    /**
+    /*
      * Factory method for creating an API response from an
      * <code>HttpResponse</code> object.
      *
@@ -195,7 +195,7 @@ public class APIResponse {
         }
     }
 
-    /**
+    /*
      * Utility method for copying an array of headers.
      *
      * <p>

@@ -14,7 +14,7 @@
 
 package com.att.api.rest;
 
-/**
+/*
  * Immutable class for holding any config variables for sending RESTFul
  * requests.
  *
@@ -23,28 +23,28 @@ package com.att.api.rest;
  * @since 1.0
  */
 public class RESTConfig {
-    /** Default proxy to use, if any. */
+    /* Default proxy to use, if any. */
     private static String defaultProxyHost = null;
 
-    /** Default proxy port to use, if any. */
+    /* Default proxy port to use, if any. */
     private static int defaultProxyPort = -1;
 
-    /** Default setting for accepting ssl certificates. */
+    /* Default setting for accepting ssl certificates. */
     private static boolean defaultTrustAllCerts = false;
 
-    /** Url to use for RESTFul request. */
+    /* Url to use for RESTFul request. */
     private final String url;
 
-    /** Whether to trust all ssl certs, such as self-signed certs. */
+    /* Whether to trust all ssl certs, such as self-signed certs. */
     private final boolean trustAllCerts;
 
-    /** Proxy host to use or <tt>null</tt> if none. */
+    /* Proxy host to use or <tt>null</tt> if none. */
     private final String proxyHost;
 
-    /** Proxy port to use or -1 if none. */
+    /* Proxy port to use or -1 if none. */
     private final int proxyPort;
 
-    /**
+    /*
      * Creates a RESTConfig object with the specified url.
      *
      * <p>
@@ -59,7 +59,7 @@ public class RESTConfig {
         this(url, defaultProxyHost, defaultProxyPort, defaultTrustAllCerts);
     }
 
-    /**
+    /*
      * Creates a RESTConfig object with the specified url and ssl certificate
      * settings.
      *
@@ -75,7 +75,7 @@ public class RESTConfig {
         this(url, defaultProxyHost, defaultProxyPort, trustAllCerts);
     }
 
-    /**
+    /*
      * Creates a RESTConfig object with the specified url and proxy settings.
      *
      * <p>
@@ -91,7 +91,7 @@ public class RESTConfig {
         this(url, proxyHost, proxyPort, defaultTrustAllCerts);
     }
 
-    /**
+    /*
      * Creates a RESTConfig object with the specified url, proxy settings, and
      * ssl certificate settings.
      *
@@ -109,7 +109,7 @@ public class RESTConfig {
         this.trustAllCerts = trustAllCerts;
     }
 
-    /**
+    /*
      * Gets the url setting.
      *
      * @return url setting
@@ -118,7 +118,7 @@ public class RESTConfig {
         return this.url;
     }
 
-    /**
+    /*
      * Gets whether to allow all certificates, such as self-signed certs.
      *
      * @return whether to trust all certs
@@ -127,7 +127,7 @@ public class RESTConfig {
         return this.trustAllCerts;
     }
 
-    /**
+    /*
      * Gets proxy host to use or null if none.
      *
      * @return proxy host to use
@@ -136,7 +136,7 @@ public class RESTConfig {
         return this.proxyHost;
     }
 
-    /**
+    /*
      * Gets proxy port to use or -1 if none.
      *
      * @return proxy port to use
@@ -145,7 +145,7 @@ public class RESTConfig {
         return this.proxyPort;
     }
 
-    /**
+    /*
      * Sets the default proxy to use if none is specified during object
      * creation.
      *
@@ -157,7 +157,7 @@ public class RESTConfig {
         RESTConfig.defaultProxyPort = port;
     }
 
-    /**
+    /*
      * Sets the default ssl certificate setting to use if none is specified
      * during object creation.
      *

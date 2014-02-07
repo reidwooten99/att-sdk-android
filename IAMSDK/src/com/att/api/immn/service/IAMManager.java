@@ -4,6 +4,8 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.APIUpdateMessage.APIUpdateMessageParams;
 import com.att.api.oauth.OAuthToken;
 /**
+ * This class encapsulates AT&Ts REST APIs for In-App Messaging
+ * 
  * @author dg185p
  * @author ps350r
  * 
@@ -36,29 +38,49 @@ public class IAMManager {
 	
 	/**
 	 * @param address - Addresses can be in the following forms and at least one of them must be provided: 
-	 * 1) MSISDN Ð It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
+	 * <ul>
+	 * <li> MSISDN Ð It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
 	 * It must be preceded by Ôtel:Õ scheme. 
-	 * Valid representation formats are: a) tel:+12012345678 b) tel:12012345678 c) tel:2012345678
+	 * <li>Valid representation formats are: 
+	 * 		<ul>
+	 * 		<li> tel:+12012345678
+	 * 		<li> tel:12012345678 
+	 * 		<li> tel:2012345678
+	 * 		</ul>
 	 * International numbers shall not be supported.
-	 * 2) Short code Ð It is a special number between 3-8 digits long. 
-	 * It must be preceded by Ôshort:Õ scheme. Example of valid values are: a) short:123 b) short:12345678
-	 * 3) Email address Ð Standard email address format validation must be performed.
+	 * <li> Short code Ð It is a special number between 3-8 digits long. 
+	 * It must be preceded by Ôshort:Õ scheme. Example of valid values are: 
+	 * 		<ul>
+	 * 		<li> short:123 
+	 * 		<li> short:12345678
+	 * 		</ul>
+	 * <li> Email address Ð Standard email address format validation must be performed.
 	 * Max 10 Addresses will be supported. However, this limit will be configurable at a System level.
 	 * If any of the addresses is duplicated, the request will be sent only ONCE.
 	 * 
 	 * @param message - The Message to be sent.
-	 * 1) If the request is detected to be MMS then the following character sets will be supported :
-	 * 		a) ASCII  b) UTF-8  c) UTF-16 d) ISO-8859-1
-	 * 2) If the request is detected to be SMS then the following character set will be supported:
-	 * 		a) ISO-8859-1
+	 * <ul>
+	 * <li> If the request is detected to be MMS then the following character sets will be supported :
+	 * 		<ul>
+	 * 		<li> ASCII  
+	 * 		<li> UTF-8  
+	 * 		<li> UTF-16 
+	 * 		<li> ISO-8859-1
+	 * 		</ul>
+	 * <li> If the request is detected to be SMS then the following character set will be supported:  ISO-8859-1
 	 * It becomes a mandatory field if Attachment(s) is NOT provided in the request.
+	 * </ul>
 	 * 
+	 * @param subject 		- It is the header for the message.
+	 * @param group 		- If set to True, implies there are multiple recipients else  message is treated as Broadcast.
+	 * @param attachments 	- String for the filename of the media content.
 	 * */
 	/*public void SendMessage(String address, String message) {
 		APISendMessage sendMessage = new APISendMessage(address, message, immnSrvc, iamListener);
 		sendMessage.SendMessage();
 	}
-*/	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
+*/	
+	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
 		APISendMessage sendMessage = new APISendMessage(addresses, message, subject, group, attachments, 
 														immnSrvc, iamListener);
 		sendMessage.SendMessage();
@@ -70,7 +92,7 @@ public class IAMManager {
 	 * identifier and the associated message identifier.
 	 * The content associated with the identifier provided in the request is returned.
 	 * 
-	 * @param msgId - A message identifier representing a Subscriber Message in the AT&T Messages environment.
+	 * @param msgId 	 - A message identifier representing a Subscriber Message in the AT&T Messages environment.
 	 * @param partNumber - A content identifier representing an attachment in the referenced subscriber message.
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
@@ -82,9 +104,9 @@ public class IAMManager {
 	 * The Application will request a block of messages by providing count and an offset value.
 	 * A list of messages is returned in received order starting with the most recent.
 	 * 
-	 * @param limit - This parameter defines the upper limit of the number of returned messages.
+	 * @param limit 	- This parameter defines the upper limit of the number of returned messages.
 	 *  A maximum value of 500 is supported.
-	 * @param offset - This parameter defines the offset from the beginning of the ordered set of messages.
+	 * @param offset 	- This parameter defines the offset from the beginning of the ordered set of messages.
 	 */
 	public void GetMessageList(int limit, int offset) {
 		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, immnSrvc, iamListener);
@@ -116,8 +138,9 @@ public class IAMManager {
 	 * 
 	 * @param queues - The name of the resource the client is interested in subscribing for notifications. 
 	 * Currently supported resource is -
-	 * 1)TEXT Ð Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
-	 * 2)MMS Ð Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.
+	 * 
+	 * 1)TEXT : Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
+	 * 2)MMS  : Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.
 	 */
 	public  void GetNotificationConnectionDetails(String queues) {
 		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
@@ -168,9 +191,9 @@ public class IAMManager {
 	/**
 	 * This  allows to update the flags that are associated with a specific message. 
 	 * The developer passes in the messageId.
-	 * @param msgId - Id of the message that is intended to get updated
-	 * @param isUnread - optional - This flag provides capability to set a message unread or read status
-	 * @param isFavorite - optional - Sets the message to favorite or to unset the favorite.
+	 * @param msgId -		Id of the message that is intended to get updated
+	 * @param isUnread - 	optional - This flag provides capability to set a message unread or read status
+	 * @param isFavorite -  optional - Sets the message to favorite or to unset the favorite.
 	 */
 	public void UpdateMessage(String msgId, Boolean isUnread, Boolean isFavorite) {
 		APIUpdateMessage updateMessage = new APIUpdateMessage();
