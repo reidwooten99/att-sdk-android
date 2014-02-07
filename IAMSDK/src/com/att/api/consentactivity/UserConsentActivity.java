@@ -6,7 +6,7 @@ import java.net.URLEncoder;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-import com.example.iamsdk.MessageAppActivity;
+//import com.example.iamsdk.MessageAppActivity;
 import com.example.iamsdk.R;
 
 import android.net.Uri;
