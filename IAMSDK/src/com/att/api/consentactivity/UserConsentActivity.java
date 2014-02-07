@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.example.iamsdk.MessageAppActivity;
 import com.example.iamsdk.R;
 
 import android.net.Uri;
@@ -51,32 +52,42 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setAppCacheEnabled(false);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		webView.loadUrl("https://api.att.com/oauth/authorize?client_id=hahcoflonje5cxctdbpwtjg966imi6v1&scope=DC,IMMN,MIM,TL&redirect_uri=https://developer.att.com");
+		webView.loadUrl("https://api.att.com/oauth/authorize?client_id=" + clientId + "&scope=DC,IMMN,MIM,TL&redirect_uri=https://developer.att.com");
 		//webView.loadUrl("http://auth-api.att.com/oauth/authorize?client_id=hnpm6f1bsgr4unmqabsrdn46zjukl9n7&response_type=token&scope=immn&redirect_uri=https://www.google.com");		
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
-
+		
+		 @Override
+		    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	    	Log.i("shouldOverrideUrlLoading", "shouldOverrideUrlLoading() in the MyWebViewClient "+ url);
+	    	if(url.contains("sms:")) {
+	    		String smsUrl = url;
+				String[] splitNumber = smsUrl.split(":");
+				String phNumber = splitNumber[1];
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.addCategory(Intent.CATEGORY_DEFAULT);
+				intent.setType("vnd.android-dir/mms-sms");
+				intent.putExtra("address", phNumber);
+				startActivity(intent);
+				return true;
+	    	} else 
+	    		return false;
+	    }
+		
     	@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			// TODO Auto-generated method stub
 			Log.i("onPageStarted", "Start : " + url);
-
 			super.onPageStarted(view, url, favicon);
 			if(url.contains("code")) {
 				
-				/*webView.setVisibility(View.GONE);
-				TextView auThorize = (TextView)findViewById(R.id.authorizing);
-				auThorize.setVisibility(View.VISIBLE);
-				auThorize.setText("AUTHORIZING....");
-*/				
 				String encodedURL;
 				OAuthToken accessToken ;
 				try {
 					encodedURL = URLEncoder.encode(url, "UTF-8");
 					Log.i("onPageStarted", "encodedURL: " + encodedURL);
 
-					//URL urll = new URL(encodedURL);
 					String encodedURLSplits[] = encodedURL.split("code%3D");
 					String oAuthCode = encodedURLSplits[1];
 
@@ -91,38 +102,11 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}  else if(url.contains("sms:")) {
-				finish();
-				String smsUrl = url;
-				String[] splitNumber = smsUrl.split(":");
-				String phNumber = splitNumber[1];
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.addCategory(Intent.CATEGORY_DEFAULT);
-				intent.setType("vnd.android-dir/mms-sms");
-				intent.putExtra("address", phNumber);
-				intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				startActivity(intent);
-			}
+			} 
 	}
     	
     }
 	
-	
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 2) {
-			if(resultCode == RESULT_OK);
-			 Log.i("Finished sending SMS...", "");
-			Log.i("UserConsentActivity","requestCode:" + requestCode );
-			Intent intent = new Intent(this,UserConsentActivity.class);
-			startActivity(intent);
-		}
-			
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
