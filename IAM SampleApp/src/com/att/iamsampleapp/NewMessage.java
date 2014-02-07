@@ -1,15 +1,12 @@
 package com.att.iamsampleapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +19,7 @@ import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.SendResponse;
 import com.att.api.oauth.OAuthToken;
 
-public class NewMessage extends Activity {
+public class NewMessage extends Utils {
 
 	private static final String TAG = "IAM_NewMessage";
 	final String fqdn = Config.fqdn;
@@ -92,7 +89,8 @@ public class NewMessage extends Activity {
 				String mime = getContentResolver().getType(pickedAttachment);
 				String str = getRealPathFromURI(pickedAttachment);
 				attachments[0] = str;
-				Utils.toastHere(getApplicationContext(), TAG, "File Path : " + str);
+				Utils.toastHere(getApplicationContext(), TAG, "File Path : "
+						+ str);
 			}
 		}
 	}
@@ -121,26 +119,14 @@ public class NewMessage extends Activity {
 		addresses[0] = contactsWidget.getText().toString();
 		// attachments[0] = "content://media/external/images/media/348";
 
-		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
-				subjectWidget.getText().toString(), false, attachments);
 		/*
 		 * iamManager.SendMessage(addresses, messageWidget.getText().toString(),
-		 * subjectWidget.getText().toString(), false, null);
+		 * subjectWidget.getText().toString(), false, attachments);
 		 */
-	}
 
-	public String getRealPathFromURI(Uri contentUri) {
-		String path = null;
-		String[] proj = { MediaStore.MediaColumns.DATA };
-		Cursor cursor = getContentResolver().query(contentUri, proj, null,
-				null, null);
-		if (cursor.moveToFirst()) {
-			int column_index = cursor
-					.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-			path = cursor.getString(column_index);
-		}
-		cursor.close();
-		return path;
+		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
+				subjectWidget.getText().toString(), false, null);
+
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {

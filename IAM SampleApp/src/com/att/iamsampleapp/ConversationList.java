@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +36,8 @@ public class ConversationList extends Activity {
 	IMMNService immnSrvc;
 	IAMManager iamManager;
 	OAuthService osrvc;
-	final int REQUEST_CODE = 1;
+	final int REQUEST_CODE = -1;
+	final int OAUTH_CODE = 1;
 	OAuthToken authToken;
 	MessageIndexInfo msgIndexInfo;
 	DeltaResponse delta;
@@ -51,6 +53,13 @@ public class ConversationList extends Activity {
 
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
+		
+		Intent i = new Intent(this,com.att.api.consentactivity.UserConsentActivity.class);
+		i.putExtra("fqdn", Config.fqdn);
+		i.putExtra("clientId", Config.clientID);
+		i.putExtra("clientSecret", Config.secretKey);
+		startActivityForResult(i, OAUTH_CODE);
+		
 		authToken = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
 				Config.refreshToken);
 	}
@@ -84,7 +93,7 @@ public class ConversationList extends Activity {
 	public void onResume() {
 		super.onResume();
 
-		createMessageIndex();
+		//createMessageIndex();
 
 		setupMessageListListener();
 	}
@@ -228,7 +237,45 @@ public class ConversationList extends Activity {
 				Utils.toastHere(getApplicationContext(), TAG, "Message Sent : "
 						+ data.getStringExtra("MessageResponse"));
 			}
+		}else if(requestCode == OAUTH_CODE){
+			String oAuthCode = null;
+			if(resultCode == RESULT_OK) {
+				 oAuthCode  = data.getStringExtra("oAuthCode");
+				 Log.i("mainActivity","oAuthCode:" + oAuthCode );
+				 if(null != oAuthCode) {
+					 osrvc.getOAuthToken(oAuthCode,new getTokenListener());				  
+				 } else {
+					 Log.i("mainActivity","oAuthCode: is null" );
+
+				 }
+			}
 		}
+	}
+	
+	private class getTokenListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			// TODO Auto-generated method stub
+			authToken = (OAuthToken) response;
+			if(null != authToken) {
+				Config.token = authToken.getAccessToken();
+				Log.i("getTokenListener","onSuccess Message : "  + authToken.getAccessToken());
+				createMessageIndex();
+			}
+			
+			/*iamManager = new IAMManager(Config.fqdn, authToken,  new createMessageIndexListener());
+			iamManager.CreateMessageIndex();*/
+		}
+
+		@Override
+		public void onError(Object error) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
+					+ "Iam in  getTokenListener Error Callback", Toast.LENGTH_LONG);
+			toast.show();
+		}
+		
 	}
 
 	public void createMessageIndex() {
