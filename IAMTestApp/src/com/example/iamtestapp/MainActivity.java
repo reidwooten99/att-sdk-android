@@ -170,24 +170,31 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			 msg = (OAuthToken) response;
 			if(null != msg) {
 				Log.i("getTokenListener","onSuccess Message : "  + msg.getAccessToken());
-				/*Toast toast = Toast.makeText(getApplicationContext(),
+				Toast toast = Toast.makeText(getApplicationContext(),
 						" getTokenListener onSuccess Message : " + msg.getAccessToken(), Toast.LENGTH_LONG);
 				toast.show();
-*/			}
+			}
 			iamManager = new IAMManager(fqdn, msg,  new createMessageIndexListener());
 			iamManager.CreateMessageIndex();
 			
 			iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
 			//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
-			String addresses[] = { "4257492983" };
-			String attachments[] = { null };
+			String addresses[] = { "4257492983","5204655282" };
+			//String attachments[] = { };
 		
-			iamManager.SendMessage(addresses, "This is an example message for Android App Demo rehearsal",
-									null, false, attachments);
+			iamManager.SendMessage(addresses, "This is an example message for Android app test",
+									null, true, null);
 
 			
-			iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
+			/*iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
 			iamManager.GetMessageList(10, 0);
+			
+			
+			iamManager = new IAMManager(fqdn, msg, new getMessageIndexInfoListener());
+			iamManager.GetMessageIndexInfo();
+			
+			iamManager = new IAMManager(fqdn, msg, new getDeltaListener());
+			iamManager.GetDelta("1391811588973");*/
 			
 			
 			
@@ -290,7 +297,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			MessageIndexInfo msg = (MessageIndexInfo) response;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"getMessageIndexInfoListener onSuccess : Message : " + msg.getState(), Toast.LENGTH_LONG);
+						"getMessageIndexInfoListener onSuccess : Message : " + msg.getState().toString().toLowerCase(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 			
@@ -391,7 +398,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			DeltaResponse msg = (DeltaResponse) response;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"getDeltaListener onSuccess : Message : " + msg.getState(), Toast.LENGTH_LONG);
+						"getDeltaListener onSuccess : Message : " + msg.getDeltas()[0].getAdds()[0].getMessageId(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 			

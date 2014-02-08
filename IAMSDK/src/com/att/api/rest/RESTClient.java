@@ -782,11 +782,11 @@ public class RESTClient {
 			stringBodyPart.addField("Content-ID", "<startpart>");
 			entity.addPart(stringBodyPart);
 
-			for (int i = 0; fnames[i] != null && i < fnames.length; ++i) {
+			for (int i = 0; i < fnames.length; ++i) {
 				final String fname = fnames[i];
-				/*String type = URLConnection
-						.guessContentTypeFromStream(new FileInputStream(fname));*/
-				String type = URLConnection.guessContentTypeFromName(fname);
+				String type = URLConnection
+						.guessContentTypeFromStream(new FileInputStream(fname));
+			//String type = URLConnection.guessContentTypeFromName(fname);
 
 				if (type == null) {
 					type = URLConnection.guessContentTypeFromName(fname);
@@ -798,10 +798,8 @@ public class RESTClient {
 				//type = "image/jpeg";
 
 				FileBody fb = new FileBody(new File(fname), type, "UTF-8");
-				/*FormBodyPart fileBodyPart = new FormBodyPart(fb.getFilename(),
-						fb);*/
-				FormBodyPart fileBodyPart = new FormBodyPart(fb.getFile().getName(),
-				fb);
+				FormBodyPart fileBodyPart = new FormBodyPart(fb.getFilename(),fb);
+				//FormBodyPart fileBodyPart = new FormBodyPart(fb.getFile().getName(),fb);
 				/*String fileFullname = fb.getFile().getName();
 				String fbSplits[] = fileFullname.split("/");
 				String imageName = fbSplits[2];
@@ -813,8 +811,8 @@ public class RESTClient {
 				fileBodyPart
 						.addField("Content-ID", "<fileattachment" + i + ">");
 
-				//fileBodyPart.addField("Content-Location", fb.getFilename());
-				fileBodyPart.addField("Content-Location", fb.getFile().getName());
+				fileBodyPart.addField("Content-Location", fb.getFilename());
+				//fileBodyPart.addField("Content-Location", fb.getFile().getName());
 				entity.addPart(fileBodyPart);
 			}
 			httpPost.setEntity(entity);
