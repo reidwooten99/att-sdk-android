@@ -82,7 +82,7 @@ public class ConversationList extends Activity {
 					NewMessage.class);
 			startActivityForResult(newMessage, REQUEST_CODE);
 		}
-		case R.id.action_settings:
+		case R.id.action_logout:
 			// refresh
 			return true;
 		default:
