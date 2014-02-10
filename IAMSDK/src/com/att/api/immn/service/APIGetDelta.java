@@ -32,9 +32,9 @@ public class APIGetDelta implements ATTIAMListener {
 		@Override
 		protected DeltaResponse doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			DeltaResponse deltaResponse = null;
+			DeltaResponseInternal deltaResponseInternal = null;
 			try {
-				deltaResponse = immnSrvc.getDelta(params[0]);
+				deltaResponseInternal = immnSrvc.getDelta(params[0]);
 			} catch (RESTException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -45,6 +45,51 @@ public class APIGetDelta implements ATTIAMListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			String state = deltaResponseInternal.getState();
+			int numChanges = 0;
+			for(int i = 0; i < deltaResponseInternal.getDeltas().length; ++i ) {
+				Delta tmpDeltaObj = deltaResponseInternal.getDeltas()[i];
+				numChanges += tmpDeltaObj.getAdds().length +
+						      tmpDeltaObj.getDeletes().length +
+						      tmpDeltaObj.getUpdates().length;
+			}
+			
+			DeltaChange deltaChanges[] = new DeltaChange[ numChanges ];
+			int count = 0;
+			for(int i = 0; i < deltaResponseInternal.getDeltas().length; ++i ) {
+				
+				Delta tmpDeltaObj = deltaResponseInternal.getDeltas()[i];
+				String type = tmpDeltaObj.getType();
+				for( int j = 0; j < tmpDeltaObj.getAdds().length; ++j) {
+					DeltaChangeInternal tmpDeltaChangeInternal = tmpDeltaObj.getAdds()[j];
+					DeltaChange tmpDeltaChangeObj = new DeltaChange(tmpDeltaChangeInternal.getMessageId(),
+																	tmpDeltaChangeInternal.isFavorite(),
+																	tmpDeltaChangeInternal.isUnread(),
+																	type,
+																	ChangeType.ADD );
+					deltaChanges[count++] = tmpDeltaChangeObj;
+				}
+				for( int j = 0; j < tmpDeltaObj.getDeletes().length; ++j) {
+					DeltaChangeInternal tmpDeltaChangeInternal = tmpDeltaObj.getDeletes()[j];
+					DeltaChange tmpDeltaChangeObj = new DeltaChange(tmpDeltaChangeInternal.getMessageId(),
+																	tmpDeltaChangeInternal.isFavorite(),
+																	tmpDeltaChangeInternal.isUnread(),
+																	type,
+																	ChangeType.DELETE );
+					deltaChanges[count++] = tmpDeltaChangeObj;
+				}
+				for( int j = 0; j < tmpDeltaObj.getUpdates().length; ++j) {
+					DeltaChangeInternal tmpDeltaChangeInternal = tmpDeltaObj.getUpdates()[j];
+					DeltaChange tmpDeltaChangeObj = new DeltaChange(tmpDeltaChangeInternal.getMessageId(),
+																	tmpDeltaChangeInternal.isFavorite(),
+																	tmpDeltaChangeInternal.isUnread(),
+																	type,
+																	ChangeType.UPDATE );
+					deltaChanges[count++] = tmpDeltaChangeObj;
+				}
+			}
+			
+			DeltaResponse deltaResponse = new DeltaResponse( state, deltaChanges);
 			return deltaResponse;
 		}
 

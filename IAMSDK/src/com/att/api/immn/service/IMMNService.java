@@ -167,7 +167,7 @@ public class IMMNService extends APIService {
         return new MessageContent(ctype, clength, content);
     }
 
-    public DeltaResponse getDelta(final String state) throws RESTException, JSONException, ParseException {
+    public DeltaResponseInternal getDelta(final String state) throws RESTException, JSONException, ParseException {
         final String endpoint = getFQDN() + "/myMessages/v2/delta";
 
         final APIResponse response = new RESTClient(endpoint)
@@ -177,7 +177,7 @@ public class IMMNService extends APIService {
             .httpGet();
 
         JSONObject jobj = new JSONObject(response.getResponseBody());
-		return DeltaResponse.valueOf(jobj);
+		return DeltaResponseInternal.valueOf(jobj);
     }
 
     public void updateMessages(DeltaChange[] messages) throws RESTException, JSONException {

@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.DeltaChange;
+import com.att.api.immn.service.DeltaChangeInternal;
 import com.att.api.immn.service.DeltaResponse;
+import com.att.api.immn.service.DeltaResponseInternal;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.IMMNService;
 import com.att.api.immn.service.Message;
@@ -131,8 +133,8 @@ public class MainActivity extends Activity implements ATTIAMListener {
 		iamManager.GetNotificationConnectionDetails("MMS");*/
 		
 		//UpdateMessages call from Sample App
-		/*DeltaChange[] updateMessages = new DeltaChange[1];
-		updateMessages[0] = new DeltaChange("t204",true,true);	
+		/*DeltaChangeInternal[] updateMessages = new DeltaChangeInternal[1];
+		updateMessages[0] = new DeltaChangeInternal("t204",true,true);	
 		iamManager = new IAMManager(fqdn, token, new updateMessagesListener());
 		iamManager.UpdateMessages(updateMessages);*/
 		
@@ -191,11 +193,18 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			
 			
 			iamManager = new IAMManager(fqdn, msg, new getMessageIndexInfoListener());
-			iamManager.GetMessageIndexInfo();
+			iamManager.GetMessageIndexInfo();*/
 			
 			iamManager = new IAMManager(fqdn, msg, new getDeltaListener());
-			iamManager.GetDelta("1391811588973");*/
+			iamManager.GetDelta("1391811588973");
 			
+			DeltaChange[] updateMessages = new DeltaChange[1];
+			updateMessages[0] = new DeltaChange("t259",true,true);	
+			iamManager = new IAMManager(fqdn, msg, new updateMessagesListener());
+			iamManager.UpdateMessages(updateMessages);
+			
+			iamManager = new IAMManager(fqdn, msg, new getMessageListener());
+			iamManager.GetMessage("t259");
 			
 			
 		}
@@ -398,7 +407,8 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			DeltaResponse msg = (DeltaResponse) response;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"getDeltaListener onSuccess : Message : " + msg.getDeltas()[0].getAdds()[0].getMessageId(), Toast.LENGTH_LONG);
+						//"getDeltaListener onSuccess : Message : " + msg.getDeltas()[0].getAdds()[0].getMessageId(), Toast.LENGTH_LONG);
+						"getDeltaListener onSuccess : Message : " + msg.getDeltaChanges()[0].getMessageId(), Toast.LENGTH_LONG );
 				toast.show();
 			}
 			
@@ -482,7 +492,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			Message msg = (Message) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						" getMessageListener onSuccess Message : " + msg.getText(), Toast.LENGTH_LONG);
+						" getMessageListener onSuccess Message : " + msg.getText() +" " + msg.isFavorite() + " " + msg.isUnread(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}

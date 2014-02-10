@@ -52,8 +52,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setAppCacheEnabled(false);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		//webView.loadUrl("https://api.att.com/oauth/authorize?client_id=" + clientId + "&scope=DC,IMMN,MIM,TL&redirect_uri=https://developer.att.com");
-		webView.loadUrl("https://ewr1-auth-api.att.com/permissions");
+		webView.loadUrl("https://api.att.com/oauth/authorize?client_id=" + clientId + "&scope=DC,IMMN,MIM,TL&redirect_uri=https://developer.att.com");
+		//webView.loadUrl("https://ewr1-auth-api.att.com/permissions");
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {

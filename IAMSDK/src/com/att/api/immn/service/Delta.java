@@ -6,12 +6,12 @@ import org.json.JSONObject;
 
 public final class Delta {
     private final String type;
-    private final DeltaChange[] adds;
-    private final DeltaChange[] deletes;
-    private final DeltaChange[] updates;
+    private final DeltaChangeInternal[] adds;
+    private final DeltaChangeInternal[] deletes;
+    private final DeltaChangeInternal[] updates;
 
-    public Delta(String type, DeltaChange[] adds, DeltaChange[] deletes,
-            DeltaChange[] updates) {
+    public Delta(String type, DeltaChangeInternal[] adds, DeltaChangeInternal[] deletes,
+            DeltaChangeInternal[] updates) {
             
         this.type = type;
         this.adds = adds;
@@ -23,15 +23,15 @@ public final class Delta {
         return type;
     }
 
-    public DeltaChange[] getAdds() {
+    public DeltaChangeInternal[] getAdds() {
         return adds;
     }
 
-    public DeltaChange[] getDeletes() {
+    public DeltaChangeInternal[] getDeletes() {
         return deletes;
     }
 
-    public DeltaChange[] getUpdates() {
+    public DeltaChangeInternal[] getUpdates() {
         return updates;
     }
 
@@ -39,24 +39,24 @@ public final class Delta {
         String type = jobj.getString("type");
 
         JSONArray jadds = jobj.getJSONArray("adds");
-        DeltaChange[] adds = new DeltaChange[jadds.length()];
+        DeltaChangeInternal[] adds = new DeltaChangeInternal[jadds.length()];
         for (int i = 0; i < jadds.length(); ++i) {
             JSONObject jchange = jadds.getJSONObject(i);
-            adds[i] = DeltaChange.valueOf(jchange);
+            adds[i] = DeltaChangeInternal.valueOf(jchange);
         }
 
         JSONArray jdeletes = jobj.getJSONArray("deletes");
-        DeltaChange[] deletes = new DeltaChange[jdeletes.length()];
+        DeltaChangeInternal[] deletes = new DeltaChangeInternal[jdeletes.length()];
         for (int i = 0; i < jdeletes.length(); ++i) {
             JSONObject jchange = jdeletes.getJSONObject(i);
-            deletes[i] = DeltaChange.valueOf(jchange);
+            deletes[i] = DeltaChangeInternal.valueOf(jchange);
         }
 
         JSONArray jupdates = jobj.getJSONArray("updates");
-        DeltaChange[] updates = new DeltaChange[jupdates.length()];
+        DeltaChangeInternal[] updates = new DeltaChangeInternal[jupdates.length()];
         for (int i = 0; i < jupdates.length(); ++i) {
             JSONObject jchange = jupdates.getJSONObject(i);
-            updates[i] = DeltaChange.valueOf(jchange);
+            updates[i] = DeltaChangeInternal.valueOf(jchange);
         }
 
         return new Delta(type, adds, deletes, updates);
