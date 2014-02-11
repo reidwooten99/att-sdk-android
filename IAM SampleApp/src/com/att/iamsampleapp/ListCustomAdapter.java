@@ -23,6 +23,12 @@ public class ListCustomAdapter extends BaseAdapter {
 		this.ctx = context;
 		mInflater = LayoutInflater.from(context);
 	}
+	
+	public Message[] deleteItem(int nIndex){
+		
+		System.arraycopy(messageList,nIndex+1,messageList,nIndex,messageList.length-1-nIndex);
+		return messageList;
+	}
 
 	public int getCount() {
 		return messageList.length;
@@ -119,4 +125,6 @@ public class ListCustomAdapter extends BaseAdapter {
 		ImageButton imgFavorite;
 		ImageView imgAttachment;
 	}
+	
+	
 }

@@ -11,12 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.service.ChangeType;
 import com.att.api.immn.service.DeltaChange;
 import com.att.api.immn.service.DeltaResponse;
 import com.att.api.immn.service.IAMManager;
@@ -37,11 +40,16 @@ public class ConversationList extends Activity {
 	IAMManager iamManager;
 	OAuthService osrvc;
 	final int REQUEST_CODE = -1;
+	final int NEW_MESSAGE = 2;
 	final int OAUTH_CODE = 1;
 	OAuthToken authToken;
 	MessageIndexInfo msgIndexInfo;
 	DeltaResponse delta;
 	MessageList msgList;
+	Message messageList[];
+	String prevMailboxState;
+	String deleteMessageID;
+	int prevIndex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +61,14 @@ public class ConversationList extends Activity {
 
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-		
-		Intent i = new Intent(this,com.att.api.consentactivity.UserConsentActivity.class);
+
+		Intent i = new Intent(this,
+				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
 		startActivityForResult(i, OAUTH_CODE);
-		
+
 		authToken = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
 				Config.refreshToken);
 	}
@@ -78,24 +87,34 @@ public class ConversationList extends Activity {
 		switch (item.getItemId()) {
 
 		case R.id.action_new_message: {
-			Intent newMessage = new Intent(getApplicationContext(),
-					NewMessage.class);
-			startActivityForResult(newMessage, REQUEST_CODE);
+
+			startActivityForResult(new Intent(ConversationList.this,
+					NewMessage.class), NEW_MESSAGE);
+			break;
 		}
-		case R.id.action_logout:
-			// refresh
-			return true;
+		case R.id.action_logout: {
+			CookieSyncManager.createInstance(this);
+			CookieManager cookieManager = CookieManager.getInstance();
+			cookieManager.removeAllCookie();
+			finish();
+			break;
+		}
+		case R.id.action_refresh: {
+			updateDelta();
+			break;
+		}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+		return true;
 	}
 
 	public void onResume() {
 		super.onResume();
 
-		//createMessageIndex();
-
 		setupMessageListListener();
+		
+		updateDelta();
 	}
 
 	// MessageList Listener
@@ -106,9 +125,9 @@ public class ConversationList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
+				infoDialog(position);
 				// Launch the Message View Screen here
-				Utils.toastHere(getApplicationContext(), TAG, "Message : "
-								+ msgList.getMessages()[position].getText());
+				Utils.toastHere(getApplicationContext(), TAG, msgList.getMessages()[position].getText());
 			}
 		});
 
@@ -135,6 +154,19 @@ public class ConversationList extends Activity {
 					}
 				});
 	}
+	
+	public void infoDialog(int position) {
+
+		Message tempMsg = msgList.getMessages()[position];
+	    new AlertDialog.Builder(ConversationList.this)
+	            .setTitle("Message details")
+	            .setMessage("Type : " + tempMsg.getType() + "\n" + "From : " + tempMsg.getFrom() + "\n" + "Received : " + tempMsg.getTimeStamp() )
+	            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    dialog.cancel();
+	                }
+	            }).show();
+	}
 
 	public void popUpActionList(final CharSequence popUpList[],
 			final Message msg, int position) {
@@ -149,6 +181,7 @@ public class ConversationList extends Activity {
 				switch (which) {
 				case 0:
 					deleteMessage(msg);
+					showProgressDialog("Deleting Message");
 					break;
 
 				case 1: {
@@ -162,6 +195,7 @@ public class ConversationList extends Activity {
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								false, msg.isUnread());
 					}
+					deleteMessageID = msg.getMessageId();
 					updateMessageStatus(statusChange);
 				}
 					break;
@@ -177,6 +211,7 @@ public class ConversationList extends Activity {
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								msg.isFavorite(), false);
 					}
+					deleteMessageID = msg.getMessageId();
 					updateMessageStatus(statusChange);
 				}
 					break;
@@ -197,9 +232,11 @@ public class ConversationList extends Activity {
 	}
 
 	public void deleteMessage(Message msg) {
+
+		deleteMessageID = msg.getMessageId();
 		iamManager = new IAMManager(Config.fqdn, authToken,
 				new deleteMessagesListener());
-		iamManager.DeleteMessage(msg.getMessageId());
+		iamManager.DeleteMessage(deleteMessageID);
 	}
 
 	ProgressDialog pDialog;
@@ -221,61 +258,64 @@ public class ConversationList extends Activity {
 		}
 	}
 
-	public void newMessage(View v) {
-
-		Intent newMessage = new Intent(getApplicationContext(),
-				NewMessage.class);
-		startActivityForResult(newMessage, REQUEST_CODE);
-	}
-
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == REQUEST_CODE) {
-
+		if (requestCode == NEW_MESSAGE) {
 			if (resultCode == RESULT_OK) {
 
 				Utils.toastHere(getApplicationContext(), TAG, "Message Sent : "
 						+ data.getStringExtra("MessageResponse"));
-			}
-		}else if(requestCode == OAUTH_CODE){
-			String oAuthCode = null;
-			if(resultCode == RESULT_OK) {
-				 oAuthCode  = data.getStringExtra("oAuthCode");
-				 Log.i("mainActivity","oAuthCode:" + oAuthCode );
-				 if(null != oAuthCode) {
-					 osrvc.getOAuthToken(oAuthCode,new getTokenListener());				  
-				 } else {
-					 Log.i("mainActivity","oAuthCode: is null" );
 
-				 }
+				//updateDelta();
+			}
+		} else if (requestCode == OAUTH_CODE) {
+			String oAuthCode = null;
+			if (resultCode == RESULT_OK) {
+				oAuthCode = data.getStringExtra("oAuthCode");
+				Log.i("mainActivity", "oAuthCode:" + oAuthCode);
+				if (null != oAuthCode) {
+					osrvc.getOAuthToken(oAuthCode, new getTokenListener());
+				} else {
+					Log.i("mainActivity", "oAuthCode: is null");
+
+				}
 			}
 		}
 	}
-	
+
+	public void updateDelta() {
+		
+		if(msgList!= null && msgList.getState() != null){
+			iamManager = new IAMManager(Config.fqdn, authToken,
+					new getDeltaListener());
+			//iamManager.GetDelta(msgList.getState());
+			iamManager.GetDelta(prevMailboxState);
+		}
+	}
+
 	private class getTokenListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			// TODO Auto-generated method stub
 			authToken = (OAuthToken) response;
-			if(null != authToken) {
+			if (null != authToken) {
 				Config.token = authToken.getAccessToken();
-				Log.i("getTokenListener","onSuccess Message : "  + authToken.getAccessToken());
+				Log.i("getTokenListener",
+						"onSuccess Message : " + authToken.getAccessToken());
 				createMessageIndex();
+				updateDelta();
 			}
-			
-			/*iamManager = new IAMManager(Config.fqdn, authToken,  new createMessageIndexListener());
-			iamManager.CreateMessageIndex();*/
 		}
 
 		@Override
 		public void onError(Object error) {
 			// TODO Auto-generated method stub
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getTokenListener Error Callback", Toast.LENGTH_LONG);
+					+ "Iam in  getTokenListener Error Callback",
+					Toast.LENGTH_LONG);
 			toast.show();
 		}
-		
 	}
 
 	public void createMessageIndex() {
@@ -293,7 +333,6 @@ public class ConversationList extends Activity {
 				new getMessageListListener());
 
 		// Check how can you provide a dynamic values here ???
-		// iamManager.GetMessageList(10, 0);
 		iamManager.GetMessageList(Config.messageLimit, Config.messageOffset);
 	}
 
@@ -301,7 +340,6 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			Boolean msg = (Boolean) response;
 			if (msg) {
@@ -309,13 +347,17 @@ public class ConversationList extends Activity {
 						"updateMessagesListener onSuccess : Message : " + msg,
 						Toast.LENGTH_LONG);
 				toast.show();
+				deleteMessageFromList(deleteMessageID);
+				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+				iamManager.GetMessage(deleteMessageID);
+				deleteMessageID = null;
 			}
 
 		}
 
 		@Override
 		public void onError(Object error) {
-			
+
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  updateMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
@@ -328,24 +370,30 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			Boolean msg = (Boolean) response;
 			if (msg) {
+
+				deleteMessageFromList(deleteMessageID);
+
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"deleteMessagesListener onSuccess : Message : " + msg,
 						Toast.LENGTH_LONG);
 				toast.show();
+
+				deleteMessageID = null;
 			}
+			dismissProgressDialog();
 		}
 
 		@Override
 		public void onError(Object error) {
-			
+
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  deleteMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
+			dismissProgressDialog();
 		}
 	}
 
@@ -353,7 +401,6 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			Boolean msg = (Boolean) response;
 			if (msg)
@@ -366,7 +413,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object error) {
-			
+
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
 					+ "Iam in  createMessageIndexListener Error Callback");
 		}
@@ -377,15 +424,6 @@ public class ConversationList extends Activity {
 		iamManager = new IAMManager(Config.fqdn, authToken,
 				new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
-	}
-
-	public void getDelta(String state) {
-
-		// GetDelta call from SampleApp
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getDeltaListener());
-		iamManager.GetDelta(state);
-
 	}
 
 	public void getMessage(String messageID) {
@@ -407,54 +445,138 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object arg0) {
-			
+
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
 					+ "Iam in  getMessageListener Error Callback");
 		}
 
 		@Override
 		public void onSuccess(Object arg0) {
-			
+
 			Message msg = (Message) arg0;
 			if (null != msg) {
+				
+				Message[] msgs = new Message[messageList.length+1];
+
+				msgs[prevIndex] = msg;
+
+				if(prevIndex > 0)
+					System.arraycopy(messageList,0,msgs,0,prevIndex);
+				System.arraycopy(messageList,prevIndex,msgs,prevIndex+1,messageList.length-prevIndex);
+				
+				messageList = msgs;
+				prevIndex = 0;
+				
+				adapter = new ListCustomAdapter(getApplicationContext(),
+						messageList);
+
+				messageListView.setAdapter(adapter);
+				
 				Utils.toastHere(
-						getApplicationContext(), TAG,
+						getApplicationContext(),
+						TAG,
 						" getMessageListener onSuccess Message : "
 								+ msg.getText());
 			}
 		}
 	}
 
+	public void clearCache() {
+		CookieSyncManager.createInstance(this);
+		CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookie();
+	}
+
 	private class getDeltaListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			delta = (DeltaResponse) response;
+
 			if (null != delta) {
+
+				prevMailboxState = delta.getState();
+
 				Utils.toastHere(
-						getApplicationContext(), TAG,
+						getApplicationContext(),
+						TAG,
 						"getDeltaListener onSuccess : Message : "
 								+ delta.getState());
 
 				/*
-				 * String getMsgID =
-				 * delta.delta[0].getUpdates()[0].getMessageId();
+				 * int nChanges = delta.getDeltaChanges().length;
 				 * 
-				 * Log.i(TAG,delta.delta[0].getUpdates()[0].getMessageId());
+				 * String messageID[] = new String[nChanges];
 				 * 
-				 * getMessage(delta.delta[0].getUpdates()[0].getMessageId());
+				 * for (int n = 0; n < nChanges; n++) { messageID[n] =
+				 * delta.getDeltaChanges()[n].getMessageId(); }
 				 */
-			}
 
+				updateMessageList(delta);
+			}
 		}
 
 		@Override
 		public void onError(Object error) {
-			
+
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
 					+ "Iam in  getDeltaListener Error Callback");
+		}
+	}
+
+	public void updateMessageList(DeltaResponse deltaResponse) {
+
+		int nChanges = deltaResponse.getDeltaChanges().length;
+
+		String messageID[] = new String[nChanges];
+
+		for (int n = 0; n < nChanges; n++) {
+			messageID[n] = deltaResponse.getDeltaChanges()[n].getMessageId();
+
+			ChangeType chType = deltaResponse.getDeltaChanges()[n]
+					.getChangeType();
+
+			switch (chType) {
+			case ADD:
+			{
+				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+				iamManager.GetMessage(messageID[n]);
+			}
+				break;
+			case DELETE: {
+				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
+						.getMessageId());
+			}
+				break;
+			case NONE:
+				break;
+			case UPDATE:{
+				
+				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
+						.getMessageId());
+				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+				iamManager.GetMessage(messageID[n]);
+			}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	public void deleteMessageFromList(String msgID) {
+
+		int deleteNthMessage;
+		for (deleteNthMessage = 0; deleteNthMessage < messageList.length; deleteNthMessage++) {
+			if (messageList[deleteNthMessage].getMessageId().equalsIgnoreCase(
+					msgID))
+				break;
+		}
+		if(deleteNthMessage < messageList.length){
+			prevIndex =  deleteNthMessage;
+			adapter.deleteItem(deleteNthMessage);
+			adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -462,7 +584,6 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			msgIndexInfo = (MessageIndexInfo) response;
 			if (null != msgIndexInfo) {
@@ -470,14 +591,14 @@ public class ConversationList extends Activity {
 						"getMessageIndexInfoListener onSuccess : Message : "
 								+ msgIndexInfo.getState());
 
-				getDelta(msgIndexInfo.getState());
+				// getDelta(msgIndexInfo.getState());
 			}
 
 		}
 
 		@Override
 		public void onError(Object error) {
-			
+
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
 					+ "Iam in  getMessageIndexInfoListener Error Callback");
 		}
@@ -488,17 +609,22 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
 
 			msgList = (MessageList) response;
+
+			messageList = msgList.getMessages();
+			prevMailboxState = msgList.getState();
 			if (null != msgList) {
-				Utils.toastHere(getApplicationContext(), TAG, "getMessageListListener onSuccess : Message : "
+				Utils.toastHere(
+						getApplicationContext(),
+						TAG,
+						"getMessageListListener onSuccess : Message : "
 								+ msgList.getMessages()[0].getText()
 								+ ", From : "
 								+ msgList.getMessages()[0].getFrom());
-								adapter = new ListCustomAdapter(getApplicationContext(),
+				adapter = new ListCustomAdapter(getApplicationContext(),
 						msgList.getMessages());
-								
+
 				messageListView.setAdapter(adapter);
 
 				dismissProgressDialog();

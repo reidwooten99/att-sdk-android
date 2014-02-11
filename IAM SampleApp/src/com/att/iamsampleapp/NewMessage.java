@@ -3,7 +3,6 @@ package com.att.iamsampleapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,7 +22,6 @@ public class NewMessage extends Utils {
 
 	private static final String TAG = "IAM_NewMessage";
 	final String fqdn = Config.fqdn;
-	// String attachments[] = { null };
 	String attachments[] = new String[10];
 
 	@Override
@@ -155,9 +153,9 @@ public class NewMessage extends Utils {
 
 	void sendMessageResponsetoParentActivity(String responseID) {
 
-		Intent newMessageIntent = this.getIntent();
+		Intent newMessageIntent = new Intent();//this.getIntent();
 		newMessageIntent.putExtra("MessageResponse", responseID);
-		this.setResult(RESULT_OK, newMessageIntent);
+		setResult(RESULT_OK, newMessageIntent);
 		finish();
 	}
 
