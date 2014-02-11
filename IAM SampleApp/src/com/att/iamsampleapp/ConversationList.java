@@ -91,11 +91,13 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_logout: {
+			// pablo - Logout scenario check - S
 			CookieSyncManager.createInstance(this);
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
 			cookieManager.removeExpiredCookie();
 			cookieManager.removeSessionCookie();
+			// pablo - Logout scenario check - E
 			finish();
 			break;
 		}
