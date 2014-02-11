@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -68,9 +69,6 @@ public class ConversationList extends Activity {
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
 		startActivityForResult(i, OAUTH_CODE);
-
-		authToken = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
-				Config.refreshToken);
 	}
 
 	@Override
@@ -96,6 +94,8 @@ public class ConversationList extends Activity {
 			CookieSyncManager.createInstance(this);
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
+			cookieManager.removeExpiredCookie();
+			cookieManager.removeSessionCookie();
 			finish();
 			break;
 		}
@@ -125,7 +125,8 @@ public class ConversationList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				infoDialog(position);
+				infoDialog((Message) messageListView
+						.getItemAtPosition(position));
 				// Launch the Message View Screen here
 				Utils.toastHere(getApplicationContext(), TAG, msgList.getMessages()[position].getText());
 			}
@@ -155,12 +156,11 @@ public class ConversationList extends Activity {
 				});
 	}
 	
-	public void infoDialog(int position) {
+	public void infoDialog(Message selMessage) {
 
-		Message tempMsg = msgList.getMessages()[position];
 	    new AlertDialog.Builder(ConversationList.this)
 	            .setTitle("Message details")
-	            .setMessage("Type : " + tempMsg.getType() + "\n" + "From : " + tempMsg.getFrom() + "\n" + "Received : " + tempMsg.getTimeStamp() )
+	            .setMessage("Type : " + selMessage.getType() + "\n" + "From : " + selMessage.getFrom() + "\n" + "Received : " + selMessage.getTimeStamp() )
 	            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int id) {
 	                    dialog.cancel();
@@ -301,6 +301,7 @@ public class ConversationList extends Activity {
 			authToken = (OAuthToken) response;
 			if (null != authToken) {
 				Config.token = authToken.getAccessToken();
+				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
 				createMessageIndex();
@@ -375,13 +376,9 @@ public class ConversationList extends Activity {
 			if (msg) {
 
 				deleteMessageFromList(deleteMessageID);
-
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"deleteMessagesListener onSuccess : Message : " + msg,
-						Toast.LENGTH_LONG);
-				toast.show();
-
 				deleteMessageID = null;
+				
+				Utils.toastHere(getApplicationContext(), TAG, "deleteMessagesListener onSuccess : " + msg);
 			}
 			dismissProgressDialog();
 		}
@@ -446,8 +443,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(Object arg0) {
 
-			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "Iam in  getMessageListener Error Callback");
+			Utils.toastHere(getApplicationContext(), TAG, "In  getMessageListener Error Callback");
 		}
 
 		@Override

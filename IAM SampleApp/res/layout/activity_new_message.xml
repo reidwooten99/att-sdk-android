@@ -17,7 +17,6 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:hint="@string/hint_to"
-        android:text="4256477432"
         android:inputType="textPersonName" >
 
         <requestFocus />
@@ -45,8 +44,7 @@
         android:ems="10"
         android:hint="@string/hint_message"
         android:inputType="textMultiLine"
-        android:lines="5"
-        android:text="Test MMS" />
+        android:lines="5"/>
 
     <TextView
         android:id="@+id/lblAttachments"

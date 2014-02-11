@@ -37,9 +37,9 @@ public class Utils extends Activity{
 	}
 
 	public static void toastHere(Context ctx, String TAG, String message) {
-		Toast toast = Toast.makeText(ctx, "Message : " + message,
+		/*Toast toast = Toast.makeText(ctx, "Message : " + message,
 				Toast.LENGTH_SHORT);
-		toast.show();
+		toast.show();*/
 	}
 	
 	public String getRealPathFromURI(Uri contentUri) {

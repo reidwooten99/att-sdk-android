@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter.LengthFilter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -113,17 +114,20 @@ public class NewMessage extends Utils {
 		IAMManager iamManager = new IAMManager(fqdn, token,
 				new sendMessageListener());
 
-		String addresses[] = new String[Config.maxRecipients];
-		addresses[0] = contactsWidget.getText().toString();
-		// attachments[0] = "content://media/external/images/media/348";
+		Boolean isGroup = false;
+		
+		String addresses[] = contactsWidget.getText().toString().split(",");
+		if(addresses.length > Config.maxRecipients)
+			infoDialog("Maximum recipients is + " + String.valueOf(Config.maxRecipients) + " !!",false);
 
 		/*
 		 * iamManager.SendMessage(addresses, messageWidget.getText().toString(),
 		 * subjectWidget.getText().toString(), false, attachments);
 		 */
 
+		isGroup = (addresses.length > 1) ? true:false; 
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
-				subjectWidget.getText().toString(), false, null);
+				subjectWidget.getText().toString(), isGroup, null);
 
 	}
 
