@@ -190,10 +190,12 @@ public class ConversationList extends Activity {
 						// Set message as favorite
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								true, msg.isUnread());
+						showProgressDialog("Adding to favorites");
 					} else {
 						// Remove favorite
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								false, msg.isUnread());
+						showProgressDialog("Removing favorites");
 					}
 					deleteMessageID = msg.getMessageId();
 					updateMessageStatus(statusChange);
@@ -206,10 +208,12 @@ public class ConversationList extends Activity {
 						// Set as unread
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								msg.isFavorite(), true);
+						showProgressDialog("Marking as unread ...");
 					} else {
 						// Mark as read
 						statusChange[0] = new DeltaChange(msg.getMessageId(),
 								msg.isFavorite(), false);
+						showProgressDialog("Marking as read ...");
 					}
 					deleteMessageID = msg.getMessageId();
 					updateMessageStatus(statusChange);
@@ -286,6 +290,7 @@ public class ConversationList extends Activity {
 	public void updateDelta() {
 		
 		if(msgList!= null && msgList.getState() != null){
+			showProgressDialog("Checking for new messages ...");
 			iamManager = new IAMManager(Config.fqdn, authToken,
 					new getDeltaListener());
 			//iamManager.GetDelta(msgList.getState());
@@ -442,7 +447,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(Object arg0) {
-
+			dismissProgressDialog();
 			Utils.toastHere(getApplicationContext(), TAG, "In  getMessageListener Error Callback");
 		}
 
@@ -468,6 +473,7 @@ public class ConversationList extends Activity {
 
 				messageListView.setAdapter(adapter);
 				
+				dismissProgressDialog();
 				Utils.toastHere(
 						getApplicationContext(),
 						TAG,
@@ -510,12 +516,14 @@ public class ConversationList extends Activity {
 				 */
 
 				updateMessageList(delta);
+			}else{
+				dismissProgressDialog();
 			}
 		}
 
 		@Override
 		public void onError(Object error) {
-
+			dismissProgressDialog();
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
 					+ "Iam in  getDeltaListener Error Callback");
 		}
@@ -556,6 +564,7 @@ public class ConversationList extends Activity {
 			}
 				break;
 			default:
+				dismissProgressDialog();
 				break;
 			}
 		}
@@ -574,6 +583,7 @@ public class ConversationList extends Activity {
 			adapter.deleteItem(deleteNthMessage);
 			adapter.notifyDataSetChanged();
 		}
+		dismissProgressDialog();
 	}
 
 	private class getMessageIndexInfoListener implements ATTIAMListener {

@@ -1,12 +1,12 @@
 package com.att.iamsampleapp;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.InputFilter.LengthFilter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -120,15 +120,30 @@ public class NewMessage extends Utils {
 		if(addresses.length > Config.maxRecipients)
 			infoDialog("Maximum recipients is + " + String.valueOf(Config.maxRecipients) + " !!",false);
 
-		/*
-		 * iamManager.SendMessage(addresses, messageWidget.getText().toString(),
-		 * subjectWidget.getText().toString(), false, attachments);
-		 */
-
 		isGroup = (addresses.length > 1) ? true:false; 
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
 				subjectWidget.getText().toString(), isGroup, null);
+		
+		showProgressDialog("Sending Message ...");
 
+	}
+	
+	ProgressDialog pDialog;
+	
+	public void showProgressDialog(String dialogMessage) {
+
+		if (null == pDialog)
+			pDialog = new ProgressDialog(this);
+		pDialog.setCancelable(false);
+		pDialog.setMessage(dialogMessage);
+		pDialog.show();
+	}
+
+	public void dismissProgressDialog() {
+
+		if (null != pDialog) {
+			pDialog.dismiss();
+		}
 	}
 
 	protected class sendMessageListener implements ATTIAMListener {
@@ -136,9 +151,8 @@ public class NewMessage extends Utils {
 		@Override
 		public void onError(Object arg0) {
 			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in Error Callback", Toast.LENGTH_LONG);
-			toast.show();
+			dismissProgressDialog();
+			infoDialog("Message send failed !!", false);
 		}
 
 		@Override
@@ -147,7 +161,7 @@ public class NewMessage extends Utils {
 			SendResponse msg = (SendResponse) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"Message : " + msg.getId(), Toast.LENGTH_LONG);
+						"Message Sent", Toast.LENGTH_SHORT);
 				toast.show();
 
 				sendMessageResponsetoParentActivity(msg.getId());
