@@ -797,7 +797,75 @@ public class RESTClient {
 				
 				//type = "image/jpeg";
 
-				FileBody fb = new FileBody(new File(fname), type, "UTF-8");
+				FileBody fb = new FileBody(new File(fname), type, "BASE64"); //UTF-8
+				FormBodyPart fileBodyPart = new FormBodyPart(fb.getFilename(),fb);
+				//FormBodyPart fileBodyPart = new FormBodyPart(fb.getFile().getName(),fb);
+				/*String fileFullname = fb.getFile().getName();
+				String fbSplits[] = fileFullname.split("/");
+				String imageName = fbSplits[2];
+				
+				FormBodyPart fileBodyPart = new FormBodyPart(imageName,
+						fb);*/
+
+
+				fileBodyPart
+						.addField("Content-ID", "<fileattachment" + i + ">");
+
+				fileBodyPart.addField("Content-Location", fb.getFilename());
+				//fileBodyPart.addField("Content-Location", fb.getFile().getName());
+				entity.addPart(fileBodyPart);
+			}
+			httpPost.setEntity(entity);
+			return buildResponse(httpClient.execute(httpPost));
+		} catch (Exception e) {
+			throw new RESTException(e);
+		} finally {
+			if (response != null) {
+				this.releaseConnection(response);
+			}
+		}
+	}
+
+	//mms
+	public APIResponse httpPostMms(JSONObject jsonObj, String[] fnames)
+			throws RESTException {
+		
+		HttpResponse response = null;
+		try {
+			HttpClient httpClient = createClient();
+
+			HttpPost httpPost = new HttpPost(url);
+			this.setHeader("Content-Type",
+					"multipart/form-data; type=\"application/json\"; "
+					+  "boundary=\"foo\"");
+//					+ "start=\"<startpart>\"; boundary=\"foo\"");
+			addInternalHeaders(httpPost);
+
+			final Charset encoding = Charset.forName("UTF-8");
+			MultipartEntity entity = new MultipartEntity(
+					HttpMultipartMode.BROWSER_COMPATIBLE, "foo", encoding);
+//			StringBody sbody = new StringBody(jsonObj.toString(),
+//					"application/json", encoding);
+//			FormBodyPart stringBodyPart = new FormBodyPart("root-fields", sbody);
+//			stringBodyPart.addField("Content-ID", "<startpart>");
+//			entity.addPart(stringBodyPart);
+
+			for (int i = 0; i < fnames.length; ++i) {
+				final String fname = fnames[i];
+//				String type = URLConnection
+//						.guessContentTypeFromStream(new FileInputStream(fname));
+			    String type = URLConnection.guessContentTypeFromName(fname);
+
+//				if (type == null) {
+//					type = URLConnection.guessContentTypeFromName(fname);
+//				}
+//				if (type == null) {
+//					type = "application/octet-stream";
+//				}
+				
+				//type = "image/jpeg";
+				type = "plain/text";
+				FileBody fb = new FileBody(new File(fname), type, "BASE64"); //UTF-8
 				FormBodyPart fileBodyPart = new FormBodyPart(fb.getFilename(),fb);
 				//FormBodyPart fileBodyPart = new FormBodyPart(fb.getFile().getName(),fb);
 				/*String fileFullname = fb.getFile().getName();

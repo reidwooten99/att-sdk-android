@@ -181,11 +181,11 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			
 			iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
 			//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
-			String addresses[] = { "4257492983","5204655282" };
-			//String attachments[] = { };
+			String addresses[] = { "4257492983" };
+			String attachments[] = { "/sdcard/DCIM/Camera/IMG_20140212_014.jpg"};
 		
-			iamManager.SendMessage(addresses, "This is an example message for Android app test",
-									null, true, null);
+			iamManager.SendMessage(addresses, "",
+									null, false, attachments);
 
 			
 			/*iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
@@ -195,7 +195,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			iamManager = new IAMManager(fqdn, msg, new getMessageIndexInfoListener());
 			iamManager.GetMessageIndexInfo();*/
 			
-			iamManager = new IAMManager(fqdn, msg, new getDeltaListener());
+			/*iamManager = new IAMManager(fqdn, msg, new getDeltaListener());
 			iamManager.GetDelta("1391811588973");
 			
 			DeltaChange[] updateMessages = new DeltaChange[1];
@@ -206,7 +206,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			iamManager = new IAMManager(fqdn, msg, new getMessageListener());
 			iamManager.GetMessage("t259");
 			
-			
+*/			
 		}
 
 		@Override

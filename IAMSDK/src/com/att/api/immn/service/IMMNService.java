@@ -85,16 +85,34 @@ public class IMMNService extends APIService {
         		jaddrs.put(addr);
 
         body.put("addresses", jaddrs);
-        jsonBody.put("messageRequest", body);
+//        jsonBody.put("messageRequest", body);
 
+        if ( attachments != null ) {
+            JSONArray jattach = new JSONArray();
+            for( String fattach : attachments) {
+                JSONObject attachBody = new JSONObject();
+                attachBody.put("body", "base64string");
+                attachBody.put("fileName", "IMG_20140212_014.jpeg");
+                attachBody.put("content-type", "image/jpeg");
+                attachBody.put("content-transfer-encoding", "BASE64");
+//                attachBody.put("Content-location", "/sdcard/DCIM/Camera/");
+                jattach.put(attachBody);
+            }
+            body.put("messageContent", jattach);
+        }
+      
+        jsonBody.put("messageRequest", body);
+        
         final RESTClient rest = new RESTClient(endpoint)
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
             .addAuthorizationHeader(this.getToken());
-
+/*
         final APIResponse response = (attachments == null) 
             ? rest.httpPost(jsonBody.toString())
-            : rest.httpPost(jsonBody, attachments);
+            : rest.httpPostMms(jsonBody.toString(), attachments);//rest.httpPost(jsonBody, attachments);
+*/
+        final APIResponse response = rest.httpPost(jsonBody.toString());
 
         JSONObject jobj = new JSONObject(response.getResponseBody());
 		return SendResponse.valueOf(jobj);
