@@ -1,12 +1,15 @@
 package com.att.iamsampleapp;
 
+import java.util.regex.Pattern;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.os.PatternMatcher;
 import android.provider.ContactsContract.PhoneLookup;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
 public class Utils extends Activity{
@@ -37,9 +40,18 @@ public class Utils extends Activity{
 	}
 
 	public static void toastHere(Context ctx, String TAG, String message) {
-		/*Toast toast = Toast.makeText(ctx, "Message : " + message,
+		Toast toast = Toast.makeText(ctx, "Message : " + message,
 				Toast.LENGTH_SHORT);
-		toast.show();*/
+		toast.show();
+	}
+	
+	public boolean checkNumberandEmail(String[] addresses){
+		boolean isValid = true;
+		String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+		Pattern numberPattern = Pattern.compile(" *[^0-9] *");
+		for(int n = 0; n<addresses.length && isValid == true ; n++)
+			isValid = ((!numberPattern.matcher(addresses[n]).matches()) || (addresses[n].matches(emailPattern)));
+		return isValid;
 	}
 	
 	public String getRealPathFromURI(Uri contentUri) {
@@ -47,12 +59,12 @@ public class Utils extends Activity{
 		String[] proj = { MediaStore.MediaColumns.DATA };
 		Cursor cursor = getContentResolver().query(contentUri, proj, null,
 				null, null);
-		if (cursor.moveToFirst()) {
+		if (cursor != null && cursor.moveToFirst()) {
 			int column_index = cursor
 					.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 			path = cursor.getString(column_index);
+			cursor.close();
 		}
-		cursor.close();
 		return path;
 	}
 }

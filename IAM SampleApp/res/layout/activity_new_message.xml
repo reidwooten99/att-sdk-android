@@ -17,7 +17,8 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:hint="@string/hint_to"
-        android:inputType="textPersonName" >
+        android:text="dineshece12@gmail.com,5096376825"
+        android:inputType="textEmailAddress" >
 
         <requestFocus />
     </EditText>
@@ -70,10 +71,21 @@
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lblAttachments"
+        android:layout_alignLeft="@+id/attachmentList"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="sendMessage"
-        android:text="@string/btn_send">
+        android:text="@string/btn_send" >
+
     </Button>
+
+    <CheckBox
+        android:id="@+id/broadcastCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblAttachments"
+        android:layout_alignBottom="@+id/lblAttachments"
+        android:layout_alignRight="@+id/attachmentList"
+        android:text="@string/lbl_broadcast" />
+
     </RelativeLayout>
