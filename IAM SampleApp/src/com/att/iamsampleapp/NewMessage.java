@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,9 +23,9 @@ import com.att.api.oauth.OAuthToken;
 public class NewMessage extends Utils {
 
 	private static final String TAG = "IAM_NewMessage";
-	final String fqdn = Config.fqdn;
-	String attachments[] = new String[10];
-
+	int numAttachments = 0;
+	String attachments[] = new String[Config.maxAttachments];
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,7 +88,12 @@ public class NewMessage extends Utils {
 				Uri pickedAttachment = intentContact.getData();
 				String mime = getContentResolver().getType(pickedAttachment);
 				String str = getRealPathFromURI(pickedAttachment);
-				attachments[0] = str;
+				if(numAttachments < Config.maxAttachments && null != str){
+					attachments[numAttachments] = str;
+					numAttachments++;
+				}else{
+					infoDialog("Unable to fetch the attachment !!", false);
+				}
 				Utils.toastHere(getApplicationContext(), TAG, "File Path : "
 						+ str);
 			}
@@ -111,25 +117,39 @@ public class NewMessage extends Utils {
 
 		OAuthToken token = new OAuthToken(Config.token,
 				OAuthToken.NO_EXPIRATION, Config.refreshToken);
-		IAMManager iamManager = new IAMManager(fqdn, token,
+		IAMManager iamManager = new IAMManager(Config.fqdn, token,
 				new sendMessageListener());
 
 		Boolean isGroup = false;
-		
-		String addresses[] = contactsWidget.getText().toString().split(",");
-		if(addresses.length > Config.maxRecipients)
-			infoDialog("Maximum recipients is + " + String.valueOf(Config.maxRecipients) + " !!",false);
 
-		isGroup = (addresses.length > 1) ? true:false; 
+		String addresses[] = (contactsWidget.getText().toString().replace(" ",
+				"")).split(",");
+		if (addresses.length > Config.maxRecipients) {
+			infoDialog(
+					"Maximum recipients is + "
+							+ String.valueOf(Config.maxRecipients) + " !!",
+					false);
+			return;
+		}
+
+		if (!checkNumberandEmail(addresses)) {
+			infoDialog("Invalid PhoneNumber or EmailId", false);
+			return;
+		}
+
+		isGroup = (addresses.length > 1) ? true : false;
+
+		CheckBox chkBroadcast = (CheckBox) findViewById(R.id.broadcastCheckBox);
+		isGroup = !(chkBroadcast.isChecked());
+
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
 				subjectWidget.getText().toString(), isGroup, null);
-		
-		showProgressDialog("Sending Message ...");
 
+		showProgressDialog("Sending Message ...");
 	}
-	
+
 	ProgressDialog pDialog;
-	
+
 	public void showProgressDialog(String dialogMessage) {
 
 		if (null == pDialog)
@@ -171,7 +191,7 @@ public class NewMessage extends Utils {
 
 	void sendMessageResponsetoParentActivity(String responseID) {
 
-		Intent newMessageIntent = new Intent();//this.getIntent();
+		Intent newMessageIntent = new Intent();// this.getIntent();
 		newMessageIntent.putExtra("MessageResponse", responseID);
 		setResult(RESULT_OK, newMessageIntent);
 		finish();
