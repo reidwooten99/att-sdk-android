@@ -17,7 +17,6 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:hint="@string/hint_to"
-        android:text="dineshece12@gmail.com,5096376825"
         android:inputType="textEmailAddress" >
 
         <requestFocus />

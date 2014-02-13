@@ -292,7 +292,7 @@ public class ConversationList extends Activity {
 	public void updateDelta() {
 		
 		if(msgList!= null && msgList.getState() != null){
-			showProgressDialog("Checking for new messages ...");
+			//showProgressDialog("Checking for new messages ...");
 			iamManager = new IAMManager(Config.fqdn, authToken,
 					new getDeltaListener());
 			//iamManager.GetDelta(msgList.getState());
