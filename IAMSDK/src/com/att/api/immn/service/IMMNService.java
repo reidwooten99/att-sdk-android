@@ -1,12 +1,18 @@
 
 package com.att.api.immn.service;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 
+//import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
@@ -85,17 +91,22 @@ public class IMMNService extends APIService {
         		jaddrs.put(addr);
 
         body.put("addresses", jaddrs);
-//        jsonBody.put("messageRequest", body);
 
         if ( attachments != null ) {
             JSONArray jattach = new JSONArray();
             for( String fattach : attachments) {
                 JSONObject attachBody = new JSONObject();
-                attachBody.put("body", "base64string");
-                attachBody.put("fileName", "IMG_20140212_014.jpeg");
+
+                Bitmap bm = BitmapFactory.decodeFile(fattach);
+    			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+    			boolean bool = 	bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
+    			byte[] b = baos.toByteArray();
+    			
+    			String encodedImage = Base64.encodeToString(b, Base64.URL_SAFE);
+                attachBody.put("body", encodedImage);
+    			attachBody.put("fileName", "image.jpeg");
                 attachBody.put("content-type", "image/jpeg");
                 attachBody.put("content-transfer-encoding", "BASE64");
-//                attachBody.put("Content-location", "/sdcard/DCIM/Camera/");
                 jattach.put(attachBody);
             }
             body.put("messageContent", jattach);
@@ -113,6 +124,7 @@ public class IMMNService extends APIService {
             : rest.httpPostMms(jsonBody.toString(), attachments);//rest.httpPost(jsonBody, attachments);
 */
         final APIResponse response = rest.httpPost(jsonBody.toString());
+
 
         JSONObject jobj = new JSONObject(response.getResponseBody());
 		return SendResponse.valueOf(jobj);

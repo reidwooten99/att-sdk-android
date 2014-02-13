@@ -175,19 +175,19 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						" getTokenListener onSuccess Message : " + msg.getAccessToken(), Toast.LENGTH_LONG);
 				toast.show();
+				
 			}
 			iamManager = new IAMManager(fqdn, msg,  new createMessageIndexListener());
 			iamManager.CreateMessageIndex();
 			
-			iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
+			/*iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
 			//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
 			String addresses[] = { "4257492983" };
-			String attachments[] = { "/sdcard/DCIM/Camera/IMG_20140212_014.jpg"};
-		
+			String attachments[] = { "IMG_0015.jpg"}; 
+			///sdcard/DCIM/Camera/IMG_20140212_014.jpg
+			//storage/emulated/0/DCIM/Camera/IMG_20140212_014.jpg
 			iamManager.SendMessage(addresses, "",
-									null, false, attachments);
-
-			
+									null, false, attachments);*/
 			/*iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
 			iamManager.GetMessageList(10, 0);
 			
@@ -328,12 +328,22 @@ public class MainActivity extends Activity implements ATTIAMListener {
 		public void onSuccess(Object response) {
 			// TODO Auto-generated method stub
 			
-			Boolean msg = (Boolean) response;
-			if (msg) {
+			Boolean res = (Boolean) response;
+			if (res) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"createMessageIndexListener onSuccess : Message : " + msg, Toast.LENGTH_LONG);
+						"createMessageIndexListener onSuccess : Message : " + res, Toast.LENGTH_LONG);
 				toast.show();
+			
+				iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
+				//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
+				String addresses[] = { "4257492983"};
+				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg"}; 
+				//IMG_0015.jpeg
+				//1kbimage.png
+				iamManager.SendMessage(addresses, "Hello",
+										null, false, attachments);
 			}
+			
 			
 		}
 
