@@ -2,6 +2,11 @@
 package com.att.api.immn.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 
 //import org.apache.commons.codec.binary.Base64;
@@ -13,6 +18,7 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
@@ -96,33 +102,53 @@ public class IMMNService extends APIService {
             JSONArray jattach = new JSONArray();
             for( String fattach : attachments) {
                 JSONObject attachBody = new JSONObject();
-
-                Bitmap bm = BitmapFactory.decodeFile(fattach);
     			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-    			boolean bool = 	bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
+    			String contentType;
+    			String fileName;
+                if ( fattach.contains("jpeg") || fattach.contains("png") ) {
+                	Bitmap bm = BitmapFactory.decodeFile(fattach);
+                	boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
+                	contentType = "image/png";
+                	fileName = "image.png";
+                } else {
+                	contentType = "audio/wav";
+                	fileName = "audio.wav";
+
+                	File inputFile = new File(fattach);
+                	FileInputStream fis;
+					try {
+						fis = new FileInputStream(inputFile);	
+						while ( true ) {
+							byte[] buf = new byte[4096];
+							int count = fis.read(buf, 0, 4096);
+							if ( count == -1 ) {
+								break;
+							}
+             	        	baos.write(buf,0,count);
+                	    }
+                	}
+                	catch (IOException ex) {
+                		Log.e("AudioMMS", " exception", ex);
+                	}
+                }
     			byte[] b = baos.toByteArray();
     			
-    			String encodedImage = Base64.encodeToString(b, Base64.URL_SAFE);
-                attachBody.put("body", encodedImage);
-    			attachBody.put("fileName", "image.jpeg");
-                attachBody.put("content-type", "image/jpeg");
+    			String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
+                attachBody.put("body", encodedBytes);
+                attachBody.put("fileName", fileName);
+                attachBody.put("content-type", contentType);
                 attachBody.put("content-transfer-encoding", "BASE64");
                 jattach.put(attachBody);
             }
             body.put("messageContent", jattach);
         }
-      
         jsonBody.put("messageRequest", body);
         
         final RESTClient rest = new RESTClient(endpoint)
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
             .addAuthorizationHeader(this.getToken());
-/*
-        final APIResponse response = (attachments == null) 
-            ? rest.httpPost(jsonBody.toString())
-            : rest.httpPostMms(jsonBody.toString(), attachments);//rest.httpPost(jsonBody, attachments);
-*/
+
         final APIResponse response = rest.httpPost(jsonBody.toString());
 
 
