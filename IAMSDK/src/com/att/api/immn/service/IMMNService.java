@@ -4,12 +4,9 @@ package com.att.api.immn.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 
-//import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +22,7 @@ import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
+//import org.apache.commons.codec.binary.Base64;
 
 public class IMMNService extends APIService {
 
@@ -110,12 +108,12 @@ public class IMMNService extends APIService {
                 	boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
                 	contentType = "image/png";
                 	fileName = "image.png";
-                } else {
-                	contentType = "audio/wav";
-                	fileName = "audio.wav";
-
+                } else if(fattach.contains("wav") || fattach.contains("mp4")) {
+                	
+                	
                 	File inputFile = new File(fattach);
                 	FileInputStream fis;
+					
 					try {
 						fis = new FileInputStream(inputFile);	
 						while ( true ) {
@@ -127,13 +125,26 @@ public class IMMNService extends APIService {
              	        	baos.write(buf,0,count);
                 	    }
                 	}
+					
                 	catch (IOException ex) {
                 		Log.e("AudioMMS", " exception", ex);
                 	}
                 }
     			byte[] b = baos.toByteArray();
     			
+    			if(fattach.contains("wav")){
+            		contentType = "audio/wav";
+                	fileName = "audio.wav";
+            	} else {
+            		contentType = "video/mp4";
+                	fileName = "video.mp4";
+            	}
+    			
     			String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
+    			encodedBytes = encodedBytes.replace('-', '+');
+    			encodedBytes = encodedBytes.replace('_', '/');
+    			encodedBytes = encodedBytes.replace("\n", "");
+    			//String encodedBytes = Base64.encodeToString(b, 0);
                 attachBody.put("body", encodedBytes);
                 attachBody.put("fileName", fileName);
                 attachBody.put("content-type", contentType);

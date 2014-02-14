@@ -337,11 +337,16 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				iamManager = new IAMManager(fqdn, msg, new sendMessageListener());
 				//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
 				String addresses[] = { "4257492983"};
-				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg"}; 
+				//Image file
+//				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg"}; 
+				//Video file
+//				String attachments[] = { "/storage/emulated/0/DCIM/Camera/Cat+Shortcut.mp4"  };
+				//Audio file
+				String attachments[] = { "/storage/emulated/0/SmartVoiceRecorder/Record_0002.wav" };
 				//IMG_0015.jpeg
 				//1kbimage.png
-				iamManager.SendMessage(addresses, "Hello",
-										null, false, attachments);
+				iamManager.SendMessage(addresses, "HelloText",
+										"HelloSubject", false, attachments);
 			}
 			
 			
