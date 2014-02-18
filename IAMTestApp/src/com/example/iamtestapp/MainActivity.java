@@ -480,7 +480,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"getMessageListListener onSuccess : Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom(),  Toast.LENGTH_LONG);
 				toast.show();
-				Log.i("getMessageListListener onSuccess " ,": Message : " + msg.getMessages()[0].getText() + "Subject : " + msg.getMessages()[0].getTypeMetaData().getSubject());
+				Log.i("getMessageListListener onSuccess " ,": Message : " + msg.getMessages()[0].getText() + "Subject : " + msg.getMessages()[0].getSubject());
 
 			}
 			
@@ -512,7 +512,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			Message msg = (Message) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						" getMessageListener onSuccess Message : " + msg.getText() +" " + msg.isFavorite() + " " + msg.isUnread() + " " + msg.getTypeMetaData().getSubject(), Toast.LENGTH_LONG);
+						" getMessageListener onSuccess Message : " + msg.getText() +" " + msg.isFavorite() + " " + msg.isUnread() , Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}
