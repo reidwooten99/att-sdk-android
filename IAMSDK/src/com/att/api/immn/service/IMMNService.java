@@ -78,8 +78,9 @@ public class IMMNService extends APIService {
         JSONObject body = new JSONObject();
         addresses = formatAddresses(addresses);
 
-        if (msg != null)
+        if (msg != null ){
             body.put("text", msg);
+        }
 
         if (subject != null)
             body.put("subject", subject);
@@ -98,37 +99,20 @@ public class IMMNService extends APIService {
 
         if ( attachments != null ) {
         	JSONArray jattach = new JSONArray();
+        	int index = 0;
+        	
         	for( String fattach : attachments) {
+        		index++;
         		JSONObject attachBody = new JSONObject();
         		ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-        		String contentType;
-        		String fileName;
+        		String contentType = null;
+        		String fileName = null;
         		if ( fattach.contains("jpeg") || fattach.contains("png") ) {
         			Bitmap bm = BitmapFactory.decodeFile(fattach);
         			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
         			contentType = "image/png";
-        			fileName = "image.png";
-        		} else if(fattach.contains("wav") || fattach.contains("mp4")) {                	
-        					File inputFile = new File(fattach);
-        					FileInputStream fis;					
-        					try {
-        						fis = new FileInputStream(inputFile);	
-        						while ( true ) {
-        							byte[] buf = new byte[4096];
-        							int count = fis.read(buf, 0, 4096);
-        							if ( count == -1 ) {
-        								break;
-        							}
-        							baos.write(buf,0,count);
-        						}
-        					}					
-        					catch (IOException ex) {
-        						Log.e("AudioMMS", " exception", ex);
-        					}
-        				}
-        			
-        				byte[] b = baos.toByteArray();
-    			
+        			fileName = "image" + index + ".png";
+        		} else if(fattach.contains("wav") || fattach.contains("mp4")) {
         				if(fattach.contains("wav")){
         					contentType = "audio/wav";
         					fileName = "audio.wav";
@@ -136,20 +120,59 @@ public class IMMNService extends APIService {
         					contentType = "video/mp4";
         					fileName = "video.mp4";
         				}
-    			
-        				String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
-        				encodedBytes = encodedBytes.replace('-', '+');
-        				encodedBytes = encodedBytes.replace('_', '/');
-        				encodedBytes = encodedBytes.replace("\n", "");
-        				attachBody.put("body", encodedBytes);
-        				attachBody.put("fileName", fileName);
-        				attachBody.put("content-type", contentType);
-        				attachBody.put("content-transfer-encoding", "BASE64");
-        				jattach.put(attachBody);
+        				File inputFile = new File(fattach);
+        				FileInputStream fis;					
+        				try {
+        					fis = new FileInputStream(inputFile);	
+        					while ( true ) {
+        						byte[] buf = new byte[4096];
+        						int count = fis.read(buf, 0, 4096);
+        						if ( count == -1 ) {
+        							break;
+        						}
+        						baos.write(buf,0,count);
+        					}
+        				}					
+        				catch (IOException ex) {
+        					Log.e("AudioMMS", " exception", ex);
+        				}
         			}
-        			body.put("messageContent", jattach);
-        	} 
-        	jsonBody.put("messageRequest", body);
+        			
+				byte[] b = baos.toByteArray();
+
+				String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
+				encodedBytes = encodedBytes.replace('-', '+');
+				encodedBytes = encodedBytes.replace('_', '/');
+				encodedBytes = encodedBytes.replace("\n", "");
+				attachBody.put("body", encodedBytes);
+				attachBody.put("fileName", fileName);
+				attachBody.put("content-type", contentType);
+				attachBody.put("content-transfer-encoding", "BASE64");
+				jattach.put(attachBody);
+        	}
+        	
+        	if (msg != null) {
+        		index++;
+        		JSONObject attachBody = new JSONObject();
+        		String contentType = "plain/text";
+        		String fileName = "file" + index + ".txt";
+        		
+        		byte[] b = msg.getBytes();
+				String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
+				encodedBytes = encodedBytes.replace('-', '+');
+				encodedBytes = encodedBytes.replace('_', '/');
+				encodedBytes = encodedBytes.replace("\n", "");
+				attachBody.put("body", encodedBytes);
+				attachBody.put("fileName", fileName);
+				attachBody.put("content-type", contentType);
+				attachBody.put("content-transfer-encoding", "BASE64");
+				jattach.put(attachBody);
+        	}
+
+        	body.put("messageContent", jattach);
+        }
+        
+        jsonBody.put("messageRequest", body);
         
         final RESTClient rest = new RESTClient(endpoint)
             .setHeader("Accept", "application/json")

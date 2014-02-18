@@ -9,6 +9,7 @@ public final class Message {
     private String from;
     private String[] recipients;
     private String text;
+    private String subject;
     private MmsContent[] mmsContents;
     private String timeStamp;
 
@@ -67,7 +68,7 @@ public final class Message {
         if (jobj.has("isIncoming")) {
             msg.isIncoming = jobj.getString("isIncoming").equals("true");
         }
-
+        
         return msg;
     }
 
@@ -114,5 +115,10 @@ public final class Message {
     public boolean isIncoming() {
         return isIncoming;
     }
-
+    
+    public String getSubject() {
+    	return typeMetaData.getSubject();
+    }
+    
+    
 }

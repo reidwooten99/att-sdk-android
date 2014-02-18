@@ -338,7 +338,9 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				//iamManager.SendMessage("4257492983","This is an example message for Android App Demo rehearsal");
 				String addresses[] = { "4257492983"};
 				//Image file
-				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg"}; 
+				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg" };
+				
+//				String attachments[] = { "/storage/emulated/0/DCIM/Camera/IMG_0015.jpeg", "/storage/emulated/0/DCIM/Camera/1kbimage.png"}; 
 				//Video file
 //				String attachments[] = { "/storage/emulated/0/DCIM/Camera/Cat+Shortcut.mp4"  };
 				//Audio file
@@ -347,6 +349,9 @@ public class MainActivity extends Activity implements ATTIAMListener {
 				//1kbimage.png
 				iamManager.SendMessage(addresses, "HelloText",
 										"HelloSubject", false, attachments);
+				
+				iamManager = new IAMManager(fqdn, msg, new getMessageListListener());
+				iamManager.GetMessageList(10, 0);
 			}
 			
 			
@@ -473,9 +478,9 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			MessageList msg = (MessageList) response;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"getMessageListListener onSuccess : Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom(), Toast.LENGTH_LONG);
+						"getMessageListListener onSuccess : Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom(),  Toast.LENGTH_LONG);
 				toast.show();
-				Log.i("getMessageListListener onSuccess " ,": Message : " + msg.getMessages()[0].getText() + ", From : " + msg.getMessages()[0].getFrom());
+				Log.i("getMessageListListener onSuccess " ,": Message : " + msg.getMessages()[0].getText() + "Subject : " + msg.getMessages()[0].getTypeMetaData().getSubject());
 
 			}
 			
@@ -507,7 +512,7 @@ public class MainActivity extends Activity implements ATTIAMListener {
 			Message msg = (Message) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
-						" getMessageListener onSuccess Message : " + msg.getText() +" " + msg.isFavorite() + " " + msg.isUnread(), Toast.LENGTH_LONG);
+						" getMessageListener onSuccess Message : " + msg.getText() +" " + msg.isFavorite() + " " + msg.isUnread() + " " + msg.getTypeMetaData().getSubject(), Toast.LENGTH_LONG);
 				toast.show();
 			}
 		}
