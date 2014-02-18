@@ -63,6 +63,7 @@
         android:layout_above="@+id/sendButton"
         android:layout_alignLeft="@+id/lblAttachments"
         android:layout_below="@+id/lblAttachments" 
+        android:divider="@null"
         android:isScrollContainer="false">
     </ListView>
     

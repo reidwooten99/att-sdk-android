@@ -7,7 +7,7 @@
         android:title="@string/lbl_action_refresh"/>
     <item
         android:id="@+id/action_new_message"
-        android:icon="@drawable/btn_compose"
+        android:icon="@drawable/ic_compose_message"
         android:showAsAction="always"
         android:title="@string/lbl_action_new_message"/>
     <item

@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MMSContent" >
+
+    <TextView
+        android:id="@+id/lbl_files"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/files"
+        android:text="Attachments : "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/attachmentsFileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/files"
+        android:layout_below="@+id/files"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/lbl_mms_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/attachmentsFileName"
+        android:layout_below="@+id/attachmentsFileName"
+        android:layout_marginTop="24dp"
+        android:text="MMS Message :"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/mmsmessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_mms_message"
+        android:layout_below="@+id/lbl_mms_message"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>

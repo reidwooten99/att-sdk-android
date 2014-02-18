@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -28,6 +27,7 @@ import com.att.api.immn.service.IMMNService;
 import com.att.api.immn.service.Message;
 import com.att.api.immn.service.MessageIndexInfo;
 import com.att.api.immn.service.MessageList;
+import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 
@@ -36,7 +36,7 @@ public class ConversationList extends Activity {
 	private static final String TAG = "Conversation List";
 
 	ListView messageListView;
-	ListCustomAdapter adapter;
+	MessageListAdapter adapter;
 	IMMNService immnSrvc;
 	IAMManager iamManager;
 	OAuthService osrvc;
@@ -115,7 +115,7 @@ public class ConversationList extends Activity {
 		super.onResume();
 
 		setupMessageListListener();
-		
+
 		updateDelta();
 	}
 
@@ -127,10 +127,37 @@ public class ConversationList extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				infoDialog((Message) messageListView
-						.getItemAtPosition(position));
+				if (((Message) messageListView.getItemAtPosition(position))
+						.getType().equalsIgnoreCase("MMS")) {
+					Message mmsMessage = (Message) messageListView
+							.getItemAtPosition(position);
+					MmsContent[] mmsContent = mmsMessage.getMmsContents();
+					Log.d(TAG, "MMS Attachments : " + mmsContent.length);
+
+					String[] mmsContentName = new String[mmsContent.length], mmsContentType = new String[mmsContent.length], mmsContentUrl = new String[mmsContent.length], mmsType = new String[mmsContent.length];
+
+					for (int n = 0; n < mmsContent.length; n++) {
+						mmsContentName[n] = mmsContent[n].getContentName();
+						mmsContentType[n] = mmsContent[n].getContentType();
+						mmsContentUrl[n] = mmsContent[n].getContentUrl();
+						//mmsType[n] = mmsContent[n].getType().toString();
+					}
+
+					Intent i = new Intent(ConversationList.this,
+							MMSContent.class);
+					i.putExtra("MMSContentName", mmsContentName);
+					i.putExtra("MMSContentType", mmsContentType);
+					i.putExtra("MMSContentUrl", mmsContentUrl);
+					//i.putExtra("MMSType", mmsType);
+					startActivity(i);
+
+				} else {
+					infoDialog((Message) messageListView
+							.getItemAtPosition(position));
+				}
 				// Launch the Message View Screen here
-				Utils.toastHere(getApplicationContext(), TAG, msgList.getMessages()[position].getText());
+				Utils.toastHere(getApplicationContext(), TAG,
+						msgList.getMessages()[position].getText());
 			}
 		});
 
@@ -157,17 +184,20 @@ public class ConversationList extends Activity {
 					}
 				});
 	}
-	
+
 	public void infoDialog(Message selMessage) {
 
-	    new AlertDialog.Builder(ConversationList.this)
-	            .setTitle("Message details")
-	            .setMessage("Type : " + selMessage.getType() + "\n" + "From : " + selMessage.getFrom() + "\n" + "Received : " + selMessage.getTimeStamp() )
-	            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	                public void onClick(DialogInterface dialog, int id) {
-	                    dialog.cancel();
-	                }
-	            }).show();
+		new AlertDialog.Builder(ConversationList.this)
+				.setTitle("Message details")
+				.setMessage(
+						"Type : " + selMessage.getType() + "\n" + "From : "
+								+ selMessage.getFrom() + "\n" + "Received : "
+								+ selMessage.getTimeStamp())
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				}).show();
 	}
 
 	public void popUpActionList(final CharSequence popUpList[],
@@ -272,7 +302,7 @@ public class ConversationList extends Activity {
 				Utils.toastHere(getApplicationContext(), TAG, "Message Sent : "
 						+ data.getStringExtra("MessageResponse"));
 
-				//updateDelta();
+				// updateDelta();
 			}
 		} else if (requestCode == OAUTH_CODE) {
 			String oAuthCode = null;
@@ -290,12 +320,11 @@ public class ConversationList extends Activity {
 	}
 
 	public void updateDelta() {
-		
-		if(msgList!= null && msgList.getState() != null){
-			//showProgressDialog("Checking for new messages ...");
+
+		if (msgList != null && msgList.getState() != null) {
+			// showProgressDialog("Checking for new messages ...");
 			iamManager = new IAMManager(Config.fqdn, authToken,
 					new getDeltaListener());
-			//iamManager.GetDelta(msgList.getState());
 			iamManager.GetDelta(prevMailboxState);
 		}
 	}
@@ -356,7 +385,8 @@ public class ConversationList extends Activity {
 						Toast.LENGTH_LONG);
 				toast.show();
 				deleteMessageFromList(deleteMessageID);
-				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+				iamManager = new IAMManager(Config.fqdn, authToken,
+						new getMessageListener());
 				iamManager.GetMessage(deleteMessageID);
 				deleteMessageID = null;
 			}
@@ -384,8 +414,9 @@ public class ConversationList extends Activity {
 
 				deleteMessageFromList(deleteMessageID);
 				deleteMessageID = null;
-				
-				Utils.toastHere(getApplicationContext(), TAG, "deleteMessagesListener onSuccess : " + msg);
+
+				Utils.toastHere(getApplicationContext(), TAG,
+						"deleteMessagesListener onSuccess : " + msg);
 			}
 			dismissProgressDialog();
 		}
@@ -450,7 +481,8 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(Object arg0) {
 			dismissProgressDialog();
-			Utils.toastHere(getApplicationContext(), TAG, "In  getMessageListener Error Callback");
+			Utils.toastHere(getApplicationContext(), TAG,
+					"In  getMessageListener Error Callback");
 		}
 
 		@Override
@@ -458,23 +490,24 @@ public class ConversationList extends Activity {
 
 			Message msg = (Message) arg0;
 			if (null != msg) {
-				
-				Message[] msgs = new Message[messageList.length+1];
+
+				Message[] msgs = new Message[messageList.length + 1];
 
 				msgs[prevIndex] = msg;
 
-				if(prevIndex > 0)
-					System.arraycopy(messageList,0,msgs,0,prevIndex);
-				System.arraycopy(messageList,prevIndex,msgs,prevIndex+1,messageList.length-prevIndex);
-				
+				if (prevIndex > 0)
+					System.arraycopy(messageList, 0, msgs, 0, prevIndex);
+				System.arraycopy(messageList, prevIndex, msgs, prevIndex + 1,
+						messageList.length - prevIndex);
+
 				messageList = msgs;
 				prevIndex = 0;
-				
-				adapter = new ListCustomAdapter(getApplicationContext(),
+
+				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
 
 				messageListView.setAdapter(adapter);
-				
+
 				dismissProgressDialog();
 				Utils.toastHere(
 						getApplicationContext(),
@@ -518,7 +551,7 @@ public class ConversationList extends Activity {
 				 */
 
 				updateMessageList(delta);
-			}else{
+			} else {
 				dismissProgressDialog();
 			}
 		}
@@ -544,9 +577,9 @@ public class ConversationList extends Activity {
 					.getChangeType();
 
 			switch (chType) {
-			case ADD:
-			{
-				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+			case ADD: {
+				iamManager = new IAMManager(Config.fqdn, authToken,
+						new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;
@@ -557,11 +590,12 @@ public class ConversationList extends Activity {
 				break;
 			case NONE:
 				break;
-			case UPDATE:{
-				
+			case UPDATE: {
+
 				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
 						.getMessageId());
-				iamManager = new IAMManager(Config.fqdn, authToken, new getMessageListener());
+				iamManager = new IAMManager(Config.fqdn, authToken,
+						new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;
@@ -580,8 +614,8 @@ public class ConversationList extends Activity {
 					msgID))
 				break;
 		}
-		if(deleteNthMessage < messageList.length){
-			prevIndex =  deleteNthMessage;
+		if (deleteNthMessage < messageList.length) {
+			prevIndex = deleteNthMessage;
 			adapter.deleteItem(deleteNthMessage);
 			adapter.notifyDataSetChanged();
 		}
@@ -630,7 +664,7 @@ public class ConversationList extends Activity {
 								+ msgList.getMessages()[0].getText()
 								+ ", From : "
 								+ msgList.getMessages()[0].getFrom());
-				adapter = new ListCustomAdapter(getApplicationContext(),
+				adapter = new MessageListAdapter(getApplicationContext(),
 						msgList.getMessages());
 
 				messageListView.setAdapter(adapter);

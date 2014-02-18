@@ -33,49 +33,63 @@ public final class R {
         public static final int ic_addcontact=0x7f020004;
         public static final int ic_attachment=0x7f020005;
         public static final int ic_audio=0x7f020006;
-        public static final int ic_image=0x7f020007;
-        public static final int ic_launcher=0x7f020008;
-        public static final int ic_logout=0x7f020009;
-        public static final int ic_refresh=0x7f02000a;
-        public static final int ic_transparent=0x7f02000b;
-        public static final int ic_video=0x7f02000c;
+        public static final int ic_audio_black=0x7f020007;
+        public static final int ic_compose_message=0x7f020008;
+        public static final int ic_image=0x7f020009;
+        public static final int ic_image_black=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int ic_logout=0x7f02000c;
+        public static final int ic_refresh=0x7f02000d;
+        public static final int ic_transparent=0x7f02000e;
+        public static final int ic_video=0x7f02000f;
+        public static final int ic_video_black=0x7f020010;
     }
     public static final class id {
-        public static final int action_AudioAttachment=0x7f080012;
-        public static final int action_ImageAttachment=0x7f080011;
-        public static final int action_VideoAttachment=0x7f080013;
-        public static final int action_logout=0x7f080010;
-        public static final int action_new_message=0x7f08000f;
-        public static final int action_refresh=0x7f08000e;
-        public static final int action_settings=0x7f080014;
-        public static final int attachment=0x7f08000a;
-        public static final int attachmentList=0x7f080005;
-        public static final int broadcastCheckBox=0x7f080007;
-        public static final int contacts=0x7f080001;
-        public static final int favorite=0x7f08000d;
-        public static final int lblAttachments=0x7f080004;
-        public static final int message=0x7f080003;
+        public static final int action_AudioAttachment=0x7f080019;
+        public static final int action_ImageAttachment=0x7f080018;
+        public static final int action_VideoAttachment=0x7f08001a;
+        public static final int action_logout=0x7f080017;
+        public static final int action_new_message=0x7f080016;
+        public static final int action_refresh=0x7f080015;
+        public static final int action_settings=0x7f08001b;
+        public static final int attachment=0x7f080011;
+        public static final int attachmentItem=0x7f08000f;
+        public static final int attachmentList=0x7f08000a;
+        public static final int attachmentsFileName=0x7f080003;
+        public static final int broadcastCheckBox=0x7f08000c;
+        public static final int contacts=0x7f080006;
+        public static final int favorite=0x7f080014;
+        public static final int filename=0x7f080010;
+        public static final int files=0x7f080002;
+        public static final int lblAttachments=0x7f080009;
+        public static final int lbl_files=0x7f080001;
+        public static final int lbl_mms_message=0x7f080004;
+        public static final int message=0x7f080008;
         public static final int messageListViewItem=0x7f080000;
-        public static final int name=0x7f08000b;
-        public static final int sendButton=0x7f080006;
-        public static final int splashimage=0x7f080008;
-        public static final int subject=0x7f080002;
-        public static final int time=0x7f08000c;
-        public static final int userConsentView=0x7f080009;
+        public static final int mmsmessage=0x7f080005;
+        public static final int name=0x7f080012;
+        public static final int sendButton=0x7f08000b;
+        public static final int splashimage=0x7f08000d;
+        public static final int subject=0x7f080007;
+        public static final int time=0x7f080013;
+        public static final int userConsentView=0x7f08000e;
     }
     public static final class layout {
         public static final int activity_conversation_list=0x7f030000;
-        public static final int activity_new_message=0x7f030001;
-        public static final int activity_splash_screen=0x7f030002;
-        public static final int activity_user_consent=0x7f030003;
-        public static final int custom_row_view=0x7f030004;
+        public static final int activity_mmscontent=0x7f030001;
+        public static final int activity_new_message=0x7f030002;
+        public static final int activity_splash_screen=0x7f030003;
+        public static final int activity_user_consent=0x7f030004;
+        public static final int attachmentlist_row_view=0x7f030005;
+        public static final int conversationlist_row_view=0x7f030006;
     }
     public static final class menu {
         public static final int action_conversation_list=0x7f070000;
         public static final int action_new_message=0x7f070001;
         public static final int main=0x7f070002;
-        public static final int splash_screen=0x7f070003;
-        public static final int user_consent=0x7f070004;
+        public static final int mmscontent=0x7f070003;
+        public static final int splash_screen=0x7f070004;
+        public static final int user_consent=0x7f070005;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -96,6 +110,7 @@ public final class R {
         public static final int lbl_attachments=0x7f05000e;
         public static final int lbl_broadcast=0x7f050012;
         public static final int title_activity_conversationlist=0x7f050005;
+        public static final int title_activity_mmscontent=0x7f050013;
         public static final int title_activity_new_message=0x7f05000a;
         public static final int title_activity_user_consent=0x7f050004;
         public static final int title_activity_webview=0x7f050003;
