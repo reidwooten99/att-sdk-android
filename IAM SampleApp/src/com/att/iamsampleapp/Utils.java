@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.PatternMatcher;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -53,7 +52,7 @@ public class Utils extends Activity{
 			isValid = ((!numberPattern.matcher(addresses[n]).matches()) || (addresses[n].matches(emailPattern)));
 		return isValid;
 	}
-	
+
 	public String getRealPathFromURI(Uri contentUri) {
 		String path = null;
 		String[] proj = { MediaStore.MediaColumns.DATA };

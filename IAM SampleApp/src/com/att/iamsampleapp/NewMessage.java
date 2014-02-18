@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.att.api.immn.listener.ATTIAMListener;
@@ -23,20 +26,64 @@ import com.att.api.oauth.OAuthToken;
 public class NewMessage extends Utils {
 
 	private static final String TAG = "IAM_NewMessage";
+	ListView attachmentsListView;
+	AttachmentListAdapter adapter;
 	int numAttachments = 0;
 	String attachments[] = new String[Config.maxAttachments];
-	
+	String attMimeType[] = new String[Config.maxAttachments];
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_message);
 	}
 
+	public void onResume() {
+		super.onResume();
+
+		attachmentsListView = (ListView) findViewById(R.id.attachmentList);
+		setupAttachmentListListener();
+	}
+
+	// MessageList Listener
+	public void setupAttachmentListListener() {
+
+		attachmentsListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					final int position, long id) {
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						NewMessage.this);
+				builder.setPositiveButton("Delete",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								System.arraycopy(attachments,position+1,attachments,position,attachments.length-1-position);
+								System.arraycopy(attMimeType,position+1,attMimeType,position,attMimeType.length-1-position);
+								numAttachments--;
+								adapter.setNewAttachmentList(attachments, attMimeType);
+								adapter.notifyDataSetChanged();
+							}
+						});
+				builder.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				builder.setTitle("Delete Attachment?");
+				String filePathSplit[] = attachments[position].split("/");
+				builder.setMessage(filePathSplit[filePathSplit.length-1]);
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+		});
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.action_new_message, menu);
-
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -87,15 +134,29 @@ public class NewMessage extends Utils {
 			if (resultCode == RESULT_OK) {
 				Uri pickedAttachment = intentContact.getData();
 				String mime = getContentResolver().getType(pickedAttachment);
-				String str = getRealPathFromURI(pickedAttachment);
-				if(numAttachments < Config.maxAttachments && null != str){
-					attachments[numAttachments] = str;
+				String filePath = getRealPathFromURI(pickedAttachment);
+				if (numAttachments < Config.maxAttachments && null != filePath) {
+
+					attachments[numAttachments] = filePath;
+					attMimeType[numAttachments] = mime;
+
+					if (adapter != null)
+						adapter.setNewAttachmentList(attachments, attMimeType);
+					else {
+						adapter = new AttachmentListAdapter(
+								getApplicationContext(), attachments,
+								attMimeType);
+						attachmentsListView.setAdapter(adapter);
+					}
+					adapter.notifyDataSetChanged();
+
 					numAttachments++;
-				}else{
+				} else {
 					infoDialog("Unable to fetch the attachment !!", false);
 				}
+
 				Utils.toastHere(getApplicationContext(), TAG, "File Path : "
-						+ str);
+						+ filePath);
 			}
 		}
 	}
@@ -160,7 +221,6 @@ public class NewMessage extends Utils {
 	}
 
 	public void dismissProgressDialog() {
-
 		if (null != pDialog) {
 			pDialog.dismiss();
 		}
@@ -170,14 +230,12 @@ public class NewMessage extends Utils {
 
 		@Override
 		public void onError(Object arg0) {
-			// TODO Auto-generated method stub
 			dismissProgressDialog();
 			infoDialog("Message send failed !!", false);
 		}
 
 		@Override
 		public void onSuccess(Object arg0) {
-			// TODO Auto-generated method stub
 			SendResponse msg = (SendResponse) arg0;
 			if (null != msg) {
 				Toast toast = Toast.makeText(getApplicationContext(),
@@ -191,7 +249,7 @@ public class NewMessage extends Utils {
 
 	void sendMessageResponsetoParentActivity(String responseID) {
 
-		Intent newMessageIntent = new Intent();// this.getIntent();
+		Intent newMessageIntent = new Intent();
 		newMessageIntent.putExtra("MessageResponse", responseID);
 		setResult(RESULT_OK, newMessageIntent);
 		finish();
@@ -214,8 +272,7 @@ public class NewMessage extends Utils {
 
 		Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-		String pickTitle = "Select or take a new Picture"; // Or get from
-															// strings.xml
+		String pickTitle = "Select or take a new Picture";
 		Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
 				new Intent[] { takePhotoIntent });

@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import com.att.api.immn.service.Message;
 
-public class ListCustomAdapter extends BaseAdapter {
+public class MessageListAdapter extends BaseAdapter {
 
 	private static Message[] messageList;
 	private LayoutInflater mInflater;
 	private Context ctx;
 
-	public ListCustomAdapter(Context context, Message[] results) {
+	public MessageListAdapter(Context context, Message[] results) {
 		messageList = results;
 		this.ctx = context;
 		mInflater = LayoutInflater.from(context);
@@ -49,7 +49,7 @@ public class ListCustomAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 
-			convertView = mInflater.inflate(R.layout.custom_row_view, null);
+			convertView = mInflater.inflate(R.layout.conversationlist_row_view, null);
 			// convertView = mInflater.inflate(R.layout., null);
 
 			holder = new ViewHolder();
@@ -79,9 +79,9 @@ public class ListCustomAdapter extends BaseAdapter {
 			holder.txtMessage.setText("< Empty Message >");
 		else if (messageList[position].getText().equalsIgnoreCase(""))
 			holder.txtMessage.setText("< Empty Message >");
-		else
+		else {
 			holder.txtMessage.setText(messageList[position].getText());
-
+		}
 		// Update message time
 		holder.txtTime.setText(messageList[position].getTimeStamp().replace(
 				'T', ' '));
