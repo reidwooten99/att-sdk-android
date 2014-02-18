@@ -83,8 +83,10 @@ public class MessageListAdapter extends BaseAdapter {
 			holder.txtMessage.setText(messageList[position].getText());
 		}
 		
-		if(messageList[position].getType().equalsIgnoreCase("MMS"))
-			holder.txtMessage.setText("Sub : "+ messageList[position].getSubject() + " - MMS Atatchments Available");
+		if(messageList[position].getType().equalsIgnoreCase("MMS")){
+			String str = (null != messageList[position].getSubject()) ? ("<Sub : "+ messageList[position].getSubject() + "> - MMS Atatchments Available") : "MMS Atatchments Available";  
+			holder.txtMessage.setText(str);
+		}
 		// Update message time
 		holder.txtTime.setText(messageList[position].getTimeStamp().replace(
 				'T', ' '));
