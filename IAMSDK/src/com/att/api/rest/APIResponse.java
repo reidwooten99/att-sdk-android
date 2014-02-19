@@ -94,6 +94,7 @@ public class APIResponse {
         try {
             statusCode = httpResponse.getStatusLine().getStatusCode();
             httpEntityforContent = httpResponse.getEntity();
+            setHttpEntityforContent(httpEntityforContent);
             responseBody = EntityUtils.toString(httpResponse.getEntity());
             headers = APIResponse.buildHeaders(httpResponse);
         } catch (IOException ioe) {
@@ -200,7 +201,7 @@ public class APIResponse {
             if (httpResponse.getEntity() != null) {
                 rb = EntityUtils.toString(httpResponse.getEntity());
                 httpEntityforContent = httpResponse.getEntity();
-
+                setHttpEntityforContent(httpEntityforContent);
             }
             HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
             return new APIResponse(statusCode, rb, headers);
