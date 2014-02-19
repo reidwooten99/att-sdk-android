@@ -121,11 +121,13 @@ public class IMMNService extends APIService {
         			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
         			contentType = "image/png";
         			fileName = "image" + index + ".png";
-        		} else if(fattach.contains("wav") || fattach.contains("mp4")) {
-        				if(fattach.contains("wav")){
+        		} //else if(fattach.contains("wav") || fattach.contains("mp4")) {
+        		else if(mimetype.contains("audio") || (mimetype.contains("video"))) {
+        				if(mimetype.contains("audio") ){
         					contentType = "audio/wav";
         					fileName = "audio.wav";
-        				} else {
+        				}
+        					else {
         					contentType = "video/mp4";
         					fileName = "video.mp4";
         				}
