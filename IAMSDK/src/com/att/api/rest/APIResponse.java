@@ -17,6 +17,7 @@ package com.att.api.rest;
 import java.io.IOException;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
@@ -37,6 +38,8 @@ public class APIResponse {
 
     /* Array of HTTP headers. */
     private final HttpHeader[] headers;
+    
+    private static HttpEntity httpEntityforContent;
 
     /*
      * Given an HttpResponse object, this method generates an array of HTTP
@@ -90,6 +93,7 @@ public class APIResponse {
     public APIResponse(HttpResponse httpResponse) throws RESTException {
         try {
             statusCode = httpResponse.getStatusLine().getStatusCode();
+            httpEntityforContent = httpResponse.getEntity();
             responseBody = EntityUtils.toString(httpResponse.getEntity());
             headers = APIResponse.buildHeaders(httpResponse);
         } catch (IOException ioe) {
@@ -154,7 +158,15 @@ public class APIResponse {
         return null;
     }
 
-    /*
+    public static HttpEntity getHttpEntityforContent() {
+		return httpEntityforContent;
+	}
+
+	public static void setHttpEntityforContent(HttpEntity httpEntityforContent) {
+		APIResponse.httpEntityforContent = httpEntityforContent;
+	}
+
+	/*
      * Alias for <code>valueOf()</code>.
      *
      * @param httpResponse used for creating API response
@@ -187,6 +199,8 @@ public class APIResponse {
             String rb = "";
             if (httpResponse.getEntity() != null) {
                 rb = EntityUtils.toString(httpResponse.getEntity());
+                httpEntityforContent = httpResponse.getEntity();
+
             }
             HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
             return new APIResponse(statusCode, rb, headers);

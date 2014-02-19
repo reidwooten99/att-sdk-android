@@ -4,10 +4,12 @@ package com.att.api.immn.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
@@ -102,12 +105,18 @@ public class IMMNService extends APIService {
         	int index = 0;
         	
         	for( String fattach : attachments) {
-        		index++;
-        		JSONObject attachBody = new JSONObject();
-        		ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-        		String contentType = null;
-        		String fileName = null;
-        		if ( fattach.contains("jpeg") || fattach.contains("png") ) {
+        		if(fattach != null) {
+        			index++;
+        			JSONObject attachBody = new JSONObject();
+        			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+        			String contentType = null;
+        			String fileName = null;
+        			String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
+        			MimeTypeMap mType =  MimeTypeMap.getSingleton();
+        			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        	    
+        		//if ( fattach.contains("jpeg") || fattach.contains("png") ) 
+        		if( mimetype.contains("image") ) {
         			Bitmap bm = BitmapFactory.decodeFile(fattach);
         			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
         			contentType = "image/png";
@@ -150,8 +159,9 @@ public class IMMNService extends APIService {
 				attachBody.put("content-transfer-encoding", "BASE64");
 				jattach.put(attachBody);
         	}
+        }
         	
-        	if (msg != null) {
+        	/*if (msg != null) {
         		index++;
         		JSONObject attachBody = new JSONObject();
         		String contentType = "plain/text";
@@ -168,7 +178,7 @@ public class IMMNService extends APIService {
 				attachBody.put("content-transfer-encoding", "BASE64");
 				jattach.put(attachBody);
         	}
-
+*/
         	body.put("messageContent", jattach);
         }
         
