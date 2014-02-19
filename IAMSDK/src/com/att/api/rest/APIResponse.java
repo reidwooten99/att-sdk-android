@@ -39,7 +39,7 @@ public class APIResponse {
     /* Array of HTTP headers. */
     private final HttpHeader[] headers;
     
-    private static HttpEntity httpEntityforContent;
+    private final HttpEntity httpEntityforContent;
 
     /*
      * Given an HttpResponse object, this method generates an array of HTTP
@@ -72,10 +72,11 @@ public class APIResponse {
      * @param headers http headers
      */
     public APIResponse(int statusCode, String responseBody,
-            HttpHeader[] headers) {
+            HttpHeader[] headers, HttpEntity entity) {
 
         this.statusCode = statusCode;
         this.responseBody = responseBody;
+        this.httpEntityforContent = entity;
 
         // avoid potentially exposing internals
         this.headers = APIResponse.copyHeaders(headers);
@@ -94,7 +95,6 @@ public class APIResponse {
         try {
             statusCode = httpResponse.getStatusLine().getStatusCode();
             httpEntityforContent = httpResponse.getEntity();
-            setHttpEntityforContent(httpEntityforContent);
             responseBody = EntityUtils.toString(httpResponse.getEntity());
             headers = APIResponse.buildHeaders(httpResponse);
         } catch (IOException ioe) {
@@ -159,13 +159,10 @@ public class APIResponse {
         return null;
     }
 
-    public static HttpEntity getHttpEntityforContent() {
+    public  HttpEntity getHttpEntityforContent() {
 		return httpEntityforContent;
 	}
 
-	public static void setHttpEntityforContent(HttpEntity httpEntityforContent) {
-		APIResponse.httpEntityforContent = httpEntityforContent;
-	}
 
 	/*
      * Alias for <code>valueOf()</code>.
@@ -198,13 +195,13 @@ public class APIResponse {
         try {
             int statusCode = httpResponse.getStatusLine().getStatusCode();
             String rb = "";
+            HttpEntity httpEntity = null;
             if (httpResponse.getEntity() != null) {
+            	httpEntity = httpResponse.getEntity();
                 rb = EntityUtils.toString(httpResponse.getEntity());
-                httpEntityforContent = httpResponse.getEntity();
-                setHttpEntityforContent(httpEntityforContent);
-            }
+                           }
             HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
-            return new APIResponse(statusCode, rb, headers);
+            return new APIResponse(statusCode, rb, headers, httpEntity);
         } catch (IOException ioe) {
             throw new RESTException(ioe);
         }
