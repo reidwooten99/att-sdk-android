@@ -204,7 +204,7 @@ public class NewMessage extends Utils {
 		isGroup = !(chkBroadcast.isChecked());
 
 		iamManager.SendMessage(addresses, messageWidget.getText().toString(),
-				subjectWidget.getText().toString(), isGroup, null);
+				subjectWidget.getText().toString(), isGroup, attachments);
 
 		showProgressDialog("Sending Message ...");
 	}

@@ -39,7 +39,7 @@ public class APIResponse {
     /* Array of HTTP headers. */
     private final HttpHeader[] headers;
     
-    private final HttpEntity httpEntityforContent;
+    //private final HttpEntity httpEntityforContent;
 
     /*
      * Given an HttpResponse object, this method generates an array of HTTP
@@ -72,11 +72,11 @@ public class APIResponse {
      * @param headers http headers
      */
     public APIResponse(int statusCode, String responseBody,
-            HttpHeader[] headers, HttpEntity entity) {
+            HttpHeader[] headers/*, HttpEntity entity*/) {
 
         this.statusCode = statusCode;
         this.responseBody = responseBody;
-        this.httpEntityforContent = entity;
+      //  this.httpEntityforContent = entity;
 
         // avoid potentially exposing internals
         this.headers = APIResponse.copyHeaders(headers);
@@ -94,7 +94,7 @@ public class APIResponse {
     public APIResponse(HttpResponse httpResponse) throws RESTException {
         try {
             statusCode = httpResponse.getStatusLine().getStatusCode();
-            httpEntityforContent = httpResponse.getEntity();
+           // httpEntityforContent = httpResponse.getEntity();
             responseBody = EntityUtils.toString(httpResponse.getEntity());
             headers = APIResponse.buildHeaders(httpResponse);
         } catch (IOException ioe) {
@@ -159,10 +159,10 @@ public class APIResponse {
         return null;
     }
 
-    public  HttpEntity getHttpEntityforContent() {
+    /*public  HttpEntity getHttpEntityforContent() {
 		return httpEntityforContent;
 	}
-
+*/
 
 	/*
      * Alias for <code>valueOf()</code>.
@@ -201,7 +201,7 @@ public class APIResponse {
                 rb = EntityUtils.toString(httpResponse.getEntity());
                            }
             HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
-            return new APIResponse(statusCode, rb, headers, httpEntity);
+            return new APIResponse(statusCode, rb, headers/*, httpEntity*/);
         } catch (IOException ioe) {
             throw new RESTException(ioe);
         }

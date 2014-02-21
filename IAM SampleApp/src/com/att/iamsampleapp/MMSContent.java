@@ -72,7 +72,7 @@ public class MMSContent extends Activity {
 			if (msg.getContentType().contains("TEXT/PLAIN")) {
 				TextView txt = (TextView) findViewById(R.id.mmsmessage);
 				txt.setText(binaryData);
-			} else if (msg.getContentType().contains("IMAGE/")) {
+			} /*else if (msg.getContentType().contains("IMAGE/")) {
 
 				byte[] decodedString = Base64
 						.decode(binaryData, Base64.URL_SAFE);
@@ -80,7 +80,7 @@ public class MMSContent extends Activity {
 						decodedString, 0, decodedString.length);
 				ImageView image = (ImageView) findViewById(R.id.mmsImageAttachment);
 				image.setImageBitmap(decodedByte);
-			} else {
+			} */else {
 				Log.d(TAG, "MMS Attachment : " + binaryData);
 			}
 
