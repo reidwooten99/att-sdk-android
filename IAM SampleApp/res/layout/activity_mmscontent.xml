@@ -52,13 +52,14 @@
         android:text="Image Attachment :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageView
-        android:id="@+id/mmsImageAttachment"
-        android:layout_width="wrap_content"
+      
+    <ListView
+        android:id="@+id/messagecontentList"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lblImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
-        android:src="@drawable/ic_image_black" />
+        android:layout_alignLeft="@+id/mmsmessage"
+        android:isScrollContainer="false">
+    </ListView>
 
 </RelativeLayout>
