@@ -93,50 +93,67 @@ public class MMSContent extends Activity {
 				String extension = MimeTypeMap.getFileExtensionFromUrl(filePath);
     			MimeTypeMap mType =  MimeTypeMap.getSingleton();
     			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
-    			
+				Uri uri = getImageContentUri(getApplicationContext(), filePath);
+				
     			if (mimetype.contains("video")) {
-    				Uri uri = Uri.parse("content://" + filePath);			
-    				Intent intent = new Intent(Intent.ACTION_VIEW)
-    			    .setDataAndType(uri, "video/mp4");
-    				startActivity(intent);
+    				Intent playVideoIntent = new Intent();
+    				playVideoIntent.setAction(Intent.ACTION_VIEW);
+    				playVideoIntent.setDataAndType(uri, "video/mp4");
+    				startActivity(playVideoIntent);
     			}
     			
     			if (mimetype.contains("image")) {
-    				//Uri uri = Uri.parse("content:/" + filePath);
-    				Uri uri = getImageContentUri(getApplicationContext(),filePath);
-    				//Uri uri = Uri.parse(new File(Environment.getExternalStorageDirectory().getPath()).toString());
-    				startActivity(new Intent(Intent.ACTION_VIEW).setDataAndType(uri, "image/png"));
-    				
+    				Intent displayImageIntent = new Intent();
+    				displayImageIntent.setAction(Intent.ACTION_VIEW);
+    				displayImageIntent.setDataAndType(uri, "image/jpeg");
+    				startActivity(displayImageIntent);    				
     			}
+    			
+    			if(mimetype.contains("audio")) {
+    				Intent intent = new Intent();
+    				intent.setAction(android.content.Intent.ACTION_VIEW);
+    				intent.setDataAndType(uri, mimetype);
+    				startActivity(intent);
+    				
+    				/*Uri data = Uri.parse("file://"+Environment.getExternalStorageDirectory()
+    		                .getAbsolutePath()+"/" + fileName);
+    		        String type = "audio/wav";
+    		        intent.setDataAndType(data, type);
+    		        startActivity(intent);
+*/
+    			}
+    			
+    			
 			}
 		});
 	       
 	}
 	
 	
-	public static Uri getImageContentUri(Context context, String  filePath) {
+	public static Uri getImageContentUri(Context context, String filePath) {
 
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[] { MediaStore.Images.Media._ID },
                 MediaStore.Images.Media.DATA + "=? ",
                 new String[] { filePath }, null);
+        
         if (cursor != null && cursor.moveToFirst()) {
             int id = cursor.getInt(cursor
                     .getColumnIndex(MediaStore.MediaColumns._ID));
             Uri baseUri = Uri.parse("content://media/external/images/media");
-            return Uri.withAppendedPath(baseUri, "" + id);
-        } else {
-            /*if (imageFile.exists()) {
+            Uri uri =  Uri.withAppendedPath(baseUri, "" + id);
+            return uri;
+          } else {
+            if (true) {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATA, filePath);
                 return context.getContentResolver().insert(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             } else {
                 return null;
-            }*/
+            }
         }
-		return null;
     }
 	
 	private class getMessageContentListener implements ATTIAMListener {
