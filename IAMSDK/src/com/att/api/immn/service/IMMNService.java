@@ -4,12 +4,15 @@ package com.att.api.immn.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -254,15 +257,28 @@ public class IMMNService extends APIService {
         final String endpoint = getFQDN() + "/myMessages/v2/messages/" + msgId
                 + "/parts/" + partNumber;
 
-        final APIResponse response = new RESTClient(endpoint)
+        /*final APIResponse response = new RESTClient(endpoint)
             .addAuthorizationHeader(getToken())
             .setHeader("Accept", "application/json")
             .httpGet();
+*/        
+        final APIResponse getMessageContentResponse = new RESTClient(endpoint)
+        .addAuthorizationHeader(getToken())
+        .setHeader("Accept", "application/json")
+        .httpGetMessageContent();
 
-        String ctype = response.getHeader("Content-Type");
-        String clength = response.getHeader("Content-Length");
-        String content = response.getResponseBody();
-        return new MessageContent(ctype, clength, content);
+        String ctype = getMessageContentResponse.getHeader("Content-Type");
+        String clength = getMessageContentResponse.getHeader("Content-Length");
+        InputStream stream = null;
+		try {
+			stream = getMessageContentResponse.getResponseStream();//getHttpEntityforContent().getContent();
+		} catch (IllegalStateException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+      
+        return new MessageContent(ctype, clength, stream);
+        //return new MessageContent(ctype, clength, content);
     }
 
     public DeltaResponseInternal getDelta(final String state) throws RESTException, JSONException, ParseException {

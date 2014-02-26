@@ -15,10 +15,13 @@
 package com.att.api.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
 /*
@@ -36,10 +39,12 @@ public class APIResponse {
     /* HTTP response body. */
     private final String responseBody;
 
+    private final InputStream responseStream;
+    
     /* Array of HTTP headers. */
     private final HttpHeader[] headers;
     
-    //private final HttpEntity httpEntityforContent;
+    private final HttpEntity httpEntityforContent;
 
     /*
      * Given an HttpResponse object, this method generates an array of HTTP
@@ -71,12 +76,13 @@ public class APIResponse {
      * @param responseBody response body
      * @param headers http headers
      */
-    public APIResponse(int statusCode, String responseBody,
-            HttpHeader[] headers/*, HttpEntity entity*/) {
+    public APIResponse(int statusCode, String responseBody, InputStream responseStream,
+            HttpHeader[] headers, HttpEntity entity/*, long contentLength*/) {
 
         this.statusCode = statusCode;
         this.responseBody = responseBody;
-      //  this.httpEntityforContent = entity;
+        this.responseStream = responseStream;
+        this.httpEntityforContent = entity;
 
         // avoid potentially exposing internals
         this.headers = APIResponse.copyHeaders(headers);
@@ -92,14 +98,18 @@ public class APIResponse {
      */
     @Deprecated
     public APIResponse(HttpResponse httpResponse) throws RESTException {
-        try {
-            statusCode = httpResponse.getStatusLine().getStatusCode();
-           // httpEntityforContent = httpResponse.getEntity();
-            responseBody = EntityUtils.toString(httpResponse.getEntity());
-            headers = APIResponse.buildHeaders(httpResponse);
-        } catch (IOException ioe) {
-            throw new RESTException(ioe);
-        }
+    	try {
+    		statusCode = httpResponse.getStatusLine().getStatusCode();
+    		httpEntityforContent = httpResponse.getEntity();
+    		responseStream = null;
+		//responseBody = null;		
+			responseBody = EntityUtils.toString(httpResponse.getEntity());
+			headers = APIResponse.buildHeaders(httpResponse);
+		} 
+    	catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new RESTException(e);	
+		}
     }
 
     /*
@@ -120,7 +130,11 @@ public class APIResponse {
         return this.responseBody;
     }
 
-    /*
+    public InputStream getResponseStream() {
+    	return this.responseStream;
+    }
+    
+       /*
      * Gets an array of all http headers returned.
      *
      * <p>
@@ -159,10 +173,10 @@ public class APIResponse {
         return null;
     }
 
-    /*public  HttpEntity getHttpEntityforContent() {
+    public  HttpEntity getHttpEntityforContent() {
 		return httpEntityforContent;
 	}
-*/
+
 
 	/*
      * Alias for <code>valueOf()</code>.
@@ -178,6 +192,33 @@ public class APIResponse {
 
         return APIResponse.valueOf(httpResponse);
     }
+    
+    public static APIResponse fromHttpResponseForGetMessageContent(HttpResponse httpResponse)
+            throws RESTException {
+
+        return APIResponse.valueOfGetMessageContent(httpResponse);
+    }
+    
+    public static APIResponse valueOfGetMessageContent(HttpResponse httpResponse)
+            throws RESTException {
+    	try {
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+		String rb = "";
+		InputStream responseStream = null;
+		HttpEntity httpEntity = httpResponse.getEntity();
+		if ( httpEntity != null) {
+		   // rb = EntityUtils.toString(httpResponse.getEntity());		
+				responseStream = httpEntity.getContent();
+			} 
+		HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
+		return new APIResponse(statusCode, rb, responseStream, headers, httpEntity);
+    	}
+		catch (IOException e) {
+				// TODO Auto-generated catch block
+			throw new RESTException(e);
+		}
+		
+    }
 
     /*
      * Factory method for creating an API response from an
@@ -191,20 +232,26 @@ public class APIResponse {
      */
     public static APIResponse valueOf(HttpResponse httpResponse)
             throws RESTException {
-
-        try {
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-            String rb = "";
-            HttpEntity httpEntity = null;
-            if (httpResponse.getEntity() != null) {
-            	httpEntity = httpResponse.getEntity();
-                rb = EntityUtils.toString(httpResponse.getEntity());
-                           }
-            HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
-            return new APIResponse(statusCode, rb, headers/*, httpEntity*/);
-        } catch (IOException ioe) {
-            throw new RESTException(ioe);
-        }
+    	try {
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
+		String rb = "";
+		InputStream responseStream = null;
+		long responseLength = 0;
+		HttpEntity httpEntity = httpResponse.getEntity();
+		if ( httpEntity != null) {
+		   rb = EntityUtils.toString(httpResponse.getEntity());
+		   	responseStream = null;
+				//responseStream = httpEntity.getContent();
+				//responseLength = httpEntity.getContentLength();
+			} 
+		HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
+		return new APIResponse(statusCode, rb, responseStream, headers, httpEntity/*,responseLength*/);
+    	}
+		catch (IOException e) {
+				// TODO Auto-generated catch block
+			throw new RESTException(e);
+		}
+		
     }
 
     /*

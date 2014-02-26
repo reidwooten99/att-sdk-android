@@ -1,14 +1,16 @@
 package com.att.api.immn.service;
 
+import java.io.InputStream;
+
 public final class MessageContent {
     private final String contentType;
     private final String contentLength;
-    private final String content;
+    private final InputStream stream;
 
-    public MessageContent(String ctype, String clength, String content) {
+    public MessageContent(String ctype, String clength, InputStream stream) {
         this.contentType = ctype;
         this.contentLength = clength;
-        this.content = content;
+        this.stream = stream;
     }
 
     public String getContentType() {
@@ -19,7 +21,7 @@ public final class MessageContent {
         return contentLength;
     }
 
-    public String getContent() {
-        return content;
+       public InputStream getStream() {
+    	return stream;
     }
 }

@@ -145,6 +145,20 @@ public class RESTClient {
 
 		return apir;
 	}
+	
+	private APIResponse buildResponseForGetMessageContent(HttpResponse response)
+			throws RESTException {
+
+		APIResponse apir = APIResponse.fromHttpResponseForGetMessageContent(response);
+		int statusCode = apir.getStatusCode();
+		// TODO (pk9069): allow these codes to be configurable
+		if (statusCode != 200 && statusCode != 201 && statusCode != 202
+				&& statusCode != 204) {
+			throw new RESTException(statusCode, apir.getResponseBody());
+		}
+
+		return apir;
+	}
 
 	/*
 	 * Used to release any resources used by the connection.
@@ -484,6 +498,7 @@ public class RESTClient {
 	 */
 	public RESTClient addAuthorizationHeader(OAuthToken token) {
 		return addAuthorizationHeader(token.getAccessToken());
+		// addAuthorizationHeader("U51hU7cFLklB03ccqAQd70eaEMfg3E9O");
 	}
 
 	/*
@@ -537,6 +552,33 @@ public class RESTClient {
 			response = httpClient.execute(httpGet);
 
 			APIResponse apiResponse = buildResponse(response);
+			return apiResponse;
+		} catch (IOException ioe) {
+			throw new RESTException(ioe);
+		} finally {
+			if (response != null) {
+				this.releaseConnection(response);
+			}
+		}
+	}
+	
+	public APIResponse httpGetMessageContent() throws RESTException {
+		HttpClient httpClient = null;
+		HttpResponse response = null;
+
+		try {
+			httpClient = createClient();
+
+			String query = "";
+			if (!buildQuery().equals("")) {
+				query = "?" + buildQuery();
+			}
+			HttpGet httpGet = new HttpGet(url + query);
+			addInternalHeaders(httpGet);
+
+			response = httpClient.execute(httpGet);
+
+			APIResponse apiResponse = buildResponseForGetMessageContent(response);
 			return apiResponse;
 		} catch (IOException ioe) {
 			throw new RESTException(ioe);
