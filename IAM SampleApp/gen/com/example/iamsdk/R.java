@@ -15,15 +15,19 @@ public final class R {
 		public static final int ic_launcher = 0x7f02000b;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f08001d;
-		public static final int userConsentView = 0x7f080010;
+		public static final int action_settings = 0x7f08001b;
+		public static final int userConsentView = 0x7f08000e;
 	}
 	public static final class layout {
-		public static final int activity_user_consent = 0x7f030004;
+		public static final int activity_message_app = 0x7f030001;
+		public static final int activity_sms = 0x7f030004;
+		public static final int activity_user_consent = 0x7f030006;
 	}
 	public static final class menu {
 		public static final int main = 0x7f070002;
-		public static final int user_consent = 0x7f070005;
+		public static final int message_app = 0x7f070003;
+		public static final int sm = 0x7f070005;
+		public static final int user_consent = 0x7f070007;
 	}
 	public static final class string {
 		public static final int action_settings = 0x7f050001;
