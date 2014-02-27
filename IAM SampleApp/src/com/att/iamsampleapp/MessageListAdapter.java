@@ -23,10 +23,11 @@ public class MessageListAdapter extends BaseAdapter {
 		this.ctx = context;
 		mInflater = LayoutInflater.from(context);
 	}
-	
-	public Message[] deleteItem(int nIndex){
-		
-		System.arraycopy(messageList,nIndex+1,messageList,nIndex,messageList.length-1-nIndex);
+
+	public Message[] deleteItem(int nIndex) {
+
+		System.arraycopy(messageList, nIndex + 1, messageList, nIndex,
+				messageList.length - 1 - nIndex);
 		return messageList;
 	}
 
@@ -49,8 +50,8 @@ public class MessageListAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 
-			convertView = mInflater.inflate(R.layout.conversationlist_row_view, null);
-			// convertView = mInflater.inflate(R.layout., null);
+			convertView = mInflater.inflate(R.layout.conversationlist_row_view,
+					null);
 
 			holder = new ViewHolder();
 			holder.txtName = (TextView) convertView.findViewById(R.id.name);
@@ -82,9 +83,12 @@ public class MessageListAdapter extends BaseAdapter {
 		else {
 			holder.txtMessage.setText(messageList[position].getText());
 		}
-		
-		if(messageList[position].getType().equalsIgnoreCase("MMS")){
-			String str = (null != messageList[position].getSubject()) ? ("<Sub : "+ messageList[position].getSubject() + "> - MMS Atatchments Available") : "MMS Atatchments Available";  
+
+		if (messageList[position].getType().equalsIgnoreCase("MMS")) {
+			String str = (null != messageList[position].getSubject() && messageList[position]
+					.getSubject().length() > 0) ? ("<Sub : "
+					+ messageList[position].getSubject() + "> - MMS Atatchments Available")
+					: "MMS Atatchments Available";
 			holder.txtMessage.setText(str);
 		}
 		// Update message time
@@ -108,11 +112,10 @@ public class MessageListAdapter extends BaseAdapter {
 
 		// Message Read
 		int typeFace;
-		if (messageList[position].isUnread()){
+		if (messageList[position].isUnread()) {
 			typeFace = Typeface.BOLD_ITALIC;
 			convertView.setBackgroundColor(Utils.UnreadBG);
-		}
-		else{
+		} else {
 			typeFace = Typeface.NORMAL;
 			convertView.setBackgroundColor(Utils.ReadBG);
 		}
@@ -130,6 +133,4 @@ public class MessageListAdapter extends BaseAdapter {
 		ImageButton imgFavorite;
 		ImageView imgAttachment;
 	}
-	
-	
 }

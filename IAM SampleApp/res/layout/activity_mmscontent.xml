@@ -9,37 +9,12 @@
     tools:context=".MMSContent" >
 
     <TextView
-        android:id="@+id/lbl_files"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/files"
-        android:text="Attachments : "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/attachmentsFileName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/files"
-        android:layout_below="@+id/files"
-        android:layout_marginTop="30dp" />
-
-    <TextView
-        android:id="@+id/lbl_mms_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attachmentsFileName"
-        android:layout_below="@+id/attachmentsFileName"
-        android:layout_marginTop="24dp"
-        android:text="MMS Message :"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
         android:id="@+id/mmsmessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/lbl_mms_message"
         android:layout_below="@+id/lbl_mms_message"
+        android:text="No Text Content .. "
         android:layout_marginTop="16dp" />
 
     <TextView
@@ -49,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/mmsmessage"
         android:layout_below="@+id/mmsmessage"
-        android:text="Image Attachment :"
+        android:text="Attachment's List :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
       
@@ -61,5 +36,16 @@
         android:layout_alignLeft="@+id/mmsmessage"
         android:isScrollContainer="false">
     </ListView>
+
+    <TextView
+        android:id="@+id/lbl_mms_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="14dp"
+        android:text="MMS Message :"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

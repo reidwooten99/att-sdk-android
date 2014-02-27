@@ -656,7 +656,7 @@ public class ConversationList extends Activity {
 
 			messageList = msgList.getMessages();
 			prevMailboxState = msgList.getState();
-			if (null != msgList) {
+			if (null != msgList && null != msgList.getMessages() && msgList.getMessages().length>0) {
 				Utils.toastHere(
 						getApplicationContext(),
 						TAG,

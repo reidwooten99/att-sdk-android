@@ -53,7 +53,8 @@
         </activity>
         <activity
             android:name="com.att.iamsampleapp.MMSContent"
-            android:label="@string/title_activity_mmscontent" >
+            android:label="@string/title_activity_mmscontent"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
