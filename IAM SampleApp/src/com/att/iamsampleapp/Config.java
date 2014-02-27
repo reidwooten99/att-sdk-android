@@ -4,7 +4,7 @@ public class Config {
 	
 	public static String token;
 	public static String refreshToken;
-	public static final int messageLimit 	= 	10;
+	public static final int messageLimit 	= 	500;
 	public static final int messageOffset 	= 	0;
 	public static final int maxRecipients 	= 	10;
 	public static final int	maxAttachments	= 	21;
