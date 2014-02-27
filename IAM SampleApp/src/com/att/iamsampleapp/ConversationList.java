@@ -155,10 +155,10 @@ public class ConversationList extends Activity {
 					infoDialog((Message) messageListView
 							.getItemAtPosition(position));
 				}
-				// Launch the Message View Screen here
+/*				// Launch the Message View Screen here
 				Utils.toastHere(getApplicationContext(), TAG,
 						msgList.getMessages()[position].getText());
-			}
+*/			}
 		});
 
 		messageListView
@@ -349,7 +349,7 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 			// TODO Auto-generated method stub
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getTokenListener Error Callback",
+					+ "getTokenListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
 		}
@@ -380,11 +380,11 @@ public class ConversationList extends Activity {
 
 			Boolean msg = (Boolean) response;
 			if (msg) {
-				Toast toast = Toast.makeText(getApplicationContext(),
+/*				Toast toast = Toast.makeText(getApplicationContext(),
 						"updateMessagesListener onSuccess : Message : " + msg,
 						Toast.LENGTH_LONG);
 				toast.show();
-				deleteMessageFromList(deleteMessageID);
+*/				deleteMessageFromList(deleteMessageID);
 				iamManager = new IAMManager(Config.fqdn, authToken,
 						new getMessageListener());
 				iamManager.GetMessage(deleteMessageID);
@@ -397,7 +397,7 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  updateMessagesListener Error Callback",
+					+ "updateMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
 		}
@@ -414,10 +414,9 @@ public class ConversationList extends Activity {
 
 				deleteMessageFromList(deleteMessageID);
 				deleteMessageID = null;
-
-				Utils.toastHere(getApplicationContext(), TAG,
+/*				Utils.toastHere(getApplicationContext(), TAG,
 						"deleteMessagesListener onSuccess : " + msg);
-			}
+*/			}
 			dismissProgressDialog();
 		}
 
@@ -425,7 +424,7 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  deleteMessagesListener Error Callback",
+					+ "deleteMessagesListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
 			dismissProgressDialog();
@@ -439,10 +438,10 @@ public class ConversationList extends Activity {
 
 			Boolean msg = (Boolean) response;
 			if (msg)
-				Utils.toastHere(getApplicationContext(), TAG,
+/*				Utils.toastHere(getApplicationContext(), TAG,
 						"createMessageIndexListener onSuccess : Message : "
 								+ msg);
-
+*/
 			getMessageList();
 		}
 
@@ -450,7 +449,7 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "Iam in  createMessageIndexListener Error Callback");
+					+ "createMessageIndexListener Error Callback");
 		}
 	}
 
@@ -482,7 +481,7 @@ public class ConversationList extends Activity {
 		public void onError(Object arg0) {
 			dismissProgressDialog();
 			Utils.toastHere(getApplicationContext(), TAG,
-					"In  getMessageListener Error Callback");
+					"getMessageListener Error Callback");
 		}
 
 		@Override
@@ -509,11 +508,12 @@ public class ConversationList extends Activity {
 				messageListView.setAdapter(adapter);
 
 				dismissProgressDialog();
-				Utils.toastHere(
+/*				Utils.toastHere(
 						getApplicationContext(),
 						TAG,
 						" getMessageListener onSuccess Message : "
 								+ msg.getText());
+*/
 			}
 		}
 	}
@@ -535,21 +535,12 @@ public class ConversationList extends Activity {
 
 				prevMailboxState = delta.getState();
 
-				Utils.toastHere(
+/*				Utils.toastHere(
 						getApplicationContext(),
 						TAG,
 						"getDeltaListener onSuccess : Message : "
 								+ delta.getState());
-
-				/*
-				 * int nChanges = delta.getDeltaChanges().length;
-				 * 
-				 * String messageID[] = new String[nChanges];
-				 * 
-				 * for (int n = 0; n < nChanges; n++) { messageID[n] =
-				 * delta.getDeltaChanges()[n].getMessageId(); }
-				 */
-
+*/
 				updateMessageList(delta);
 			} else {
 				dismissProgressDialog();
@@ -560,7 +551,7 @@ public class ConversationList extends Activity {
 		public void onError(Object error) {
 			dismissProgressDialog();
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "Iam in  getDeltaListener Error Callback");
+					+ "getDeltaListener Error Callback");
 		}
 	}
 
@@ -629,20 +620,18 @@ public class ConversationList extends Activity {
 
 			msgIndexInfo = (MessageIndexInfo) response;
 			if (null != msgIndexInfo) {
-				Utils.toastHere(getApplicationContext(), TAG,
+/*				Utils.toastHere(getApplicationContext(), TAG,
 						"getMessageIndexInfoListener onSuccess : Message : "
 								+ msgIndexInfo.getState());
-
-				// getDelta(msgIndexInfo.getState());
+*/
 			}
 
 		}
 
 		@Override
 		public void onError(Object error) {
-
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "Iam in  getMessageIndexInfoListener Error Callback");
+					+ "getMessageIndexInfoListener Error Callback");
 		}
 
 	}
@@ -657,14 +646,14 @@ public class ConversationList extends Activity {
 			messageList = msgList.getMessages();
 			prevMailboxState = msgList.getState();
 			if (null != msgList && null != msgList.getMessages() && msgList.getMessages().length>0) {
-				Utils.toastHere(
+/*				Utils.toastHere(
 						getApplicationContext(),
 						TAG,
 						"getMessageListListener onSuccess : Message : "
 								+ msgList.getMessages()[0].getText()
 								+ ", From : "
 								+ msgList.getMessages()[0].getFrom());
-				adapter = new MessageListAdapter(getApplicationContext(),
+*/				adapter = new MessageListAdapter(getApplicationContext(),
 						msgList.getMessages());
 
 				messageListView.setAdapter(adapter);
@@ -677,7 +666,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(Object error) {
 			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "Iam in  getMessageListListener Error Callback");
+					+ "getMessageListListener Error Callback");
 		}
 
 	}

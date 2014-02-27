@@ -85,7 +85,7 @@ public class MMSContent extends Activity {
 
 						String filePath = Environment
 								.getExternalStorageDirectory().getPath()
-								+ "/InAppMessagingDownloads/"
+								+ "/" + Config.iamDownloadDirectory + "/"
 								+ listItems.get(position);
 
 						String extension = MimeTypeMap
@@ -98,21 +98,25 @@ public class MMSContent extends Activity {
 						Uri uri = getImageContentUri(getApplicationContext(),
 								filePath);
 
-						if (mimetype.contains("video")
-								|| mimetype.contains("audio")
-								|| mimetype.contains("image")) {
-							Intent launchIntent = new Intent();
-							launchIntent.setAction(Intent.ACTION_VIEW);
-							launchIntent.setDataAndType(uri, mimetype);
-							startActivity(launchIntent);
-						} else if (mimetype.contains("text")) {
+						try {
+							if (mimetype.contains("video")
+									|| mimetype.contains("audio")
+									|| mimetype.contains("image")) {
+								Intent launchIntent = new Intent();
+								launchIntent.setAction(Intent.ACTION_VIEW);
+								launchIntent.setDataAndType(uri, mimetype);
+								startActivity(launchIntent);
+							} else if (mimetype.contains("text")) {
 
-						} else {
-
+							} else {
+								Utils.toastHere(getApplicationContext(), TAG,
+										"Unable to recognize the media attachment ");
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
 							Utils.toastHere(getApplicationContext(), TAG,
-									"Unable to recognize the media attachment ");
+									        "Unable to open media attachment. Use " + filePath + " to open content." );
 						}
-
 					}
 				});
 
@@ -146,14 +150,15 @@ public class MMSContent extends Activity {
 		public void onSuccess(Object response) {
 
 			msgResponse = (MessageContent) response;
-			if (null != msgResponse) {
+/*
+ 			if (null != msgResponse) {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"getMessageContentListener onSuccess : Message : "
 								+ msgResponse.getContentType(),
 						Toast.LENGTH_LONG);
 				toast.show();
 			}
-
+*/
 			/*
 			 * if(msgResponse.getContentType().contains("TEXT/PLAIN")){
 			 * 
@@ -164,29 +169,13 @@ public class MMSContent extends Activity {
 
 			GetMessageContentTestTask getMessageContentTestTask = new GetMessageContentTestTask();
 			getMessageContentTestTask.execute(msgResponse);
-			// }
-			/*
-			 * String binaryData = msg.getContent(); if
-			 * (msg.getContentType().contains("TEXT/PLAIN")) { TextView txt =
-			 * (TextView) findViewById(R.id.mmsmessage);
-			 * txt.setText(binaryData); } else if
-			 * (msg.getContentType().contains("IMAGE/")) {
-			 * 
-			 * byte[] decodedString = Base64 .decode(binaryData,
-			 * Base64.URL_SAFE); Bitmap decodedByte =
-			 * BitmapFactory.decodeByteArray( decodedString, 0,
-			 * decodedString.length); ImageView image = (ImageView)
-			 * findViewById(R.id.mmsImageAttachment);
-			 * image.setImageBitmap(decodedByte); } else { Log.d(TAG,
-			 * "MMS Attachment : " + binaryData); }
-			 */
 		}
 
 		@Override
 		public void onError(Object error) {
 
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "Iam in  getMessageContentListener Error Callback",
+					+ "getMessageContentListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
 		}
@@ -202,7 +191,8 @@ public class MMSContent extends Activity {
 			String rootPath = Environment.getExternalStorageDirectory()
 					.getPath();
 
-			String dirPath = rootPath + "/InAppMessagingDownloads/";
+			String dirPath = rootPath + "/" + Config.iamDownloadDirectory + "/";
+
 			File iamDir = new File(dirPath);
 			if (!iamDir.exists()) {
 				iamDir.mkdirs();
@@ -257,10 +247,11 @@ public class MMSContent extends Activity {
 			super.onPostExecute(filePath);
 			if (null != filePath) {
 
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"Bitmap is not NULL", Toast.LENGTH_SHORT);
+/*				Toast toast = Toast.makeText(getApplicationContext(),
+						"Content is not NULL", Toast.LENGTH_SHORT);
 				toast.show();
-				String[] fileName = filePath.split("InAppMessagingDownloads/");
+*/
+				String[] fileName = filePath.split(Config.iamDownloadDirectory + "/");
 				if (fileName.length == 1) {
 
 					TextView txt = (TextView) findViewById(R.id.mmsmessage);

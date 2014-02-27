@@ -22,6 +22,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
@@ -118,73 +119,52 @@ public class IMMNService extends APIService {
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
         			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
         	    
-        		//if ( fattach.contains("jpeg") || fattach.contains("png") ) 
-        		if( mimetype.contains("image") ) {
-        			Bitmap bm = BitmapFactory.decodeFile(fattach);
-        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
-        			contentType = "image/png";
-        			fileName = "image" + index + ".png";
-        		} //else if(fattach.contains("wav") || fattach.contains("mp4")) {
-        		else if(mimetype.contains("audio") || (mimetype.contains("video"))) {
-        				if(mimetype.contains("audio") ){
-        					contentType = "audio/wav";
-        					fileName = "audio.wav";
-        				}
-        					else {
-        					contentType = "video/mp4";
-        					fileName = "video.mp4";
-        				}
-        				File inputFile = new File(fattach);
-        				FileInputStream fis;					
-        				try {
-        					fis = new FileInputStream(inputFile);	
-        					while ( true ) {
-        						byte[] buf = new byte[4096];
-        						int count = fis.read(buf, 0, 4096);
-        						if ( count == -1 ) {
-        							break;
-        						}
-        						baos.write(buf,0,count);
-        					}
-        				}					
-        				catch (IOException ex) {
-        					Log.e("AudioMMS", " exception", ex);
-        				}
-        			}
+	        		if( mimetype.contains("image") ) {
+	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
+	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
+	        			contentType = "image/png";
+	        			fileName = "image" + index + ".png";
+	        		} else if(mimetype.contains("audio") || (mimetype.contains("video"))) {
+	        				if(mimetype.contains("audio") ){
+	        					contentType = "audio/wav";
+	        					fileName = "audio.wav";
+	        				}
+	        					else {
+	        					contentType = "video/mp4";
+	        					fileName = "video.mp4";
+	        				}
+	        				File inputFile = new File(fattach);
+	        				FileInputStream fis;					
+	        				try {
+	        					fis = new FileInputStream(inputFile);	
+	        					while ( true ) {
+	        						byte[] buf = new byte[4096];
+	        						int count = fis.read(buf, 0, 4096);
+	        						if ( count == -1 ) {
+	        							break;
+	        						}
+	        						baos.write(buf,0,count);
+	        					}
+	        				}					
+	        				catch (IOException ex) {
+	        					Log.e("AudioMMS", " exception", ex);
+	        				}
+	        		}
         			
-				byte[] b = baos.toByteArray();
-
-				String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
-				encodedBytes = encodedBytes.replace('-', '+');
-				encodedBytes = encodedBytes.replace('_', '/');
-				encodedBytes = encodedBytes.replace("\n", "");
-				attachBody.put("body", encodedBytes);
-				attachBody.put("fileName", fileName);
-				attachBody.put("content-type", contentType);
-				attachBody.put("content-transfer-encoding", "BASE64");
-				jattach.put(attachBody);
+					byte[] b = baos.toByteArray();
+	
+					String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
+					encodedBytes = encodedBytes.replace('-', '+');
+					encodedBytes = encodedBytes.replace('_', '/');
+					encodedBytes = encodedBytes.replace("\n", "");
+					attachBody.put("body", encodedBytes);
+					attachBody.put("fileName", fileName);
+					attachBody.put("content-type", contentType);
+					attachBody.put("content-transfer-encoding", "BASE64");
+					jattach.put(attachBody);
+        		}
         	}
-        }
-        	
-        	/*if (msg != null) {
-        		index++;
-        		JSONObject attachBody = new JSONObject();
-        		String contentType = "plain/text";
-        		String fileName = "file" + index + ".txt";
-        		
-        		byte[] b = msg.getBytes();
-				String encodedBytes = Base64.encodeToString(b, Base64.URL_SAFE);
-				encodedBytes = encodedBytes.replace('-', '+');
-				encodedBytes = encodedBytes.replace('_', '/');
-				encodedBytes = encodedBytes.replace("\n", "");
-				attachBody.put("body", encodedBytes);
-				attachBody.put("fileName", fileName);
-				attachBody.put("content-type", contentType);
-				attachBody.put("content-transfer-encoding", "BASE64");
-				jattach.put(attachBody);
-        	}
-*/
-        	body.put("messageContent", jattach);
+        body.put("messageContent", jattach);
         }
         
         jsonBody.put("messageRequest", body);
@@ -194,11 +174,14 @@ public class IMMNService extends APIService {
             .setHeader("Content-Type", "application/json")
             .addAuthorizationHeader(this.getToken());
 
-        final APIResponse response = rest.httpPost(jsonBody.toString());
-
-
-        JSONObject jobj = new JSONObject(response.getResponseBody());
-		return SendResponse.valueOf(jobj);
+        APIResponse response = null;
+		try {
+			response = rest.httpPost(jsonBody.toString());
+			JSONObject jobj = new JSONObject(response.getResponseBody());
+			return SendResponse.valueOf(jobj);
+		} catch (Exception e) {
+			throw new RESTException("Unable to send message");
+		}
     }
 
     public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
@@ -256,12 +239,7 @@ public class IMMNService extends APIService {
 
         final String endpoint = getFQDN() + "/myMessages/v2/messages/" + msgId
                 + "/parts/" + partNumber;
-
-        /*final APIResponse response = new RESTClient(endpoint)
-            .addAuthorizationHeader(getToken())
-            .setHeader("Accept", "application/json")
-            .httpGet();
-*/        
+      
         final APIResponse getMessageContentResponse = new RESTClient(endpoint)
         .addAuthorizationHeader(getToken())
         .setHeader("Accept", "application/json")
@@ -269,16 +247,19 @@ public class IMMNService extends APIService {
 
         String ctype = getMessageContentResponse.getHeader("Content-Type");
         String clength = getMessageContentResponse.getHeader("Content-Length");
-        InputStream stream = null;
-		try {
-			stream = getMessageContentResponse.getResponseStream();//getHttpEntityforContent().getContent();
-		} catch (IllegalStateException e1) {
+        
+		if ( Integer.parseInt(clength) > ( 1024 * 1024 ) ) {
+			 throw new RESTException("Attachment exceeds size limit of 1MB");
+		} else {
+			InputStream stream = null;
+			try {
+				stream = getMessageContentResponse.getResponseStream();
+			} catch (IllegalStateException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+				e1.printStackTrace();			
+			}
+			return new MessageContent(ctype, clength, stream);
 		}
-      
-        return new MessageContent(ctype, clength, stream);
-        //return new MessageContent(ctype, clength, content);
     }
 
     public DeltaResponseInternal getDelta(final String state) throws RESTException, JSONException, ParseException {

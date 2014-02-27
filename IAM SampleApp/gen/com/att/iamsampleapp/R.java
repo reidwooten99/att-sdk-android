@@ -76,20 +76,24 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_conversation_list=0x7f030000;
-        public static final int activity_mmscontent=0x7f030001;
-        public static final int activity_new_message=0x7f030002;
-        public static final int activity_splash_screen=0x7f030003;
-        public static final int activity_user_consent=0x7f030004;
-        public static final int attachmentlist_row_view=0x7f030005;
-        public static final int conversationlist_row_view=0x7f030006;
+        public static final int activity_message_app=0x7f030001;
+        public static final int activity_mmscontent=0x7f030002;
+        public static final int activity_new_message=0x7f030003;
+        public static final int activity_sms=0x7f030004;
+        public static final int activity_splash_screen=0x7f030005;
+        public static final int activity_user_consent=0x7f030006;
+        public static final int attachmentlist_row_view=0x7f030007;
+        public static final int conversationlist_row_view=0x7f030008;
     }
     public static final class menu {
         public static final int action_conversation_list=0x7f070000;
         public static final int action_new_message=0x7f070001;
         public static final int main=0x7f070002;
-        public static final int mmscontent=0x7f070003;
-        public static final int splash_screen=0x7f070004;
-        public static final int user_consent=0x7f070005;
+        public static final int message_app=0x7f070003;
+        public static final int mmscontent=0x7f070004;
+        public static final int sm=0x7f070005;
+        public static final int splash_screen=0x7f070006;
+        public static final int user_consent=0x7f070007;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
