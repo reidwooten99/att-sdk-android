@@ -1,10 +1,12 @@
 package com.att.iamsampleapp;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -39,7 +41,7 @@ public class MMSContent extends Activity {
 	String[] mmsContentName, mmsContentType, mmsContentUrl, mmsType;
 	OAuthToken token;
 	IAMManager iamManager;
-	MessageContent msg;
+	MessageContent msgResponse;
 	ListView MessageContentListView;
 	ArrayList<String> listItems = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
@@ -68,11 +70,6 @@ public class MMSContent extends Activity {
 					mmsContentDetails[mmsContentDetails.length - 3],
 					mmsContentDetails[mmsContentDetails.length - 1]);
 		}
-		/*
-		 * TextView attachmentFiles = (TextView)
-		 * findViewById(R.id.attachmentsFileName);
-		 * attachmentFiles.setText(attachments.concat("."));
-		 */
 
 		MessageContentListView = (ListView) findViewById(R.id.messagecontentList);
 		adapter = new ArrayAdapter<String>(this,
@@ -108,6 +105,8 @@ public class MMSContent extends Activity {
 							launchIntent.setAction(Intent.ACTION_VIEW);
 							launchIntent.setDataAndType(uri, mimetype);
 							startActivity(launchIntent);
+						} else if (mimetype.contains("text")) {
+
 						} else {
 
 							Utils.toastHere(getApplicationContext(), TAG,
@@ -145,19 +144,27 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
 
-			msg = (MessageContent) response;
-			if (null != msg) {
+			msgResponse = (MessageContent) response;
+			if (null != msgResponse) {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"getMessageContentListener onSuccess : Message : "
-								+ msg.getContentType(), Toast.LENGTH_LONG);
+								+ msgResponse.getContentType(),
+						Toast.LENGTH_LONG);
 				toast.show();
 			}
 
-			InputStream stream = msg.getStream();
+			/*
+			 * if(msgResponse.getContentType().contains("TEXT/PLAIN")){
+			 * 
+			 * String tmp = msgResponse.getStream().toString(); TextView txt =
+			 * (TextView) findViewById(R.id.mmsmessage);
+			 * txt.setText(msgResponse.getStream().toString()); }else{
+			 */
+
 			GetMessageContentTestTask getMessageContentTestTask = new GetMessageContentTestTask();
-			getMessageContentTestTask.execute(stream);// Image
+			getMessageContentTestTask.execute(msgResponse);
+			// }
 			/*
 			 * String binaryData = msg.getContent(); if
 			 * (msg.getContentType().contains("TEXT/PLAIN")) { TextView txt =
@@ -177,7 +184,7 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onError(Object error) {
-			// TODO Auto-generated method stub
+
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "Iam in  getMessageContentListener Error Callback",
 					Toast.LENGTH_LONG);
@@ -186,12 +193,12 @@ public class MMSContent extends Activity {
 	}
 
 	public class GetMessageContentTestTask extends
-			AsyncTask<InputStream, Void, String> {
+			AsyncTask<MessageContent, Void, String> {
 
 		@Override
-		protected String doInBackground(InputStream... params) {
-			// TODO Auto-generated method stub
-			InputStream instream = params[0];
+		protected String doInBackground(MessageContent... params) {
+
+			InputStream instream = params[0].getStream();
 			String rootPath = Environment.getExternalStorageDirectory()
 					.getPath();
 
@@ -201,31 +208,45 @@ public class MMSContent extends Activity {
 				iamDir.mkdirs();
 			}
 
-			File file = null;
-			String[] contentTypeStr = msg.getContentType().split("=");
-			String filePath = dirPath + contentTypeStr[1];
-			file = new File(filePath);
+			String[] contentTypeStr = params[0].getContentType().split("=");
+			String[] fileName = contentTypeStr[1].split(";");
+			// String filePath = dirPath + contentTypeStr[1];
+			String filePath = dirPath + fileName[0];
 
-			// String path =
-			// "/storage/emulated/0/DCIM/Camera/IMG_TEST1_MMS.JPG";
-			// String path = "/storage/emulated/0/DCIM/Camera/Audio_MMS.wav";
-			// String path = "/storage/emulated/0/DCIM/Camera/Video_MMS.mp4";
-			FileOutputStream output = null;
-			try {
-				output = new FileOutputStream(filePath);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			int bufferSize = 1024;
-			byte[] buffer = new byte[bufferSize];
-			int len = 0;
-			try {
-				while ((len = instream.read(buffer)) != -1) {
-					output.write(buffer, 0, len);
+			if (fileName[0].contains(".txt")) {
+
+				BufferedReader r = new BufferedReader(new InputStreamReader(
+						instream));
+				StringBuilder total = new StringBuilder();
+				String line;
+				try {
+					while ((line = r.readLine()) != null) {
+						total.append(line);
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				output.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				filePath = total.toString();
+			} else {
+
+				FileOutputStream output = null;
+				try {
+					output = new FileOutputStream(filePath);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				int bufferSize = 1024;
+				byte[] buffer = new byte[bufferSize];
+				int len = 0;
+				try {
+					while ((len = instream.read(buffer)) != -1) {
+						output.write(buffer, 0, len);
+					}
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 			return filePath;
@@ -240,9 +261,14 @@ public class MMSContent extends Activity {
 						"Bitmap is not NULL", Toast.LENGTH_SHORT);
 				toast.show();
 				String[] fileName = filePath.split("InAppMessagingDownloads/");
-				listItems.add(fileName[1]);
-				adapter.notifyDataSetChanged();
+				if (fileName.length == 1) {
 
+					TextView txt = (TextView) findViewById(R.id.mmsmessage);
+					txt.setText(fileName[0]);
+				} else {
+					listItems.add(fileName[1]);
+					adapter.notifyDataSetChanged();
+				}
 			} else {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"InputStream is NULL", Toast.LENGTH_SHORT);

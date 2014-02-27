@@ -27,14 +27,15 @@
         android:text="Attachment's List :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-      
     <ListView
         android:id="@+id/messagecontentList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lblImage"
+        android:layout_above="@+id/textView1"
         android:layout_alignLeft="@+id/mmsmessage"
-        android:isScrollContainer="false">
+        android:layout_below="@+id/lblImage"
+        android:isScrollContainer="false" >
+
     </ListView>
 
     <TextView
@@ -47,5 +48,14 @@
         android:layout_marginTop="14dp"
         android:text="MMS Message :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/messagecontentList"
+        android:layout_alignParentBottom="true"
+        android:text="Tap on the attachment list to view them."
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
