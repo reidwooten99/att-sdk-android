@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -119,7 +120,25 @@ public class MMSContent extends Activity {
 						}
 					}
 				});
+		
+		showProgressDialog("Fetching the Contents...");
 
+	}
+	ProgressDialog pDialog;
+
+	public void showProgressDialog(String dialogMessage) {
+
+		if (null == pDialog)
+			pDialog = new ProgressDialog(this);
+		pDialog.setCancelable(false);
+		pDialog.setMessage(dialogMessage);
+		pDialog.show();
+	}
+	
+	public void dismissProgressDialog() {
+		if (null != pDialog) {
+			pDialog.dismiss();
+		}
 	}
 
 	public static Uri getImageContentUri(Context context, String filePath) {
@@ -148,7 +167,8 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-
+			
+			dismissProgressDialog();
 			msgResponse = (MessageContent) response;
 
 			GetMessageContentTestTask getMessageContentTestTask = new GetMessageContentTestTask();
@@ -157,7 +177,8 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onError(Object error) {
-
+			
+			dismissProgressDialog();
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
 					+ "getMessageContentListener Error Callback",
 					Toast.LENGTH_LONG);
