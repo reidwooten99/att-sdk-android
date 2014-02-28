@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/mmsmessage"
         android:layout_below="@+id/mmsmessage"
-        android:text="Attachment's List :"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView

@@ -60,7 +60,7 @@ public class MMSContent extends Activity {
 
 		for (int n = 0; n < mmsContentName.length; n++) {
 
-			if (mmsContentName[n].contains(".smil") || mmsContentName[n].length() == 0)
+			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
 			iamManager = new IAMManager(Config.fqdn, token,
@@ -150,22 +150,6 @@ public class MMSContent extends Activity {
 		public void onSuccess(Object response) {
 
 			msgResponse = (MessageContent) response;
-/*
- 			if (null != msgResponse) {
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"getMessageContentListener onSuccess : Message : "
-								+ msgResponse.getContentType(),
-						Toast.LENGTH_LONG);
-				toast.show();
-			}
-*/
-			/*
-			 * if(msgResponse.getContentType().contains("TEXT/PLAIN")){
-			 * 
-			 * String tmp = msgResponse.getStream().toString(); TextView txt =
-			 * (TextView) findViewById(R.id.mmsmessage);
-			 * txt.setText(msgResponse.getStream().toString()); }else{
-			 */
 
 			GetMessageContentTestTask getMessageContentTestTask = new GetMessageContentTestTask();
 			getMessageContentTestTask.execute(msgResponse);
@@ -247,16 +231,15 @@ public class MMSContent extends Activity {
 			super.onPostExecute(filePath);
 			if (null != filePath) {
 
-/*				Toast toast = Toast.makeText(getApplicationContext(),
-						"Content is not NULL", Toast.LENGTH_SHORT);
-				toast.show();
-*/
 				String[] fileName = filePath.split(Config.iamDownloadDirectory + "/");
 				if (fileName.length == 1) {
 
 					TextView txt = (TextView) findViewById(R.id.mmsmessage);
 					txt.setText(fileName[0]);
 				} else {
+					TextView tv = (TextView)findViewById(R.id.lblImage);
+					if(tv.getText().length() == 0)
+						tv.setText("Attachment's List :");
 					listItems.add(fileName[1]);
 					adapter.notifyDataSetChanged();
 				}
