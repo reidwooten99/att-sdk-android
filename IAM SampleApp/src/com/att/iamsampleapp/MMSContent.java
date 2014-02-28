@@ -61,7 +61,7 @@ public class MMSContent extends Activity {
 
 		for (int n = 0; n < mmsContentName.length; n++) {
 
-			if (mmsContentName[n].equalsIgnoreCase("smil.xml"))
+			if (mmsContentName[n].contains(".smil") || mmsContentName[n].length() == 0)
 				continue;
 
 			iamManager = new IAMManager(Config.fqdn, token,
