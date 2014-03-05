@@ -233,7 +233,7 @@ public class NewMessage extends Utils {
 		@Override
 		public void onError(InAppMessagingError arg0) {
 			dismissProgressDialog();
-//			infoDialog("Message send failed !!", false );
+			infoDialog("Message send failed !!", false );
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"Message: sendMessageListener Error Callback " + arg0.getErrorMessage(),
 					Toast.LENGTH_SHORT);

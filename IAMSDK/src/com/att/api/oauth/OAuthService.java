@@ -314,7 +314,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
     		
     }*/
     
-    @Override
+    /*@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
@@ -330,7 +330,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
 //				onError(oAuthCode);
 			}
 		}
-	}
+	}*/
     /**
      * Background task to get the access token
      * 

@@ -1,9 +1,6 @@
 package com.att.api.error;
 
 public class InAppMessagingError {
-
-		//Error types
-	public static final int ERROR_BAD_REQUEST = 400;
 	
 	private String errorMessage = null;
 	private int httpResponseCode = 0;
