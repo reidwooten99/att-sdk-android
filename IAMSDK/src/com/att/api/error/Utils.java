@@ -14,14 +14,16 @@ public class Utils {
 
     	try {
 			JSONObject jobj = new JSONObject( exception.getErrorMessage());
-			JSONObject jobj1 = jobj.getJSONObject("RequestError");
-			JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
-			errorMessage = jobj2.getString("Text");
+			if( null !=  jobj) {
+				JSONObject jobj1 = jobj.getJSONObject("RequestError");
+				JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
+				errorMessage = jobj2.getString("Text");
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-   	
+    	
     	errorResponse = new InAppMessagingError(errorMessage, exception.getStatusCode(), exception.getErrorMessage() );
     	return errorResponse;
     }

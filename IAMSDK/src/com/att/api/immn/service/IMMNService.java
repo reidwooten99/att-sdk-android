@@ -178,24 +178,17 @@ public class IMMNService extends APIService {
 
         APIResponse response = null;
         JSONObject jobj = null;
-		//try {
+		try {
 			response = rest.httpPost(jsonBody.toString());	
 			jobj = new JSONObject(response.getResponseBody());	
 			return SendResponse.valueOf(jobj);			
-/*		} catch (Exception e) {
-			throw new RESTException(response.getStatusCode(),response.getResponseBody());
-			//errorObject = CreateErrorObject(response);
-
-		} */
+		} catch (RESTException e) {
+			throw e;
+			//e.printStackTrace();
+		} 
     }
-    
-   /* public InAppMessagingError CreateErrorObject(APIResponse response) {
-    	InAppMessagingError errorResponse = null;
-    	errorResponse = new InAppMessagingError(response.getResponseBody(), response.getStatusCode());
-    	return errorResponse;
-    }
-
-*/    public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
+   
+    public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
         return getMessageList(new MessageListArgs.Builder(limit, offset).build());
     }
 

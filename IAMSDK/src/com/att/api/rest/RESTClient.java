@@ -140,7 +140,8 @@ public class RESTClient {
 		// TODO (pk9069): allow these codes to be configurable
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
-			throw new RESTException(statusCode, apir.getResponseBody());
+			RESTException restExce = new RESTException(statusCode, apir.getResponseBody());
+			throw restExce;
 		}
 
 		return apir;
@@ -155,6 +156,7 @@ public class RESTClient {
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
 			throw new RESTException(statusCode, apir.getResponseBody());
+			
 		}
 
 		return apir;
@@ -555,7 +557,10 @@ public class RESTClient {
 			return apiResponse;
 		} catch (IOException ioe) {
 			throw new RESTException(ioe);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        }finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -582,7 +587,10 @@ public class RESTClient {
 			return apiResponse;
 		} catch (IOException ioe) {
 			throw new RESTException(ioe);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        }finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -653,10 +661,9 @@ public class RESTClient {
         } catch (IOException e) {
             throw new RESTException(e);
         } catch(RESTException  exception) {
-			throw new RESTException(exception.getStatusCode(), exception.getErrorMessage());
-			
-        	//Log.i("TAG", exception.getLocalizedMessage());
-        }finally {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        } finally {
             if (response != null) {
                 this.releaseConnection(response);
             }
@@ -695,7 +702,8 @@ public class RESTClient {
 			return buildResponse(httpClient.execute(httpPost));
 		} catch (Exception e) {
 			throw new RESTException(e);
-		} finally {
+		}
+		finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -863,7 +871,8 @@ public class RESTClient {
 			return buildResponse(httpClient.execute(httpPost));
 		} catch (Exception e) {
 			throw new RESTException(e);
-		} finally {
+		}
+		finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -931,7 +940,7 @@ public class RESTClient {
 			return buildResponse(httpClient.execute(httpPost));
 		} catch (Exception e) {
 			throw new RESTException(e);
-		} finally {
+		}finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -984,7 +993,10 @@ public class RESTClient {
 			return buildResponse(httpClient.execute(httpPost));
 		} catch (IOException e) {
 			throw new RESTException(e);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        }finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -1011,7 +1023,10 @@ public class RESTClient {
 			return buildResponse(response);
 		} catch (IOException e) {
 			throw new RESTException(e);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        }finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -1040,7 +1055,10 @@ public class RESTClient {
 			return apiResponse;
 		} catch (IOException ioe) {
 			throw new RESTException(ioe);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        } finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}
@@ -1064,7 +1082,10 @@ public class RESTClient {
 			return apiResponse;
 		} catch (IOException ioe) {
 			throw new RESTException(ioe);
-		} finally {
+		} catch(RESTException  exception) {
+			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
+        }finally {
 			if (response != null) {
 				this.releaseConnection(response);
 			}

@@ -352,10 +352,12 @@ public class OAuthService extends Activity implements ATTIAMListener {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
 			} catch (JSONException e) {
-				errorObj.setErrorMessage(e.getMessage());
+				//errorObj.setErrorMessage(e.getMessage());
+				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);			
 			} catch (ParseException e) {
-				errorObj.setErrorMessage(e.getMessage());
+				//errorObj.setErrorMessage(e.getMessage());
+				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			}
 			return accestoken;
