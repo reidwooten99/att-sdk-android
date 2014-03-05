@@ -7,6 +7,8 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -37,17 +39,19 @@ public class APIGetMessageList implements ATTIAMListener {
 		protected MessageList doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			MessageList messageList = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				messageList = immnSrvc.getMessageList(params[0],params[1]);
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			return messageList;
 		}
@@ -58,8 +62,6 @@ public class APIGetMessageList implements ATTIAMListener {
 			super.onPostExecute(messageList);
 			if( null != messageList ) {
 				onSuccess((MessageList) messageList);
-			} else {
-				onError((MessageList) messageList);
 			}
 			
 		}
@@ -84,17 +86,14 @@ public class APIGetMessageList implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
-			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
-				
 			}
 		});
 		

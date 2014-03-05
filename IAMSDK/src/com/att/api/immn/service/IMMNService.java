@@ -24,6 +24,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
+//import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
@@ -33,7 +34,8 @@ import com.att.api.service.APIService;
 
 public class IMMNService extends APIService {
 
-    public IMMNService(String fqdn, OAuthToken token) {
+//	InAppMessagingError errorObject;
+	public IMMNService(String fqdn, OAuthToken token) {
         super(fqdn, token);
     }
 
@@ -96,7 +98,7 @@ public class IMMNService extends APIService {
         if (addresses.length <= 1)
             group = false;
         body.put("isGroup", group);
-
+   	
         JSONArray jaddrs = new JSONArray();
         for (String addr : addresses)
         	if(addr != null)
@@ -175,16 +177,25 @@ public class IMMNService extends APIService {
             .addAuthorizationHeader(this.getToken());
 
         APIResponse response = null;
-		try {
-			response = rest.httpPost(jsonBody.toString());
-			JSONObject jobj = new JSONObject(response.getResponseBody());
-			return SendResponse.valueOf(jobj);
-		} catch (Exception e) {
-			throw new RESTException("Unable to send message");
-		}
+        JSONObject jobj = null;
+		//try {
+			response = rest.httpPost(jsonBody.toString());	
+			jobj = new JSONObject(response.getResponseBody());	
+			return SendResponse.valueOf(jobj);			
+/*		} catch (Exception e) {
+			throw new RESTException(response.getStatusCode(),response.getResponseBody());
+			//errorObject = CreateErrorObject(response);
+
+		} */
+    }
+    
+   /* public InAppMessagingError CreateErrorObject(APIResponse response) {
+    	InAppMessagingError errorResponse = null;
+    	errorResponse = new InAppMessagingError(response.getResponseBody(), response.getStatusCode());
+    	return errorResponse;
     }
 
-    public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
+*/    public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
         return getMessageList(new MessageListArgs.Builder(limit, offset).build());
     }
 

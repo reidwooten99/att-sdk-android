@@ -652,8 +652,10 @@ public class RESTClient {
             apiresponse= buildResponse(response);
         } catch (IOException e) {
             throw new RESTException(e);
-        } catch(Exception exception){
-        	Log.i("TAG", exception.getLocalizedMessage());
+        } catch(RESTException  exception) {
+			throw new RESTException(exception.getStatusCode(), exception.getErrorMessage());
+			
+        	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
             if (response != null) {
                 this.releaseConnection(response);

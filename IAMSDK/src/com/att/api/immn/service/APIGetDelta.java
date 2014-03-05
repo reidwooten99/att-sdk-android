@@ -7,6 +7,8 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -33,17 +35,19 @@ public class APIGetDelta implements ATTIAMListener {
 		protected DeltaResponse doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			DeltaResponseInternal deltaResponseInternal = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				deltaResponseInternal = immnSrvc.getDelta(params[0]);
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			String state = deltaResponseInternal.getState();
 			int numChanges = 0;
@@ -99,8 +103,6 @@ public class APIGetDelta implements ATTIAMListener {
 			super.onPostExecute(deltaResponse);
 			if(null != deltaResponse) {
 				onSuccess((DeltaResponse) deltaResponse);
-			} else {
-				onError((DeltaResponse) deltaResponse);
 			}
 			
 		}
@@ -123,19 +125,16 @@ public class APIGetDelta implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
-			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
 			}
 		});
 		
 	}
-
 }

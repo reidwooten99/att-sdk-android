@@ -24,6 +24,8 @@ import org.apache.http.ParseException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
+import com.att.api.error.InAppMessagingError;
+
 /*
  * Immutable class that holds API response information.
  *

@@ -3,6 +3,8 @@ package com.att.api.immn.service;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -33,11 +35,13 @@ public class APIGetMessageContent implements ATTIAMListener {
 		protected MessageContent doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			MessageContent msgContent = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				msgContent = immnSrvc.getMessageContent(params[0], params[1]);
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			}
 			return msgContent;
 		}
@@ -48,8 +52,6 @@ public class APIGetMessageContent implements ATTIAMListener {
 			super.onPostExecute(msgContent);
 			if(null !=  msgContent) {
 				onSuccess((MessageContent) msgContent);
-			} else {
-				onError((MessageContent) msgContent);
 			}
 		}
 		
@@ -74,15 +76,13 @@ public class APIGetMessageContent implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
-			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
 			}
 		});

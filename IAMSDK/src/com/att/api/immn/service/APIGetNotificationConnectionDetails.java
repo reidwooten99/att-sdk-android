@@ -7,6 +7,8 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -37,17 +39,19 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 		protected NotificationConnectionDetails doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			NotificationConnectionDetails notificationDetails = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				notificationDetails = immnSrvc.getNotificationConnectionDetails(params[0]);
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			
 			return notificationDetails;
@@ -59,8 +63,6 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 			super.onPostExecute(notificationDetails);
 			if(null != notificationDetails) {
 				onSuccess((NotificationConnectionDetails) notificationDetails);
-			} else {
-				onError((NotificationConnectionDetails) notificationDetails);
 			}
 			
 		}
@@ -85,14 +87,14 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
+			@Override
 			public void run() {
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
-				
 			}
 		});
 		

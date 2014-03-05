@@ -3,6 +3,7 @@ package com.att.api.consentactivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
@@ -122,9 +123,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	}
 
 	@Override
-	public void onError(Object error) {
+	public void onError(InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

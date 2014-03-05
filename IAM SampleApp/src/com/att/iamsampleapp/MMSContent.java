@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.MessageContent;
@@ -192,14 +193,14 @@ public class MMSContent extends Activity {
 		}
 
 		@Override
-		public void onError(Object error) {
-			
+		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "getMessageContentListener Error Callback",
+					+"getMessageContentListener Error Callback",
 					Toast.LENGTH_LONG);
 			toast.show();
 		}
+		
 	}
 
 	public class GetMessageContentTestTask extends

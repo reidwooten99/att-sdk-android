@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -20,6 +22,7 @@ public class APISendMessage implements ATTIAMListener {
 	private ATTIAMListener iamListener;
 	IMMNService immnSrvc;
 	protected Handler handler = new Handler();
+
 
 	public APISendMessage(String address, String message,
 			IMMNService immnService, ATTIAMListener iamListener) {
@@ -43,12 +46,17 @@ public class APISendMessage implements ATTIAMListener {
 		SendMessageTask sendMessageTask = new SendMessageTask();
 		sendMessageTask.execute(sendMessageParams);
 	}
+	
+	
+	
 
 	public class SendMessageTask extends AsyncTask<SendMessageParams, Void, SendResponse> {
 
 		@Override
 		protected SendResponse doInBackground(SendMessageParams... params) {
 			SendResponse sendMessageResponse = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				sendMessageResponse = immnSrvc.sendMessage(params[0].getAddresses(),
 														   params[0].getMessage(),
@@ -56,11 +64,14 @@ public class APISendMessage implements ATTIAMListener {
 														   params[0].getGroup(),
 														   params[0].getAttachments());
 			} catch (RESTException e) {
-				onError(e);
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				onError(e);
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				onError(e);
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			return sendMessageResponse;
 		}
@@ -71,11 +82,11 @@ public class APISendMessage implements ATTIAMListener {
 			super.onPostExecute(sendMessageResponse);
 			if( null != sendMessageResponse) {
 				onSuccess((SendResponse) sendMessageResponse);
-			} else {
+			} /*else {
 				onError((SendResponse) sendMessageResponse);
 
 			}
-		}
+*/		}
 	}
 
 	@Override
@@ -90,7 +101,7 @@ public class APISendMessage implements ATTIAMListener {
 		});
 	}
 
-	@Override
+/*	@Override
 	public void onError(final Object error) {
 		handler.post(new Runnable() {
 			@Override
@@ -100,5 +111,19 @@ public class APISendMessage implements ATTIAMListener {
 				}
 			}
 		});
+	}*/
+
+	@Override
+	public void onError(final InAppMessagingError error) {
+		// TODO Auto-generated method stub
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (null != iamListener) {
+					iamListener.onError(error);
+				}
+			}
+		});
+		
 	}
 }

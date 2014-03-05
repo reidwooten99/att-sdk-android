@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.SendResponse;
@@ -229,9 +231,15 @@ public class NewMessage extends Utils {
 	protected class sendMessageListener implements ATTIAMListener {
 
 		@Override
-		public void onError(Object arg0) {
+		public void onError(InAppMessagingError arg0) {
 			dismissProgressDialog();
-			infoDialog("Message send failed !!", false);
+//			infoDialog("Message send failed !!", false );
+			Toast toast = Toast.makeText(getApplicationContext(),
+					"Message: sendMessageListener Error Callback " + arg0.getErrorMessage(),
+					Toast.LENGTH_SHORT);
+			toast.show();
+			Log.i("Message: sendMessageListener Error Callback ", arg0.getErrorMessage());
+
 		}
 
 		@Override

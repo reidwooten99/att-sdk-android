@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -35,16 +37,21 @@ public class APIGetMessage implements ATTIAMListener {
 
 		@Override
 		protected Message doInBackground(String... msgId) {
-			Message message = null ;
+			Message message = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				Log.d("IAMSDK", "Async Task : " +  msgId[0]);
 				message = immnSrvc.getMessage(msgId[0]);
 			} catch (RESTException e) {
-				onError(e);
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				onError(e);
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				onError(e);
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			if(null != message)
 				Log.d("IAMSDK", "M not null");
@@ -59,8 +66,6 @@ public class APIGetMessage implements ATTIAMListener {
 			super.onPostExecute(message);
 			if(null != message) {
 				onSuccess((Message)message);
-			} else {
-				onError((Message)message);
 			}
 		}
 	}
@@ -78,14 +83,16 @@ public class APIGetMessage implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
+		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
 				if (null != iamListener) {
-					iamListener.onError((Exception)error);
+					iamListener.onError(error);
 				}
 			}
 		});
+		
 	}
 }

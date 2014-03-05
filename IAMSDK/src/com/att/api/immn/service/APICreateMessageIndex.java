@@ -1,8 +1,11 @@
 package com.att.api.immn.service;
 
+
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -31,12 +34,14 @@ public class APICreateMessageIndex implements ATTIAMListener {
 		protected Boolean doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			Boolean isSuccesful = false;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				immnSrvc.createMessageIndex();
 				isSuccesful = true;
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			}
 			return isSuccesful;
 		}
@@ -47,12 +52,8 @@ public class APICreateMessageIndex implements ATTIAMListener {
 			super.onPostExecute(isSuccesful);
 			if(isSuccesful) {
 				onSuccess((Boolean) isSuccesful);
-			} else {
-				onError((Boolean) isSuccesful);
 			}
-			
 		}
-		
 	}
 	
 	@Override
@@ -73,14 +74,14 @@ public class APICreateMessageIndex implements ATTIAMListener {
 		
 	}
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
+			@Override
 			public void run() {
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
-				
 			}
 		});
 		

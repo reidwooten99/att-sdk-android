@@ -3,6 +3,8 @@ package com.att.api.immn.service;
 import android.os.AsyncTask;
 import android.os.Handler;
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
@@ -32,12 +34,14 @@ public class APIDeleteMessage implements ATTIAMListener {
 		protected Boolean doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			Boolean isSuccessful = false;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				immnSrvc.deleteMessage(msgId);
 				isSuccessful = true;
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			}
 			return isSuccessful;
 		}
@@ -48,8 +52,6 @@ public class APIDeleteMessage implements ATTIAMListener {
 			super.onPostExecute(isSuccessful);
 			if(isSuccessful) {
 				onSuccess((Boolean) isSuccessful);
-			} else {
-				onError((Boolean) isSuccessful);
 			}
 			
 		}
@@ -76,14 +78,14 @@ public class APIDeleteMessage implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(final Object error) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
+			@Override
 			public void run() {
-				if(null != iamListener) {
-					iamListener.onError((Exception) error);
+				if (null != iamListener) {
+					iamListener.onError(error);
 				}
-				
 			}
 		});
 		

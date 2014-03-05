@@ -34,6 +34,8 @@ import android.widget.Toast;
 import android.app.Activity;
 
 
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.Message;
@@ -325,7 +327,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
 				getTokenUsingCodetask.execute(oAuthCode);
 				
 			} else {
-				onError(oAuthCode);
+//				onError(oAuthCode);
 			}
 		}
 	}
@@ -342,17 +344,19 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		protected OAuthToken doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			OAuthToken accestoken = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
 			try {
 				accestoken = getTokenUsingCode(params[0]);
 			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				onError( errorObj );
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);			
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorObj.setErrorMessage(e.getMessage());
+				onError(errorObj);		
 			}
 			return accestoken;
 		}
@@ -368,8 +372,6 @@ public class OAuthService extends Activity implements ATTIAMListener {
 			super.onPostExecute(accestoken);
 			if(null != accestoken) {
 				onSuccess(accestoken);		
-			} else {
-				onError(accestoken);
 			}
 		}
     	
@@ -397,15 +399,16 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * onError callback
      */
 	@Override
-	public void onError(final Object accestoken) {
+	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
 				if (null != iamListener) {
-					iamListener.onError((Exception) accestoken);
+					iamListener.onError(error);
 				}
 			}
 		});
+		
 	}
 }
