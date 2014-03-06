@@ -179,11 +179,8 @@ public class MMSContent extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(), error);
-			/*Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+"getMessageContentListener Error Callback",
-					Toast.LENGTH_LONG);
-			toast.show();*/
+			Utils.toastOnError(getApplicationContext(),error);
+			
 		}
 		
 	}

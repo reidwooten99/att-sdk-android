@@ -11,18 +11,31 @@ public class Utils {
 	CreateErrorObjectFromException(RESTException exception) {
     	InAppMessagingError errorResponse = null;
 		String errorMessage = "";
+		String getTokenError = "";
 
     	try {
 			JSONObject jobj = new JSONObject( exception.getErrorMessage());
 			if( null !=  jobj) {
-				JSONObject jobj1 = jobj.getJSONObject("RequestError");
-				JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
-				errorMessage = jobj2.getString("Text");
+				if(jobj.toString().contains("error")) {
+					JSONObject jobjGrant = new JSONObject(exception.getMessage());
+					if(null != jobjGrant) {
+						errorMessage = jobjGrant.getString("error");
+					}
+				}else if(jobj.toString().contains("RequestError")) {
+					JSONObject jobjReqErr = jobj.getJSONObject("RequestError");
+					if(null != jobjReqErr) {
+						JSONObject jobjServcEx = jobjReqErr.getJSONObject("ServiceException");
+						errorMessage = jobjServcEx.getString("Text");
+					}
+				}
+			} 	
+			 
+			} 
+    		catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
     	
     	errorResponse = new InAppMessagingError(errorMessage, exception.getStatusCode(), exception.getErrorMessage() );
     	return errorResponse;

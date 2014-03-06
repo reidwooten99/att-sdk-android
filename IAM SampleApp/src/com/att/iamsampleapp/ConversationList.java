@@ -349,6 +349,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			// TODO Auto-generated method stub
+			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
@@ -653,8 +654,9 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			
+			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
+
 		}
 
 	}
