@@ -2,6 +2,8 @@ package com.att.iamsampleapp;
 
 import java.util.regex.Pattern;
 
+import com.att.api.error.InAppMessagingError;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -65,5 +67,11 @@ public class Utils extends Activity{
 			cursor.close();
 		}
 		return path;
+	}
+	
+	public static void toastOnError(Context ctx,InAppMessagingError errorObject) {
+		Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
+									 + " " + "Error : " + " " + errorObject.getErrorMessage(), Toast.LENGTH_SHORT);
+		toast.show();
 	}
 }

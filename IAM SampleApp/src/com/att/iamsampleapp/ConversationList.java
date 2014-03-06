@@ -349,10 +349,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(getApplicationContext(), "Message: getTokenListener Error Callback:"
-					+ error.getErrorMessage(),
-					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
 
@@ -397,13 +394,8 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "updateMessagesListener Error Callback",
-					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastOnError(getApplicationContext(), error);		
 		}
-
-
 	}
 
 	private class deleteMessagesListener implements ATTIAMListener {
@@ -425,10 +417,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 
-			Toast toast = Toast.makeText(getApplicationContext(), "Message : "
-					+ "deleteMessagesListener Error Callback",
-					Toast.LENGTH_LONG);
-			toast.show();
+			Utils.toastOnError(getApplicationContext(), error);
 			dismissProgressDialog();
 		}
 	}
@@ -450,8 +439,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 
-			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "createMessageIndexListener Error Callback");
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
 
@@ -482,8 +470,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError arg0) {
 			dismissProgressDialog();
-			Utils.toastHere(getApplicationContext(), TAG,
-					"getMessageListener Error Callback");
+			Utils.toastOnError(getApplicationContext(), arg0);
 		}
 
 		@Override
@@ -552,8 +539,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
-			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "getDeltaListener Error Callback");
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
 
@@ -632,8 +618,8 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "getMessageIndexInfoListener Error Callback");
+			
+			Utils.toastOnError(getApplicationContext(), error);	
 		}
 
 	}
@@ -667,8 +653,8 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Utils.toastHere(getApplicationContext(), TAG, "Message : "
-					+ "getMessageListListener Error Callback");
+			
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 
 	}
