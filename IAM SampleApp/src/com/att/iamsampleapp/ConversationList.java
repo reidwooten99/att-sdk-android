@@ -341,7 +341,7 @@ public class ConversationList extends Activity {
 				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
-				createMessageIndex();
+				getMessageIndexInfo();
 				updateDelta();
 			}
 		}
@@ -613,6 +613,7 @@ public class ConversationList extends Activity {
 						"getMessageIndexInfoListener onSuccess : Message : "
 								+ msgIndexInfo.getState());
 */
+				getMessageList();
 			}
 
 		}
@@ -620,6 +621,7 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			
+			createMessageIndex();
 			Utils.toastOnError(getApplicationContext(), error);	
 		}
 
