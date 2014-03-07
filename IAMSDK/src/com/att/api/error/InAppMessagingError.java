@@ -18,6 +18,13 @@ public class InAppMessagingError {
 		this.httpResponse = httpResponse;
 		
 	}
+	public InAppMessagingError(int httpResponseCode, String httpResponse) {
+
+		this.httpResponseCode = httpResponseCode;
+		this.httpResponse = httpResponse;
+		
+	}
+
 	public InAppMessagingError(String errorMessage) {
 		
 		this.errorMessage = errorMessage;
@@ -27,24 +34,13 @@ public class InAppMessagingError {
 		return errorMessage;
 	}
 
-	/*public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}*/
-
 	public int getHttpResponseCode() {
 		return httpResponseCode;
 	}
-
-	/*public void setHttpResponseCode(int httpResponseCode) {
-		this.httpResponseCode = httpResponseCode;
-	}*/
 
 	public String getHttpResponse() {
 		return httpResponse;
 	}
 
-	/*public void setHttpResponse(String httpResponse) {
-		this.httpResponse = httpResponse;
-	}	*/
 	
 }

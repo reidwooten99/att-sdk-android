@@ -155,7 +155,8 @@ public class RESTClient {
 		// TODO (pk9069): allow these codes to be configurable
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
-			throw new RESTException(statusCode, apir.getResponseBody());
+			RESTException restExce = new RESTException(statusCode, apir.getResponseBody());
+			throw restExce;
 			
 		}
 

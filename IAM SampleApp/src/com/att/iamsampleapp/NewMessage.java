@@ -233,9 +233,9 @@ public class NewMessage extends Utils {
 		@Override
 		public void onError(InAppMessagingError arg0) {
 			dismissProgressDialog();
-//			infoDialog("Message send failed !!", false );
+			infoDialog("Message send failed !!", false );
 			Utils.toastOnError(getApplicationContext(), arg0);
-			Log.i("Message: sendMessageListener Error Callback ", arg0.getErrorMessage());
+			Log.i("Message: sendMessageListener Error Callback ", arg0.getHttpResponse());
 
 		}
 
