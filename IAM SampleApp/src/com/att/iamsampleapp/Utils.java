@@ -74,10 +74,18 @@ public class Utils extends Activity{
 			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
 									 + " " + "Error : " + " " + errorObject.getErrorMessage(), Toast.LENGTH_SHORT);
 			toast.show();
-		} else {
+		} else if (null != errorObject.getHttpResponse()) {
 			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
 					 + " " + "Error : " + " " + errorObject.getHttpResponse(), Toast.LENGTH_SHORT);
+			toast.show();
 		}
+		else {
+			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
+					 + " " + "Error : " + " " + "MessageContentError", Toast.LENGTH_SHORT);
+			toast.show();
+
+		}
+			
 			
 	}
 }

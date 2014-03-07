@@ -441,6 +441,7 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 
 			Utils.toastOnError(getApplicationContext(), error);
+			dismissProgressDialog();
 		}
 	}
 

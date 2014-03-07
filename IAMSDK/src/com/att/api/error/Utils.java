@@ -10,14 +10,14 @@ public class Utils {
 	public static InAppMessagingError 
 	CreateErrorObjectFromException(RESTException exception) {
     	InAppMessagingError errorResponse = null;
-		String errorMessage = "";
-		String getTokenError = "";
+		String errorMessage = null;
+		String getTokenError = null;
 
     	try {
 			JSONObject jobj = new JSONObject( exception.getErrorMessage());
 			if( null !=  jobj) {
-				if(jobj.toString().contains("error")) {
-					JSONObject jobjGrant = new JSONObject(exception.getMessage());
+				if(jobj.toString().contentEquals("error")) {
+					JSONObject jobjGrant = new JSONObject(exception.getErrorMessage());
 					if(null != jobjGrant) {
 						errorMessage = jobjGrant.getString("error");
 					}
@@ -27,6 +27,10 @@ public class Utils {
 						JSONObject jobjServcEx = jobjReqErr.getJSONObject("ServiceException");
 						errorMessage = jobjServcEx.getString("Text");
 					}
+				} else if(jobj.toString().contains("fault")) {
+					errorMessage = jobj.toString();					
+				} else {
+					errorMessage = jobj.toString();
 				}
 			} 	
 			 
