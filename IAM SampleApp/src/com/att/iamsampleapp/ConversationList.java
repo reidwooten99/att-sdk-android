@@ -1,5 +1,7 @@
 package com.att.iamsampleapp;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -48,7 +50,7 @@ public class ConversationList extends Activity {
 	MessageIndexInfo msgIndexInfo;
 	DeltaResponse delta;
 	MessageList msgList;
-	Message messageList[];
+	ArrayList<Message> messageList;
 	String prevMailboxState;
 	String deleteMessageID;
 	int prevIndex;
@@ -69,6 +71,7 @@ public class ConversationList extends Activity {
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
+	
 		startActivityForResult(i, OAUTH_CODE);
 	}
 
@@ -481,17 +484,7 @@ public class ConversationList extends Activity {
 			Message msg = (Message) arg0;
 			if (null != msg) {
 
-				Message[] msgs = new Message[messageList.length + 1];
-
-				msgs[prevIndex] = msg;
-
-				if (prevIndex > 0)
-					System.arraycopy(messageList, 0, msgs, 0, prevIndex);
-				System.arraycopy(messageList, prevIndex, msgs, prevIndex + 1,
-						messageList.length - prevIndex);
-
-				messageList = msgs;
-				prevIndex = 0;
+				messageList.add(prevIndex, msg);
 
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
@@ -590,12 +583,12 @@ public class ConversationList extends Activity {
 	public void deleteMessageFromList(String msgID) {
 
 		int deleteNthMessage;
-		for (deleteNthMessage = 0; deleteNthMessage < messageList.length; deleteNthMessage++) {
-			if (messageList[deleteNthMessage].getMessageId().equalsIgnoreCase(
+		for (deleteNthMessage = 0; deleteNthMessage < messageList.size(); deleteNthMessage++) {
+			if (messageList.get(deleteNthMessage).getMessageId().equalsIgnoreCase(
 					msgID))
 				break;
 		}
-		if (deleteNthMessage < messageList.length) {
+		if (deleteNthMessage < messageList.size()) {
 			prevIndex = deleteNthMessage;
 			adapter.deleteItem(deleteNthMessage);
 			adapter.notifyDataSetChanged();
@@ -637,7 +630,7 @@ public class ConversationList extends Activity {
 
 			messageList = msgList.getMessages();
 			prevMailboxState = msgList.getState();
-			if (null != msgList && null != msgList.getMessages() && msgList.getMessages().length>0) {
+			if (null != msgList && null != msgList.getMessages() && msgList.getMessages().size() >0) {
 /*				Utils.toastHere(
 						getApplicationContext(),
 						TAG,
@@ -646,7 +639,7 @@ public class ConversationList extends Activity {
 								+ ", From : "
 								+ msgList.getMessages()[0].getFrom());
 */				adapter = new MessageListAdapter(getApplicationContext(),
-						msgList.getMessages());
+												 msgList.getMessages());
 
 				messageListView.setAdapter(adapter);
 

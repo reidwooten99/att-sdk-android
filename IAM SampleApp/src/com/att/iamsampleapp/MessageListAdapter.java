@@ -1,5 +1,7 @@
 package com.att.iamsampleapp;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -14,29 +16,28 @@ import com.att.api.immn.service.Message;
 
 public class MessageListAdapter extends BaseAdapter {
 
-	private static Message[] messageList;
+	private static ArrayList<Message> messageList;
 	private LayoutInflater mInflater;
 	private Context ctx;
 
-	public MessageListAdapter(Context context, Message[] results) {
+	public MessageListAdapter(Context context, ArrayList<Message> results) {
 		messageList = results;
 		this.ctx = context;
 		mInflater = LayoutInflater.from(context);
 	}
 
-	public Message[] deleteItem(int nIndex) {
+	public ArrayList<Message> deleteItem(int nIndex) {
 
-		System.arraycopy(messageList, nIndex + 1, messageList, nIndex,
-				messageList.length - 1 - nIndex);
+		messageList.remove(nIndex);
 		return messageList;
 	}
-
+	
 	public int getCount() {
-		return messageList.length;
+		return messageList.size();
 	}
 
 	public Object getItem(int position) {
-		return messageList[position];
+		return messageList.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -69,41 +70,41 @@ public class MessageListAdapter extends BaseAdapter {
 
 		// Update message From
 		contactName = Utils
-				.getContactName(ctx, messageList[position].getFrom());
+				.getContactName(ctx, messageList.get(position).getFrom());
 		if (null == contactName)
-			holder.txtName.setText(messageList[position].getFrom());
+			holder.txtName.setText(messageList.get(position).getFrom());
 		else
 			holder.txtName.setText(contactName);
 
 		// Update message
-		if (null == messageList[position].getText())
+		if (null == messageList.get(position).getText())
 			holder.txtMessage.setText("< Empty Message >");
-		else if (messageList[position].getText().equalsIgnoreCase(""))
+		else if (messageList.get(position).getText().equalsIgnoreCase(""))
 			holder.txtMessage.setText("< Empty Message >");
 		else {
-			holder.txtMessage.setText(messageList[position].getText());
+			holder.txtMessage.setText(messageList.get(position).getText());
 		}
 
-		if (messageList[position].getType().equalsIgnoreCase("MMS")) {
-			String str = (null != messageList[position].getSubject() && messageList[position]
+		if (messageList.get(position).getType().equalsIgnoreCase("MMS")) {
+			String str = (null != messageList.get(position).getSubject() && messageList.get(position)
 					.getSubject().length() > 0) ? ("<Sub : "
-					+ messageList[position].getSubject() + "> - MMS Atatchments Available")
+					+ messageList.get(position).getSubject() + "> - MMS Atatchments Available")
 					: "MMS Atatchments Available";
 			holder.txtMessage.setText(str);
 		}
 		// Update message time
-		holder.txtTime.setText(messageList[position].getTimeStamp().replace(
+		holder.txtTime.setText(messageList.get(position).getTimeStamp().replace(
 				'T', ' '));
 
 		// Update favorite message
-		if (messageList[position].isFavorite())
+		if (messageList.get(position).isFavorite())
 			holder.imgFavorite.setBackgroundResource(R.drawable.btn_favorite);
 		else
 			holder.imgFavorite
 					.setBackgroundResource(R.drawable.btn_notfavorite);
 
 		// Update Attachment
-		if (messageList[position].getMmsContents() != null)
+		if (messageList.get(position).getMmsContents() != null)
 			holder.imgAttachment
 					.setBackgroundResource(R.drawable.ic_attachment);
 		else
@@ -112,7 +113,7 @@ public class MessageListAdapter extends BaseAdapter {
 
 		// Message Read
 		int typeFace;
-		if (messageList[position].isUnread()) {
+		if (messageList.get(position).isUnread()) {
 			typeFace = Typeface.BOLD_ITALIC;
 			convertView.setBackgroundColor(Utils.UnreadBG);
 		} else {

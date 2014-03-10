@@ -1,25 +1,31 @@
 package com.att.api.immn.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public final class MessageList {
-    private Message[] msgs;
     private int offset;
     private int limit;
     private int total;
     private String state;
     private CacheStatus cacheStatus;
     private String[] failedMessages;
+   
+    private  ArrayList<Message> messagesArrayList; // = new ArrayList<Message>(Arrays.asList(msgs));
+
 
     private MessageList() {
-        msgs = null;
+    	messagesArrayList = null;
         state = null;
         cacheStatus = null;
         failedMessages = null;
     }
-
+    
+    
     public static MessageList valueOf(JSONObject jobj) throws JSONException {
         MessageList msgList = new MessageList();
 
@@ -32,7 +38,8 @@ public final class MessageList {
             Message msg = Message.valueOf(jmsgs.getJSONObject(i));
             msgs[i] = msg;
         }
-        msgList.msgs = msgs;
+        
+        msgList.messagesArrayList = new ArrayList<Message>(Arrays.asList(msgs));
         msgList.offset = jMsgList.getInt("offset");
         msgList.limit = jMsgList.getInt("limit");
         msgList.total = jMsgList.getInt("total");
@@ -55,8 +62,9 @@ public final class MessageList {
         return msgList;
     }
 
-    public Message[] getMessages() {
-        return msgs;
+    
+    public ArrayList<Message> getMessages() {
+        return messagesArrayList;
     }
 
     public int getOffset() {
