@@ -71,6 +71,8 @@ public class ConversationList extends Activity {
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
+		i.putExtra("redirectUri", Config.redirectUri);
+		i.putExtra("appScope", Config.appScope);
 	
 		startActivityForResult(i, OAUTH_CODE);
 	}
@@ -135,15 +137,16 @@ public class ConversationList extends Activity {
 						.getType().equalsIgnoreCase("MMS")) {
 					Message mmsMessage = (Message) messageListView
 							.getItemAtPosition(position);
-					MmsContent[] mmsContent = mmsMessage.getMmsContents();
-					Log.d(TAG, "MMS Attachments : " + mmsContent.length);
+					ArrayList<MmsContent> mmsContent = mmsMessage.getMmsContents();
+					Log.d(TAG, "MMS Attachments : " + mmsContent.size());
 
-					String[] mmsContentName = new String[mmsContent.length], mmsContentType = new String[mmsContent.length], mmsContentUrl = new String[mmsContent.length], mmsType = new String[mmsContent.length];
+					String[] mmsContentName = new String[mmsContent.size()], mmsContentType = new String[mmsContent.size()], mmsContentUrl = new String[mmsContent.size()], mmsType = new String[mmsContent.size()];
 
-					for (int n = 0; n < mmsContent.length; n++) {
-						mmsContentName[n] = mmsContent[n].getContentName();
-						mmsContentType[n] = mmsContent[n].getContentType();
-						mmsContentUrl[n] = mmsContent[n].getContentUrl();
+					for (int n = 0; n < mmsContent.size(); n++) {
+						MmsContent tmpMmsContent = mmsContent.get(n);
+						mmsContentName[n] = tmpMmsContent.getContentName();
+						mmsContentType[n] = tmpMmsContent.getContentType();
+						mmsContentUrl[n] = tmpMmsContent.getContentUrl();
 						//mmsType[n] = mmsContent[n].getType().toString();
 					}
 
@@ -485,7 +488,7 @@ public class ConversationList extends Activity {
 			if (null != msg) {
 
 				messageList.add(prevIndex, msg);
-
+				prevIndex = 0;
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
 

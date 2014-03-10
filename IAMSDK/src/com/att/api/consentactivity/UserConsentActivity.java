@@ -27,6 +27,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	private String fqdn;
 	private String clientId;
 	private String clientSecret;
+	private String appScope;
+	private String redirectUri;
 	OAuthService osrvc;
 	WebView webView ;
 	
@@ -41,6 +43,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		 fqdn = i.getStringExtra("fqdn");
 		 clientId = i.getStringExtra("clientId");
 		 clientSecret =  i.getStringExtra("clientSecret");
+		 appScope = i.getStringExtra("appScope");
+		 redirectUri = i.getStringExtra("redirectUri");
 		
 		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
@@ -53,8 +57,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setAppCacheEnabled(false);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		webView.loadUrl("https://api.att.com/oauth/authorize?client_id=" + clientId + "&scope=IMMN,MIM&redirect_uri=https://developer.att.com");
-		//webView.loadUrl("https://ewr1-auth-api.att.com/permissions");
+		webView.loadUrl(fqdn +"/oauth/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri);
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
