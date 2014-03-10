@@ -1,5 +1,8 @@
 package com.att.api.immn.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +13,7 @@ public final class Message {
     private String[] recipients;
     private String text;
     private String subject;
-    private MmsContent[] mmsContents;
+    private ArrayList<MmsContent> mmsContents;
     private String timeStamp;
 
     private boolean isFavorite;
@@ -18,7 +21,7 @@ public final class Message {
     private String type;
     private TypeMetaData typeMetaData;
     private boolean isIncoming;
-
+    
     private Message() {
         this.messageId = null;
         this.from = null;
@@ -30,7 +33,7 @@ public final class Message {
         this.typeMetaData = null;
         this.isIncoming = false;
     }
-
+        
     public static Message valueOf(JSONObject jobj) throws JSONException {
         Message msg = new Message();
 
@@ -56,7 +59,7 @@ public final class Message {
             for (int i = 0; i < jarr.length(); ++i) {
                 mmsContents[i] = MmsContent.valueOf(jarr.getJSONObject(i));
             }
-            msg.mmsContents = mmsContents;
+            msg.mmsContents = new ArrayList<MmsContent>(Arrays.asList(mmsContents));
         }
 
         if (jobj.has("timeStamp")) msg.timeStamp = jobj.getString("timeStamp");
@@ -88,7 +91,7 @@ public final class Message {
         return text;
     }
 
-    public MmsContent[] getMmsContents() {
+    public ArrayList<MmsContent> getMmsContents() {
         return mmsContents;
     }
 
