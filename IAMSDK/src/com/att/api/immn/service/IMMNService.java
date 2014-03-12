@@ -177,9 +177,14 @@ public class IMMNService extends APIService {
 
         APIResponse response = null;
         JSONObject jobj = null;
-		try {
+        
+        		try {
 			response = rest.httpPost(jsonBody.toString());	
 			jobj = new JSONObject(response.getResponseBody());	
+			if (response.getResponseBody().length() > ( 1024 * 1024 ) ) {
+				 throw new RESTException("Attachment exceeds size limit of 1MB");
+			}
+
 			return SendResponse.valueOf(jobj);			
 		} catch (RESTException e) {
 			throw e;
