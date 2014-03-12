@@ -65,7 +65,7 @@ public class APISendMessage implements ATTIAMListener {
 														   params[0].getAttachments());
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
-				Log.i("APISendMessage", e.getErrorMessage());
+				//Log.i("APISendMessage", e.getErrorMessage());
 				onError( errorObj );
 			} catch (JSONException e) {
 				//errorObj.setErrorMessage(e.getMessage());

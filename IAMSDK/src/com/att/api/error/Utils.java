@@ -7,7 +7,11 @@ public class Utils {
 	public static InAppMessagingError 
 	CreateErrorObjectFromException(RESTException exception) {
     	InAppMessagingError errorResponse = null;
-	    	errorResponse = new InAppMessagingError(exception.getStatusCode(), exception.getErrorMessage() );
+    		if(exception == null) {
+    			errorResponse = new InAppMessagingError("The size exceeded the limit");     
+    		} else {
+    			errorResponse = new InAppMessagingError(exception.getStatusCode(), exception.getErrorMessage() );
+    		}
     	return errorResponse;
     }
 
