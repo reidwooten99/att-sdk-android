@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -30,11 +31,9 @@ import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
-//import org.apache.commons.codec.binary.Base64;
 
 public class IMMNService extends APIService {
 
-//	InAppMessagingError errorObject;
 	public IMMNService(String fqdn, OAuthToken token) {
         super(fqdn, token);
     }
@@ -188,10 +187,10 @@ public class IMMNService extends APIService {
 		} 
     }
    
-    public MessageList getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
+    public MessageList  getMessageList(int limit, int offset) throws RESTException, JSONException, ParseException {
         return getMessageList(new MessageListArgs.Builder(limit, offset).build());
     }
-
+   
     public MessageList getMessageList(MessageListArgs args) throws RESTException, JSONException, ParseException {
         final String endpoint = getFQDN() + "/myMessages/v2/messages";
 

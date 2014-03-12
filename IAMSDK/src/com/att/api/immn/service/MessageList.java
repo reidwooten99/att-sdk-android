@@ -15,7 +15,7 @@ public final class MessageList {
     private CacheStatus cacheStatus;
     private String[] failedMessages;
    
-    private  ArrayList<Message> messagesArrayList; // = new ArrayList<Message>(Arrays.asList(msgs));
+    private  ArrayList<Message> messagesArrayList; 
 
 
     private MessageList() {

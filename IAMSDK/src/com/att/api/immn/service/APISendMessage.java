@@ -85,11 +85,8 @@ public class APISendMessage implements ATTIAMListener {
 			super.onPostExecute(sendMessageResponse);
 			if( null != sendMessageResponse) {
 				onSuccess((SendResponse) sendMessageResponse);
-			} /*else {
-				onError((SendResponse) sendMessageResponse);
-
-			}
-*/		}
+			} 
+		}
 	}
 
 	@Override
@@ -103,18 +100,6 @@ public class APISendMessage implements ATTIAMListener {
 			}
 		});
 	}
-
-/*	@Override
-	public void onError(final Object error) {
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				if (null != iamListener) {
-					iamListener.onError((Exception) error);
-				}
-			}
-		});
-	}*/
 
 	@Override
 	public void onError(final InAppMessagingError error) {

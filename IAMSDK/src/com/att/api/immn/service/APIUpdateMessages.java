@@ -46,7 +46,6 @@ public class APIUpdateMessages implements ATTIAMListener {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
 			} catch (JSONException e) {
-				//errorObj.setErrorMessage(e.getMessage());
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);			
 			}

@@ -29,7 +29,7 @@ import com.att.api.error.InAppMessagingError;
 /*
  * Immutable class that holds API response information.
  *
- * @author pk9069
+ * @author dg185p,ps350r
  * @version 1.0
  * @since 1.0
  */
@@ -104,7 +104,6 @@ public class APIResponse {
     		statusCode = httpResponse.getStatusLine().getStatusCode();
     		httpEntityforContent = httpResponse.getEntity();
     		responseStream = null;
-		//responseBody = null;		
 			responseBody = EntityUtils.toString(httpResponse.getEntity());
 			headers = APIResponse.buildHeaders(httpResponse);
 		} 
@@ -209,7 +208,6 @@ public class APIResponse {
 		InputStream responseStream = null;
 		HttpEntity httpEntity = httpResponse.getEntity();
 		if ( httpEntity != null) {
-		   // rb = EntityUtils.toString(httpResponse.getEntity());		
 				responseStream = httpEntity.getContent();
 			} 
 		HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
@@ -243,9 +241,7 @@ public class APIResponse {
 		if ( httpEntity != null) {
 		   rb = EntityUtils.toString(httpResponse.getEntity());
 		   	responseStream = null;
-				//responseStream = httpEntity.getContent();
-				//responseLength = httpEntity.getContentLength();
-			} 
+		 } 
 		HttpHeader[] headers = APIResponse.buildHeaders(httpResponse);
 		return new APIResponse(statusCode, rb, responseStream, headers, httpEntity/*,responseLength*/);
     	}

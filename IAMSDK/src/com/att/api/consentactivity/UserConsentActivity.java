@@ -7,10 +7,8 @@ import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-//import com.example.iamsdk.MessageAppActivity;
 import com.example.iamsdk.R;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,7 +18,6 @@ import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 public class UserConsentActivity extends Activity implements ATTIAMListener{
 
@@ -84,9 +81,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 			// TODO Auto-generated method stub
 			Log.i("onPageStarted", "Start : " + url);
 			super.onPageStarted(view, url, favicon);
-			if(url.contains("code")) {
-			//if(url.contains("xxxx")) {
-				
+			if(url.contains("code")) {				
 				String encodedURL;
 				OAuthToken accessToken ;
 				try {
@@ -127,6 +122,5 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	@Override
 	public void onError(InAppMessagingError error) {
 		// TODO Auto-generated method stub
-		
 	}
 }

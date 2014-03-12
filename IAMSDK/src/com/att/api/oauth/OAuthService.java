@@ -14,31 +14,15 @@
 
 package com.att.api.oauth;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
-
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.sax.StartElementListener;
-import android.util.Log;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
 import android.app.Activity;
 
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
-import com.att.api.immn.service.IAMManager;
-import com.att.api.immn.service.Message;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
@@ -122,9 +106,6 @@ public class OAuthService extends Activity implements ATTIAMListener {
 	/* Handler */
     protected Handler handler = new Handler();
 	
-	private final int REQUEST_CODE = 1;
-
-
 
     /**
      * Parses the API response from the API server when an access token was
@@ -150,12 +131,6 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		}
 
 		return new OAuthToken(accessToken, expiresIn, refreshToken);
-		/*catch (ParseException e) {
-        String msg = e.getMessage();
-        String err = "API Server returned unexpected result: " + msg;
-        throw new RESTException(err);
-    }
-*/
     }
 
     /**
@@ -305,32 +280,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
         return parseResponse(response);
     }
     
-    /*public void Authorize(Context context, ATTIAMListener iamAttiamListener) {
-    	
-    	this.iamListener = iamAttiamListener;
-    	
-    	Intent i = new Intent(context, com.example.iamsdk.WebViewActivity.class);
-    	startActivityForResult(i, REQUEST_CODE);
-    		
-    }*/
-    
-    /*@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		String oAuthCode = null;
-		if(requestCode == REQUEST_CODE) {
-			if(resultCode == RESULT_OK) {
-				oAuthCode = data.getStringExtra("oAuthCode");
-				
-				GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
-				getTokenUsingCodetask.execute(oAuthCode);
-				
-			} else {
-//				onError(oAuthCode);
-			}
-		}
-	}*/
+   
     /**
      * Background task to get the access token
      * 
@@ -352,11 +302,9 @@ public class OAuthService extends Activity implements ATTIAMListener {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
 			} catch (JSONException e) {
-				//errorObj.setErrorMessage(e.getMessage());
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);			
 			} catch (ParseException e) {
-				//errorObj.setErrorMessage(e.getMessage());
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			}

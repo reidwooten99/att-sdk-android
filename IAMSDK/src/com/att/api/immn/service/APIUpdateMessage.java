@@ -1,7 +1,5 @@
 package com.att.api.immn.service;
 
-import java.text.ParseException;
-
 import org.json.JSONException;
 
 import android.os.AsyncTask;
