@@ -25,7 +25,6 @@ import com.att.api.immn.service.ChangeType;
 import com.att.api.immn.service.DeltaChange;
 import com.att.api.immn.service.DeltaResponse;
 import com.att.api.immn.service.IAMManager;
-import com.att.api.immn.service.IMMNService;
 import com.att.api.immn.service.Message;
 import com.att.api.immn.service.MessageIndexInfo;
 import com.att.api.immn.service.MessageList;
@@ -49,7 +48,7 @@ public class ConversationList extends Activity {
 	private MessageList msgList;
 	private ArrayList<Message> messageList;
 	private String prevMailboxState;
-	private	String deleteMessageID;
+	private String deleteMessageID;
 	private int prevIndex;
 	private ProgressDialog pDialog;
 
@@ -63,7 +62,6 @@ public class ConversationList extends Activity {
 
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-		
 
 		/*
 		 * Get the oAuthCode from the Authentication page
@@ -75,10 +73,10 @@ public class ConversationList extends Activity {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
-	
+
 		startActivityForResult(i, OAUTH_CODE);
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == NEW_MESSAGE) {
@@ -93,13 +91,13 @@ public class ConversationList extends Activity {
 				Log.i("mainActivity", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode) {
 					/*
-					 * STEP 1:  Getting the oAuthToken
+					 * STEP 1: Getting the oAuthToken
 					 * 
-					 * Get the OAuthToken using the oAuthCode,obtained from the Authentication page
-					 * The Success/failure will be handled by the listener : getTokenListener()
-					 * 
+					 * Get the OAuthToken using the oAuthCode,obtained from the
+					 * Authentication page The Success/failure will be handled
+					 * by the listener : getTokenListener()
 					 */
-					osrvc.getOAuthToken(oAuthCode, new getTokenListener());					
+					osrvc.getOAuthToken(oAuthCode, new getTokenListener());
 				} else {
 					Log.i("mainActivity", "oAuthCode: is null");
 
@@ -107,18 +105,19 @@ public class ConversationList extends Activity {
 			}
 		}
 	}
-	
+
 	/*
-	 *  getTokenListener will be called on getting the response from  osrvc.getOAuthToken(..)
-	 *  
-	 *  onSuccess : 
-	 *  This is called  when the oAuthToken is available.
-	 *  The AccessToken is extracted from oAuthToken and stored in Config.token.
-	 *  authToken will then be used to get access to any of the twelve methods supported by InApp Messaging. 
-	 *  
-	 *  onError:
-	 *  This is called  when the oAuthToken is not generated/incorrect APP_KEY/ APP_SECRET /APP_SCOPE / REDIRECT_URI
-	 *  The Error along with the error code is displayed to the user
+	 * getTokenListener will be called on getting the response from
+	 * osrvc.getOAuthToken(..)
+	 * 
+	 * onSuccess : This is called when the oAuthToken is available. The
+	 * AccessToken is extracted from oAuthToken and stored in Config.token.
+	 * authToken will then be used to get access to any of the twelve methods
+	 * supported by InApp Messaging.
+	 * 
+	 * onError: This is called when the oAuthToken is not generated/incorrect
+	 * APP_KEY/ APP_SECRET /APP_SCOPE / REDIRECT_URI The Error along with the
+	 * error code is displayed to the user
 	 */
 	private class getTokenListener implements ATTIAMListener {
 
@@ -131,20 +130,19 @@ public class ConversationList extends Activity {
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
 				/*
-				 * STEP 2:  Getting the MessageIndexInfo
+				 * STEP 2: Getting the MessageIndexInfo
 				 * 
-				 * Message count, state and status of the index cache is obtained by calling getMessageIndexInfo
-				 * The response will be handled by the listener : getMessageIndexInfoListener()
-				 * 
+				 * Message count, state and status of the index cache is
+				 * obtained by calling getMessageIndexInfo The response will be
+				 * handled by the listener : getMessageIndexInfoListener()
 				 */
 				getMessageIndexInfo();
-				
+
 				/*
-				 * STEP 3:  Updating the MessageList
+				 * STEP 3: Updating the MessageList
 				 * 
-				 * GetDelta will indicate  any updates in the messages inbox
-				 * if any, the list of messages will be updated
-				 * 
+				 * GetDelta will indicate any updates in the messages inbox if
+				 * any, the list of messages will be updated
 				 */
 				updateDelta();
 			}
@@ -156,33 +154,35 @@ public class ConversationList extends Activity {
 			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
-	
+
 	/*
-	 * This operation allows the developer to get the state, status and message count of the 
-	 * index cache for the subscriberÕs inbox.
-	 * authToken will  be used to get access to GetMessageIndexInfo of InApp Messaging. 
-	 *  
-	 * The response will be handled by the listener : getMessageIndexInfoListener()
+	 * This operation allows the developer to get the state, status and message
+	 * count of the index cache for the subscriberÕs inbox. authToken will be
+	 * used to get access to GetMessageIndexInfo of InApp Messaging.
 	 * 
+	 * The response will be handled by the listener :
+	 * getMessageIndexInfoListener()
 	 */
 	public void getMessageIndexInfo() {
 
-		iamManager = new IAMManager(Config.fqdn, authToken, new getMessageIndexInfoListener());
+		iamManager = new IAMManager(Config.fqdn, authToken,
+				new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
 
 	}
+
 	/*
-	 *  getMessageIndexInfoListener will be called on getting the response from  GetMessageIndexInfo()
-	 *  
-	 *  onSuccess : 
-	 *  This is called  when the response : status,state and message count of the inbox is avaialble
-	 *  
-	 *  onError:
-	 *  This is called  when the msgIndexInfo returns null
-	 *  An index cache has to be created for the inbox by calling createMessageIndex
-	 *  The Error along with the error code is displayed to the user
+	 * getMessageIndexInfoListener will be called on getting the response from
+	 * GetMessageIndexInfo()
+	 * 
+	 * onSuccess : This is called when the response : status,state and message
+	 * count of the inbox is avaialble
+	 * 
+	 * onError: This is called when the msgIndexInfo returns null An index cache
+	 * has to be created for the inbox by calling createMessageIndex The Error
+	 * along with the error code is displayed to the user
 	 */
-	
+
 	private class getMessageIndexInfoListener implements ATTIAMListener {
 
 		@Override
@@ -197,35 +197,37 @@ public class ConversationList extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			createMessageIndex();
-			Utils.toastOnError(getApplicationContext(), error);	
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
-	
+
 	/*
-	 * This operation allows the developer to create an index cache for the subscriberÕs inbox.
-	 * authToken will  be used to get access to CreateMessageIndex of InApp Messaging. 
-	 *  
-	 * The response will be handled by the listener : createMessageIndexListener()
+	 * This operation allows the developer to create an index cache for the
+	 * subscriberÕs inbox. authToken will be used to get access to
+	 * CreateMessageIndex of InApp Messaging.
 	 * 
+	 * The response will be handled by the listener :
+	 * createMessageIndexListener()
 	 */
-	
+
 	public void createMessageIndex() {
-		iamManager = new IAMManager(Config.fqdn, authToken, new createMessageIndexListener());
+		iamManager = new IAMManager(Config.fqdn, authToken,
+				new createMessageIndexListener());
 		iamManager.CreateMessageIndex();
 	}
-	
+
 	/*
-	 *  createMessageIndexListener will be called on getting the response from  createMessageIndex()
-	 *  
-	 *  onSuccess : 
-	 *  This is called  when the Index is created for the subscriber's inbox.
-	 *  A list of messages will be fetched from the GetMessageList of InApp messaging.
-	 *  
-	 *  onError:
-	 *  This is called  when the index info is not created successfully 
-	 *  The Error along with the error code is displayed to the user
+	 * createMessageIndexListener will be called on getting the response from
+	 * createMessageIndex()
+	 * 
+	 * onSuccess : This is called when the Index is created for the subscriber's
+	 * inbox. A list of messages will be fetched from the GetMessageList of
+	 * InApp messaging.
+	 * 
+	 * onError: This is called when the index info is not created successfully
+	 * The Error along with the error code is displayed to the user
 	 */
-	
+
 	private class createMessageIndexListener implements ATTIAMListener {
 
 		@Override
@@ -233,7 +235,7 @@ public class ConversationList extends Activity {
 			Boolean msg = (Boolean) response;
 			if (msg) {
 				getMessageList();
-			}	
+			}
 		}
 
 		@Override
@@ -242,41 +244,43 @@ public class ConversationList extends Activity {
 			dismissProgressDialog();
 		}
 	}
-	
+
 	/*
-	 * The Application will request a block of messages from the AT&T Systems by providing count, limited to 500 and an offset value .
- 	 * authToken will  be used to get access to GetMessageList of InApp Messaging. 
-	 *  
-	 * The response will be handled by the listener : getMessageListListener()
+	 * The Application will request a block of messages from the AT&T Systems by
+	 * providing count, limited to 500 and an offset value . authToken will be
+	 * used to get access to GetMessageList of InApp Messaging.
 	 * 
-	 */	
+	 * The response will be handled by the listener : getMessageListListener()
+	 */
 	public void getMessageList() {
-		iamManager = new IAMManager(Config.fqdn, authToken,new getMessageListListener());
+		iamManager = new IAMManager(Config.fqdn, authToken,
+				new getMessageListListener());
 		iamManager.GetMessageList(Config.messageLimit, Config.messageOffset);
 	}
-	
+
 	/*
-	 *  getMessageListListener will be called on getting the response from  GetMessageList(..)
-	 *  
-	 *  onSuccess : 
-	 *  This is called  when the response returned is a MessageList
-	 *  A Listview is set with the response MessageList
-	 *  
-	 *  onError:
-	 *  This is called  when the response is incorrect 
-	 *  The Error along with the error code is displayed to the user
+	 * getMessageListListener will be called on getting the response from
+	 * GetMessageList(..)
+	 * 
+	 * onSuccess : This is called when the response returned is a MessageList A
+	 * Listview is set with the response MessageList
+	 * 
+	 * onError: This is called when the response is incorrect The Error along
+	 * with the error code is displayed to the user
 	 */
 
 	private class getMessageListListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
+			
 			msgList = (MessageList) response;
-			messageList = msgList.getMessages();
 			prevMailboxState = msgList.getState();
-			if (null != msgList && null != msgList.getMessages() && msgList.getMessages().size() >0) {
+			if (null != msgList && null != msgList.getMessages()
+					&& msgList.getMessages().size() > 0) {
+				messageList = msgList.getMessages();
 				adapter = new MessageListAdapter(getApplicationContext(),
-												 msgList.getMessages());
+						messageList);
 
 				messageListView.setAdapter(adapter);
 				dismissProgressDialog();
@@ -292,35 +296,33 @@ public class ConversationList extends Activity {
 		}
 
 	}
-	
+
 	/*
-	 * This request will check for updates by passing in a client state - prevMailboxState
- 	 * authToken will  be used to get access to GetDelta of InApp Messaging. 	
- 	 *   
-	 * The response will be handled by the listener : getDeltaListener()
+	 * This request will check for updates by passing in a client state -
+	 * prevMailboxState authToken will be used to get access to GetDelta of
+	 * InApp Messaging.
 	 * 
-	 */	
+	 * The response will be handled by the listener : getDeltaListener()
+	 */
 	public void updateDelta() {
-		
+
 		if (msgList != null && msgList.getState() != null) {
 			iamManager = new IAMManager(Config.fqdn, authToken,
 					new getDeltaListener());
 			iamManager.GetDelta(prevMailboxState);
 		}
 	}
-	
+
 	/*
-	 *  getDeltaListener will be called on getting the response from  GetDelta(..)
-	 *  
-	 *  onSuccess : 
-	 *  If there is any update in the mailbox, messageList  will be updated.
-	 *  The mailBox's state is stored
-	 *  
-	 *  onError:
-	 *  This is called  when the response is incorrect 
-	 *  The Error along with the error code is displayed to the user
+	 * getDeltaListener will be called on getting the response from GetDelta(..)
+	 * 
+	 * onSuccess : If there is any update in the mailbox, messageList will be
+	 * updated. The mailBox's state is stored
+	 * 
+	 * onError: This is called when the response is incorrect The Error along
+	 * with the error code is displayed to the user
 	 */
-	
+
 	private class getDeltaListener implements ATTIAMListener {
 
 		@Override
@@ -342,35 +344,33 @@ public class ConversationList extends Activity {
 			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
-	
+
 	/*
-	 * This will allow  to update the flags associated with the collection of messages
-	 * Any number of messages can be passed
- 	 * authToken will  be used to get access to UpdateMessages of InApp Messaging. 
-	 *  
-	 * The response will be handled by the listener : updateMessageStatusListener()
+	 * This will allow to update the flags associated with the collection of
+	 * messages Any number of messages can be passed authToken will be used to
+	 * get access to UpdateMessages of InApp Messaging.
 	 * 
-	 */	
-	
+	 * The response will be handled by the listener :
+	 * updateMessageStatusListener()
+	 */
+
 	public void updateMessageStatus(DeltaChange[] statusChange) {
 		iamManager = new IAMManager(Config.fqdn, authToken,
 				new updateMessageStatusListener());
 		iamManager.UpdateMessages(statusChange);
 
 	}
-	
+
 	/*
-	 *  updateMessageStatusListener will be called on getting the response from  UpdateMessages(..)
-	 *  
-	 *  onSuccess : 
-	 *  If there is any update, delete / get the message
-	 *  
-	 *  onError:
-	 *  This is called  when the response is false 
-	 *  The Error along with the error code is displayed to the user
+	 * updateMessageStatusListener will be called on getting the response from
+	 * UpdateMessages(..)
+	 * 
+	 * onSuccess : If there is any update, delete / get the message
+	 * 
+	 * onError: This is called when the response is false The Error along with
+	 * the error code is displayed to the user
 	 */
 
-	
 	private class updateMessageStatusListener implements ATTIAMListener {
 
 		@Override
@@ -389,38 +389,36 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Utils.toastOnError(getApplicationContext(), error);		
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
-	
+
 	/*
 	 * The messageId will be passed to get the message associated with that ID
-	 * This  will get a single message from the message inbox.
- 	 * authToken will  be used to get access to GetMessage of InApp Messaging. 
- 	 * 	
-	 * The response will be handled by the listener : getMessageListener()
+	 * This will get a single message from the message inbox. authToken will be
+	 * used to get access to GetMessage of InApp Messaging.
 	 * 
-	 */		
+	 * The response will be handled by the listener : getMessageListener()
+	 */
 	public void getMessage(String messageID) {
 		iamManager = new IAMManager(Config.fqdn, authToken,
 				new getMessageListener());
 		iamManager.GetMessage(messageID);
 	}
-	
+
 	/*
-	 *  getMessageListener will be called on getting the response from  GetMessage(..)
-	 *  
-	 *  onSuccess : 
-	 *  Fetches the message with the specified ID
-	 *  Sets the messageListView adapter
-	 *   
-	 *  onError:
-	 *  This is called  when the response is incorrect 
-	 *  The Error along with the error code is displayed to the user
+	 * getMessageListener will be called on getting the response from
+	 * GetMessage(..)
+	 * 
+	 * onSuccess : Fetches the message with the specified ID Sets the
+	 * messageListView adapter
+	 * 
+	 * onError: This is called when the response is incorrect The Error along
+	 * with the error code is displayed to the user
 	 */
-	
+
 	private class getMessageListener implements ATTIAMListener {
-		
+
 		@Override
 		public void onSuccess(Object arg0) {
 
@@ -431,13 +429,11 @@ public class ConversationList extends Activity {
 				prevIndex = 0;
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
-
-				messageListView.setAdapter(adapter);
-
+				adapter.notifyDataSetChanged();
 				dismissProgressDialog();
 			}
 		}
-		
+
 		@Override
 		public void onError(InAppMessagingError arg0) {
 			dismissProgressDialog();
@@ -445,15 +441,14 @@ public class ConversationList extends Activity {
 		}
 
 	}
-	
+
 	/*
-	 * The message passed will be deleted from the message inbox
- 	 * authToken will  be used to get access to DeleteMessage(..) of InApp Messaging. 
- 	 * 	
-	 * The response will be handled by the listener : deleteMessagesListener()
+	 * The message passed will be deleted from the message inbox authToken will
+	 * be used to get access to DeleteMessage(..) of InApp Messaging.
 	 * 
-	 */		
-	
+	 * The response will be handled by the listener : deleteMessagesListener()
+	 */
+
 	public void deleteMessage(Message msg) {
 
 		deleteMessageID = msg.getMessageId();
@@ -461,16 +456,15 @@ public class ConversationList extends Activity {
 				new deleteMessagesListener());
 		iamManager.DeleteMessage(deleteMessageID);
 	}
-	
+
 	/*
-	 *  deleteMessagesListener will be called on getting the response from  DeleteMessage(..)
-	 *  
-	 *  onSuccess : 
-	 *  deletes the specified message
-	 *   
-	 *  onError:
-	 *  This is called  when the response is incorrect 
-	 *  The Error along with the error code is displayed to the user
+	 * deleteMessagesListener will be called on getting the response from
+	 * DeleteMessage(..)
+	 * 
+	 * onSuccess : deletes the specified message
+	 * 
+	 * onError: This is called when the response is incorrect The Error along
+	 * with the error code is displayed to the user
 	 */
 
 	private class deleteMessagesListener implements ATTIAMListener {
@@ -494,13 +488,12 @@ public class ConversationList extends Activity {
 		}
 	}
 
-	
 	public void onResume() {
 		super.onResume();
 		setupMessageListListener();
 		updateDelta();
 	}
-	
+
 	// MessageList Listener
 	public void setupMessageListListener() {
 
@@ -513,11 +506,13 @@ public class ConversationList extends Activity {
 						.getType().equalsIgnoreCase("MMS")) {
 					Message mmsMessage = (Message) messageListView
 							.getItemAtPosition(position);
-					ArrayList<MmsContent> mmsContent = mmsMessage.getMmsContents();
+					ArrayList<MmsContent> mmsContent = mmsMessage
+							.getMmsContents();
 					Log.d(TAG, "MMS Attachments : " + mmsContent.size());
 
-					String[] mmsContentName = new String[mmsContent.size()], mmsContentType = new String[mmsContent.size()], 
-														 mmsContentUrl = new String[mmsContent.size()];
+					String[] mmsContentName = new String[mmsContent.size()], mmsContentType = new String[mmsContent
+							.size()], mmsContentUrl = new String[mmsContent
+							.size()];
 
 					for (int n = 0; n < mmsContent.size(); n++) {
 						MmsContent tmpMmsContent = mmsContent.get(n);
@@ -527,10 +522,10 @@ public class ConversationList extends Activity {
 					}
 
 					/*
-					 * STEP 5: getting the contents of the message 
+					 * STEP 5: getting the contents of the message
 					 * 
-					 * Returns the contents associated with the identifier provided in the request.
-					 * 
+					 * Returns the contents associated with the identifier
+					 * provided in the request.
 					 */
 
 					Intent i = new Intent(ConversationList.this,
@@ -570,7 +565,7 @@ public class ConversationList extends Activity {
 					}
 				});
 	}
-	
+
 	public void infoDialog(Message selMessage) {
 
 		new AlertDialog.Builder(ConversationList.this)
@@ -585,7 +580,7 @@ public class ConversationList extends Activity {
 					}
 				}).show();
 	}
-	
+
 	public void popUpActionList(final CharSequence popUpList[],
 			final Message msg, int position) {
 
@@ -646,8 +641,6 @@ public class ConversationList extends Activity {
 		builder.show();
 	}
 
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -660,13 +653,13 @@ public class ConversationList extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Take appropriate action for each action item click
 		switch (item.getItemId()) {
-	
+
 		case R.id.action_new_message: {
 			/*
-			 * STEP 4:  creating a new message
+			 * STEP 4: creating a new message
 			 * 
-			 * A new message will be created and sent to the recipient mentioned in the TO list
-			 * 
+			 * A new message will be created and sent to the recipient mentioned
+			 * in the TO list
 			 */
 
 			startActivityForResult(new Intent(ConversationList.this,
@@ -692,7 +685,6 @@ public class ConversationList extends Activity {
 		return true;
 	}
 
-
 	// Progress Dialog
 	public void showProgressDialog(String dialogMessage) {
 
@@ -708,7 +700,7 @@ public class ConversationList extends Activity {
 			pDialog.dismiss();
 		}
 	}
-	
+
 	public void onMessageListReady(MessageList messageList) {
 
 		if (adapter != null) {
@@ -716,13 +708,11 @@ public class ConversationList extends Activity {
 		}
 	}
 
-	
 	public void clearCache() {
 		CookieSyncManager.createInstance(this);
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookie();
 	}
-
 
 	public void updateMessageList(DeltaResponse deltaResponse) {
 
@@ -770,8 +760,8 @@ public class ConversationList extends Activity {
 
 		int deleteNthMessage;
 		for (deleteNthMessage = 0; deleteNthMessage < messageList.size(); deleteNthMessage++) {
-			if (messageList.get(deleteNthMessage).getMessageId().equalsIgnoreCase(
-					msgID))
+			if (messageList.get(deleteNthMessage).getMessageId()
+					.equalsIgnoreCase(msgID))
 				break;
 		}
 		if (deleteNthMessage < messageList.size()) {
