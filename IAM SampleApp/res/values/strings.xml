@@ -20,5 +20,8 @@
     <string name="hint_message">Message</string>
     <string name="lbl_broadcast">Send as broadcast</string>
     <string name="title_activity_mmscontent">MMS Attachments</string>
+    <string name="title_activity_user_consent">User Consent</string>
+    
+    
 
 </resources>
