@@ -33,6 +33,8 @@ public class NewMessage extends Utils {
 	int numAttachments = 0;
 	String attachments[] = new String[Config.maxAttachments];
 	String attMimeType[] = new String[Config.maxAttachments];
+	ProgressDialog pDialog;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +164,12 @@ public class NewMessage extends Utils {
 			}
 		}
 	}
+	/*
+	 * The application sends the SMS/MMS on behalf of the subscriber with  his consent
+	 * authToken will  be used to get access to sendMessage of InApp Messaging
+	 * 
+	 * The response will be handled by the listener : sendMessageListener()
+	 */
 
 	public void sendMessage(View v) {
 
@@ -180,6 +188,7 @@ public class NewMessage extends Utils {
 
 		OAuthToken token = new OAuthToken(Config.token,
 				OAuthToken.NO_EXPIRATION, Config.refreshToken);
+
 		IAMManager iamManager = new IAMManager(Config.fqdn, token,
 				new sendMessageListener());
 
@@ -210,8 +219,41 @@ public class NewMessage extends Utils {
 
 		showProgressDialog("Sending Message ...");
 	}
+	
+	/*
+	 *  sendMessageListener will be called on getting the response from  SendMessage(..)
+	 *  
+	 *  onSuccess : 
+	 *  The message will be sent to the recipient
+	 *  
+	 *  onError:
+	 *  This is called  when message cannot be sent  
+	 *  The Error along with the error code is displayed to the user
+	 */
+	
+	protected class sendMessageListener implements ATTIAMListener {
+	
+		@Override
+		public void onSuccess(Object arg0) {
+			SendResponse msg = (SendResponse) arg0;
+			if (null != msg) {
+				Toast toast = Toast.makeText(getApplicationContext(),
+						"Message Sent", Toast.LENGTH_SHORT);
+				toast.show();
 
-	ProgressDialog pDialog;
+				sendMessageResponsetoParentActivity(msg.getId());
+			}
+		}
+		
+		@Override
+		public void onError(InAppMessagingError arg0) {
+			dismissProgressDialog();
+			infoDialog("Message send failed !!", false );
+			Utils.toastOnError(getApplicationContext(), arg0);
+			Log.i("Message: sendMessageListener Error Callback ", arg0.getHttpResponse());
+
+		}
+	}
 
 	public void showProgressDialog(String dialogMessage) {
 
@@ -225,30 +267,6 @@ public class NewMessage extends Utils {
 	public void dismissProgressDialog() {
 		if (null != pDialog) {
 			pDialog.dismiss();
-		}
-	}
-
-	protected class sendMessageListener implements ATTIAMListener {
-
-		@Override
-		public void onError(InAppMessagingError arg0) {
-			dismissProgressDialog();
-			infoDialog("Message send failed !!", false );
-			Utils.toastOnError(getApplicationContext(), arg0);
-			Log.i("Message: sendMessageListener Error Callback ", arg0.getHttpResponse());
-
-		}
-
-		@Override
-		public void onSuccess(Object arg0) {
-			SendResponse msg = (SendResponse) arg0;
-			if (null != msg) {
-				Toast toast = Toast.makeText(getApplicationContext(),
-						"Message Sent", Toast.LENGTH_SHORT);
-				toast.show();
-
-				sendMessageResponsetoParentActivity(msg.getId());
-			}
 		}
 	}
 

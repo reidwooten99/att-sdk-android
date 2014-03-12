@@ -48,6 +48,14 @@ public class MMSContent extends Activity {
 	ArrayList<String> listItems = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
 
+	
+	/*
+	 * The messageId and the part number be passed to get the message content associated with that ID
+ 	 * authToken will  be used to get access to GetMessageContent of InApp Messaging. 
+ 	 * 	
+	 * The response will be handled by the listener : getMessageContentListener()
+	 * 
+	 */		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -163,6 +171,18 @@ public class MMSContent extends Activity {
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 		}
 	}
+	
+	/*
+	 *  getMessageContentListener will be called on getting the response from  getMessageContent(..)
+	 *  
+	 *  onSuccess : 
+	 *  gets the message contents by executing the Async task - GetMessageContentTestTask
+	 *   
+	 *  onError:
+	 *  This is called  when the response is incorrect 
+	 *  The Error along with the error code is displayed to the user
+	 */
+
 
 	private class getMessageContentListener implements ATTIAMListener {
 
