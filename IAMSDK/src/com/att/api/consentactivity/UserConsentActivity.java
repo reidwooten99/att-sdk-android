@@ -1,20 +1,23 @@
-package com.att.iamsampleapp;
+package com.att.api.consentactivity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.util.Log;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-
 import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
+import com.att.api.oauth.OAuthToken;
+import com.example.iamsdk.R;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.Menu;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class UserConsentActivity extends Activity implements ATTIAMListener{
 
@@ -26,7 +29,6 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	OAuthService osrvc;
 	WebView webView ;
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 			super.onPageStarted(view, url, favicon);
 			if(url.contains("code")) {				
 				String encodedURL;
+				OAuthToken accessToken ;
 				try {
 					encodedURL = URLEncoder.encode(url, "UTF-8");
 					Log.i("onPageStarted", "encodedURL: " + encodedURL);
@@ -102,6 +105,13 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 			} 
     	}	
     }
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.user_consent, menu);
+		return true;
+	}
 
 	@Override
 	public void onSuccess(Object adViewResponse) {
