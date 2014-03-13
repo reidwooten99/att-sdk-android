@@ -66,8 +66,7 @@ public class ConversationList extends Activity {
 		/*
 		 * Get the oAuthCode from the Authentication page
 		 */
-		Intent i = new Intent(this,
-				com.att.api.consentactivity.UserConsentActivity.class);
+		Intent i = new Intent(this, UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
@@ -273,7 +272,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			
+
 			msgList = (MessageList) response;
 			prevMailboxState = msgList.getState();
 			if (null != msgList && null != msgList.getMessages()

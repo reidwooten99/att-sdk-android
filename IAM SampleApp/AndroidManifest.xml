@@ -46,7 +46,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.att.api.consentactivity.UserConsentActivity"
+            android:name="com.att.iamsampleapp.UserConsentActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_user_consent"
             android:screenOrientation="portrait" >
