@@ -156,7 +156,7 @@ public class NewMessage extends Utils {
 
 					numAttachments++;
 				} else {
-					infoDialog("Unable to fetch the attachment !!", false);
+					infoDialog("Attachments exceeded the size limit of 21. Unable to fetch the attachment. !!", false);
 				}
 
 				Utils.toastHere(getApplicationContext(), TAG, "File Path : "
