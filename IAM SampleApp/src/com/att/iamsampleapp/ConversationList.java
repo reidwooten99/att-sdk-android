@@ -62,7 +62,7 @@ public class ConversationList extends Activity {
 
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-
+		
 		/*
 		 * Get the oAuthCode from the Authentication page
 		 */
@@ -75,6 +75,7 @@ public class ConversationList extends Activity {
 		i.putExtra("appScope", Config.appScope);
 
 		startActivityForResult(i, OAUTH_CODE);
+		setupMessageListListener();
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -82,7 +83,7 @@ public class ConversationList extends Activity {
 		if (requestCode == NEW_MESSAGE) {
 			if (resultCode == RESULT_OK) {
 				Utils.toastHere(getApplicationContext(), TAG, "Message Sent : "
-						+ data.getStringExtra("MessageResponse"));
+						+ data.getStringExtra("MessageResponse"));				
 			}
 		} else if (requestCode == OAUTH_CODE) {
 			String oAuthCode = null;
@@ -135,16 +136,10 @@ public class ConversationList extends Activity {
 				 * Message count, state and status of the index cache is
 				 * obtained by calling getMessageIndexInfo The response will be
 				 * handled by the listener : getMessageIndexInfoListener()
-				 */
-				getMessageIndexInfo();
-
-				/*
-				 * STEP 3: Updating the MessageList
 				 * 
-				 * GetDelta will indicate any updates in the messages inbox if
-				 * any, the list of messages will be updated
 				 */
-				updateDelta();
+				getMessageIndexInfo();	
+	
 			}
 		}
 
@@ -281,10 +276,9 @@ public class ConversationList extends Activity {
 				messageList = msgList.getMessages();
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
-
 				messageListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
 				dismissProgressDialog();
-				getMessageIndexInfo();
 			}
 		}
 
@@ -429,6 +423,7 @@ public class ConversationList extends Activity {
 				prevIndex = 0;
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
+				messageListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
 				dismissProgressDialog();
 			}
@@ -490,7 +485,6 @@ public class ConversationList extends Activity {
 
 	public void onResume() {
 		super.onResume();
-		setupMessageListListener();
 		updateDelta();
 	}
 
@@ -541,7 +535,7 @@ public class ConversationList extends Activity {
 				}
 			}
 		});
-
+		
 		messageListView
 				.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -744,6 +738,7 @@ public class ConversationList extends Activity {
 
 				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
 						.getMessageId());
+				adapter.notifyDataSetChanged();
 				iamManager = new IAMManager(Config.fqdn, authToken,
 						new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
