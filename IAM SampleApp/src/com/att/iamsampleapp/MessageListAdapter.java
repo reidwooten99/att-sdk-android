@@ -90,7 +90,7 @@ public class MessageListAdapter extends BaseAdapter {
 			String str = (null != messageList.get(position).getSubject() && messageList
 					.get(position).getSubject().length() > 0) ? ("MMS - <Sub : "
 					+ messageList.get(position).getSubject() + ">")
-					: "MMS Atatchments Available";
+					: "MMS Attachments Available";
 			holder.txtMessage.setText(str);
 		}
 		// Update message time
