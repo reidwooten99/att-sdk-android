@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.att.api.immn.service.Message;
+import com.att.api.immn.service.MmsContent;
 
 public class MessageListAdapter extends BaseAdapter {
 
@@ -31,7 +32,7 @@ public class MessageListAdapter extends BaseAdapter {
 		messageList.remove(nIndex);
 		return messageList;
 	}
-	
+
 	public int getCount() {
 		return messageList.size();
 	}
@@ -69,8 +70,8 @@ public class MessageListAdapter extends BaseAdapter {
 		}
 
 		// Update message From
-		contactName = Utils
-				.getContactName(ctx, messageList.get(position).getFrom());
+		contactName = Utils.getContactName(ctx, messageList.get(position)
+				.getFrom());
 		if (null == contactName)
 			holder.txtName.setText(messageList.get(position).getFrom());
 		else
@@ -86,15 +87,15 @@ public class MessageListAdapter extends BaseAdapter {
 		}
 
 		if (messageList.get(position).getType().equalsIgnoreCase("MMS")) {
-			String str = (null != messageList.get(position).getSubject() && messageList.get(position)
-					.getSubject().length() > 0) ? ("<Sub : "
+			String str = (null != messageList.get(position).getSubject() && messageList
+					.get(position).getSubject().length() > 0) ? ("<Sub : "
 					+ messageList.get(position).getSubject() + "> - MMS Atatchments Available")
 					: "MMS Atatchments Available";
 			holder.txtMessage.setText(str);
 		}
 		// Update message time
-		holder.txtTime.setText(messageList.get(position).getTimeStamp().replace(
-				'T', ' '));
+		holder.txtTime.setText(messageList.get(position).getTimeStamp()
+				.replace('T', ' '));
 
 		// Update favorite message
 		if (messageList.get(position).isFavorite())
@@ -103,8 +104,24 @@ public class MessageListAdapter extends BaseAdapter {
 			holder.imgFavorite
 					.setBackgroundResource(R.drawable.btn_notfavorite);
 
+		ArrayList<MmsContent> mmsArrayList = messageList.get(position)
+				.getMmsContents();
+		boolean isMediaContentAvailable = false;
+		if (mmsArrayList != null && mmsArrayList.size() > 0) {
+			for (int n = 0; n < mmsArrayList.size()
+					&& isMediaContentAvailable == false; n++) {
+				if (mmsArrayList.get(n).getContentType()
+						.contains("IMAGE")
+						|| mmsArrayList.get(n).getContentType()
+								.contains("AUDIO")
+						|| mmsArrayList.get(n).getContentType()
+								.contains("VIDEO"))
+					isMediaContentAvailable = true;
+			}
+		}
+
 		// Update Attachment
-		if (messageList.get(position).getMmsContents() != null)
+		if (isMediaContentAvailable == true)
 			holder.imgAttachment
 					.setBackgroundResource(R.drawable.ic_attachment);
 		else
