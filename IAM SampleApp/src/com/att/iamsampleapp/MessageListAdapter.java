@@ -88,8 +88,8 @@ public class MessageListAdapter extends BaseAdapter {
 
 		if (messageList.get(position).getType().equalsIgnoreCase("MMS")) {
 			String str = (null != messageList.get(position).getSubject() && messageList
-					.get(position).getSubject().length() > 0) ? ("<Sub : "
-					+ messageList.get(position).getSubject() + "> - MMS Atatchments Available")
+					.get(position).getSubject().length() > 0) ? ("MMS - <Sub : "
+					+ messageList.get(position).getSubject() + ">")
 					: "MMS Atatchments Available";
 			holder.txtMessage.setText(str);
 		}
