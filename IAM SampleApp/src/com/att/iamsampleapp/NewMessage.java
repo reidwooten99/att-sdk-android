@@ -181,7 +181,8 @@ public class NewMessage extends Utils {
 			infoDialog("Enter the contacts !!", false);
 			return;
 		}
-		if ("" == messageWidget.getText().toString()) {
+		
+		if (messageWidget.getText().toString().equalsIgnoreCase("")) {
 			infoDialog("No Message Content !!", false);
 			return;
 		}
