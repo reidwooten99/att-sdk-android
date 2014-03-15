@@ -116,6 +116,7 @@ public class IMMNService extends APIService {
         			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
         			String contentType = null;
         			String fileName = null;
+        			String fattchSplit[] = fattach.split("/");
         			String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
         			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
@@ -124,15 +125,18 @@ public class IMMNService extends APIService {
 	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
 	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
 	        			contentType = "image/png";
-	        			fileName = "image" + index + ".png";
+	        			fileName = fattchSplit[fattchSplit.length -1];
+	        		
 	        		} else if(mimetype.contains("audio") || (mimetype.contains("video"))) {
 	        				if(mimetype.contains("audio") ){
 	        					contentType = "audio/wav";
-	        					fileName = "audio.wav";
+	    	        			fileName = fattchSplit[fattchSplit.length -1];
+
 	        				}
 	        					else {
 	        					contentType = "video/mp4";
-	        					fileName = "video.mp4";
+	    	        			fileName = fattchSplit[fattchSplit.length -1];
+
 	        				}
 	        				File inputFile = new File(fattach);
 	        				FileInputStream fis;					
