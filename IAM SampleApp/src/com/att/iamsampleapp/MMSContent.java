@@ -97,13 +97,15 @@ public class MMSContent extends Activity {
 								.getExternalStorageDirectory().getPath()
 								+ "/" + Config.iamDownloadDirectory + "/"
 								+ listItems.get(position);
+						String extension = null;
+	        			MimeTypeMap mType =  MimeTypeMap.getSingleton();
+	        			String mimetype = null;
 
-						String extension = MimeTypeMap
-								.getFileExtensionFromUrl(filePath);
-						MimeTypeMap mType = MimeTypeMap.getSingleton();
-						String mimetype = mType
-								.getMimeTypeFromExtension(extension
-										.toLowerCase());
+	        			int i = filePath.lastIndexOf('.');
+	        			if (i > 0) {
+	        				extension = filePath.substring(i+1);
+	        			    mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
+	        			}
 
 						Uri uri = getImageContentUri(getApplicationContext(),
 								filePath);

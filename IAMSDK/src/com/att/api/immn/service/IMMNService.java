@@ -116,10 +116,16 @@ public class IMMNService extends APIService {
         			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
         			String contentType = null;
         			String fileName = null;
-        			String fattchSplit[] = fattach.split("/");
-        			String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
+        			String fattchSplit[] = fattach.split("/");  	
+        			String extension = null;
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-        			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			String mimetype = null;
+
+        			int i = fattach.lastIndexOf('.');
+        			if (i > 0) {
+        				extension = fattach.substring(i+1);
+        			    mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			}
         	    
 	        		if( mimetype.contains("image") ) {
 	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
