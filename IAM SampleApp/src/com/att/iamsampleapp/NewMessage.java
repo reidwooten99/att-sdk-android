@@ -75,11 +75,14 @@ public class NewMessage extends Utils {
 								dialog.cancel();
 							}
 						});
-				builder.setTitle("Delete Attachment?");
-				String filePathSplit[] = attachments[position].split("/");
-				builder.setMessage(filePathSplit[filePathSplit.length-1]);
-				AlertDialog dialog = builder.create();
-				dialog.show();
+				
+				if( null != attachments[position]) {
+					builder.setTitle("Delete Attachment?");
+					String filePathSplit[] = attachments[position].split("/");
+					builder.setMessage(filePathSplit[filePathSplit.length-1]);				
+					AlertDialog dialog = builder.create();
+					dialog.show();
+				} 
 			}
 		});
 	}

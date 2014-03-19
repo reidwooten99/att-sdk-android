@@ -116,25 +116,29 @@ public class IMMNService extends APIService {
         			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
         			String contentType = null;
         			String fileName = null;
-        			String fattchSplit[] = fattach.split("/");  	
-        			String extension = null;
+        			String fattchSplit[] = fattach.split("/");  	       			
+        			String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-        			String mimetype = null;
-
+        			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			
+        			/*MimeTypeMap mType =  MimeTypeMap.getSingleton();
+        			String extension = null;
+        			String mimeType = null; 
+        			
         			int i = fattach.lastIndexOf('.');
         			if (i > 0) {
         				extension = fattach.substring(i+1);
-        			    mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
-        			}
+        				mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			}*/
         	    
-	        		if( mimetype.contains("image") ) {
+	        		if( mimeType.contains("image") ) {
 	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
 	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
 	        			contentType = "image/png";
 	        			fileName = fattchSplit[fattchSplit.length -1];
 	        		
-	        		} else if(mimetype.contains("audio") || (mimetype.contains("video"))) {
-	        				if(mimetype.contains("audio") ){
+	        		} else if(mimeType.contains("audio") || (mimeType.contains("video"))) {
+	        				if(mimeType.contains("audio") ){
 	        					contentType = "audio/wav";
 	    	        			fileName = fattchSplit[fattchSplit.length -1];
 

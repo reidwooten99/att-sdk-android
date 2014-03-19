@@ -97,15 +97,18 @@ public class MMSContent extends Activity {
 								.getExternalStorageDirectory().getPath()
 								+ "/" + Config.iamDownloadDirectory + "/"
 								+ listItems.get(position);
-						String extension = null;
+						String extension = MimeTypeMap.getFileExtensionFromUrl(filePath);
+						MimeTypeMap mType =  MimeTypeMap.getSingleton();
+	        			String mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
+						/*String extension = null;
 	        			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-	        			String mimetype = null;
+	        			String mimetype = null; 
 
 	        			int i = filePath.lastIndexOf('.');
 	        			if (i > 0) {
 	        				extension = filePath.substring(i+1);
 	        			    mimetype = mType.getMimeTypeFromExtension(extension.toLowerCase());
-	        			}
+	        			}*/
 
 						Uri uri = getImageContentUri(getApplicationContext(),
 								filePath);
@@ -166,12 +169,13 @@ public class MMSContent extends Activity {
 			Uri baseUri = Uri.parse("content://media/external/images/media");
 			Uri uri = Uri.withAppendedPath(baseUri, "" + id);
 			return uri;
-		} else {
+		} else  {
 			ContentValues values = new ContentValues();
 			values.put(MediaStore.Images.Media.DATA, filePath);
 			return context.getContentResolver().insert(
 					MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-		}
+		} 
+		
 	}
 	
 	/*
