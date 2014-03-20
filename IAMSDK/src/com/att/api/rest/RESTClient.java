@@ -22,7 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,13 +38,11 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.params.ClientPNames;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.FormBodyPart;
@@ -63,7 +60,6 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.att.api.oauth.OAuthToken;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 
 /*
  * Client used to send RESTFul requests.
@@ -501,7 +497,6 @@ public class RESTClient {
 	 */
 	public RESTClient addAuthorizationHeader(OAuthToken token) {
 		return addAuthorizationHeader(token.getAccessToken());
-		// addAuthorizationHeader("U51hU7cFLklB03ccqAQd70eaEMfg3E9O");
 	}
 
 	/*
