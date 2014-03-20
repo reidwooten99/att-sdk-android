@@ -86,26 +86,25 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		
     	@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			// TODO Auto-generated method stub
 			Log.i("onPageStarted", "Start : " + url);
 			super.onPageStarted(view, url, favicon);
-			if(url.contains("code")) {				
+			if(url.contains("code=")) {				
 				String encodedURL;
-				OAuthToken accessToken ;
 				try {
 					encodedURL = URLEncoder.encode(url, "UTF-8");
 					Log.i("onPageStarted", "encodedURL: " + encodedURL);
 
 					String encodedURLSplits[] = encodedURL.split("code%3D");
-					String oAuthCode = encodedURLSplits[1];
-
-					Log.i("onPageStarted", "oAuthCode: " + oAuthCode);
-					
-					Intent returnIntent = new Intent();
-					returnIntent.putExtra("oAuthCode", oAuthCode);
-					setResult(RESULT_OK,returnIntent);
-					finish();
-											
+					if(encodedURLSplits.length > 1) {
+						String oAuthCode = encodedURLSplits[1];
+	
+						Log.i("onPageStarted", "oAuthCode: " + oAuthCode);
+						
+						Intent returnIntent = new Intent();
+						returnIntent.putExtra("oAuthCode", oAuthCode);
+						setResult(RESULT_OK,returnIntent);
+						finish();
+					}
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
