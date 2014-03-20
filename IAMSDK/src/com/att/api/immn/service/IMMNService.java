@@ -109,6 +109,19 @@ public class IMMNService extends APIService {
         	JSONArray jattach = new JSONArray();
         	int index = 0;
         	
+        	int totalSizeOfAttachments = 0;
+        	for( String fattach : attachments) {
+        		if(fattach != null) {
+        			File f = new File(fattach);
+        			totalSizeOfAttachments += f.length();
+        		}
+        	}
+        
+        	if (totalSizeOfAttachments > ( 1024 * 1024 ) ) {
+        		throw new RESTException("Attachment exceeds size limit of 1MB");	 
+			}
+			
+        	
         	for( String fattach : attachments) {
         		if(fattach != null) {
         			index++;
@@ -117,11 +130,11 @@ public class IMMNService extends APIService {
         			String contentType = null;
         			String fileName = null;
         			String fattchSplit[] = fattach.split("/");  	       			
-        			String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
+        			/*String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-        			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());*/
         			
-        			/*MimeTypeMap mType =  MimeTypeMap.getSingleton();
+        			MimeTypeMap mType =  MimeTypeMap.getSingleton();
         			String extension = null;
         			String mimeType = null; 
         			
@@ -129,10 +142,11 @@ public class IMMNService extends APIService {
         			if (i > 0) {
         				extension = fattach.substring(i+1);
         				mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
-        			}*/
+        			}
         	    
 	        		if( mimeType.contains("image") ) {
 	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
+	        			
 	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
 	        			contentType = "image/png";
 	        			fileName = fattchSplit[fattchSplit.length -1];
@@ -195,10 +209,6 @@ public class IMMNService extends APIService {
         		try {
 			response = rest.httpPost(jsonBody.toString());	
 			jobj = new JSONObject(response.getResponseBody());	
-			if (response.getResponseBody().length() > ( 1024 * 1024 ) ) {
-				 throw new RESTException("Attachment exceeds size limit of 1MB");
-			}
-
 			return SendResponse.valueOf(jobj);			
 		} catch (RESTException e) {
 			throw e;
