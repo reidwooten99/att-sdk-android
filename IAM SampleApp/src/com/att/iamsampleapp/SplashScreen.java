@@ -8,6 +8,7 @@ import android.os.Handler;
 public class SplashScreen extends Activity {
 
 	private final int SPLASH_DISPLAY_LENGTH = 2000;
+	protected Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +18,7 @@ public class SplashScreen extends Activity {
 		 * New Handler to start the Menu-Activity and close this Splash-Screen
 		 * after some seconds.
 		 */
-		new Handler().postDelayed(new Runnable() {
+			handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				/* Create an Intent that will start the Menu-Activity. */
@@ -27,5 +28,12 @@ public class SplashScreen extends Activity {
 				finish();
 			}
 		}, SPLASH_DISPLAY_LENGTH);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		handler.removeCallbacksAndMessages(null);
+		SplashScreen.this.finish();
 	}
 }
