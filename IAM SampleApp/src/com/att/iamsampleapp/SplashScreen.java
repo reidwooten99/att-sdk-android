@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 
 public class SplashScreen extends Activity {
 
 	private final int SPLASH_DISPLAY_LENGTH = 2000;
 	protected Handler handler = new Handler();
+	Runnable myRunnable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,8 @@ public class SplashScreen extends Activity {
 		 * New Handler to start the Menu-Activity and close this Splash-Screen
 		 * after some seconds.
 		 */
-			handler.postDelayed(new Runnable() {
+
+		myRunnable = new Runnable() {
 			@Override
 			public void run() {
 				/* Create an Intent that will start the Menu-Activity. */
@@ -27,13 +30,21 @@ public class SplashScreen extends Activity {
 				startActivity(mainIntent);
 				finish();
 			}
-		}, SPLASH_DISPLAY_LENGTH);
+		};
+		handler.postDelayed(myRunnable, SPLASH_DISPLAY_LENGTH);
 	}
+
 	
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		handler.removeCallbacksAndMessages(null);
-		SplashScreen.this.finish();
-	}
+	 @Override
+	 public boolean onKeyDown(int keyCode, KeyEvent event) {
+	     if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	 if (null != myRunnable) {
+	    		 handler.removeCallbacks(myRunnable);
+	    		 finish();
+	    	 }
+	 		return true;
+	     }
+	     return super.onKeyDown(keyCode, event);
+	 }
+	
 }
