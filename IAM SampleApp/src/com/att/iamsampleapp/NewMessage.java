@@ -250,11 +250,11 @@ public class NewMessage extends Utils {
 		}
 		
 		@Override
-		public void onError(InAppMessagingError arg0) {
+		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
-			infoDialog("Message send failed !!", false );
-			Utils.toastOnError(getApplicationContext(), arg0);
-			Log.i("Message: sendMessageListener Error Callback ", arg0.getHttpResponse());
+			infoDialog("Message send failed !!"+ "\n" + error.getHttpResponse() , false );
+			Utils.toastOnError(getApplicationContext(), error);
+			Log.i("Message: sendMessageListener Error Callback ", error.getHttpResponse());
 
 		}
 	}

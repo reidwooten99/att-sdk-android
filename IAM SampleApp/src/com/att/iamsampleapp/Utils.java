@@ -72,16 +72,16 @@ public class Utils extends Activity{
 	public static void toastOnError(Context ctx,InAppMessagingError errorObject) {
 		if(null != errorObject.getErrorMessage()) {
 			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
-									 + " " + "Error : " + " " + errorObject.getErrorMessage(), Toast.LENGTH_SHORT);
+									 + " " + "Error : " + " " + errorObject.getErrorMessage(), Toast.LENGTH_LONG);
 			toast.show();
 		} else if (null != errorObject.getHttpResponse()) {
 			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
-					 + " " + "Error : " + " " + errorObject.getHttpResponse(), Toast.LENGTH_SHORT);
+					 + " " + "Error : " + " " + errorObject.getHttpResponse(), Toast.LENGTH_LONG);
 			toast.show();
-		}
+		} 
 		else {
 			Toast toast = Toast.makeText(ctx, "Error Code :" + " " + errorObject.getHttpResponseCode() + "," 
-					 + " " + "Error : " + " " + "MessageContentError", Toast.LENGTH_SHORT);
+					 + " " + "Error : " + " " + "MessageContentError", Toast.LENGTH_LONG);
 			toast.show();
 
 		}
