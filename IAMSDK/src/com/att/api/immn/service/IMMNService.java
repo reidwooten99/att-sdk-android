@@ -4,16 +4,11 @@ package com.att.api.immn.service;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +18,6 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
-import android.widget.Toast;
 
 //import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
@@ -107,11 +101,9 @@ public class IMMNService extends APIService {
 
         if ( attachments != null ) {
         	JSONArray jattach = new JSONArray();
-        	int index = 0;
         	
         	for( String fattach : attachments) {
         		if(fattach != null) {
-        			index++;
         			JSONObject attachBody = new JSONObject();
         			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
         			String contentType = null;
