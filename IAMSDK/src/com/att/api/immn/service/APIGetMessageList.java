@@ -1,8 +1,6 @@
 package com.att.api.immn.service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.json.JSONException;
 
