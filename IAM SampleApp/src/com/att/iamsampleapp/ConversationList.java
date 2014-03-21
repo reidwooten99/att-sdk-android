@@ -684,7 +684,7 @@ public class ConversationList extends Activity {
 
 		if (null == pDialog)
 			pDialog = new ProgressDialog(this);
-		pDialog.setCancelable(true);
+		pDialog.setCancelable(false);
 		pDialog.setMessage(dialogMessage);
 		pDialog.show();
 	}
