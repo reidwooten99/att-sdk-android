@@ -121,36 +121,30 @@ public class IMMNService extends APIService {
         			ByteArrayOutputStream baos = new ByteArrayOutputStream();  
         			String contentType = null;
         			String fileName = null;
-        			String fattchSplit[] = fattach.split("/");  	       			
-        			/*String extension = MimeTypeMap.getFileExtensionFromUrl(fattach);
+        			String fattchSplit[] = fattach.split("/");  
+        			String fileNameWithExtension = fattchSplit[fattchSplit.length -1];
+        			String fileNameWithoutExtension[] =  fileNameWithExtension.split("\\.");
+        			String fattachExtension = fileNameWithoutExtension[0].replaceAll("[^a-zA-Z.]+", "");
+        			String urlToGetExtension = fattachExtension + "." + fileNameWithoutExtension[1];
+        			String extension = MimeTypeMap.getFileExtensionFromUrl(urlToGetExtension);
         			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-        			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());*/
-        			
-        			MimeTypeMap mType =  MimeTypeMap.getSingleton();
-        			String extension = null;
-        			String mimeType = null; 
-        			
-        			int i = fattach.lastIndexOf('.');
-        			if (i > 0) {
-        				extension = fattach.substring(i+1);
-        				mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
-        			}
-        	    
+        			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
+        			        	    
 	        		if( mimeType.contains("image") ) {
 	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
 	        			
-	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 70, baos); //bm is the bitmap object   
-	        			contentType = "image/png";
+	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 0, baos); //bm is the bitmap object   
+	        			contentType = mimeType.toString();
 	        			fileName = fattchSplit[fattchSplit.length -1];
 	        		
 	        		} else if(mimeType.contains("audio") || (mimeType.contains("video"))) {
 	        				if(mimeType.contains("audio") ){
-	        					contentType = "audio/wav";
+	        					contentType = mimeType.toString();
 	    	        			fileName = fattchSplit[fattchSplit.length -1];
 
 	        				}
 	        					else {
-	        					contentType = "video/mp4";
+	        					contentType = mimeType.toString();
 	    	        			fileName = fattchSplit[fattchSplit.length -1];
 
 	        				}

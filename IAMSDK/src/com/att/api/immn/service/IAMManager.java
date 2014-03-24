@@ -27,7 +27,7 @@ public class IAMManager {
 	}
 
 	/**
-	 * The Message with the given identifier is retrieved from the background task
+	 * The message with the given identifier is retrieved from the background task
 	 * The background task returns the response of the type  Message to the listener
 	 * @param msgId - A message identifier representing a Subscriber Message in the AT&T Messages environment.
 	 * 
