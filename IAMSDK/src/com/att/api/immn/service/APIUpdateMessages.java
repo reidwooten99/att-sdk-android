@@ -1,7 +1,5 @@
 package com.att.api.immn.service;
 
-import java.text.ParseException;
-
 import org.json.JSONException;
 
 import android.os.AsyncTask;
@@ -22,7 +20,6 @@ public class APIUpdateMessages implements ATTIAMListener {
 	
 	public APIUpdateMessages(DeltaChange[] messages, IMMNService immnSrvc, ATTIAMListener iamListener) {
 		this.messages = messages;
-		this.isSuccesful = isSuccesful;
 		this.immnSrvc = immnSrvc;
 		this.iamListener = iamListener;	
 	}

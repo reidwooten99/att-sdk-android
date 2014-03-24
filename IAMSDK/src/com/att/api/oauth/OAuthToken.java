@@ -73,9 +73,6 @@ public class OAuthToken {
     /* Refresh token. */
     private final String refreshToken;
 
-    /* Whether to cache OAuth tokens, thereby saving file IO. */
-    private static volatile boolean useCaching = true;
-
     /* Used to indicate access token does not expire. */
     public static final long NO_EXPIRATION = -1;
 

@@ -1,7 +1,6 @@
 package com.att.api.immn.service;
 
 import com.att.api.immn.listener.ATTIAMListener;
-import com.att.api.immn.service.APIUpdateMessage.APIUpdateMessageParams;
 import com.att.api.oauth.OAuthToken;
 /**
  * This class encapsulates AT&Ts REST APIs for In-App Messaging
@@ -28,7 +27,7 @@ public class IAMManager {
 	}
 
 	/**
-	 * The Message with the given identifier is retrieved from the background task
+	 * The message with the given identifier is retrieved from the background task
 	 * The background task returns the response of the type  Message to the listener
 	 * @param msgId - A message identifier representing a Subscriber Message in the AT&T Messages environment.
 	 * 
@@ -42,10 +41,10 @@ public class IAMManager {
 	 * 
 	 *  The background task returns the response of the type  SendResponse to the listener
 
-	 * @param address - Addresses can be in the following forms and at least one of them must be provided: 
+	 * @param addresses - Addresses can be in the following forms and at least one of them must be provided: 
 	 * <ul>
-	 * <li> MSISDN – It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
-	 * It must be preceded by ‘tel:’ scheme. 
+	 * <li> MSISDN It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
+	 * It must be preceded by tel: scheme. 
 	 * <li>Valid representation formats are: 
 	 * 		<ul>
 	 * 		<li> tel:+12012345678
@@ -53,13 +52,13 @@ public class IAMManager {
 	 * 		<li> tel:2012345678
 	 * 		</ul>
 	 * International numbers shall not be supported.
-	 * <li> Short code – It is a special number between 3-8 digits long. 
-	 * It must be preceded by ‘short:’ scheme. Example of valid values are: 
+	 * <li> Short code It is a special number between 3-8 digits long. 
+	 * It must be preceded by short: scheme. Example of valid values are: 
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address – Standard email address format validation must be performed.
+	 * <li> Email address Standard email address format validation must be performed.
 	 * Max 10 Addresses will be supported. However, this limit will be configurable at a System level.
 	 * If any of the addresses is duplicated, the request will be sent only ONCE.
 	 * 
@@ -129,7 +128,7 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This gets the state, status and message count of the index cache for the subscriber’s inbox.
+	 * This gets the state, status and message count of the index cache for the subscriber's inbox.
 	 * The background task returns the response of the type  MessageIndexInfo to the listener
 	 */
 	public void GetMessageIndexInfo() {
@@ -155,7 +154,7 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This operation allows creating an index cache for the subscriber’s inbox.
+	 * This operation allows creating an index cache for the subscriber's inbox.
 	 * The developer will need to initiate a Create Message Index operation before any of the other operations are used. 
 	 * In addition, if a message index is inactive for 30 or more days,
 	 * then the developer will need to execute the Create Message Index operation again.

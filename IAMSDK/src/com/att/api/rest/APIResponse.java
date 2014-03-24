@@ -20,11 +20,7 @@ import java.io.InputStream;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-
-import com.att.api.error.InAppMessagingError;
 
 /*
  * Immutable class that holds API response information.
@@ -236,7 +232,6 @@ public class APIResponse {
         int statusCode = httpResponse.getStatusLine().getStatusCode();
 		String rb = "";
 		InputStream responseStream = null;
-		long responseLength = 0;
 		HttpEntity httpEntity = httpResponse.getEntity();
 		if ( httpEntity != null) {
 		   rb = EntityUtils.toString(httpResponse.getEntity());
