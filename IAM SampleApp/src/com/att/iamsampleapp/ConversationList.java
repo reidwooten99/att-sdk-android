@@ -1,7 +1,12 @@
 package com.att.iamsampleapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,6 +37,7 @@ import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 
+@SuppressLint("SimpleDateFormat")
 public class ConversationList extends Activity {
 
 	private static final String TAG = "Conversation List";
@@ -561,13 +567,28 @@ public class ConversationList extends Activity {
 	}
 
 	public void infoDialog(Message selMessage) {
+		
+		SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sourceFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date parsed = null;
+		try {
+			 parsed = sourceFormat.parse(selMessage.getTimeStamp().replace('T', ' '));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		destFormat.setTimeZone(TimeZone.getDefault());
+		
+		String date = destFormat.format(parsed);
 
 		new AlertDialog.Builder(ConversationList.this)
 				.setTitle("Message details")
 				.setMessage(
 						"Type : " + selMessage.getType() + "\n" + "From : "
 								+ selMessage.getFrom() + "\n" + "Received : "
-								+ selMessage.getTimeStamp())
+								+ date)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();

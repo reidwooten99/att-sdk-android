@@ -1,6 +1,11 @@
 package com.att.iamsampleapp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -94,9 +99,22 @@ public class MessageListAdapter extends BaseAdapter {
 			holder.txtMessage.setText(str);
 		}
 		// Update message time
-		holder.txtTime.setText(messageList.get(position).getTimeStamp()
-				.replace('T', ' '));
-
+		
+		SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sourceFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date parsed = null;
+		try {
+			 parsed = sourceFormat.parse(messageList.get(position).getTimeStamp().replace('T', ' '));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 		
+		SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		destFormat.setTimeZone(TimeZone.getDefault());
+		
+		String date = destFormat.format(parsed);
+		holder.txtTime.setText(date);
+		
 		// Update favorite message
 		if (messageList.get(position).isFavorite())
 			holder.imgFavorite.setBackgroundResource(R.drawable.btn_favorite);
