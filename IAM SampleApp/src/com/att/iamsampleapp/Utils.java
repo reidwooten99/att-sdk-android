@@ -1,5 +1,9 @@
 package com.att.iamsampleapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import com.att.api.error.InAppMessagingError;
@@ -87,5 +91,23 @@ public class Utils extends Activity{
 		}
 			
 			
+	}
+	public static String getDate(String selDate) {
+		
+		SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		sourceFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date parsed = null;
+		try {
+			 parsed = sourceFormat.parse(selDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		destFormat.setTimeZone(TimeZone.getDefault());		
+		String date = destFormat.format(parsed);
+		
+		return date;
+		
 	}
 }

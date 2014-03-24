@@ -25,6 +25,7 @@ public class MessageListAdapter extends BaseAdapter {
 	private static ArrayList<Message> messageList;
 	private LayoutInflater mInflater;
 	private Context ctx;
+	private String date;
 
 	public MessageListAdapter(Context context, ArrayList<Message> results) {
 		messageList = results;
@@ -100,19 +101,7 @@ public class MessageListAdapter extends BaseAdapter {
 		}
 		// Update message time
 		
-		SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sourceFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date parsed = null;
-		try {
-			 parsed = sourceFormat.parse(messageList.get(position).getTimeStamp().replace('T', ' '));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 		
-		SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		destFormat.setTimeZone(TimeZone.getDefault());
-		
-		String date = destFormat.format(parsed);
+		date = Utils.getDate(messageList.get(position).getTimeStamp().replace('T', ' '));
 		holder.txtTime.setText(date);
 		
 		// Update favorite message

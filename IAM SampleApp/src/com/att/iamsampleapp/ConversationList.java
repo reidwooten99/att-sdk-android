@@ -37,7 +37,6 @@ import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 
-@SuppressLint("SimpleDateFormat")
 public class ConversationList extends Activity {
 
 	private static final String TAG = "Conversation List";
@@ -568,21 +567,8 @@ public class ConversationList extends Activity {
 
 	public void infoDialog(Message selMessage) {
 		
-		SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		sourceFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date parsed = null;
-		try {
-			 parsed = sourceFormat.parse(selMessage.getTimeStamp().replace('T', ' '));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		String date = Utils.getDate(selMessage.getTimeStamp().replace('T', ' '));
 		
-		SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		destFormat.setTimeZone(TimeZone.getDefault());
-		
-		String date = destFormat.format(parsed);
-
 		new AlertDialog.Builder(ConversationList.this)
 				.setTitle("Message details")
 				.setMessage(
