@@ -88,13 +88,13 @@ public class IAMManager {
 
 	
 	/**
-	 * The Application will request message content from the AT&T Systems by providing a content 
-	 * identifier and the associated message identifier.
-	 * The content associated with the identifier provided in the request is returned.
-	 * The background task returns the response of the type MessageContent  to the listener
+	 * The GetMessageContent method returns specific content from a subscriber message. The app requests 
+	 * content from the AT&T Systems by providing the identifier of the su8bscriber message and the idetifier of 
+	 * the content to be returned. The background task returns the response of type MessageContent 
+	 * to the listener.
 	 * 
-	 * @param msgId 	 - A message identifier representing a Subscriber Message in the AT&T Messages environment.
-	 * @param partNumber - A content identifier representing an attachment in the referenced subscriber message.
+	 * @param msgId - Specifies the identifier of the subscriber message associated with the content.
+	 * @param partNumber - Specifies the identifier of an attachment to the message subscriber message.
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
 		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, immnSrvc, iamListener);
