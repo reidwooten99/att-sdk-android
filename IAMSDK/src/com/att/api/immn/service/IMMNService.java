@@ -235,9 +235,18 @@ public class IMMNService extends APIService {
         if (args.isIncoming() != null)
             client.addParameter("isIncoming", args.isIncoming() ? "true" : "false" );
 
-        APIResponse response = client.httpGet();
-		JSONObject jobj = new JSONObject(response.getResponseBody());
-		return MessageList.valueOf(jobj);
+        APIResponse response  = null;
+        JSONObject	jobj = null;
+        
+         try {
+			response = client.httpGet();
+			 jobj = new JSONObject(response.getResponseBody());
+			return MessageList.valueOf(jobj);
+		} catch (RESTException e) {
+			// TODO Auto-generated catch block
+			throw  e;	
+		}
+		
     }
 
     public Message getMessage(final String msgId) throws RESTException, JSONException, ParseException {

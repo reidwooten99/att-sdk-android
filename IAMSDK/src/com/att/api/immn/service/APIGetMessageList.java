@@ -3,9 +3,11 @@ package com.att.api.immn.service;
 import java.text.ParseException;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
@@ -39,7 +41,6 @@ public class APIGetMessageList implements ATTIAMListener {
 		protected MessageList doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			MessageList messageList = null;
-
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
@@ -89,6 +90,38 @@ public class APIGetMessageList implements ATTIAMListener {
 	@Override
 	public void onError(final InAppMessagingError error) {
 		// TODO Auto-generated method stub
+		String serviceExceptionId = null;
+		
+		if(null  != error) {
+			if(error.getErrorMessage().contains("ServiceException")) {
+				JSONObject jobj;
+				MessageIndexInfo messageIndexInfo;
+				try {
+					jobj = new JSONObject( error.getErrorMessage());
+					JSONObject jobj1 = jobj.getJSONObject("RequestError");
+					JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
+					serviceExceptionId = jobj2.getString("MessageId");
+					if (serviceExceptionId == "SVC0001") {
+						messageIndexInfo = immnSrvc.getMessageIndexInfo();	
+						if(messageIndexInfo.getState() == "NOT_INITIALIZED" || 
+						   messageIndexInfo.getState() == "ERROR") {
+							immnSrvc.createMessageIndex();
+						}
+					}
+				} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+					Log.i("JSONException", "ONException");
+				} catch (RESTException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  catch (ParseException e) {
+				// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}	
+					
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
