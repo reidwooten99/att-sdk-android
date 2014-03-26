@@ -56,7 +56,7 @@ public class ConversationList extends Activity {
 	private String deleteMessageID;
 	private int prevIndex;
 	private ProgressDialog pDialog;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,10 +108,21 @@ public class ConversationList extends Activity {
 					Log.i("mainActivity", "oAuthCode: is null");
 
 				}
+			} else if(resultCode == RESULT_CANCELED) {
+				String errorMessage = data.getStringExtra("ErrorMessage");
+				new AlertDialog.Builder(ConversationList.this)
+				.setTitle("Error")
+				.setMessage(errorMessage)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+						finish();
+					}
+				}).show();				
 			}
-		}
+		} 
 	}
-
+	
 	/*
 	 * getTokenListener will be called on getting the response from
 	 * osrvc.getOAuthToken(..)
@@ -500,7 +511,16 @@ public class ConversationList extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
+				
+				if(((Message) messageListView.getItemAtPosition(position)).isUnread()) {
+					DeltaChange[] statusChange = new DeltaChange[1];
+					statusChange[0] = new DeltaChange(((Message) messageListView.getItemAtPosition(position)).getMessageId(),
+													  ((Message) messageListView.getItemAtPosition(position)).isFavorite(), false);
+					deleteMessageID = ((Message) messageListView.getItemAtPosition(position)).getMessageId();
+					updateMessageStatus(statusChange);
+				}
+				
+								
 				if (((Message) messageListView.getItemAtPosition(position))
 						.getType().equalsIgnoreCase("MMS")) {
 					Message mmsMessage = (Message) messageListView
@@ -577,7 +597,7 @@ public class ConversationList extends Activity {
 								+ date)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
+						dialog.cancel();					
 					}
 				}).show();
 	}
@@ -772,6 +792,5 @@ public class ConversationList extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 		dismissProgressDialog();
-	}
-
+	}		
 }
