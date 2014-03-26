@@ -3,7 +3,7 @@ package com.att.api.immn.service;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 /**
- * This class encapsulates AT&Ts REST APIs for In-App Messaging
+ * This class encapsulates the AT&T RESTful APIs for the In-App Messaging API.
  * 
  * @author dg185p
  * @author ps350r
@@ -15,10 +15,10 @@ public class IAMManager {
 	private ATTIAMListener iamListener;
 	
 	/**
-	 * Creates an IAMManager object.
-	 * @param fqdn fully qualified domain name to use for sending requests
-	 * @param token OAuth token to use for authorization
-	 * @param iamListener listener for callback
+	 * The IAMManager method creates an IAMManager object.
+	 * @param fqdn - Specifies the fully qualified domain name that is used for sending requests.
+	 * @param token - Specifies the OAuth token to use for authorization.
+	 * @param iamListener - Listener for callback.
 	 */
 	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
 		
@@ -27,9 +27,10 @@ public class IAMManager {
 	}
 
 	/**
-	 * The message with the given identifier is retrieved from the background task
-	 * The background task returns the response of the type  Message to the listener
-	 * @param msgId - A message identifier representing a Subscriber Message in the AT&T Messages environment.
+	 * Gets the specified message from the background task. The background 
+	 * task returns the response of the type Message to the listener.
+	 * @param msgId - Specifies the message identifier that represents a subscriber 
+	 * message in the AT&T Messages environment.
 	 * 
 	 */
 	public void GetMessage(String msgId) {
@@ -39,45 +40,49 @@ public class IAMManager {
 	
 	/**
 	 * 
-	 *  The background task returns the response of the type  SendResponse to the listener
+	 *  The background task returns the response of the type SendResponse to the listener.
 
-	 * @param addresses - Addresses can be in the following forms and at least one of them must be provided: 
+	 * @param addresses - Specifies the recipient addresses. At least one address is required. Addresses 
+	 * can be in the following formats: 
 	 * <ul>
-	 * <li> MSISDN It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
-	 * It must be preceded by tel: scheme. 
-	 * <li>Valid representation formats are: 
+	 * <li> MSISDN: This format is the mobile number based on North American Numbering Plan with a maximum 
+	 * length of 11 digits. 
+	 * It must be preceded by the following prefix: tel: 
+	 * <li>Valid formats are: 
 	 * 		<ul>
 	 * 		<li> tel:+12012345678
 	 * 		<li> tel:12012345678 
 	 * 		<li> tel:2012345678
 	 * 		</ul>
-	 * International numbers shall not be supported.
-	 * <li> Short code It is a special number between 3-8 digits long. 
-	 * It must be preceded by short: scheme. Example of valid values are: 
+	 * International numbers are not be supported.
+	 * <li> Short code: This format is a special number between 3-8 digits long. 
+	 * It must be preceded by the following prefix: short: 
+	 * scheme. 
+	 * Valid formats are:  
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address Standard email address format validation must be performed.
+	 * <li> Email address: This format is the standard email address format validation must be performed.
 	 * Max 10 Addresses will be supported. However, this limit will be configurable at a System level.
 	 * If any of the addresses is duplicated, the request will be sent only ONCE.
 	 * 
-	 * @param message - The Message to be sent.
+	 * @param message - Specifies the message to be sent.
 	 * <ul>
-	 * <li> If the request is detected to be MMS then the following character sets will be supported :
+	 * <li> If the request is for an MMS message, then the following character sets are supported:
 	 * 		<ul>
 	 * 		<li> ASCII  
 	 * 		<li> UTF-8  
 	 * 		<li> UTF-16 
 	 * 		<li> ISO-8859-1
 	 * 		</ul>
-	 * <li> If the request is detected to be SMS then the following character set will be supported:  ISO-8859-1
-	 * It becomes a mandatory field if Attachment(s) is NOT provided in the request.
+	 * <li> If the request is for an SMS, then the following character set is supported:  ISO-8859-1
+	 * The message parameter is required if attachments are not provided in the request.
 	 * </ul>
 	 * 
-	 * @param subject 		- It is the header for the message.
-	 * @param group 		- If set to True, implies there are multiple recipients else  message is treated as Broadcast.
-	 * @param attachments 	- String for the filename of the media content.
+	 * @param subject - Specifies the header for the message.
+	 * @param group - If set to True, implies there are multiple recipients else  message is treated as Broadcast.
+	 * @param attachments - Specifies the filename of the media content.
 	 * */
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
