@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,9 +16,11 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
 
 public class UserConsentActivity extends Activity implements ATTIAMListener{
 
@@ -28,6 +31,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	private String redirectUri;
 	OAuthService osrvc;
 	WebView webView ;
+	private ATTIAMListener iamListener;
+	protected Handler handler = new Handler();
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -43,7 +48,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		WebView webView = new WebView(this);
 		webView.setLayoutParams(llParams);
 		linearLayout.addView(webView);
-			
+				
 		 Intent i = getIntent();
 		 fqdn = i.getStringExtra("fqdn");
 		 clientId = i.getStringExtra("clientId");
@@ -66,6 +71,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
+		
+		InAppMessagingError errorObj = new InAppMessagingError();
 		
 		 @Override
 		    public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -109,7 +116,16 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} 
+			} else if(url.contains("error=")) {
+				try {
+					throw new RESTException("Incorrect Url! Unable to open the Authorization page." +
+											"Check the APP_KEY,APP_SECRET,APP_SCOPE and REDIRECT_URI");
+				} catch (RESTException e) {
+					// TODO Auto-generated catch block
+					errorObj = new InAppMessagingError(e.getMessage());
+					onError(errorObj);	;
+				}																			
+			}
     	}	
     }
 
@@ -118,6 +134,20 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	}
 
 	@Override
-	public void onError(InAppMessagingError error) {
-	}
+	public void onError(final InAppMessagingError error) {
+		
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (null != iamListener) {
+					iamListener.onError(error);
+				}
+			}
+		});	
+		
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("ErrorMessage", error.getErrorMessage());
+		setResult(RESULT_CANCELED,returnIntent);
+		finish();
+	}	
 }
