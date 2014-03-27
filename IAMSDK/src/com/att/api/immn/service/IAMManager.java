@@ -49,7 +49,7 @@ public class IAMManager {
 	 * @param addresses - Specifies the recipient addresses. At least one address is required. Addresses 
 	 * can be in the following formats: 
 	 * <ul>
-	 * <li> MSISDN: This format is the mobile number based on North American Numbering Plan with a maximum 
+	 * <li> MSISDN This format is the mobile number based on North American Numbering Plan with a maximum 
 	 * length of 11 digits. It must be preceded by the following prefix: tel: 
 	 * <li>Valid formats are: 
 	 * 		<ul>
@@ -58,14 +58,14 @@ public class IAMManager {
 	 * 		<li> tel:2012345678
 	 * 		</ul>
 	 * International numbers are not be supported.
-	 * <li> Short code: This format is a special number between 3-8 digits long. It must be preceded by the 
+	 * <li> Short code This format is a special number between 3-8 digits long. It must be preceded by the 
 	 * following prefix: short: 
 	 * Valid formats are:  
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address: This format is the standard email address format. Validation of the address must be 
+	 * <li> Email address This format is the standard email address format. Validation of the address must be 
 	 * performed. A maximum of 10 addresses is supported. However, this limit can be configurable at a System level.
 	 * If any of the addresses are duplicated, the message is sent to that address only once.
 	 * 
@@ -142,7 +142,7 @@ public class IAMManager {
 	
 	/**
 	 * The GetMessageIndexInfo method gets the state, status, and message count of the index cache for the 
-	 * subscriber's inbox.
+	 * subscriber&#8217;s inbox.
 	 * 
 	 * This method returns a response of the type MessageIndexInfo to the listener.
 	 * 
@@ -171,7 +171,7 @@ public class IAMManager {
 	}
 	
 	/**
-	 * The CreateMessageIndex method creats an index cache for the subscriber's inbox.
+	 * The CreateMessageIndex method creats an index cache for the subscriber&#8217;s inbox.
 	 * This method must be called before any of the other operations is used. 
 	 * In addition, if a message index is inactive for 30 or more days, then the developer 
 	 * will need to create an index cache again.
