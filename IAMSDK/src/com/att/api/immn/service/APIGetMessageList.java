@@ -77,7 +77,6 @@ public class APIGetMessageList implements ATTIAMListener {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				if (null != iamListener) {
 					iamListener.onSuccess((MessageList) messageList);
 				}
@@ -89,34 +88,30 @@ public class APIGetMessageList implements ATTIAMListener {
 
 	@Override
 	public void onError(final InAppMessagingError error) {
-		// TODO Auto-generated method stub
 		String serviceExceptionId = null;
 		
 		if(null  != error) {
-			if(error.getErrorMessage().contains("ServiceException")) {
+			if(error.getHttpResponse().contains("ServiceException")) {
 				JSONObject jobj;
 				MessageIndexInfo messageIndexInfo;
 				try {
-					jobj = new JSONObject( error.getErrorMessage());
+					jobj = new JSONObject( error.getHttpResponse());
 					JSONObject jobj1 = jobj.getJSONObject("RequestError");
 					JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
 					serviceExceptionId = jobj2.getString("MessageId");
-					if (serviceExceptionId == "SVC0001") {
-						messageIndexInfo = immnSrvc.getMessageIndexInfo();	
-						if(messageIndexInfo.getState() == "NOT_INITIALIZED" || 
-						   messageIndexInfo.getState() == "ERROR") {
+					if (serviceExceptionId.equalsIgnoreCase("SVC0001") ) {
+						messageIndexInfo = immnSrvc.getMessageIndexInfo();
+						if(messageIndexInfo.getState().equalsIgnoreCase("NOT_INITIALIZED") || 
+						   messageIndexInfo.getState().equalsIgnoreCase("ERROR")) {
 							immnSrvc.createMessageIndex();
+							GetMessageList();
 						}
 					}
 				} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				//e1.printStackTrace();
-					Log.i("JSONException", "ONException");
+					e1.printStackTrace();
 				} catch (RESTException e) {
-				// TODO Auto-generated catch block
 					e.printStackTrace();
 				}  catch (ParseException e) {
-				// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
