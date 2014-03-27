@@ -19,7 +19,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-//import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;

@@ -7,7 +7,6 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;

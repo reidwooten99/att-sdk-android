@@ -16,10 +16,8 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.att.api.error.InAppMessagingError;
-import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
-import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 
 public class UserConsentActivity extends Activity implements ATTIAMListener{
