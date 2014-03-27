@@ -194,24 +194,25 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This  allows to update the flags that are associated with a collection of messages. 
-	 * Any number of messages can  be passed in.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The UpdateMessages method updates the flags of multiple messages messages. Any number of messages 
+	 * can be passed in.
 	 * 
-	 * @param messages - Container for the messages and the flags that need updating
+	 * This method returns True if sucessfull or False if a failure occured to the listener.
+	 * 
+	 * @param messages - Specifies the messages and the flags to be updated.
 	 */
 	public void UpdateMessages(DeltaChange[] messages) {
 		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, immnSrvc, iamListener);
 		updateMessages.UpdateMessages();
 	}
 	/**
-	 * This  allows to update the flags that are associated with a specific message. 
-	 * The developer passes in the messageId.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The UpdateMessage method updates the flags of a specific message.
 	 * 
-	 * @param msgId -		Id of the message that is intended to get updated
-	 * @param isUnread - 	optional - This flag provides capability to set a message unread or read status
-	 * @param isFavorite -  optional - Sets the message to favorite or to unset the favorite.
+	 * This method returns True if sucessfull or False if a failure occured to the listener.
+	 * 
+	 * @param msgId - Specifies the Id of the message to be updated.
+	 * @param isUnread - Indicates whether the message has or has not been read.
+	 * @param isFavorite - Indicates whether the message is or is not a favorite.
 	 */
 	public void UpdateMessage(String msgId, Boolean isUnread, Boolean isFavorite) {
 		APIUpdateMessage updateMessage = new APIUpdateMessage();
