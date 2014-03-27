@@ -27,10 +27,12 @@ public class IAMManager {
 	}
 
 	/**
-	 * Gets the specified message from the background task. The background 
-	 * task returns the response of the type Message to the listener.
-	 * @param msgId - Specifies the message identifier that represents a subscriber 
-	 * message in the AT&T Messages environment.
+	 * The GetMessage method gets the specified message from the background task. 
+	 * 
+	 * This method returns a response of type Message to the listener.
+	 * 
+	 * @param msgId - Specifies the message identifier of a subscriber message
+	 * in the AT&T Messages environment.
 	 * 
 	 */
 	public void GetMessage(String msgId) {
@@ -40,14 +42,15 @@ public class IAMManager {
 	
 	/**
 	 * 
-	 *  The background task returns the response of the type SendResponse to the listener.
-
+	 * The SendMessage method sends an SMS or MMS message to one or more recipients. 
+	 * 
+	 * This method returns a response of type SendResponse to the listener.
+	 * 
 	 * @param addresses - Specifies the recipient addresses. At least one address is required. Addresses 
 	 * can be in the following formats: 
 	 * <ul>
 	 * <li> MSISDN: This format is the mobile number based on North American Numbering Plan with a maximum 
-	 * length of 11 digits. 
-	 * It must be preceded by the following prefix: tel: 
+	 * length of 11 digits. It must be preceded by the following prefix: tel: 
 	 * <li>Valid formats are: 
 	 * 		<ul>
 	 * 		<li> tel:+12012345678
@@ -55,34 +58,34 @@ public class IAMManager {
 	 * 		<li> tel:2012345678
 	 * 		</ul>
 	 * International numbers are not be supported.
-	 * <li> Short code: This format is a special number between 3-8 digits long. 
-	 * It must be preceded by the following prefix: short: 
-	 * scheme. 
+	 * <li> Short code: This format is a special number between 3-8 digits long. It must be preceded by the 
+	 * following prefix: short: 
 	 * Valid formats are:  
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address: This format is the standard email address format validation must be performed.
-	 * Max 10 Addresses will be supported. However, this limit will be configurable at a System level.
-	 * If any of the addresses is duplicated, the request will be sent only ONCE.
+	 * <li> Email address: This format is the standard email address format. Validation of the address must be 
+	 * performed. A maximum of 10 addresses is supported. However, this limit can be configurable at a System level.
+	 * If any of the addresses are duplicated, the message is sent to that address only once.
 	 * 
 	 * @param message - Specifies the message to be sent.
 	 * <ul>
-	 * <li> If the request is for an MMS message, then the following character sets are supported:
+	 * <li> If the message is an MMS message, the following character sets are supported:
 	 * 		<ul>
 	 * 		<li> ASCII  
 	 * 		<li> UTF-8  
 	 * 		<li> UTF-16 
 	 * 		<li> ISO-8859-1
 	 * 		</ul>
-	 * <li> If the request is for an SMS, then the following character set is supported:  ISO-8859-1
+	 * <li> If the message is an SMS message, the following character set is supported:  ISO-8859-1
 	 * The message parameter is required if attachments are not provided in the request.
 	 * </ul>
 	 * 
 	 * @param subject - Specifies the header for the message.
-	 * @param group - If set to True, implies there are multiple recipients else  message is treated as Broadcast.
-	 * @param attachments - Specifies the filename of the media content.
+	 * @param group - If set to True, implies that there are multiple recipients. If set to False, the message 
+	 * is treated as a broadcast message.
+	 * @param attachments - Specifies the filename of the media content attached to the message.
 	 * */
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
@@ -93,13 +96,14 @@ public class IAMManager {
 
 	
 	/**
-	 * The GetMessageContent method returns specific content from a subscriber message. The app requests 
-	 * content from the AT&T Systems by providing the identifier of the su8bscriber message and the idetifier of 
-	 * the content to be returned. The background task returns the response of type MessageContent 
-	 * to the listener.
+	 * The GetMessageContent method returns specific content from a message. The app requests 
+	 * content from the AT&T Systems by providing the identifier of the message and the idetifier of 
+	 * the content to be returned. 
 	 * 
-	 * @param msgId - Specifies the identifier of the subscriber message associated with the content.
-	 * @param partNumber - Specifies the identifier of an attachment to the message subscriber message.
+	 * This method returns a response of type MessageContent to the listener.
+	 * 
+	 * @param msgId - Specifies the identifier of the message associated with the content.
+	 * @param partNumber - Specifies the identifier of an attachment to the message.
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
 		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, immnSrvc, iamListener);
@@ -107,13 +111,15 @@ public class IAMManager {
 	}
 	
 	/**
-	 * The Application will request a block of messages by providing count and an offset value.
-	 * A list of messages is returned in received order starting with the most recent.
-	 * The background task returns the response of the type  MessageList to the listener
+	 * The GetMessageList method gets a block of messages. The app requests a block of messages by an offset 
+	 * that indicates where the block starts and the number of messages to be retrieved. The messages are 
+	 * returned in the order that they were received, starting with the most recent message.
 	 * 
-	 * @param limit 	- This parameter defines the upper limit of the number of returned messages.
-	 *  A maximum value of 500 is supported.
-	 * @param offset 	- This parameter defines the offset from the beginning of the ordered set of messages.
+	 * This method returns the response of type MessageList to the listener.
+	 * 
+	 * @param limit - Specifies the upper limit of the block of messages. A maximum of 500 messages can be 
+	 * returned.
+	 * @param offset - Specifies the lower limit of the block of messages.
 	 */
 	public void GetMessageList(int limit, int offset) {
 		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, immnSrvc, iamListener);
@@ -121,10 +127,12 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This provides capability to check for updates by passing in a client state.
-	 * The background task returns the response of the type  DeltaResponse to the listener
+	 * The GetDelta method checks for updates by passing in a client state.
 	 * 
-	 * @param state - This string is from a either the Get Message Index request, or from the Get Message List request.
+	 * This method returns a response of type DeltaResponse to the listener.
+	 * 
+	 * @param state - Specifies the client state. This string is returned by the GetMessageIndex 
+	 * or GetMessageList methods.
 	 * 
 	 */
 	public void GetDelta(String state) {
@@ -133,8 +141,11 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This gets the state, status and message count of the index cache for the subscriber's inbox.
-	 * The background task returns the response of the type  MessageIndexInfo to the listener
+	 * The GetMessageIndexInfo method gets the state, status, and message count of the index cache for the 
+	 * subscriber's inbox.
+	 * 
+	 * This method returns a response of the type MessageIndexInfo to the listener.
+	 * 
 	 */
 	public void GetMessageIndexInfo() {
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
@@ -142,9 +153,10 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This  provides capability to retrieve details about the credentials, 
-	 * endpoint and resource information to setup a notification connection. 
-	 * The background task returns the response of the type  NotificationConnectionDetails to the listener
+	 * The GetNotificationConnectionDetails method retrieves details about the credentials, 
+	 * endpoint, and resource information that is used to set up a notification connection.
+	 * 
+	 * This method task returns a response of the type NotificationConnectionDetails to the listener.
 	 * 
 	 * @param queues - The name of the resource the client is interested in subscribing for notifications. 
 	 * Currently supported resource is -
@@ -159,12 +171,12 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This operation allows creating an index cache for the subscriber's inbox.
-	 * The developer will need to initiate a Create Message Index operation before any of the other operations are used. 
-	 * In addition, if a message index is inactive for 30 or more days,
-	 * then the developer will need to execute the Create Message Index operation again.
+	 * The CreateMessageIndex method creats an index cache for the subscriber's inbox.
+	 * This method must be called before any of the other operations is used. 
+	 * In addition, if a message index is inactive for 30 or more days, then the developer 
+	 * will need to create an index cache again.
 	 * 
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * This method returns True for success or False for failure to the listener.
 	 */
 	public void CreateMessageIndex() {		
 		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
@@ -172,19 +184,21 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This operation gives the the ability to delete a specific message in an inbox.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The DeleteMessage method deletes a specific message from an inbox.
 	 * 
-	 * @param msgId - Id of the message that is intended to get deleted
+	 * This method returns True for success and False for failure to the listener
+	 * 
+	 * @param msgId - Specifies the identifier of the message to be deleted.
 	 */
 	public void DeleteMessage(String msgId) {		
 		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, immnSrvc, iamListener);
 		deleteMessage.DeleteMessage();		
 	}
 	/**
-	 * This operation gives the ability to delete messages in an inbox. 
-	 * The messageIds are passed in the query string in the request.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The DeleteMessages method deletes multiple messages from an inbox. The message Ids are passed 
+	 * in the query string in the request.
+	 * 
+	 * This method returns the response with either true or false for success or failure respectively to the listener
 	 * 
 	 * @param msgIds - Comma delimited message ids.
 	 */
