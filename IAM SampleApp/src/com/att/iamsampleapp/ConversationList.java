@@ -231,7 +231,7 @@ public class ConversationList extends Activity {
 	 * createMessageIndexListener will be called on getting the response from
 	 * createMessageIndex()
 	 * 
-	 * onSuccess : This is called when the Index is created for the subscriber's
+	 * onSuccess : This is called when the Index is created for the subscriber&#8217;s
 	 * inbox. A list of messages will be fetched from the GetMessageList of
 	 * InApp messaging.
 	 * 
@@ -327,7 +327,7 @@ public class ConversationList extends Activity {
 	 * getDeltaListener will be called on getting the response from GetDelta(..)
 	 * 
 	 * onSuccess : If there is any update in the mailbox, messageList will be
-	 * updated. The mailBox's state is stored
+	 * updated. The mailBox state is stored
 	 * 
 	 * onError: This is called when the response is incorrect The Error along
 	 * with the error code is displayed to the user

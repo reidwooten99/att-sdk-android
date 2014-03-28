@@ -12,7 +12,6 @@ public final class Message {
     private String from;
     private String[] recipients;
     private String text;
-    private String subject;
     private ArrayList<MmsContent> mmsContents;
     private String timeStamp;
 

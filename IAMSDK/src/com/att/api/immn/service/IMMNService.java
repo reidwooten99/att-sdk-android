@@ -19,12 +19,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-//import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
+//import com.att.api.error.InAppMessagingError;
 
 public class IMMNService extends APIService {
 
@@ -131,9 +131,6 @@ public class IMMNService extends APIService {
         			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
         			        	    
 	        		if( mimeType.contains("image") ) {
-	        			Bitmap bm = BitmapFactory.decodeFile(fattach);
-	        			
-	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 0, baos); //bm is the bitmap object   
 	        			contentType = mimeType.toString();
 	        			fileName = fattchSplit[fattchSplit.length -1];
 	        		

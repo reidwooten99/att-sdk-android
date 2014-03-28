@@ -43,24 +43,25 @@ public class IAMManager {
 
 	 * @param address - Addresses can be in the following forms and at least one of them must be provided: 
 	 * <ul>
-	 * <li> MSISDN Ð It is the mobile number based on North American Numbering Plan with max length of 11 digits. 
-	 * It must be preceded by Ôtel:Õ scheme. 
-	 * <li>Valid representation formats are: 
+	 * <li> MSISDN This format is the mobile number based on North American Numbering Plan with a maximum 
+	 * length of 11 digits. It must be preceded by the following prefix: tel: 
+	 * <li>Valid formats are: 
 	 * 		<ul>
 	 * 		<li> tel:+12012345678
 	 * 		<li> tel:12012345678 
 	 * 		<li> tel:2012345678
 	 * 		</ul>
-	 * International numbers shall not be supported.
-	 * <li> Short code Ð It is a special number between 3-8 digits long. 
-	 * It must be preceded by Ôshort:Õ scheme. Example of valid values are: 
+	 * International numbers are not be supported.
+	 * <li> Short code This format is a special number between 3-8 digits long. It must be preceded by the 
+	 * following prefix: short: 
+	 * Valid formats are:  
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address Ð Standard email address format validation must be performed.
-	 * Max 10 Addresses will be supported. However, this limit will be configurable at a System level.
-	 * If any of the addresses is duplicated, the request will be sent only ONCE.
+	 * <li> Email address This format is the standard email address format. Validation of the address must be 
+	 * performed. A maximum of 10 addresses is supported. However, this limit can be configurable at a System level.
+	 * If any of the addresses are duplicated, the message is sent to that address only once.
 	 * 
 	 * @param message - The Message to be sent.
 	 * <ul>
@@ -128,8 +129,11 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This gets the state, status and message count of the index cache for the subscriber&#8217;s inbox.
-	 * The background task returns the response of the type  MessageIndexInfo to the listener
+	 * The GetMessageIndexInfo method gets the state, status, and message count of the index cache for the 
+	 * subscriber&#8217;s inbox.
+	 * 
+	 * This method returns a response of the type MessageIndexInfo to the listener.
+	 * 
 	 */
 	public void GetMessageIndexInfo() {
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
@@ -154,10 +158,10 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This operation allows creating an index cache for the subscriber&#8217;s inbox.
-	 * The developer will need to initiate a Create Message Index operation before any of the other operations are used. 
-	 * In addition, if a message index is inactive for 30 or more days,
-	 * then the developer will need to execute the Create Message Index operation again.
+	 * The CreateMessageIndex method creats an index cache for the subscriber&#8217;s inbox.
+	 * This method must be called before any of the other operations is used. 
+	 * In addition, if a message index is inactive for 30 or more days, then the developer 
+	 * will need to create an index cache again.
 	 * 
 	 * The background task returns the response with either true or false for success or failure respectively to the listener
 	 */
