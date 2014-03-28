@@ -3,7 +3,7 @@ package com.att.api.immn.service;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 /**
- * This class encapsulates AT&Ts REST APIs for In-App Messaging
+ * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
  * 
  * @author dg185p
  * @author ps350r
@@ -15,10 +15,10 @@ public class IAMManager {
 	private ATTIAMListener iamListener;
 	
 	/**
-	 * Creates an IAMManager object.
-	 * @param fqdn fully qualified domain name to use for sending requests
-	 * @param token OAuth token to use for authorization
-	 * @param iamListener listener for callback
+	 * The IAMManager method creates an IAMManager object.
+	 * @param fqdn - Specifies the fully qualified domain name that is used to send requests.
+	 * @param token - Specifies the OAuth token that is used for authorization.
+	 * @param iamListener - Specifies the Listener for callbacks.
 	 */
 	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
 		
@@ -27,9 +27,11 @@ public class IAMManager {
 	}
 
 	/**
-	 * The Message with the given identifier is retrieved from the background task
-	 * The background task returns the response of the type  Message to the listener
-	 * @param msgId - A message identifier representing a Subscriber Message in the AT&T Messages environment.
+	 * The getMessages method gets a message based on its message Id. This method returns 
+	 * a response of the type Message to the listener.
+	 * 
+	 * @param msgId - Specifies the message identifier of a subscriber message in the AT&T 
+	 * Messages environment.
 	 * 
 	 */
 	public void GetMessage(String msgId) {
@@ -39,11 +41,13 @@ public class IAMManager {
 	
 	/**
 	 * 
-	 *  The background task returns the response of the type  SendResponse to the listener
+	 *  The SendMesage method sends an MMS or SMS message. This method returns a response of the type 
+	 *  SendResponse to the listener.
 
-	 * @param address - Addresses can be in the following forms and at least one of them must be provided: 
+	 * @param address - Specifies the addresses were the message is sennt. The addresses must be specified 
+	 * in one of the following formats (at least one of them must be specified): 
 	 * <ul>
-	 * <li> MSISDN This format is the mobile number based on North American Numbering Plan with a maximum 
+	 * <li> MSISDN: This format is the mobile number based on North American Numbering Plan with a maximum 
 	 * length of 11 digits. It must be preceded by the following prefix: tel: 
 	 * <li>Valid formats are: 
 	 * 		<ul>
@@ -52,33 +56,34 @@ public class IAMManager {
 	 * 		<li> tel:2012345678
 	 * 		</ul>
 	 * International numbers are not be supported.
-	 * <li> Short code This format is a special number between 3-8 digits long. It must be preceded by the 
+	 * <li> Short code: This format is a special number between 3-8 digits long. It must be preceded by the 
 	 * following prefix: short: 
 	 * Valid formats are:  
 	 * 		<ul>
 	 * 		<li> short:123 
 	 * 		<li> short:12345678
 	 * 		</ul>
-	 * <li> Email address This format is the standard email address format. Validation of the address must be 
+	 * <li> Email address: This format is the standard email address format. Validation of the address must be 
 	 * performed. A maximum of 10 addresses is supported. However, this limit can be configurable at a System level.
-	 * If any of the addresses are duplicated, the message is sent to that address only once.
+	 * If any of the email addresses are duplicated, the message is sent to that address only once.
 	 * 
-	 * @param message - The Message to be sent.
+	 * @param message - The message to be sent.
 	 * <ul>
-	 * <li> If the request is detected to be MMS then the following character sets will be supported :
+	 * <li> If the request is detected to be an MMS message, then the following character sets are supported:
 	 * 		<ul>
 	 * 		<li> ASCII  
 	 * 		<li> UTF-8  
 	 * 		<li> UTF-16 
 	 * 		<li> ISO-8859-1
 	 * 		</ul>
-	 * <li> If the request is detected to be SMS then the following character set will be supported:  ISO-8859-1
-	 * It becomes a mandatory field if Attachment(s) is NOT provided in the request.
+	 * <li> If the request is detected to be an SMS mesage, then the following character set are supported:  ISO-8859-1
+	 * The message parameter is required if no attachments are specified.
 	 * </ul>
 	 * 
-	 * @param subject 		- It is the header for the message.
-	 * @param group 		- If set to True, implies there are multiple recipients else  message is treated as Broadcast.
-	 * @param attachments 	- String for the filename of the media content.
+	 * @param subject - Specifies the header for the message.
+	 * @param group	- If True, indicates the message is sent to multiple recipients. If False, indicates that the message 
+	 * is a broadcast mesage.
+	 * @param attachments - Specifies the filenames of attachments associated wwith the message.
 	 * */
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
@@ -89,13 +94,11 @@ public class IAMManager {
 
 	
 	/**
-	 * The Application will request message content from the AT&T Systems by providing a content 
-	 * identifier and the associated message identifier.
-	 * The content associated with the identifier provided in the request is returned.
-	 * The background task returns the response of the type MessageContent  to the listener
+	 * The GetMessageContent method gets a message attachment based on the attachment 
+	 * and message identifier. This method returns a response of type MessageContent to the listener.
 	 * 
-	 * @param msgId 	 - A message identifier representing a Subscriber Message in the AT&T Messages environment.
-	 * @param partNumber - A content identifier representing an attachment in the referenced subscriber message.
+	 * @param msgId - Specifies the identifier of a subscriber message in the AT&T Messages environment.
+	 * @param partNumber - Specifies the content identifier of the attachment to be retrieved.
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
 		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, immnSrvc, iamListener);
@@ -103,13 +106,12 @@ public class IAMManager {
 	}
 	
 	/**
-	 * The Application will request a block of messages by providing count and an offset value.
-	 * A list of messages is returned in received order starting with the most recent.
-	 * The background task returns the response of the type  MessageList to the listener
+	 * The GetMessageList method gets a block of messages based on an offset value and the number 
+	 * of mesages to retrieve. The list of messages is returned in the order that they were recieved, starting 
+	 * with the most recent. This method returns a response of the type MessageList to the listener.
 	 * 
-	 * @param limit 	- This parameter defines the upper limit of the number of returned messages.
-	 *  A maximum value of 500 is supported.
-	 * @param offset 	- This parameter defines the offset from the beginning of the ordered set of messages.
+	 * @param limit - Specifies the number of messages to return. A maximum value of 500 is supported.
+	 * @param offset - Specifies the offset from the beginning of the ordered set of messages.
 	 */
 	public void GetMessageList(int limit, int offset) {
 		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, immnSrvc, iamListener);
@@ -117,10 +119,11 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This provides capability to check for updates by passing in a client state.
-	 * The background task returns the response of the type  DeltaResponse to the listener
+	 * The GetDelta method checks to see if the client is in a specific state.
+	 * This method returns a response of the type DeltaResponse to the listener.
 	 * 
-	 * @param state - This string is from a either the Get Message Index request, or from the Get Message List request.
+	 * @param state - Specifies the state of the client. This string is returned by either the 
+	 * GetMessageIndex or GetMessageList method.
 	 * 
 	 */
 	public void GetDelta(String state) {
@@ -130,9 +133,7 @@ public class IAMManager {
 	
 	/**
 	 * The GetMessageIndexInfo method gets the state, status, and message count of the index cache for the 
-	 * subscriber&#8217;s inbox.
-	 * 
-	 * This method returns a response of the type MessageIndexInfo to the listener.
+	 * subscriber&#8217;s inbox. This method returns a response of the type MessageIndexInfo to the listener.
 	 * 
 	 */
 	public void GetMessageIndexInfo() {
@@ -141,15 +142,17 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This  provides capability to retrieve details about the credentials, 
-	 * endpoint and resource information to setup a notification connection. 
-	 * The background task returns the response of the type  NotificationConnectionDetails to the listener
+	 * The GetNotificationDetails method gets details about the credentials, endpoint,
+	 * and resource information that can be used to set up a notification connection. 
+	 * This method returns a response of the type NotificationConnectionDetails to the listener.
 	 * 
-	 * @param queues - The name of the resource the client is interested in subscribing for notifications. 
-	 * Currently supported resource is -
+	 * @param queues - Specifies the name of the resource whoes notification detains are returned. 
+	 * Supported resource include the following:
+	 * <ul>
 	 * 
-	 * 1)TEXT : Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
-	 * 2)MMS  : Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.
+	 * <li>TEXT : Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
+	 * <li>MMS  : Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.
+	 * </ul>
 	 */
 	public  void GetNotificationConnectionDetails(String queues) {
 		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
@@ -163,7 +166,7 @@ public class IAMManager {
 	 * In addition, if a message index is inactive for 30 or more days, then the developer 
 	 * will need to create an index cache again.
 	 * 
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * This method returns True for success or False for failure to the listener.
 	 */
 	public void CreateMessageIndex() {		
 		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
@@ -171,21 +174,21 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This operation gives the the ability to delete a specific message in an inbox.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The DeleteMessage method deletes a specific message from an inbox.
+	 * This method returns True for success or False for failure to the listener.
 	 * 
-	 * @param msgId - Id of the message that is intended to get deleted
+	 * @param msgId - Specifes the Id of the message to be deleted.
 	 */
 	public void DeleteMessage(String msgId) {		
 		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, immnSrvc, iamListener);
 		deleteMessage.DeleteMessage();		
 	}
 	/**
-	 * This operation gives the ability to delete messages in an inbox. 
-	 * The messageIds are passed in the query string in the request.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The DeleteMessages method deletes multiple messages from an inbox. The messagee identifiers are 
+	 * passed in the query string in the request. This method returns True for success or False for 
+	 * failure to the listener.
 	 * 
-	 * @param msgIds - Comma delimited message ids.
+	 * @param msgIds - Specifies a comma delimited list of message identifiers.
 	 */
 	public void DeleteMessages(String[] msgIds) {
 		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, immnSrvc, iamListener);
@@ -193,24 +196,23 @@ public class IAMManager {
 	}
 	
 	/**
-	 * This  allows to update the flags that are associated with a collection of messages. 
-	 * Any number of messages can  be passed in.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The UpdateMessages method updates the flags that are associated with multiple messages. 
+	 * Any number of messages can be updated. This method returns True for success or False 
+ 	 * for failure to the listener.
 	 * 
-	 * @param messages - Container for the messages and the flags that need updating
+	 * @param messages - Specifies the meesages to be updated and the flags to be updated.
 	 */
 	public void UpdateMessages(DeltaChange[] messages) {
 		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, immnSrvc, iamListener);
 		updateMessages.UpdateMessages();
 	}
 	/**
-	 * This  allows to update the flags that are associated with a specific message. 
-	 * The developer passes in the messageId.
-	 * The background task returns the response with either true or false for success or failure respectively to the listener
+	 * The UpdateMessage method updates the flags of a single message. This method returns True for 
+	 * success and False for failure to the listener.
 	 * 
-	 * @param msgId -		Id of the message that is intended to get updated
-	 * @param isUnread - 	optional - This flag provides capability to set a message unread or read status
-	 * @param isFavorite -  optional - Sets the message to favorite or to unset the favorite.
+	 * @param msgId - Specifies the identifier of the message to be updated.
+	 * @param isUnread - (Optional) Indicates whether the message has (True) or has not (False) been read.
+	 * @param isFavorite - (Optional) Indicates whetehr the messgae is (True) or is not (False) a favorite.
 	 */
 	public void UpdateMessage(String msgId, Boolean isUnread, Boolean isFavorite) {
 		APIUpdateMessage updateMessage = new APIUpdateMessage();
