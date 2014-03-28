@@ -131,6 +131,9 @@ public class IMMNService extends APIService {
         			String mimeType = mType.getMimeTypeFromExtension(extension.toLowerCase());
         			        	    
 	        		if( mimeType.contains("image") ) {
+	        			Bitmap bm = BitmapFactory.decodeFile(fattach);	        			
+	        			boolean success = bm.compress(Bitmap.CompressFormat.JPEG, 0, baos); //bm is the bitmap object 
+	        			
 	        			contentType = mimeType.toString();
 	        			fileName = fattchSplit[fattchSplit.length -1];
 	        		
