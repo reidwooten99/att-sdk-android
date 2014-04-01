@@ -50,7 +50,7 @@ public class MMSContent extends Activity {
 
 	
 	/*
-	 * The messageId and the part number be passed to get the message content associated with that ID
+	 * The messageId and the part number must be passed to get the message content associated with that ID
  	 * authToken will  be used to get access to GetMessageContent of InApp Messaging. 
  	 * 	
 	 * The response will be handled by the listener : getMessageContentListener()
