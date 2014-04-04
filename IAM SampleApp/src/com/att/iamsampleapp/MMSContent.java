@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -223,13 +225,18 @@ public class MMSContent extends Activity {
 			if (!iamDir.exists()) {
 				iamDir.mkdirs();
 			}
-
-			String[] contentTypeStr = params[0].getContentType().split("=");
-			String[] fileName = contentTypeStr[1].split(";");
-			// String filePath = dirPath + contentTypeStr[1];
-			String filePath = dirPath + fileName[0];
-
-			if (fileName[0].contains(".txt")) {
+			
+			// Changed to updated the received attachments filename with respect to time.
+			String contentType = params[0].getContentType();
+			String ext[] = contentType.split("/");
+			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+			String filePath;
+			if(ext != null)
+				filePath = dirPath + "Attachment_" + formattedDate + "." + ext[1];
+			else
+				filePath = dirPath + "Attachment_" + formattedDate;
+			
+			if (contentType.equalsIgnoreCase("TEXT/PLAIN")) {
 
 				BufferedReader r = new BufferedReader(new InputStreamReader(
 						instream));
