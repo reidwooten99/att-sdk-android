@@ -21,6 +21,7 @@
     <string name="lbl_broadcast">Send as broadcast</string>
     <string name="title_activity_mmscontent">MMS Attachments</string>
     <string name="title_activity_user_consent">User Consent</string>
+    <string name="title_close_application">"Closing the Application"</string>
     
     
 

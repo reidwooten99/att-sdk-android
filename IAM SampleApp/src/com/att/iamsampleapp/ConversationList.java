@@ -109,7 +109,11 @@ public class ConversationList extends Activity {
 
 				}
 			} else if(resultCode == RESULT_CANCELED) {
-				String errorMessage = data.getStringExtra("ErrorMessage");
+				String errorMessage = null;
+				if(null != data) {
+					 errorMessage = data.getStringExtra("ErrorMessage");
+				} else 
+					errorMessage = getResources().getString(R.string.title_close_application);
 				new AlertDialog.Builder(ConversationList.this)
 				.setTitle("Error")
 				.setMessage(errorMessage)
