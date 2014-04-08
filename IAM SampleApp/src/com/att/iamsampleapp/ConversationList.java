@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -443,7 +444,9 @@ public class ConversationList extends Activity {
 				prevIndex = 0;
 				adapter = new MessageListAdapter(getApplicationContext(),
 						messageList);
+				Parcelable state = messageListView.onSaveInstanceState();
 				messageListView.setAdapter(adapter);
+				messageListView.onRestoreInstanceState(state);
 				adapter.notifyDataSetChanged();
 				dismissProgressDialog();
 			}
