@@ -229,7 +229,7 @@ public class MMSContent extends Activity {
 			// Changed to updated the received attachments filename with respect to time.
 			String contentType = params[0].getContentType();
 			String ext[] = contentType.split("/");
-			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH mm ss").format(Calendar.getInstance().getTime());
 			String filePath;
 			if(ext != null)
 				filePath = dirPath + "Attachment_" + formattedDate + "." + ext[1];
