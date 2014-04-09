@@ -100,8 +100,8 @@ public class APIGetMessageList implements ATTIAMListener {
 					serviceExceptionId = jobj2.getString("MessageId");
 					if (serviceExceptionId.equalsIgnoreCase("SVC0001") ) {
 						messageIndexInfo = immnSrvc.getMessageIndexInfo();
-						if(messageIndexInfo.getState().equalsIgnoreCase("NOT_INITIALIZED") || 
-						   messageIndexInfo.getState().equalsIgnoreCase("ERROR")) {
+						if(messageIndexInfo.getStatus().toString().equalsIgnoreCase("NOT_INITIALIZED") || 
+						   messageIndexInfo.getStatus().toString().equalsIgnoreCase("ERROR")) {
 							immnSrvc.createMessageIndex();
 							GetMessageList();
 						}
