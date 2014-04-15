@@ -1,4 +1,4 @@
-package com.att.api.immn.service;
+package com.att.api.aab.service;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -19,14 +19,14 @@ package com.att.api.immn.service;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class Phone {
-    private final String type;
-    private final String number;
-    private final Boolean preferred;
+public final class Email {
+    private  String type;
+    private  String emailAddress;
+    private  Boolean preferred;
 
-    public Phone(String type, String number, Boolean preferred) {
+    public Email(String type, String emailAddress, Boolean preferred) {
         this.type = type;
-        this.number = number;
+        this.emailAddress = emailAddress;
         this.preferred = preferred;
     }
 
@@ -34,23 +34,24 @@ public final class Phone {
         return type;
     }
 
-    public String getNumber() {
-        return number;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public Boolean isPreferred() {
+    public Boolean getPreferred() {
         return preferred;
     }
 
     public JSONObject toJson() {
         JSONObject jobj = new JSONObject();
 
-        final String[] keys = { "type", "number", "preferred" };
+        final String[] keys = { "type", "preferred", "emailAddress" };
         String prefString = null;
-        if (isPreferred() != null) {
-            prefString = isPreferred() ? "TRUE" : "FALSE";
+        if (getPreferred() != null) {
+            prefString = getPreferred() ? "TRUE" : "FALSE";
         }
-        final String[] values = { getType(), getNumber(), prefString };
+        final String[] values = { getType(), prefString, getEmailAddress() };
+
         for (int i = 0; i < keys.length; ++i) {
             if (values[i] == null) continue;
             try {
@@ -64,18 +65,18 @@ public final class Phone {
         return jobj;
     }
 
-    public static Phone valueOf(JSONObject jobj) {
+    public static Email valueOf(JSONObject jobj) {
         String type;
 		try {
 			type = jobj.has("type") ? jobj.getString("type") : null;
-			 String number = jobj.has("number") ? jobj.getString("number") : null;
-		        Boolean pref = jobj.has("preferred") ? jobj.getBoolean("preferred") : null;
-		        return new Phone(type, number, pref);
+			String emailAddr = jobj.has("emailAddress") ? jobj.getString("emailAddress") : null;
+	        Boolean pref = jobj.has("preferred") ? jobj.getBoolean("preferred") : null;
+	        return new Email(type, emailAddr, pref);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-       
+        
     }
 }

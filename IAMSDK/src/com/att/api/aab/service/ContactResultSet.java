@@ -1,4 +1,4 @@
-package com.att.api.immn.service;
+package com.att.api.aab.service;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -19,6 +19,7 @@ package com.att.api.immn.service;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 public final class ContactResultSet {
     private  int totalRecords;

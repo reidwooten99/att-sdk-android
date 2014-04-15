@@ -1,4 +1,4 @@
-package com.att.api.immn.service;
+package com.att.api.aab.service;
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -16,27 +16,16 @@ package com.att.api.immn.service;
 
 //package com.att.api.aab.service;
 
-public final class Snapi {
-    private final String type;
-    private final String uri;
-    private final Boolean preferred;
+public enum Gender {
+    MALE("Male"), FEMALE("Female");
 
-    public Snapi(String type, String uri, Boolean preferred) {
-        this.type = type;
-        this.uri = uri;
-        this.preferred = preferred;
+    private final String val;
+
+    private Gender(String val) {
+        this.val = val;
     }
 
-    public Boolean isPreferred() {
-        return preferred;
+    public String getString() {
+        return this.val;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
 }

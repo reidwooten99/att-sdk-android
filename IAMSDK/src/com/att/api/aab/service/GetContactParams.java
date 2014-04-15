@@ -1,4 +1,5 @@
-package com.att.api.immn.service;
+package com.att.api.aab.service;
+
 
 public class GetContactParams {
 	

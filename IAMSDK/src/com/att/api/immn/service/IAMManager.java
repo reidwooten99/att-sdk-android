@@ -12,7 +12,7 @@ import com.att.api.oauth.OAuthToken;
 public class IAMManager {
 
 	public static IMMNService immnSrvc;
-	public static AABService aabService;
+	//public static AABService aabService;
 	private ATTIAMListener iamListener;
 	
 	/**
@@ -24,7 +24,7 @@ public class IAMManager {
 	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
 		
 		immnSrvc = new IMMNService(fqdn, token);
-		aabService = new AABService(fqdn, token);
+		//aabService = new AABService(fqdn, token);
 		this.iamListener = iamListener;
 	}
 
@@ -249,10 +249,10 @@ public class IAMManager {
 		updateMessage.UpdateMessage();
 	}
 	
-	/* AAB APIs */
+	/* AAB APIs 
 	
 	public void GetContacts(String xFields, PageParams pParams,SearchParams sParams) {		
 		APIGetContacts getContacts = new APIGetContacts(xFields, pParams, sParams, aabService, iamListener);
 		getContacts.GetContacts();
-	}
+	}*/
 }
