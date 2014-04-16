@@ -107,7 +107,7 @@ public class AABService extends APIService {
         return response.getHeader("location");
     }
 
-    public ContactWrapper getContact(String contactId, String xFields)
+    public String getContactResponse(String contactId, String xFields)
             throws RESTException, ParseException {
         String endpoint = getFQDN() + "/addressBook/v1/contacts/" + contactId;
 
@@ -124,7 +124,12 @@ public class AABService extends APIService {
             throw new RESTException(response.getResponseBody());
         }
 
-        final String body = response.getResponseBody();
+        return response.getResponseBody();
+    }
+
+    public ContactWrapper getContact(String contactId, String xFields)
+            throws RESTException, ParseException {
+        final String body = getContactResponse(contactId, xFields);
         JSONObject jobj = null;
 		try {
 			jobj = new JSONObject(body);
@@ -190,7 +195,7 @@ public class AABService extends APIService {
 		return ContactResultSet.valueOf(jrs);
     }
 
-    public GroupResultSet getContactGroups(String contactId, PageParams params)
+    public String getContactGroupsResponse(String contactId, PageParams params)
             throws RESTException, ParseException {
         String endpoint = getFQDN() 
             + "/addressBook/v1/contacts/" + contactId + "/groups";
@@ -204,7 +209,12 @@ public class AABService extends APIService {
         if (response.getStatusCode() != 200) {
             throw new RESTException(response.getResponseBody());
         }
-        final String body = response.getResponseBody();
+        return response.getResponseBody();
+    }
+
+    public GroupResultSet getContactGroups(String contactId, PageParams params)
+            throws RESTException, ParseException {
+        final String body = getContactGroupsResponse(contactId, params);
         JSONObject jrs = null;
 		try {
 			jrs = new JSONObject(body).getJSONObject("resultSet");
@@ -274,7 +284,7 @@ public class AABService extends APIService {
         return response.getHeader("location");
     }
 
-    public GroupResultSet getGroups(PageParams params, String groupName)
+    public String getGroupsResponse(PageParams params, String groupName)
             throws RESTException, ParseException {
         String endpoint = getFQDN() + "/addressBook/v1/groups";
 
@@ -291,7 +301,12 @@ public class AABService extends APIService {
             throw new RESTException(response.getResponseBody());
         }
 
-        final String body = response.getResponseBody();
+        return response.getResponseBody();
+    }
+
+    public GroupResultSet getGroups(PageParams c, String groupName)
+            throws RESTException, ParseException {
+        final String body = getGroupsResponse(c, groupName);
         JSONObject jrs = null;
 		try {
 			jrs = new JSONObject(body).getJSONObject("resultSet");
@@ -409,7 +424,7 @@ public class AABService extends APIService {
 		return ids;
     }
 
-    public Contact getMyInfo() throws RESTException, ParseException {
+    public String getMyInfoResponse() throws RESTException, ParseException {
         String endpoint = getFQDN() + "/addressBook/v1/myInfo";
 
         APIResponse response = new RESTClient(endpoint)
@@ -422,7 +437,11 @@ public class AABService extends APIService {
             throw new RESTException(response.getResponseBody());
         }
 
-        final String body = response.getResponseBody();
+        return response.getResponseBody();
+    }
+
+    public Contact getMyInfo() throws RESTException, ParseException {
+        final String body = getMyInfoResponse();
         JSONObject jMyInfo = null;
 		try {
 			jMyInfo = new JSONObject(body);
