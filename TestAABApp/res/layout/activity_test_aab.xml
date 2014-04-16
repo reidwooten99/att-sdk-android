@@ -8,9 +8,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TestAAB" >
 
-    <TextView
+    <Button
+        android:id="@+id/getContactsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="81dp"
+        android:layout_marginTop="27dp"
+        android:text="GetContacts" />
+
+    <TextView
+        android:id="@+id/displayContacts1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getContactsBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/displayContacts1"
+        android:layout_alignBottom="@+id/displayContacts1"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="21dp"
+        android:text="ContactID" />
 
 </RelativeLayout>
