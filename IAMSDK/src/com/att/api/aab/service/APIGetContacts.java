@@ -17,36 +17,39 @@ import com.att.api.rest.RESTException;
 public class APIGetContacts implements ATTIAMListener {
 	
 	private ATTIAMListener iamListener;
-	private GetContactParams contactParams;
-	private String xFields;
+	//private GetContactParams contactParams;
+	//private String xFields;
 	AABService aabSrvc;
 	protected Handler handler = new Handler();
 	
-	public APIGetContacts(String xFields, PageParams pageParams, SearchParams searchParams,
-						  AABService aabService, ATTIAMListener iamListener) {
+	public APIGetContacts(AABService aabService, ATTIAMListener iamListener) {
 
-		this.xFields = xFields;
-		this.contactParams = new GetContactParams(xFields, pageParams, searchParams);		
+		//this.xFields = xFields;
+		//this.contactParams = new GetContactParams(xFields, pageParams, searchParams);		
 		this.iamListener = iamListener;
 		this.aabSrvc = aabService;
 	}
 	
 	
-	public void GetContacts() {
+	public void GetContacts(GetContactParams contactParams) {
 		GetContactsTask getContactsTask = new GetContactsTask();
 		getContactsTask.execute(contactParams);
 	}
 	
-	public class  GetContactsTask extends AsyncTask<GetContactParams, Void, ContactResultSet> {
+	public class  GetContactsTask extends AsyncTask<GetContactParams, Void, String> {
 
 		@Override
-		protected ContactResultSet doInBackground(GetContactParams... params) {
+		//protected ContactResultSet doInBackground(GetContactParams... params) {
+		protected String doInBackground(GetContactParams... params) {
 			// TODO Auto-generated method stub
-			ContactResultSet contactResultSet = null;
+			//ContactResultSet contactResultSet = null;
+			String strResult = null;
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				contactResultSet = aabSrvc.getContacts(params[0].getxFields(), //xFields
+				//contactResultSet = aabSrvc.getContacts(
+				strResult = aabSrvc.getContactsResponse(
+								params[0].getxFields(), //xFields
 													   params[0].getPageParams(), //PageParams
 													   params[0].getSearchParams() //SearchParams 
 													   );
@@ -58,15 +61,25 @@ public class APIGetContacts implements ATTIAMListener {
 				onError(errorObj);		
 			}
 			
-			return contactResultSet;
+			return strResult; // contactResultSet;
 		}
 
 		@Override
-		protected void onPostExecute(ContactResultSet contactResultSet) {
+		protected void onPostExecute(String contactResultSet) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(contactResultSet);
 			if( null != contactResultSet ) {
-				onSuccess((ContactResultSet) contactResultSet);
+				// onSuccess(contactResultSet); // SM Note: This is not working.
+				if (null != iamListener) {
+			        JSONObject jrs = null;
+					try {
+						jrs = new JSONObject(contactResultSet).getJSONObject("resultSet");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					iamListener.onSuccess(ContactResultSet.valueOf(jrs));
+				}
 			}
 			
 		}
@@ -81,7 +94,14 @@ public class APIGetContacts implements ATTIAMListener {
 			@Override
 			public void run() {
 				if (null != iamListener) {
-					iamListener.onSuccess((ContactResultSet) contactResultSet);
+			        JSONObject jrs = null;
+					try {
+						jrs = new JSONObject(contactResultSet).getJSONObject("resultSet");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					iamListener.onSuccess(ContactResultSet.valueOf(jrs));
 				}
 			}
 			

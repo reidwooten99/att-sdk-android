@@ -153,7 +153,8 @@ public class AABService extends APIService {
 		return new ContactWrapper(QuickContact.valueOf(jQc));
     }
 
-    public ContactResultSet getContacts(String xFields, PageParams pParams,
+    
+    public String getContactsResponse(String xFields, PageParams pParams,
             SearchParams sParams) throws RESTException, ParseException {
 
         String endpoint = getFQDN() + "/addressBook/v1/contacts";
@@ -173,7 +174,12 @@ public class AABService extends APIService {
         if (response.getStatusCode() != 200) {
             throw new RESTException(response.getResponseBody());
         }
-        final String body = response.getResponseBody();
+        return response.getResponseBody();
+    }
+
+    public ContactResultSet getContacts(String xFields, PageParams pParams,
+            SearchParams sParams) throws RESTException, ParseException {
+        final String body = getContactsResponse(xFields, pParams, sParams);
         JSONObject jrs = null;
 		try {
 			jrs = new JSONObject(body).getJSONObject("resultSet");

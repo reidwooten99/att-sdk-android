@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.PageParams;
+import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
@@ -60,9 +61,16 @@ public class TestAAB extends Activity {
 		public void onSuccess(Object response) {
 			contactResultSet = (ContactResultSet) response;
 			if (null != contactResultSet) {
-				Log.i("getContactsAPI","OnSuccess : ContactID :  " + contactResultSet.getQuickContacts()[0].getContactId().toString());
+				String strText = new String("");
+				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
+				for (int i=0; i < quickContacts_arr.length; i++) {
+					QuickContact qc = quickContacts_arr[i];
+					strText += "\n" + qc.getContactId() + ", " + 
+								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+				}
+				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
 				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-				displayContacts.setText(contactResultSet.getQuickContacts()[0].getContactId().toString());
+				displayContacts.setText(strText);
 				return;
 			}
 		}
