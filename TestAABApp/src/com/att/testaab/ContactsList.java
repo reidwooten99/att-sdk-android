@@ -16,30 +16,28 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
 public class ContactsList extends Activity {
-	
+
 	private AABManager aabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
 	private ContactResultSet contactResultSet;
 	private OAuthToken authToken;
 	private QuickContact[] contactsList;
-	
-	private ListView ContactsListView;
-	
-	private ContactsAdapter adapter;
 
+	private ListView ContactsListView;
+
+	private ContactsAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts_list);
-		
-		ContactsListView = (ListView)findViewById(R.id.contactsListViewItem);
-		
-		aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-				authToken,
-				new getContactsListener());
-		aabManager.GetContacts("shallow", pageParams, searchParams );
+
+		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
+
+		aabManager = new AABManager("http://ldev.code-api-att.com:8888",
+				authToken, new getContactsListener());
+		aabManager.GetContacts("shallow", pageParams, searchParams);
 
 	}
 
@@ -49,22 +47,24 @@ public class ContactsList extends Activity {
 		getMenuInflater().inflate(R.menu.contacts_list, menu);
 		return true;
 	}
-	
+
 	private class getContactsListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			// TODO Auto-generated method stub
-			
+
 			contactResultSet = (ContactResultSet) response;
-			if(null != contactResultSet && null != contactResultSet.getQuickContacts() && contactResultSet.getQuickContacts().length > 0) {
+			if (null != contactResultSet && null != contactResultSet.getQuickContacts()
+				&& contactResultSet.getQuickContacts().length > 0) {
+				
 				contactsList = contactResultSet.getQuickContacts();
 				adapter = new ContactsAdapter(getApplicationContext(),contactsList);
 				ContactsListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
-				
-				}
-			
+
+			}
+
 		}
 
 		@Override
@@ -72,7 +72,6 @@ public class ContactsList extends Activity {
 			// TODO Auto-generated method stub
 			Log.i("getContactsAPI on error", "onError");
 
-			
 		}
 	}
 
