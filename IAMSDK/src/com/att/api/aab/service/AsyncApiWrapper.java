@@ -14,7 +14,7 @@ import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
-public class APIGetContacts implements ATTIAMListener {
+public class AsyncApiWrapper implements ATTIAMListener {
 	
 	private ATTIAMListener iamListener;
 	//private GetContactParams contactParams;
@@ -22,7 +22,7 @@ public class APIGetContacts implements ATTIAMListener {
 	AABService aabSrvc;
 	protected Handler handler = new Handler();
 	
-	public APIGetContacts(AABService aabService, ATTIAMListener iamListener) {
+	public AsyncApiWrapper(AABService aabService, ATTIAMListener iamListener) {
 
 		//this.xFields = xFields;
 		//this.contactParams = new GetContactParams(xFields, pageParams, searchParams);		

@@ -252,7 +252,7 @@ public class IAMManager {
 	/* AAB APIs 
 	
 	public void GetContacts(String xFields, PageParams pParams,SearchParams sParams) {		
-		APIGetContacts getContacts = new APIGetContacts(xFields, pParams, sParams, aabService, iamListener);
+		AsyncApiWrapper getContacts = new AsyncApiWrapper(xFields, pParams, sParams, aabService, iamListener);
 		getContacts.GetContacts();
 	}*/
 }

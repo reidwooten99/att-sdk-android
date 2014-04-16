@@ -1,6 +1,6 @@
 package com.att.api.aab.service;
 
-import com.att.api.aab.service.APIGetContacts;
+import com.att.api.aab.service.AsyncApiWrapper;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
@@ -18,7 +18,7 @@ public class AABManager {
 	public void GetContacts(String xFields, PageParams pParams,SearchParams sParams) {
 		GetContactParams contactParams;
 		contactParams = new GetContactParams(xFields, pParams, sParams);
-		APIGetContacts getContacts = new APIGetContacts(aabService, iamListener);
+		AsyncApiWrapper getContacts = new AsyncApiWrapper(aabService, iamListener);
 		getContacts.GetContacts(contactParams);
 	}
 }
