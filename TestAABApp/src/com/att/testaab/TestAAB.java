@@ -1,12 +1,14 @@
 package com.att.testaab;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.att.api.aab.service.AABManager;
@@ -29,6 +31,7 @@ public class TestAAB extends Activity {
 	private Button getContacts;
 	private TextView displayContacts;
 	private ContactWrapper contactWrapper;	
+	private Button BtnContactsList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +39,23 @@ public class TestAAB extends Activity {
 		setContentView(R.layout.activity_test_aab);
 		getContacts = (Button) findViewById(R.id.getContactsBtn);
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
+		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		SearchParams.Builder builder = new SearchParams.Builder();
 		searchParams = new SearchParams(builder.setZipcode("94086"));
+		
+		BtnContactsList.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(TestAAB.this, ContactsList.class);
+				startActivity(i);
+				
+			}
+		});
+	
 		
 		getContacts.setOnClickListener(new OnClickListener() {
 			

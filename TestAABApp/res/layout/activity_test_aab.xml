@@ -17,8 +17,8 @@
         android:layout_marginLeft="81dp"
         android:layout_marginTop="27dp"
         android:text="GetContacts" />
-
-    <TextView
+    
+     <TextView
         android:id="@+id/displayContacts1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,5 +36,14 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="21dp"
         android:text="ContactID" />
+
+    <Button
+        android:id="@+id/contactsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getContactsBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="ContactsListView" />
 
 </RelativeLayout>
