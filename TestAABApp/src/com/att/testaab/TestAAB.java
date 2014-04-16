@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactResultSet;
+import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
@@ -27,7 +28,7 @@ public class TestAAB extends Activity {
 	private OAuthToken authToken;
 	private Button getContacts;
 	private TextView displayContacts;
-	
+	private ContactWrapper contactWrapper;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,22 @@ public class TestAAB extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-											authToken,
-											new getContactsListener());
-				aabManager.GetContacts("shallow", pageParams, searchParams );
-				
+				int iApi = 2; // use to switch between GetContacts=1 and GetContact=2
+				switch (iApi) {
+					case 1:
+						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
+													authToken,
+													new getContactsListener());
+						aabManager.GetContacts("shallow", pageParams, searchParams );
+						break;
+					case 2:
+						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
+													authToken,
+													new getContactListener());
+						//aabManager.GetContact("09876544321", "shallow");
+						aabManager.GetContact("0987654432123", "shallow");	
+						break;
+				}
 			}
 		});
 		
@@ -78,6 +89,32 @@ public class TestAAB extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("getContactsAPI on error", "onError");
+
+		}
+	}
+
+	private class getContactListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			contactWrapper = (ContactWrapper) response;
+			if (null != contactWrapper) {
+				String strText = new String("");
+				QuickContact qc = contactWrapper.getQuickContact();
+				if (null != qc) {
+					strText += "\n" + qc.getContactId() + ", " + 
+								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
+					displayContacts.setText(strText);
+				}
+				return;
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getContactAPI on error", "onError");
 
 		}
 	}

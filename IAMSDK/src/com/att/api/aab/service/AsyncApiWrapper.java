@@ -66,4 +66,46 @@ public class AsyncApiWrapper {
 			}			
 		}		
 	}
+	
+	public void GetContact(String contactId, String xFields) {
+		GetContactTask getContactTask = new GetContactTask();
+		getContactTask.execute(contactId, xFields);
+	}
+	
+	public class  GetContactTask extends AsyncTask<String, Void, ContactWrapper> {
+		@Override
+		protected ContactWrapper doInBackground(String... params) {
+			ContactWrapper result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+				result = aabSrvc.getContact(
+								params[0], //contactId
+							    params[1] //xFields 
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			} catch (ParseException e) {
+				errorObj = new InAppMessagingError(e.getMessage());
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(ContactWrapper result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
 }

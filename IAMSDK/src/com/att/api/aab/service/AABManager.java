@@ -4,10 +4,9 @@ import com.att.api.aab.service.AsyncApiWrapper;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
-public class AABManager {
-	
-	public static AABService aabService;
-	private ATTIAMListener iamListener;
+public class AABManager {	
+	public static AABService aabService = null;
+	private ATTIAMListener iamListener = null;
 	
 	public AABManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
 		
@@ -18,7 +17,12 @@ public class AABManager {
 	public void GetContacts(String xFields, PageParams pParams,SearchParams sParams) {
 		GetContactParams contactParams;
 		contactParams = new GetContactParams(xFields, pParams, sParams);
-		AsyncApiWrapper getContacts = new AsyncApiWrapper(aabService, iamListener);
-		getContacts.GetContacts(contactParams);
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.GetContacts(contactParams);
+	}
+	
+	public void GetContact(String contactId,String xFields) {
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.GetContact(contactId, xFields);
 	}
 }
