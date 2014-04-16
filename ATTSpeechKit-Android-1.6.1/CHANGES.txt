@@ -1,0 +1,68 @@
+## Version 1.6.1
+* Fix crash in apps that target Honeycomb or later.
+* Change minimum version of Android to Gingerbread (API level 10).
+
+## Version 1.6.0
+* Add support for X-Arg speech arguments with xArgs and sendsDefaultXArgs properties.
+* Replace functionality that sends files to send byte arrays instead 
+  (e.g. ATTSpeechService.sendAudioFile() becomes ATTSpeechService.startWithAudioData())
+* Fix ATTSpeechActivity constants for EXTRA_MAX_INITIAL_SILENCE and EXTRA_MIN_RECORDING_TIME.
+* Remove features that were deprecated in version 1.5.
+
+## Version 1.5.1
+
+* Implement features for launch of Speech API:
+** Return HTTP headers with speech response
+** Distinguish between CONNECTION_ERROR and RESPONSE_ERROR
+* Rename properties and methods:
+** Method start() split into startListening() and sendAudioFile()
+** Request property RequestUrl becomes RecognitionURL
+** Request property HttpHeaders becomes RequestHeaders
+** Result property TextList becomes TextStrings
+** Result property Json becomes JSON
+** Result property RawBytes becomes RawData
+** Result property HttpStatusCode becomes StatusCode
+** EXTRA_RESULTS_* becomes EXTRA_RESULT_ (no "S")
+
+## Version 1.5.0 (beta)
+
+* Implement features for launch of Speech API:
+** Add SpeechContext request property
+** Add BearerAuthToken request property for OAuth
+* Add new features to public interface:
+** Add CancelWhenSilent property
+** Add RecordingStopButton and ProcessingCancelButton request properties
+** Change error and status code from ints to enums
+* UpdateAPI to match iOS SpeechKit
+** Change all timing properties from longs to ints
+** Rename property ShowDialog property to ShowUI
+** Rename property WaitPrompt to ProcessingPrompt
+** Rename property StartSilenceWaitTime to MaxInitialSilence
+** Rename property SpeechInputCompleteSilenceLength to EndingSilence
+** Rename property SpeechInputMinimumLength to MinRecordingTime
+** Rename property RecordingTimeout to MaxRecordingTime
+** Rename property ResponseTimeout to ServerResponseTimeout
+** Rename property BasicAuthenticationUsername to BasicAuthUser
+** Rename property BasicAuthenticationPassword to BasicAuthPassword
+** Rename method setAudioErrorListener to setSpeechErrorListener
+** Rename method setAudioResultListener to setSpeechErrorListener
+** Rename method setAudioStateListener to setSpeechStateListener
+** Rename interface ATTStateListener to ATTSpeechStateListener
+* Remove obsolete features
+** SSL keystore handling
+** Pre- and post-processing URLs
+* Fixes some re-entrancy problems, particularly when audio input was canceled.
+* Fixes issue where HTTP errors with file uploads are not reported correctly.
+
+## Version 1.4.0:
+
+* The theme for the graph meter dialog now looks like an Android AlertDialog.  
+* Modified speech result to bring back the whole body and parse as JSON.  
+* HTTP status codes are now returned to the speech result object.  
+* Fixed the behavior on rotation for ATTSpeechActivity, and fixed crashes on rotation in ATTSpeechService.  
+* Audio recorder cancels the input when only silence is detected.
+* Refactored the speech result mechanism to be more efficient when handling HTTP status codes that return a JSON result.
+* Fixed an issue that resulted in audio chunks being sent to the server out-of-order.
+* Fixed an issue that caused audio to be truncated when doing manual endpointing.
+* Fixed an issue that was causing excessive memory allocation.
+
