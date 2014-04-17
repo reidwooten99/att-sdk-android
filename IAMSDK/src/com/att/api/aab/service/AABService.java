@@ -248,7 +248,7 @@ public class AABService extends APIService {
         }
     }
 
-   /* public void deleteContact(String contactId) throws RESTException {
+    public void deleteContact(String contactId) throws RESTException {
         String endpoint = getFQDN() + "/addressBook/v1/contacts/" + contactId;
 
         APIResponse response = new RESTClient(endpoint)
@@ -259,7 +259,7 @@ public class AABService extends APIService {
         if (statusCode != 204) {
             throw new RESTException(response.getResponseBody());
         }
-    }*/
+    }
 
     public String createGroup(Group group) throws RESTException {
         String endpoint = getFQDN() + "/addressBook/v1/groups";
@@ -317,7 +317,7 @@ public class AABService extends APIService {
 		return GroupResultSet.valueOf(jrs);
     }
 
-   /* public void deleteGroup(String groupId) throws RESTException {
+    public void deleteGroup(String groupId) throws RESTException {
         String endpoint = getFQDN() + "/addressBook/v1/groups/" + groupId;
 
         APIResponse response = new RESTClient(endpoint)
@@ -329,12 +329,17 @@ public class AABService extends APIService {
             throw new RESTException(response.getResponseBody());
         }
     }
-*/
-    /*public void updateGroup(Group group, String groupId) throws RESTException {
+
+    public void updateGroup(Group group, String groupId) throws RESTException {
         String endpoint = getFQDN() + "/addressBook/v1/groups/" + groupId;
         
         JSONObject payload = new JSONObject();
-        payload.put("group", group.toJson());
+        try {
+			payload.put("group", group.toJson());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         APIResponse response = new RESTClient(endpoint)
             .addAuthorizationHeader(getToken())
             .addHeader("Content-Type", "application/json")
@@ -344,7 +349,7 @@ public class AABService extends APIService {
         if (statusCode != 204) {
             throw new RESTException(response.getResponseBody());
         }
-    }*/
+    }
 
     public void addContactsToGroup(String groupId, String contactIds)
             throws RESTException {
