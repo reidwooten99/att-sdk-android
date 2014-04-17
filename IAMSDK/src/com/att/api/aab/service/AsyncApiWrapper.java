@@ -108,4 +108,47 @@ public class AsyncApiWrapper {
 			}			
 		}		
 	}
+	
+	public void GetContactGroups(String contactId, String pageOrder, String pageOrderBy, String pageLimit, String pageOffset) {
+		GetContactGroupsTask getContactGroupsTask = new GetContactGroupsTask();
+		getContactGroupsTask.execute(contactId, pageOrder, pageOrderBy, pageLimit, pageOffset);
+	}
+	
+	public class  GetContactGroupsTask extends AsyncTask<String, Void, GroupResultSet> {
+		@Override
+		protected GroupResultSet doInBackground(String... params) {
+			GroupResultSet result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				result = aabSrvc.getContactGroups(
+								params[0], //contactId
+								pageParams //pageParams 
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			} catch (ParseException e) {
+				errorObj = new InAppMessagingError(e.getMessage());
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(GroupResultSet result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
 }

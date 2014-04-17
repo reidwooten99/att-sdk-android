@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
+import com.att.api.aab.service.Group;
+import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
@@ -51,8 +53,7 @@ public class TestAAB extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(TestAAB.this, ContactsList.class);
-				startActivity(i);
-				
+				startActivity(i);				
 			}
 		});
 	
@@ -61,8 +62,8 @@ public class TestAAB extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				int iApi = 2; // use to switch between GetContacts=1 and GetContact=2
-				switch (iApi) {
+				int iOperation = 3; // use to switch between GetContacts=1, GetContact=2, GetContactGroups=3
+				switch (iOperation) {
 					case 1:
 						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
 													authToken,
@@ -75,6 +76,14 @@ public class TestAAB extends Activity {
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
+						break;
+					case 3:
+						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
+													authToken,
+													new getContactGroupsListener());
+						//aabManager.GetContact("09876544321", "shallow");
+						pageParams = new PageParams("ASC", "firstName", "2", "0");
+						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
 				}
 			}
@@ -131,6 +140,34 @@ public class TestAAB extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("getContactAPI on error", "onError");
+
+		}
+	}
+
+	private class getContactGroupsListener implements ATTIAMListener {
+		public GroupResultSet groupResultSet;
+
+		@Override
+		public void onSuccess(Object response) {
+			groupResultSet = (GroupResultSet) response;
+			if (null != groupResultSet) {
+				String strText = new String("");
+				//QuickContact qc = contactWrapper.getQuickContact();
+				Group[] groups_arr = groupResultSet.getGroups();
+				for (int i=0; i < groups_arr.length; i++) {
+					Group grp = groups_arr[i];
+					strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
+					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
+					displayContacts.setText(strText);
+				}
+				return;
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getContactGroups on error", "onError");
 
 		}
 	}
