@@ -7,40 +7,40 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TestAAB" >
-    
-     <TextView
-        android:id="@+id/displayContacts1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/getContactsBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="" />
+       
 
-    <TextView
-        android:id="@+id/textView1"
+    <EditText
+        android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/displayContacts1"
-        android:layout_alignBottom="@+id/displayContacts1"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="21dp"
-        android:text="ContactID" />
+        android:ems="5"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/contactsListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/getContactsBtn"
-        android:text="ContactsList" />
+        android:layout_below="@+id/getContactsBtn"
+        android:layout_marginTop="16dp"
+        android:text="ContactsListView" />
 
     <Button
         android:id="@+id/getContactsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/contactsListView"
-        android:layout_alignTop="@+id/contactsListView"
-        android:text="GetContacts" />
+        android:layout_alignTop="@+id/editText1"
+        android:layout_marginLeft="34dp"
+        android:layout_toRightOf="@+id/editText1"
+        android:text="Run" />
+
+    <TextView
+        android:id="@+id/displayContacts1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contactsListView"
+        android:layout_below="@+id/contactsListView"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="50dp"
+        android:text="" />
 
 </RelativeLayout>
