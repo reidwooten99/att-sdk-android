@@ -23,7 +23,43 @@ public class AsyncApiWrapper {
 		this.iamListener = iamListener;
 		this.aabSrvc = aabService;
 	}
+		
+	public void CreateContact(Contact contact) {
+		CreateContactTask createContactTask = new CreateContactTask();
+		createContactTask.execute(contact);
+	}
 	
+	public class  CreateContactTask extends AsyncTask<Contact, Void, String> {
+		@Override
+		protected String doInBackground(Contact... params) {
+			String result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+				result = aabSrvc.createContact(
+								params[0] //contact
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
 	public void GetContacts(GetContactParams contactParams) {
 		GetContactsTask getContactsTask = new GetContactsTask();
 		getContactsTask.execute(contactParams);

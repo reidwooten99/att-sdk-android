@@ -14,6 +14,11 @@ public class AABManager {
 		this.iamListener = iamListener;
 	}
 	
+	public void CreateContact(Contact contact) {
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.CreateContact(contact);
+	}
+	
 	public void GetContacts(String xFields, PageParams pParams, SearchParams sParams) {
 		GetContactParams contactParams;
 		contactParams = new GetContactParams(xFields, pParams, sParams);

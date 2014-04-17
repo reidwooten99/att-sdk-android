@@ -8,15 +8,17 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.att.api.aab.service.AABManager;
+import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
+import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
@@ -34,7 +36,8 @@ public class TestAAB extends Activity {
 	private TextView displayContacts;
 	private ContactWrapper contactWrapper;	
 	private Button BtnContactsList;
-	
+	private EditText testApi;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class TestAAB extends Activity {
 		getContacts = (Button) findViewById(R.id.getContactsBtn);
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
+		testApi = (EditText)findViewById(R.id.editText1);
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		SearchParams.Builder builder = new SearchParams.Builder();
@@ -62,7 +66,8 @@ public class TestAAB extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				int iOperation = 3; // use to switch between GetContacts=1, GetContact=2, GetContactGroups=3
+			    String apiNumber = testApi.getText().toString();
+                int iOperation = Integer.valueOf(apiNumber);
 				switch (iOperation) {
 					case 1:
 						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
@@ -84,6 +89,22 @@ public class TestAAB extends Activity {
 						//aabManager.GetContact("09876544321", "shallow");
 						pageParams = new PageParams("ASC", "firstName", "2", "0");
 						aabManager.GetContactGroups("0987654432123", pageParams);	
+						break;
+					case 4:
+						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
+								authToken,
+								new createContactListener());
+						Contact.Builder builder = new Contact.Builder(); 
+						builder.setFirstName("First");
+						builder.setLastName("Last");
+						builder.setFormattedName("First Last");
+						long time= System.currentTimeMillis();
+						builder.setContactId(String.valueOf(time));
+						Phone [] phones = new Phone[1];
+						phones[0] = new Phone("Work", "1234567890", true);
+						builder.setPhones(phones);
+						Contact contact = builder.build();
+						aabManager.CreateContact(contact);
 						break;
 				}
 			}
@@ -157,7 +178,7 @@ public class TestAAB extends Activity {
 				for (int i=0; i < groups_arr.length; i++) {
 					Group grp = groups_arr[i];
 					strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
-					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+					Log.i("getContactGroupsAPI","OnSuccess : ContactID :  " + strText);
 					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
 					displayContacts.setText(strText);
 				}
@@ -168,6 +189,24 @@ public class TestAAB extends Activity {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("getContactGroups on error", "onError");
+
+		}
+	}
+
+	private class createContactListener implements ATTIAMListener {
+		@Override
+		public void onSuccess(Object response) {
+			String location = (String) response;
+			if (null != location) {
+				Log.i("createContactAPI","OnSuccess : Location :  " + location);
+				displayContacts.setText(location);
+				return;
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("createContactAPI on error", "onError");
 
 		}
 	}
