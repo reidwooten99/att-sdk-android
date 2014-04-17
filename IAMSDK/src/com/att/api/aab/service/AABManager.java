@@ -36,4 +36,19 @@ public class AABManager {
 		asyncApiWrapper.GetContactGroups(contactId, params.getOrder(), params.getOrderBy(),
 											params.getLimit(), params.getOffset());
 	}
+		
+	public void UpdateContact(Contact contact) {
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.UpdateContact(contact);
+	}
+	
+	public void DeleteContact(String contactId) {
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.DeleteContact(contactId);
+	}
+	
+	public void CreateGroup(Group group) {
+		AsyncApiWrapper asyncApiWrapper = new AsyncApiWrapper(aabService, iamListener);
+		asyncApiWrapper.CreateGroup(group);
+	}
 }

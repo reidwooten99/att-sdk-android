@@ -37,6 +37,8 @@ public class TestAAB extends Activity {
 	private ContactWrapper contactWrapper;	
 	private Button BtnContactsList;
 	private EditText testApi;
+	private String serverEndPoint = "http://ldev.code-api-att.com:8888";
+	//private String serverEndPoint = "http://localhost:8888";
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class TestAAB extends Activity {
 						aabManager.GetContacts("shallow", pageParams, searchParams );
 						break;
 					case 2:
-						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
+						aabManager = new AABManager(serverEndPoint, 
 													authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");

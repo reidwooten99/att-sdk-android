@@ -176,9 +176,118 @@ public class AsyncApiWrapper {
 			
 			return result;
 		}
-
+		
 		@Override
 		protected void onPostExecute(GroupResultSet result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
+	public void UpdateContact(Contact contact) {
+		UpdateContactTask task = new UpdateContactTask();
+		task.execute(contact);
+	}
+	
+	public class  UpdateContactTask extends AsyncTask<Contact, Void, String> {
+		@Override
+		protected String doInBackground(Contact... params) {
+			InAppMessagingError errorObj = new InAppMessagingError();
+			String result = null;
+
+			try {
+				aabSrvc.updateContact(
+								params[0], //contact
+								params[0].getContactId() //contactId
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
+	public void DeleteContact(String contactId) {
+		DeleteContactTask task = new DeleteContactTask();
+		task.execute(contactId);
+	}
+	
+	public class  DeleteContactTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			InAppMessagingError errorObj = new InAppMessagingError();
+			String result = null;
+
+			try {
+				aabSrvc.deleteContact(
+								params[0] //contactId
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+	
+	public void CreateGroup(Group group) {
+		CreateGroupTask task = new CreateGroupTask();
+		task.execute(group);
+	}
+	
+	public class  CreateGroupTask extends AsyncTask<Group, Void, String> {
+		@Override
+		protected String doInBackground(Group... params) {
+			String result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+	
+			try {
+				result = aabSrvc.createGroup(
+								params[0] //group
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+	
+		@Override
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if( null != result ) {
 				if (null != iamListener) {
