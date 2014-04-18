@@ -40,8 +40,6 @@ public class ContactsList extends Activity {
 	private ListView ContactsListView;
 	private ContactsAdapter adapter;
 	
-	private  String serverEndPoint = "http://ldev.code-api-att.com:8888";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,7 +47,7 @@ public class ContactsList extends Activity {
 
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
 
-		aabManager = new AABManager(serverEndPoint,
+		aabManager = new AABManager(Config.fqdn,
 				authToken, new getContactsListener());
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
@@ -101,7 +99,7 @@ public class ContactsList extends Activity {
 				
 				contactId = ((QuickContact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
 				
-				aabManager = new AABManager(serverEndPoint, authToken,
+				aabManager = new AABManager(Config.fqdn, authToken,
 											new getContactListener());
 				aabManager.GetContact(contactId, "shallow");
 				

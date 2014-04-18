@@ -8,7 +8,7 @@ public class Config {
 	public static final int messageOffset 			= 	0;
 	public static final int maxRecipients 			= 	10;
 	public static final int	maxAttachments			= 	21;
-	public static final String fqdn		 			= 	"https://api.att.com";
+	public static final String fqdn		 			= 	"http://ldev.code-api-att.com:8888";
 	
 	/*public static final String clientID			= 	 APP_KEY;
 	public static final String secretKey 			= 	 APP_SECRET;
