@@ -38,6 +38,7 @@ public class TestAAB extends Activity {
 	private Button BtnContactsList;
 	private EditText testApi;
 	private String serverEndPoint = "http://ldev.code-api-att.com:8888";
+	private String strText = "";
 	//private String serverEndPoint = "http://localhost:8888";
     
 	@Override
@@ -120,7 +121,7 @@ public class TestAAB extends Activity {
 		public void onSuccess(Object response) {
 			contactResultSet = (ContactResultSet) response;
 			if (null != contactResultSet) {
-				String strText = new String("");
+				strText = (String) displayContacts.getText();
 				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
 				for (int i=0; i < quickContacts_arr.length; i++) {
 					QuickContact qc = quickContacts_arr[i];
@@ -147,7 +148,7 @@ public class TestAAB extends Activity {
 		public void onSuccess(Object response) {
 			contactWrapper = (ContactWrapper) response;
 			if (null != contactWrapper) {
-				String strText = new String("");
+				strText = (String) displayContacts.getText();
 				QuickContact qc = contactWrapper.getQuickContact();
 				if (null != qc) {
 					strText += "\n" + qc.getContactId() + ", " + 
@@ -174,7 +175,7 @@ public class TestAAB extends Activity {
 		public void onSuccess(Object response) {
 			groupResultSet = (GroupResultSet) response;
 			if (null != groupResultSet) {
-				String strText = new String("");
+				strText = (String) displayContacts.getText();
 				//QuickContact qc = contactWrapper.getQuickContact();
 				Group[] groups_arr = groupResultSet.getGroups();
 				for (int i=0; i < groups_arr.length; i++) {
@@ -200,8 +201,10 @@ public class TestAAB extends Activity {
 		public void onSuccess(Object response) {
 			String location = (String) response;
 			if (null != location) {
+				strText = (String) displayContacts.getText();
 				Log.i("createContactAPI","OnSuccess : Location :  " + location);
-				displayContacts.setText(location);
+				strText += "\n" + location;
+				displayContacts.setText(strText);
 				return;
 			}
 		}
