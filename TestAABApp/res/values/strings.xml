@@ -6,5 +6,6 @@
     <string name="get_contacts">GetContacts</string>
     <string name="title_activity_contacts_list">ContactsList</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
 
 </resources>

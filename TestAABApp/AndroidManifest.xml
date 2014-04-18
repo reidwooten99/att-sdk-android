@@ -35,6 +35,10 @@
             android:name="com.att.testaab.ContactsList"
             android:label="@string/title_activity_contacts_list" >
         </activity>
+        <activity
+            android:name="com.att.testaab.ContactDetails"
+            android:label="@string/title_activity_contact_details" >
+        </activity>
     </application>
 
 </manifest>
