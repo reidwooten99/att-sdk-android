@@ -9,8 +9,29 @@
     tools:context=".ContactDetails" >
 
     <TextView
+        android:id="@+id/fnText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="136dp"
+        android:text="First Name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fnText"
+        android:layout_alignTop="@+id/fnText"
+        android:layout_marginLeft="45dp"
+        android:layout_toRightOf="@+id/fnText"
+        android:ems="50" >     
+     </EditText>
+     
+      <TextView android:layout_width="fill_parent"
+          android:layout_height="5dp" />
+
+    
 
 </RelativeLayout>

@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.att.api.aab.service.AABManager;
-import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.PageParams;
@@ -99,47 +98,15 @@ public class ContactsList extends Activity {
 				
 				contactId = ((QuickContact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
 				
-				aabManager = new AABManager(Config.fqdn, authToken,
-											new getContactListener());
-				aabManager.GetContact(contactId, "shallow");
-				
+				Intent intent = new Intent(ContactsList.this, ContactDetails.class);
+				intent.putExtra("contactId", contactId);
+				startActivity(intent);				
 			}
 		});
 	}
 	
-	private class getContactListener implements ATTIAMListener {
-
-		@Override
-		public void onSuccess(Object response) {
-			
-			contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) {
-
-				//Contact contactDetails = contactWrapper.getContact();
-				QuickContact contactDetails = contactWrapper.getQuickContact();
-				ArrayList<QuickContact> contacts = new ArrayList<QuickContact>(Arrays.asList(contactDetails));
-				
-				Intent intent = new Intent(getApplicationContext(), ContactDetails.class);
-				
-				Bundle bundleObject = new Bundle();
-				bundleObject.putSerializable("key", contacts);
-				
-				for (int i = 0; i < contacts.size(); i++) {
-					 IdForContactDetails = contacts.get(i).getContactId();
-					Log.i("ContactsList","OnSuccess : ContactID :  " + contacts.get(i).getContactId());
-				}
-							
-				intent.putExtras(bundleObject);
-				//intent.putExtra("contactId", IdForContactDetails);
-				//startActivity(intent);
-			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("getContactAPI on error", "onError");
-
-		}
-	}
+	
+	
+	
 
 }
