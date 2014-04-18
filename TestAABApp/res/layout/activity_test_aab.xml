@@ -24,16 +24,6 @@
         android:layout_marginTop="16dp"
         android:text="Contacts.." />
 
-    <TextView
-        android:id="@+id/displayContacts1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/contactsListView"
-        android:layout_below="@+id/contactsListView"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="50dp"
-        android:text="" />
-
     <Button
         android:id="@+id/getContactsBtn"
         android:layout_width="wrap_content"
@@ -42,5 +32,12 @@
         android:layout_alignTop="@+id/editText1"
         android:layout_centerHorizontal="true"
         android:text="Run" />
+
+    <TextView
+        android:id="@+id/displayContacts1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/contactsListView"
+        android:layout_below="@+id/contactsListView" />
 
 </RelativeLayout>
