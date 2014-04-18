@@ -1,0 +1,11 @@
+Id,Task,Estimate,Priority,Assigned To,Status,Due Date
+1,Create Edit text and Run Button in the TestAAB,,,Pooja,Completed,
+2,Create a new ContactList page to display all the contacts in a list,,,Pooja,Completed,
+3,"Display Formatted name, contact Id and Email Address in ContactList Page",,,Pooja,Completed,
+4,Design/Finalize WireFrame,,,Pooja,,
+5,Create a new Project for AABSDK,,,Pooja,,
+6,Create ContactDetails page to navigate  from ContactList,,,Pooja,Completed,
+7,Display QuickContacts in the ContactDetails Page,,,Pooja,In Progress,
+,,,,,,
+,,,,,,
+,,,,,,
