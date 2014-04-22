@@ -15,7 +15,7 @@ import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.error.InAppMessagingError;
-import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
 
