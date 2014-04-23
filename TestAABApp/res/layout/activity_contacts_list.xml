@@ -8,12 +8,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ContactsList" >
 
-    <ListView
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MyInfo"/>
+        
+        <Button
+            android:id="@+id/button2"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/button1"
+            android:text="Groups" />
+
+        <Button
+            android:id="@+id/button3"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:layout_toRightOf="@id/button2"
+            android:text="Button3" />
+
+        <Button
+            android:id="@+id/button4"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/button3"
+            android:text="Button4" />
+        
+         <ListView
         android:id="@+id/contactsListViewItem"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:fastScrollEnabled="false"
-        android:layout_alignParentTop="true" />
-   
+        android:layout_below="@id/button1"
+       />
 
 </RelativeLayout>

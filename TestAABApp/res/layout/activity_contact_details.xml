@@ -2,36 +2,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    
     tools:context=".ContactDetails" >
 
-    <TextView
-        android:id="@+id/fnText"
+    <Button
+        android:id="@+id/Update"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="136dp"
-        android:text="First Name"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="Update" />
 
-    <EditText
-        android:id="@+id/firstName"
+    <Button
+        android:id="@+id/Delete"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fnText"
-        android:layout_alignTop="@+id/fnText"
-        android:layout_marginLeft="45dp"
-        android:layout_toRightOf="@+id/fnText"
-        android:ems="50" >     
-     </EditText>
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/Update"
+        android:text="Delete" />
+
+    <Button
+        android:id="@+id/Groups"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/Delete"
+        android:text="Groups" />
+
+    <Button
+        android:id="@+id/settings"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/Groups"
+        android:text="settings" />
+
+    <ImageButton
+        android:id="@+id/photoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="108dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/Update"
+        android:src="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/First"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/photoImage"
+        android:layout_marginTop="24dp"
+        android:layout_toLeftOf="@+id/Groups"
+        android:layout_toRightOf="@+id/photoImage"
+        android:text="FirstName" />
+
+    <TextView
+        android:id="@+id/Last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/First"
+        android:layout_below="@+id/First"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@+id/photoImage"
+        android:text="LastName" />
+
+    <EditText
+        android:id="@+id/editfirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Last"
+        android:layout_alignLeft="@+id/Groups"
+        android:layout_alignParentRight="true"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/editlastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Last"
+        android:layout_alignBottom="@+id/Last"
+        android:layout_alignLeft="@+id/editfirstName"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:inputType="textPersonName" />
      
-      <TextView android:layout_width="fill_parent"
-          android:layout_height="5dp" />
-
-    
-
 </RelativeLayout>

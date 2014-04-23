@@ -37,8 +37,8 @@ public class ContactDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details); 
-		fnText = (TextView) findViewById(R.id.fnText);
-		editFirstName = (EditText) findViewById(R.id.firstName);
+		fnText = (TextView) findViewById(R.id.First);
+		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		
 		
 		Intent intent = getIntent();
