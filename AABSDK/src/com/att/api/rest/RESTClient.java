@@ -94,6 +94,7 @@ import com.att.api.oauth.OAuthToken;
  * @version 1.0
  * @since 1.0
  */
+@SuppressWarnings({"deprecation", "unused"})
 public class RESTClient {
 
 	static SSLSocketFactory sslSocketFactory;
