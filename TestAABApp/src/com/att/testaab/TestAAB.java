@@ -76,7 +76,7 @@ public class TestAAB extends Activity {
 						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
 													authToken,
 													new getContactsListener());
-						aabManager.GetContacts("shallow", pageParams, searchParams );
+						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
 					case 2:
 						aabManager = new AABManager(serverEndPoint, 
