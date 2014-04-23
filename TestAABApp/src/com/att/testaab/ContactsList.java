@@ -15,7 +15,6 @@ import android.widget.ListView;
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactResultSet;
-import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
@@ -30,7 +29,6 @@ public class ContactsList extends Activity implements OnClickListener {
 	private ContactResultSet contactResultSet;
 	private OAuthToken authToken;
 	private QuickContact[] contactsList;
-	private ContactWrapper contactWrapper;	
 	private String contactId;
 	private Button myInfo;
 
@@ -114,42 +112,11 @@ public class ContactsList extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {	
 			case R.id.MyInfo :
-				aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
-				aabManager.GetContact(contactId, "shallow");
-				
-		}
-		
-			
+				Intent intent = new Intent(ContactsList.this, ContactDetails.class);
+				intent.putExtra("contactId", contactId);
+				startActivity(intent);								
+		}					
 	}
-	
-	private class getContactListener implements ATTIAMListener {
-
-		@Override
-		public void onSuccess(Object response) {
-			
-			contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) {
-				QuickContact qc = contactWrapper.getQuickContact();
-				if (null != qc) {
-				/*	strText = "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
-			*/		Log.i("getMyInfo","OnSuccess : ContactID :  " + qc.getContactId());
-					
-					//firstName = qc.getFormattedName();
-					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-					//editFirstName.setText(firstName);
-				}
-				return;
-			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("getMyInfo on error", "onError");
-
-		}
-	}
-
 }
 
 
