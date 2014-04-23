@@ -1,6 +1,8 @@
 package com.att.testaab;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +18,6 @@ import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
-
 public class GroupList extends Activity {
 	
 	private AABManager aabManager;
@@ -45,8 +46,49 @@ public class GroupList extends Activity {
 		} else {
 			aabManager.GetContactGroups(contactId, pageParams);	
 		}
-			
+		
+		groupListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				Group grpResult = (Group) groupListView.getItemAtPosition(position);
+				
+				CharSequence popUpList[] = new CharSequence[] {"Edit GroupName", "Show Contacts","Delete Group" };
+				popUpActionList(popUpList, grpResult, position);
+				return true;
+			}
+		});
 	}
+	
+	public void popUpActionList(final CharSequence popUpList[],
+			final Group grp, int position) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Groups Options");
+		builder.setItems(popUpList, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int options) {
+				switch (options) {
+				case 2:
+					 // deleteGroup(grp); 
+					break;
+			default:
+					break;
+				}
+			}
+		});
+		builder.show();
+	}
+	
+	/*public void deleteGroup(Group grp) {
+		String deleteGroupID;
+
+		deleteGroupID = grp.getGroupId();
+		aabManager = new AABManager(Config.fqdn, authToken, new deleteGroupListener());
+		aabManager.DeleteGroup(deleteGroupID);
+	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
