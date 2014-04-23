@@ -27,7 +27,7 @@
     <string name="Contacts">Contacts</string>
     <string name="Enter">Enter</string>
     <string name="hint2">2</string>
-    <string name="newGrp">NewGroup</string>
+    <string name="newGrp">New</string>
     <string name="title_activity_group_list_adapter">GroupListAdapter</string>
 
 </resources>

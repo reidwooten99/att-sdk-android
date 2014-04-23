@@ -124,7 +124,7 @@ public class ContactsList extends Activity implements OnClickListener {
 				
 			case R.id.Groups :
 				 intent = new Intent(ContactsList.this, GroupList.class);
-				intent.putExtra("contactId", contactId);
+				intent.putExtra("contactId", "-1");
 				startActivity(intent);
 				break;
 				

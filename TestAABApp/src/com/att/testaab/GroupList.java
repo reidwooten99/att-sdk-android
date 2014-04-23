@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.att.api.aab.listener.ATTIAMListener;
@@ -38,7 +40,12 @@ public class GroupList extends Activity {
 									authToken,
 									new getContactGroupsListener());
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
-		aabManager.GetContactGroups(contactId, pageParams);	
+		if(contactId == "-1") {
+			aabManager.GetGroups(pageParams, null);
+		} else {
+			aabManager.GetContactGroups(contactId, pageParams);	
+		}
+			
 	}
 
 	@Override
@@ -80,5 +87,6 @@ public class GroupList extends Activity {
 
 		}
 	}
+	
 
 }
