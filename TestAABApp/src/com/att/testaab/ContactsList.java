@@ -1,18 +1,18 @@
 package com.att.testaab;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
@@ -20,10 +20,9 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
-import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
-public class ContactsList extends Activity {
+public class ContactsList extends Activity implements OnClickListener {
 
 	private AABManager aabManager;
 	private PageParams pageParams;
@@ -34,7 +33,7 @@ public class ContactsList extends Activity {
 	private ContactWrapper contactWrapper;	
 	private String contactId;
 	private String IdForContactDetails;
-
+	private Button myInfo;
 
 	private ListView ContactsListView;
 	private ContactsAdapter adapter;
@@ -44,13 +43,19 @@ public class ContactsList extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts_list);
 
+		myInfo = (Button) findViewById(R.id.MyInfo);
+		myInfo.setOnClickListener(this);
+
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
+		
 
 		aabManager = new AABManager(Config.fqdn,
 				authToken, new getContactsListener());
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
 		setupContactListListener();
+		
+		
 
 	}
 
@@ -104,9 +109,48 @@ public class ContactsList extends Activity {
 			}
 		});
 	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()) {	
+			case R.id.MyInfo :
+				aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
+				aabManager.GetContact(contactId, "shallow");
+				
+		}
+		
+			
+	}
 	
-	
-	
-	
+	private class getContactListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			
+			contactWrapper = (ContactWrapper) response;
+			if (null != contactWrapper) {
+				QuickContact qc = contactWrapper.getQuickContact();
+				if (null != qc) {
+				/*	strText = "\n" + qc.getContactId() + ", " + 
+								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+			*/		Log.i("getMyInfo","OnSuccess : ContactID :  " + qc.getContactId());
+					
+					//firstName = qc.getFormattedName();
+					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
+					//editFirstName.setText(firstName);
+				}
+				return;
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getMyInfo on error", "onError");
+
+		}
+	}
 
 }
+
+
