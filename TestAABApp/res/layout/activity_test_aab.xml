@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:ems="5"
         android:inputType="number"
-        android:text="2" />
+        android:hint="@string/hint2" />
 
     <Button
         android:id="@+id/contactsListView"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/getContactsBtn"
         android:layout_marginTop="16dp"
-        android:text="Contacts.." />
+        android:text="@string/Contacts" />
 
     <Button
         android:id="@+id/getContactsBtn"
@@ -31,7 +31,7 @@
         android:layout_alignBottom="@+id/editText1"
         android:layout_alignTop="@+id/editText1"
         android:layout_centerHorizontal="true"
-        android:text="Run" />
+        android:text="@string/Enter" />
 
     <TextView
         android:id="@+id/displayContacts1"
@@ -39,5 +39,14 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/contactsListView"
         android:layout_below="@+id/contactsListView" />
+
+    <Button
+        android:id="@+id/btnGroups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/contactsListView"
+        android:layout_alignLeft="@+id/getContactsBtn"
+        android:layout_marginLeft="18dp"
+        android:text="@string/Groups" />
 
 </RelativeLayout>

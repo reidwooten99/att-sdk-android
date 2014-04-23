@@ -7,46 +7,48 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ContactsList" >
-
-
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="MyInfo"/>
         
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/Groups"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/button1"
-            android:text="Groups" />
+            android:layout_toRightOf="@+id/MyInfo"
+            android:text="@string/Groups" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/contacts"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_toRightOf="@id/button2"
-            android:text="Button3" />
-
-        <Button
-            android:id="@+id/button4"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/button3"
-            android:text="Button4" />
+             android:layout_toRightOf="@id/Groups"
+            android:text="@string/Contacts" />
         
          <ListView
         android:id="@+id/contactsListViewItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fastScrollEnabled="false"
-        android:layout_below="@id/button1"
+        android:layout_below="@id/MyInfo"
        />
+
+         <Button
+             android:id="@+id/settings"
+             style="?android:attr/buttonStyleSmall"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignTop="@+id/contacts"
+             android:layout_toRightOf="@+id/contacts"
+             android:text="@string/settings" />
+
+         <Button
+             android:id="@+id/MyInfo"
+             style="?android:attr/buttonStyleSmall"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/Groups"
+             android:layout_alignBottom="@+id/Groups"
+             android:layout_alignParentLeft="true"
+             android:text="@string/MyInfo" />
 
 </RelativeLayout>

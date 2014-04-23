@@ -32,7 +32,6 @@ public class ContactsList extends Activity implements OnClickListener {
 	private QuickContact[] contactsList;
 	private ContactWrapper contactWrapper;	
 	private String contactId;
-	private String IdForContactDetails;
 	private Button myInfo;
 
 	private ListView ContactsListView;

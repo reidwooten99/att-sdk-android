@@ -12,13 +12,13 @@ import com.att.api.aab.service.QuickContact;
 public class ContactsAdapter extends BaseAdapter {
 	
 	private static QuickContact[] quickContacts;
-	private Context ctx;
+	//private Context ctx;
 	private LayoutInflater cInflater;
 	
 	
 	public ContactsAdapter(Context context, QuickContact[] contactsList) {
 		quickContacts = contactsList;
-		this.ctx = context;
+		//this.ctx = context;
 		cInflater = LayoutInflater.from(context);
 	}
 
