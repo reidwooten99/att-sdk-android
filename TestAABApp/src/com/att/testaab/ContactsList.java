@@ -120,11 +120,13 @@ public class ContactsList extends Activity implements OnClickListener {
 				 intent = new Intent(ContactsList.this, ContactDetails.class);
 				intent.putExtra("contactId", contactId);
 				startActivity(intent);	
+				break;
 				
 			case R.id.Groups :
 				 intent = new Intent(ContactsList.this, GroupList.class);
 				intent.putExtra("contactId", contactId);
 				startActivity(intent);
+				break;
 				
 		}					
 	}
