@@ -1,9 +1,21 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    
-    tools:context=".ContactDetails" >
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="none" >
+
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="427dp" >
+
+	<RelativeLayout
+  	  android:layout_width="match_parent"
+   	  android:layout_height="548dp" >
 
     <Button
         android:id="@+id/Update"
@@ -200,12 +212,90 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/Address"
+        android:id="@+id/editAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/address"
         android:layout_toRightOf="@+id/emailAddress"
         android:ems="10"
         android:inputType="textPostalAddress" />
-     
+    
+    <TextView 
+        android:id="@+id/address2"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editAddress"
+        android:layout_marginTop="15dp"
+        android:text="@string/Address2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editAddress2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/address2"
+        android:layout_alignLeft="@+id/editPhoneType2"
+        android:ems="10"
+        android:inputType="textPostalAddress" />
+
+    <TextView
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/address2"
+        android:layout_marginTop="16dp"
+        android:text="@string/City"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/city"
+        android:layout_alignBottom="@+id/city"
+        android:layout_toRightOf="@+id/PhoneType2"
+        android:ems="10"
+        android:hint="@string/City" />
+     <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/city"
+        android:layout_marginTop="16dp"
+        android:text="@string/state"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/state"
+        android:layout_alignBottom="@+id/state"
+        android:layout_toRightOf="@+id/PhoneType2"
+        android:hint="@string/state" />
+
+        <TextView
+        android:id="@+id/zipCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/state"
+        android:text="@string/state"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editzipCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/zipCode"
+        android:layout_alignBottom="@+id/zipCode"
+        android:layout_toRightOf="@+id/PhoneType2"
+        android:hint="@string/zipCode" />
+    
+    
+            
 </RelativeLayout>
+</LinearLayout>
+</ScrollView>

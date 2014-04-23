@@ -23,10 +23,15 @@ public class ContactDetails extends Activity {
 	private ContactWrapper contactWrapper;	
 	private EditText editFirstName;
 	private EditText editLastName;
+	private EditText editOrganization;
+	private EditText editPhone1;
+	private EditText editEmailAddress;
+	private EditText editAddress;
+	private EditText editAddress2;
+	private EditText editCity;
+	private EditText editState;
+	private EditText editZipCode;
 	private String strText;
-
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,15 @@ public class ContactDetails extends Activity {
 		setContentView(R.layout.activity_contact_details); 
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		editLastName = (EditText) findViewById(R.id.editlastName);
+		editOrganization = (EditText) findViewById(R.id.editorgName);
+		editPhone1 = (EditText) findViewById(R.id.editPhoneType1);
+		editEmailAddress = (EditText) findViewById(R.id.editEmailAdddress);
+		editAddress = (EditText) findViewById(R.id.editAddress);
+		editAddress2 = (EditText) findViewById(R.id.editAddress2);
+		editCity = (EditText) findViewById(R.id.editCity);
+		editState =(EditText) findViewById(R.id.editState);
+		editZipCode =(EditText) findViewById(R.id.editzipCode);
+
 		
 		
 		Intent intent = getIntent();
@@ -67,6 +81,14 @@ public class ContactDetails extends Activity {
 					
 					editFirstName.setText(qc.getFirstName());
 					editLastName.setText(qc.getLastName());
+					editOrganization.setText(/*qc.getOrganization()*/"ATT");
+					editPhone1.setText(qc.getPhone().getNumber());
+					editEmailAddress.setText(qc.getEmail().getEmailAddress());
+					editAddress.setText(qc.getAddress().getAddrLineOne());
+					editAddress2.setText(qc.getAddress().getAddrLineTwo());
+					editCity.setText(qc.getAddress().getCity());
+					editState.setText(qc.getAddress().getState());
+					editZipCode.setText(qc.getAddress().getZipcode());
 				}
 				return;
 			}

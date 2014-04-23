@@ -19,6 +19,10 @@
    <string name="PhoneType2">PhoneType2</string>
    <string name="EmailAddress">Email Address</string>
    <string name="Address">Address</string>
+   <string name="Address2">Address2</string>
+   <string name="City">City</string>
+   <string name="state">State</string>
+   <string name="zipCode">ZipCode</string>
    <string name="MyInfo">MyInfo</string>
    <string name="Contacts">Contacts</string>
    <string name="Enter">Enter</string>
