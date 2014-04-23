@@ -1,15 +1,11 @@
 package com.att.testaab;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.ContactWrapper;
@@ -21,13 +17,12 @@ import com.att.api.oauth.OAuthToken;
 
 public class ContactDetails extends Activity {
 	
-	private String firstName;
 	private String contactId;
 	private AABManager aabManager;
 	private OAuthToken authToken;
 	private ContactWrapper contactWrapper;	
-	private TextView fnText;
 	private EditText editFirstName;
+	private EditText editLastName;
 	private String strText;
 
 
@@ -37,8 +32,8 @@ public class ContactDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details); 
-		fnText = (TextView) findViewById(R.id.First);
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
+		editLastName = (EditText) findViewById(R.id.editlastName);
 		
 		
 		Intent intent = getIntent();
@@ -70,9 +65,8 @@ public class ContactDetails extends Activity {
 								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
 					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
 					
-					firstName = qc.getFormattedName();
-					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-					editFirstName.setText(firstName);
+					editFirstName.setText(qc.getFirstName());
+					editLastName.setText(qc.getLastName());
 				}
 				return;
 			}
