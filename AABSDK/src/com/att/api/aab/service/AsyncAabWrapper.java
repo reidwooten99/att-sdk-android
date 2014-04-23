@@ -9,12 +9,12 @@ import com.att.api.error.Utils;
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
 
-public class AsyncApiWrapper {
+public class AsyncAabWrapper {
 	
 	private ATTIAMListener iamListener;
 	private AABService aabSrvc;
 	
-	public AsyncApiWrapper(AABService aabService, ATTIAMListener iamListener) {
+	public AsyncAabWrapper(AABService aabService, ATTIAMListener iamListener) {
 		this.iamListener = iamListener;
 		this.aabSrvc = aabService;
 	}
