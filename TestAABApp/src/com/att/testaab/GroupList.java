@@ -1,6 +1,7 @@
 package com.att.testaab;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +21,7 @@ public class GroupList extends Activity {
 	private PageParams pageParams;
 	private OAuthToken authToken;
 	private GroupListAdapter adapter;
+	private String contactId;
 	ListView groupListView;
 
 
@@ -29,12 +31,14 @@ public class GroupList extends Activity {
 		setContentView(R.layout.activity_group_list);
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
 
+		Intent intent = getIntent();
+		contactId = intent.getStringExtra("contactId");
 		
 		aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
 									authToken,
 									new getContactGroupsListener());
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
-		aabManager.GetContactGroups("0987654432123", pageParams);	
+		aabManager.GetContactGroups(contactId, pageParams);	
 	}
 
 	@Override

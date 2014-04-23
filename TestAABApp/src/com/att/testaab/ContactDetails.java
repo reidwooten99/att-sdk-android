@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.att.api.aab.service.AABManager;
@@ -15,7 +18,7 @@ import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
 
-public class ContactDetails extends Activity {
+public class ContactDetails extends Activity implements OnClickListener {
 	
 	private String contactId;
 	private AABManager aabManager;
@@ -32,11 +35,13 @@ public class ContactDetails extends Activity {
 	private EditText editState;
 	private EditText editZipCode;
 	private String strText;
+	private Button btnGroups;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details); 
+		
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		editLastName = (EditText) findViewById(R.id.editlastName);
 		editOrganization = (EditText) findViewById(R.id.editorgName);
@@ -47,12 +52,12 @@ public class ContactDetails extends Activity {
 		editCity = (EditText) findViewById(R.id.editCity);
 		editState =(EditText) findViewById(R.id.editState);
 		editZipCode =(EditText) findViewById(R.id.editzipCode);
-
 		
-		
+		btnGroups = (Button) findViewById(R.id.Groups);
+		btnGroups.setOnClickListener(this);
+			
 		Intent intent = getIntent();
-		contactId = intent.getStringExtra("contactId");
-		
+		contactId = intent.getStringExtra("contactId");	
 		aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
@@ -98,6 +103,19 @@ public class ContactDetails extends Activity {
 		public void onError(InAppMessagingError error) {
 			Log.i("getContactAPI on error", "onError");
 
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Intent intent;
+		switch(v.getId()) {	
+			case R.id.Groups :
+				 intent = new Intent(ContactDetails.this, GroupList.class);
+				intent.putExtra("contactId", contactId);
+				startActivity(intent);	
+				break;	
 		}
 	}
 
