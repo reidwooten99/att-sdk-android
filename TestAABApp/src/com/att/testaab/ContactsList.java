@@ -31,6 +31,7 @@ public class ContactsList extends Activity implements OnClickListener {
 	private QuickContact[] contactsList;
 	private String contactId;
 	private Button myInfo;
+	private Button myGrps;
 
 	private ListView ContactsListView;
 	private ContactsAdapter adapter;
@@ -42,6 +43,9 @@ public class ContactsList extends Activity implements OnClickListener {
 
 		myInfo = (Button) findViewById(R.id.MyInfo);
 		myInfo.setOnClickListener(this);
+		
+		myGrps = (Button) findViewById(R.id.Groups);
+		myGrps.setOnClickListener(this);
 
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
 		
@@ -110,11 +114,18 @@ public class ContactsList extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		Intent intent;
 		switch(v.getId()) {	
 			case R.id.MyInfo :
-				Intent intent = new Intent(ContactsList.this, ContactDetails.class);
+				 intent = new Intent(ContactsList.this, ContactDetails.class);
 				intent.putExtra("contactId", contactId);
-				startActivity(intent);								
+				startActivity(intent);	
+				
+			case R.id.Groups :
+				 intent = new Intent(ContactsList.this, GroupList.class);
+				intent.putExtra("contactId", contactId);
+				startActivity(intent);
+				
 		}					
 	}
 }
