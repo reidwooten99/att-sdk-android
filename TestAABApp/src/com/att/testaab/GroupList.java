@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABManager;
@@ -18,7 +21,7 @@ import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
-public class GroupList extends Activity {
+public class GroupList extends Activity implements OnClickListener {
 	
 	private AABManager aabManager;
 	private PageParams pageParams;
@@ -26,14 +29,31 @@ public class GroupList extends Activity {
 	private GroupListAdapter adapter;
 	private String contactId;
 	ListView groupListView;
-
+	private Button grpNew;
+	private Button grpSettings;
+	private Button grpContacts;
+	private Button grpMyInfo;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_list);
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
-
+		
+		grpNew = (Button) findViewById(R.id.newGrp);
+		grpNew.setOnClickListener(this);
+		
+		grpSettings = (Button) findViewById(R.id.settings);
+		grpSettings.setOnClickListener(this);
+		
+		grpContacts = (Button) findViewById(R.id.contacts);
+		grpContacts.setOnClickListener(this);
+		
+		grpMyInfo = (Button) findViewById(R.id.myInfo);
+		grpMyInfo.setOnClickListener(this);
+		
+		
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");
 		
@@ -129,6 +149,32 @@ public class GroupList extends Activity {
 
 		}
 	}
-	
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Intent intent;
+		switch(v.getId()) {	
+		case R.id.myInfo :
+			 intent = new Intent(GroupList.this, ContactDetails.class);
+			intent.putExtra("contactId", contactId);
+			startActivity(intent);	
+			break;
+			
+		case R.id.contacts :
+			 intent = new Intent(GroupList.this, ContactsList.class);
+			startActivity(intent);
+			break;
+			
+		case R.id.newGrp :
+			Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+			break;
+			
+		case R.id.settings :
+			Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+			break;
+		
+		}
+	}
 }
+	
