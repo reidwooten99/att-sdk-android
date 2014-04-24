@@ -11,12 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABManager;
-import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.error.InAppMessagingError;
-import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
 
 
