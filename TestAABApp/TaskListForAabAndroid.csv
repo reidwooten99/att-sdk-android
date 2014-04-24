@@ -58,3 +58,5 @@ Id,Task,Estimate,Priority,Assigned To,Status,Due Date
 ,Integrate User Consent Activity on logon,,,,,
 ,Unit test for user consent activity,,,,,
 ,Implement access token caching and other caching,,,,,
+,Investigate on Integration with codekit.jar,,,Surender,Complete,
+, Integrate with codekit.jar,,,Pooja,Complete,
