@@ -23,6 +23,81 @@ public class AABManager {
 		CreateContactTask createContactTask = new CreateContactTask();
 		createContactTask.execute(contact);
 	}
+
+	public void GetContacts(String xFields, PageParams pParams, SearchParams sParams) {
+		GetContactParams contactParams;
+		contactParams = new GetContactParams(xFields, pParams, sParams);
+		GetContactsTask task = new GetContactsTask();
+		task.execute(contactParams);
+	}
+	
+	public void GetContact(String contactId, String xFields) {
+		GetContactTask task = new GetContactTask();
+		task.execute(contactId, xFields);
+	}
+	
+	public void GetContactGroups(String contactId, PageParams params) {
+		GetContactGroupsTask getContactGroupsTask = new GetContactGroupsTask();
+		getContactGroupsTask.execute(contactId, params.getOrder(), params.getOrderBy(),
+				params.getLimit(), params.getOffset());
+	}
+
+	public void UpdateContact(Contact contact) {
+		UpdateContactTask task = new UpdateContactTask();
+		task.execute(contact);
+	}
+
+	public void DeleteContact(String contactId) {
+		DeleteContactTask task = new DeleteContactTask();
+		task.execute(contactId);
+	}
+	
+	public void CreateGroup(Group group) {
+		CreateGroupTask task = new CreateGroupTask();
+		task.execute(group);
+	}
+	
+	public void GetGroups(PageParams params, String groupName) {
+		GetGroupsTask task = new GetGroupsTask();
+		task.execute(groupName, params.getOrder(), params.getOrderBy(),
+				params.getLimit(), params.getOffset());
+	}
+
+	public void DeleteGroup(String groupId) {
+		DeleteGroupTask task = new DeleteGroupTask();
+		task.execute(groupId);
+	}
+	
+	public void UpdateGroup(Group group) {
+		UpdateGroupTask task = new UpdateGroupTask();
+		task.execute(group);
+	}
+
+	public void AddContactsToGroup(String groupId, String contactIds) {
+		AddContactsToGroupTask task = new AddContactsToGroupTask();
+		task.execute(groupId, contactIds);
+	}
+
+	public void RemoveContactsFromGroup(String groupId, String contactIds) {
+		RemoveContactsFromGroupTask task = new RemoveContactsFromGroupTask();
+		task.execute(groupId, contactIds);
+	}
+
+	public void GetGroupContacts(String groupId, PageParams params) {
+		GetGroupContactsTask task = new GetGroupContactsTask();
+		task.execute(groupId, params.getOrder(), params.getOrderBy(),
+				params.getLimit(), params.getOffset());
+	}
+	
+	public void GetMyInfo() {
+		GetMyInfoTask task = new GetMyInfoTask();
+		task.execute();
+	}
+
+	public void UpdateMyInfo(Contact contact) {
+		UpdateMyInfoTask task = new UpdateMyInfoTask();
+		task.execute(contact);
+	}
 	
 	public class  CreateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override
@@ -53,13 +128,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-
-	public void GetContacts(String xFields, PageParams pParams, SearchParams sParams) {
-		GetContactParams contactParams;
-		contactParams = new GetContactParams(xFields, pParams, sParams);
-		GetContactsTask task = new GetContactsTask();
-		task.execute(contactParams);
 	}
 	
 	public class  GetContactsTask extends AsyncTask<GetContactParams, Void, ContactResultSet> {
@@ -100,11 +168,6 @@ public class AABManager {
 		}		
 	}
 	
-	public void GetContact(String contactId, String xFields) {
-		GetContactTask task = new GetContactTask();
-		task.execute(contactId, xFields);
-	}
-	
 	public class  GetContactTask extends AsyncTask<String, Void, ContactWrapper> {
 		@Override
 		protected ContactWrapper doInBackground(String... params) {
@@ -140,12 +203,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-	
-	public void GetContactGroups(String contactId, PageParams params) {
-		GetContactGroupsTask getContactGroupsTask = new GetContactGroupsTask();
-		getContactGroupsTask.execute(contactId, params.getOrder(), params.getOrderBy(),
-				params.getLimit(), params.getOffset());
 	}
 	
 	public class  GetContactGroupsTask extends AsyncTask<String, Void, GroupResultSet> {
@@ -185,11 +242,6 @@ public class AABManager {
 			}			
 		}		
 	}
-
-	public void UpdateContact(Contact contact) {
-		UpdateContactTask task = new UpdateContactTask();
-		task.execute(contact);
-	}
 	
 	public class  UpdateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override
@@ -221,11 +273,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-
-	public void DeleteContact(String contactId) {
-		DeleteContactTask task = new DeleteContactTask();
-		task.execute(contactId);
 	}
 	
 	public class  DeleteContactTask extends AsyncTask<String, Void, String> {
@@ -259,11 +306,6 @@ public class AABManager {
 		}		
 	}
 	
-	public void CreateGroup(Group group) {
-		CreateGroupTask task = new CreateGroupTask();
-		task.execute(group);
-	}
-	
 	public class  CreateGroupTask extends AsyncTask<Group, Void, String> {
 		@Override
 		protected String doInBackground(Group... params) {
@@ -293,12 +335,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-	
-	public void GetGroups(PageParams params, String groupName) {
-		GetGroupsTask task = new GetGroupsTask();
-		task.execute(groupName, params.getOrder(), params.getOrderBy(),
-				params.getLimit(), params.getOffset());
 	}
 	
 	public class  GetGroupsTask extends AsyncTask<String, Void, GroupResultSet> {
@@ -338,11 +374,6 @@ public class AABManager {
 			}			
 		}		
 	}
-
-	public void DeleteGroup(String groupId) {
-		DeleteGroupTask task = new DeleteGroupTask();
-		task.execute(groupId);
-	}
 	
 	public class  DeleteGroupTask extends AsyncTask<String, Void, String> {
 		@Override
@@ -373,11 +404,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-	
-	public void UpdateGroup(Group group) {
-		UpdateGroupTask task = new UpdateGroupTask();
-		task.execute(group);
 	}
 	
 	public class  UpdateGroupTask extends AsyncTask<Group, Void, String> {
@@ -411,11 +437,6 @@ public class AABManager {
 			}			
 		}		
 	}
-
-	public void AddContactsToGroup(String groupId, String contactIds) {
-		AddContactsToGroupTask task = new AddContactsToGroupTask();
-		task.execute(groupId, contactIds);
-	}
 	
 	public class  AddContactsToGroupTask extends AsyncTask<String, Void, String> {
 		@Override
@@ -448,11 +469,6 @@ public class AABManager {
 			}			
 		}		
 	}
-
-	public void RemoveContactsFromGroup(String groupId, String contactIds) {
-		RemoveContactsFromGroupTask task = new RemoveContactsFromGroupTask();
-		task.execute(groupId, contactIds);
-	}
 	
 	public class  RemoveContactsFromGroupTask extends AsyncTask<String, Void, String> {
 		@Override
@@ -484,13 +500,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-	
-	
-	public void GetGroupContacts(String groupId, PageParams params) {
-		GetGroupContactsTask task = new GetGroupContactsTask();
-		task.execute(groupId, params.getOrder(), params.getOrderBy(),
-				params.getLimit(), params.getOffset());
 	}
 	
 	public class  GetGroupContactsTask extends AsyncTask<String, Void, String[]> {
@@ -531,11 +540,6 @@ public class AABManager {
 		}		
 	}
 	
-	public void GetMyInfo() {
-		GetMyInfoTask task = new GetMyInfoTask();
-		task.execute();
-	}
-	
 	public class  GetMyInfoTask extends AsyncTask<Void, Void, Contact> {
 		@Override
 		protected Contact doInBackground(Void... params) {
@@ -568,11 +572,6 @@ public class AABManager {
 				}
 			}			
 		}		
-	}
-
-	public void UpdateMyInfo(Contact contact) {
-		UpdateMyInfoTask task = new UpdateMyInfoTask();
-		task.execute(contact);
 	}
 	
 	public class  UpdateMyInfoTask extends AsyncTask<Contact, Void, String> {
