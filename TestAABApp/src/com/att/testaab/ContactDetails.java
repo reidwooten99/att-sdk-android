@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.att.api.aab.service.AABManager;
+import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.error.InAppMessagingError;
@@ -36,6 +37,9 @@ public class ContactDetails extends Activity implements OnClickListener {
 	private EditText editZipCode;
 	private String strText;
 	private Button btnGroups;
+	private Button btnUpdateContact;
+	private Button btnDeleteContact;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,12 @@ public class ContactDetails extends Activity implements OnClickListener {
 		editCity = (EditText) findViewById(R.id.editCity);
 		editState =(EditText) findViewById(R.id.editState);
 		editZipCode =(EditText) findViewById(R.id.editzipCode);
+		
+		btnUpdateContact = (Button) findViewById(R.id.Update);
+		btnUpdateContact.setOnClickListener(this);
+		
+		btnDeleteContact =(Button) findViewById(R.id.Delete);
+		btnDeleteContact.setOnClickListener(this);
 		
 		btnGroups = (Button) findViewById(R.id.Groups);
 		btnGroups.setOnClickListener(this);
@@ -76,7 +86,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 		public void onSuccess(Object response) {
 			
 			contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) {
+			if (null != contactWrapper) { 
 				strText = null;
 				QuickContact qc = contactWrapper.getQuickContact();
 				if (null != qc) {
@@ -112,10 +122,26 @@ public class ContactDetails extends Activity implements OnClickListener {
 		Intent intent;
 		switch(v.getId()) {	
 			case R.id.Groups :
-				 intent = new Intent(ContactDetails.this, GroupList.class);
+				intent = new Intent(ContactDetails.this, GroupList.class);
 				intent.putExtra("contactId", contactId);
 				startActivity(intent);	
 				break;	
+				
+		    //Adding the handlers but NOT TESTED.  			
+			/*case R.id.Update :
+				Contact contactToUpdate; 
+				contactToUpdate = contactWrapper.getContact();
+				aabManager = new AABManager(Config.fqdn, authToken,new UpdateContactListener());
+				aabManager.UpdateContact(contactToUpdate);			
+				break;
+			
+			case R.id.Delete : 
+				aabManager = new AABManager(Config.fqdn, authToken,new DeleteContactListener());
+				aabManager.DeleteContact(contactId);
+				break;*/
+				
+			
+				
 		}
 	}
 
