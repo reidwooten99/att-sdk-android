@@ -25,7 +25,6 @@ public class GroupList extends Activity implements OnClickListener {
 	
 	private AABManager aabManager;
 	private PageParams pageParams;
-	private OAuthToken authToken;
 	private GroupListAdapter adapter;
 	private String contactId;
 	ListView groupListView;
@@ -38,6 +37,7 @@ public class GroupList extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_group_list);
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
 		
@@ -57,8 +57,8 @@ public class GroupList extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");
 		
-		aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-									authToken,
+		aabManager = new AABManager(Config.fqdn, 
+									Config.authToken,
 									new getContactGroupsListener());
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		if(contactId == "-1") {

@@ -155,11 +155,6 @@ public class AABManager {
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
 			}
 			
 			return contactResultSet;
@@ -189,11 +184,6 @@ public class AABManager {
 							    );
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
@@ -227,11 +217,6 @@ public class AABManager {
 							    );
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
@@ -359,11 +344,6 @@ public class AABManager {
 							    );
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
@@ -527,11 +507,6 @@ public class AABManager {
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
 			}
 			
 			return result;
@@ -558,11 +533,6 @@ public class AABManager {
 				result = aabService.getMyInfo();
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
-			} catch (ParseException e) {
-				errorObj = new InAppMessagingError(e.getMessage());
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}

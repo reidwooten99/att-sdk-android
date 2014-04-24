@@ -1,17 +1,10 @@
 package com.att.testaab;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
-import com.att.api.aab.service.ContactWrapper;
-import com.att.api.error.InAppMessagingError;
-import com.att.api.oauth.OAuthToken;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract.QuickContact;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -20,12 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.att.api.aab.listener.ATTIAMListener;
+import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.service.ContactWrapper;
+import com.att.api.error.InAppMessagingError;
+
 
 public class ContactDetails extends Activity implements OnClickListener {
 	
 	private String contactId;
 	//private AABManager aabManager;
-	private OAuthToken authToken;
 	private ContactWrapper contactWrapper;	
 	private EditText editFirstName;
 	private EditText editLastName;
@@ -74,7 +71,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
-		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
+		AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}
@@ -161,7 +158,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 	    .setMessage("Are you sure you want to delete this contact?")
 	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	        	AABManager aabManager = new AABManager(Config.fqdn, authToken, new DeleteContactListener());
+	        	AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new DeleteContactListener());
 				aabManager.DeleteContact(contactId);
 	        }
 	     })

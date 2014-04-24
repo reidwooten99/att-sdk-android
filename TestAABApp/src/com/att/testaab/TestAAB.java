@@ -10,8 +10,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
@@ -22,8 +25,8 @@ import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
-import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
 
 public class TestAAB extends Activity {
 
@@ -31,7 +34,6 @@ public class TestAAB extends Activity {
 	private PageParams pageParams;
 	private SearchParams searchParams;
 	private ContactResultSet contactResultSet;
-	private OAuthToken authToken;
 	private Button getContacts;
 	private TextView displayContacts;
 	private ContactWrapper contactWrapper;	
@@ -45,12 +47,13 @@ public class TestAAB extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_test_aab);
 		getContacts = (Button) findViewById(R.id.getContactsBtn);
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		testApi = (EditText)findViewById(R.id.editText1);
-		testApi.setText("2"); // set default to 2
+		testApi.setText("5"); // set default to 2
 		
 		btnGroups = (Button) findViewById(R.id.btnGroups);
 		btnGroups.setOnClickListener(new OnClickListener() {
@@ -68,7 +71,7 @@ public class TestAAB extends Activity {
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		SearchParams.Builder builder = new SearchParams.Builder();
-		searchParams = new SearchParams(builder.setZipcode("94086"));
+		//searchParams = new SearchParams(builder.setZipcode("94086"));
 		
 		BtnContactsList.setOnClickListener(new OnClickListener() {
 			
@@ -91,30 +94,30 @@ public class TestAAB extends Activity {
                 catch(Exception e) {}
 				switch (iOperation) {
 					case 1:
-						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-													authToken,
+						aabManager = new AABManager(Config.fqdn, 
+													Config.authToken,
 													new getContactsListener());
 						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
 					case 2:
-						aabManager = new AABManager(serverEndPoint, 
-													authToken,
+						aabManager = new AABManager(Config.fqdn, 
+													Config.authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
 						break;
 					case 3:
-						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-													authToken,
+						aabManager = new AABManager(Config.fqdn, 
+													Config.authToken,
 													new getContactGroupsListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						pageParams = new PageParams("ASC", "firstName", "2", "0");
 						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
 					case 4:
-						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
-								authToken,
-								new createContactListener());
+						aabManager = new AABManager(Config.fqdn, 
+													Config.authToken,
+													new createContactListener());
 						Contact.Builder builder = new Contact.Builder(); 
 						builder.setFirstName("First");
 						builder.setLastName("Last");
@@ -127,6 +130,7 @@ public class TestAAB extends Activity {
 						Contact contact = builder.build();
 						aabManager.CreateContact(contact);
 						break;
+						
 				}
 			}
 		});
