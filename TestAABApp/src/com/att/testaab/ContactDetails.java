@@ -1,10 +1,17 @@
 package com.att.testaab;
 
+import com.att.api.aab.listener.ATTIAMListener;
+import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.service.ContactWrapper;
+import com.att.api.error.InAppMessagingError;
+import com.att.api.oauth.OAuthToken;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract.QuickContact;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -12,13 +19,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.service.AABManager;
-import com.att.api.aab.service.ContactWrapper;
-import com.att.api.aab.service.QuickContact;
-import com.att.api.error.InAppMessagingError;
-import com.att.api.oauth.OAuthToken;
 
 
 public class ContactDetails extends Activity implements OnClickListener {
@@ -74,7 +74,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
-		AABManager aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
+		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}
@@ -94,7 +94,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 			contactWrapper = (ContactWrapper) response;
 			if (null != contactWrapper) { 
 				strText = null;
-				QuickContact qc = contactWrapper.getQuickContact();
+				com.att.api.aab.service.QuickContact qc = contactWrapper.getQuickContact();
 				if (null != qc) {
 					strText = "\n" + qc.getContactId() + ", " + 
 								qc.getFormattedName() + ", " + qc.getPhone().getNumber();

@@ -1,4 +1,7 @@
-package com.att.api.aab.service;
+package com.att.api.aab.manager;
+
+import com.att.api.aab.service.PageParams;
+import com.att.api.aab.service.SearchParams;
 
 
 public class GetContactParams {

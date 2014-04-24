@@ -1,10 +1,18 @@
-package com.att.api.aab.service;
+package com.att.api.aab.manager;
 
 import java.text.ParseException;
 
 import android.os.AsyncTask;
 
 import com.att.api.aab.listener.ATTIAMListener;
+import com.att.api.aab.service.AABService;
+import com.att.api.aab.service.Contact;
+import com.att.api.aab.service.ContactResultSet;
+import com.att.api.aab.service.ContactWrapper;
+import com.att.api.aab.service.Group;
+import com.att.api.aab.service.GroupResultSet;
+import com.att.api.aab.service.PageParams;
+import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.oauth.OAuthToken;

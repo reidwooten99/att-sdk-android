@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.att.api.aab.service.AABManager;
+import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;

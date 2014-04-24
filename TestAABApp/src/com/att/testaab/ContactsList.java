@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.service.AABManager;
+import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
