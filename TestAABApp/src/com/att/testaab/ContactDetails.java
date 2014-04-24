@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.att.api.aab.service.AABManager;
 import com.att.api.aab.service.Contact;
@@ -39,6 +40,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 	private Button btnGroups;
 	private Button btnUpdateContact;
 	private Button btnDeleteContact;
+	private Button btnSettings;
 	
 
 	@Override
@@ -65,6 +67,9 @@ public class ContactDetails extends Activity implements OnClickListener {
 		
 		btnGroups = (Button) findViewById(R.id.Groups);
 		btnGroups.setOnClickListener(this);
+		
+		btnSettings = (Button) findViewById(R.id.settings);
+		btnSettings.setOnClickListener(this);
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
@@ -128,18 +133,23 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;	
 				
 		    //Adding the handlers but NOT TESTED.  			
-			/*case R.id.Update :
-				Contact contactToUpdate; 
+			case R.id.Update :
+				/*Contact contactToUpdate; 
 				contactToUpdate = contactWrapper.getContact();
 				aabManager = new AABManager(Config.fqdn, authToken,new UpdateContactListener());
-				aabManager.UpdateContact(contactToUpdate);			
+				aabManager.UpdateContact(contactToUpdate);	*/	
+				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
 				break;
 			
 			case R.id.Delete : 
-				aabManager = new AABManager(Config.fqdn, authToken,new DeleteContactListener());
-				aabManager.DeleteContact(contactId);
-				break;*/
+				/*aabManager = new AABManager(Config.fqdn, authToken,new DeleteContactListener());
+				aabManager.DeleteContact(contactId);*/
+				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+				break;
 				
+			case R.id.settings :
+				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+				break;
 			
 				
 		}
