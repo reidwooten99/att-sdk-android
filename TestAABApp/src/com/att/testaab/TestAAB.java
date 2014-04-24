@@ -39,6 +39,7 @@ public class TestAAB extends Activity {
 	private EditText testApi;
 	private String serverEndPoint = "http://ldev.code-api-att.com:8888";
 	private String strText = "";
+	private Button btnGroups;
 	//private String serverEndPoint = "http://localhost:8888";
     
 	@Override
@@ -49,6 +50,20 @@ public class TestAAB extends Activity {
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		testApi = (EditText)findViewById(R.id.editText1);
+		
+		btnGroups = (Button) findViewById(R.id.btnGroups);
+		btnGroups.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(TestAAB.this, GroupList.class);
+				intent.putExtra("contactId", "-1");
+				startActivity(intent);
+			
+				
+			}
+		});
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		SearchParams.Builder builder = new SearchParams.Builder();
