@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABManager;
@@ -32,6 +33,8 @@ public class ContactsList extends Activity implements OnClickListener {
 	private String contactId;
 	private Button myInfo;
 	private Button myGrps;
+	private Button allContacts;
+	private Button mySettings;
 
 	private ListView ContactsListView;
 	private ContactsAdapter adapter;
@@ -47,6 +50,12 @@ public class ContactsList extends Activity implements OnClickListener {
 		myGrps = (Button) findViewById(R.id.Groups);
 		myGrps.setOnClickListener(this);
 
+		allContacts = (Button) findViewById(R.id.contacts);
+		allContacts.setOnClickListener(this);
+		
+		mySettings = (Button) findViewById(R.id.settings);
+		mySettings.setOnClickListener(this);
+		
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
 		
 
@@ -126,6 +135,14 @@ public class ContactsList extends Activity implements OnClickListener {
 				 intent = new Intent(ContactsList.this, GroupList.class);
 				intent.putExtra("contactId", "-1");
 				startActivity(intent);
+				break;
+				
+			case R.id.contacts :
+				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+				break;
+				
+			case R.id.settings :
+				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
 				break;
 				
 		}					
