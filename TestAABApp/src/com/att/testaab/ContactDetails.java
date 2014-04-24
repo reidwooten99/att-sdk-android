@@ -1,6 +1,8 @@
 package com.att.testaab;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +24,7 @@ import com.att.api.oauth.OAuthToken;
 public class ContactDetails extends Activity implements OnClickListener {
 	
 	private String contactId;
-	private AABManager aabManager;
+	//private AABManager aabManager;
 	private OAuthToken authToken;
 	private ContactWrapper contactWrapper;	
 	private EditText editFirstName;
@@ -72,7 +74,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
-		aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
+		AABManager aabManager = new AABManager(Config.fqdn, authToken,new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}
@@ -141,9 +143,8 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 			
 			case R.id.Delete : 
-				/*aabManager = new AABManager(Config.fqdn, authToken,new DeleteContactListener());
-				aabManager.DeleteContact(contactId);*/
-				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+				DeleteContact();
+				//Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
 				break;
 				
 			case R.id.settings :
@@ -151,6 +152,41 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 			
 				
+		}
+	}
+	
+	private void DeleteContact() {
+		new AlertDialog.Builder(this)
+	    .setTitle("Delete Contact")
+	    .setMessage("Are you sure you want to delete this contact?")
+	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	        	AABManager aabManager = new AABManager(Config.fqdn, authToken, new DeleteContactListener());
+				aabManager.DeleteContact(contactId);
+	        }
+	     })
+	    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_delete)
+	    .show();	
+	}
+
+	private class DeleteContactListener implements ATTIAMListener {
+	
+		@Override
+		public void onSuccess(Object response) {
+			Log.i("contact deleted successfully", "Success");
+			Toast.makeText(getApplicationContext(), "Contact deleted.", Toast.LENGTH_LONG).show();
+			Intent i = new Intent(ContactDetails.this, ContactsList.class);
+			startActivity(i);				
+		}
+	
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("deleteContact on error", "onError");	
 		}
 	}
 

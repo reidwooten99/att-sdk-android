@@ -247,7 +247,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(Contact... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.updateContact(
@@ -279,7 +279,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(String... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.deleteContact(
@@ -379,7 +379,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(String... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.deleteGroup(
@@ -409,7 +409,7 @@ public class AABManager {
 	public class  UpdateGroupTask extends AsyncTask<Group, Void, String> {
 		@Override
 		protected String doInBackground(Group... params) {
-			String result = null;
+			String result = "success";
 			InAppMessagingError errorObj = new InAppMessagingError();
 	
 			try {
@@ -442,7 +442,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(String... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.addContactsToGroup(
@@ -474,7 +474,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(String... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.removeContactsFromGroup(
@@ -578,7 +578,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(Contact... params) {
 			InAppMessagingError errorObj = new InAppMessagingError();
-			String result = null;
+			String result = "success";
 
 			try {
 				aabService.updateMyInfo(
