@@ -101,8 +101,8 @@ public class AABManager {
 	}
 	
 	public void GetContact(String contactId, String xFields) {
-		GetContactTask getContactTask = new GetContactTask();
-		getContactTask.execute(contactId, xFields);
+		GetContactTask task = new GetContactTask();
+		task.execute(contactId, xFields);
 	}
 	
 	public class  GetContactTask extends AsyncTask<String, Void, ContactWrapper> {
@@ -353,6 +353,237 @@ public class AABManager {
 			try {
 				aabService.deleteGroup(
 								params[0] //groupId
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+	
+	public void UpdateGroup(Group group) {
+		UpdateGroupTask task = new UpdateGroupTask();
+		task.execute(group);
+	}
+	
+	public class  UpdateGroupTask extends AsyncTask<Group, Void, String> {
+		@Override
+		protected String doInBackground(Group... params) {
+			String result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+	
+			try {
+				aabService.updateGroup(
+								params[0], //group
+								params[0].getGroupId() //groupId
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+	
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
+	public void AddContactsToGroup(String groupId, String contactIds) {
+		AddContactsToGroupTask task = new AddContactsToGroupTask();
+		task.execute(groupId, contactIds);
+	}
+	
+	public class  AddContactsToGroupTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			InAppMessagingError errorObj = new InAppMessagingError();
+			String result = null;
+
+			try {
+				aabService.addContactsToGroup(
+								params[0], //groupId
+								params[1]  //contactIds
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
+	public void RemoveContactsFromGroup(String groupId, String contactIds) {
+		RemoveContactsFromGroupTask task = new RemoveContactsFromGroupTask();
+		task.execute(groupId, contactIds);
+	}
+	
+	public class  RemoveContactsFromGroupTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			InAppMessagingError errorObj = new InAppMessagingError();
+			String result = null;
+
+			try {
+				aabService.removeContactsFromGroup(
+								params[0], //groupId
+								params[1]  //contactIds
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+	
+	
+	public void GetGroupContacts(String groupId, PageParams params) {
+		GetGroupContactsTask task = new GetGroupContactsTask();
+		task.execute(groupId, params.getOrder(), params.getOrderBy(),
+				params.getLimit(), params.getOffset());
+	}
+	
+	public class  GetGroupContactsTask extends AsyncTask<String, Void, String[]> {
+		@Override
+		protected String[] doInBackground(String... params) {
+			String[] result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				result = aabService.getGroupContacts(
+								params[0], //groupId
+								pageParams //pageParams 
+							    );
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			} catch (ParseException e) {
+				errorObj = new InAppMessagingError(e.getMessage());
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+		
+		@Override
+		protected void onPostExecute(String[] result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+	
+	public void GetMyInfo() {
+		GetMyInfoTask task = new GetMyInfoTask();
+		task.execute();
+	}
+	
+	public class  GetMyInfoTask extends AsyncTask<Void, Void, Contact> {
+		@Override
+		protected Contact doInBackground(Void... params) {
+			Contact result = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+				result = aabService.getMyInfo();
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			} catch (ParseException e) {
+				errorObj = new InAppMessagingError(e.getMessage());
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}
+			
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(Contact result) {
+			super.onPostExecute(result);
+			if( null != result ) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}			
+		}		
+	}
+
+	public void UpdateMyInfo(Contact contact) {
+		UpdateMyInfoTask task = new UpdateMyInfoTask();
+		task.execute(contact);
+	}
+	
+	public class  UpdateMyInfoTask extends AsyncTask<Contact, Void, String> {
+		@Override
+		protected String doInBackground(Contact... params) {
+			InAppMessagingError errorObj = new InAppMessagingError();
+			String result = null;
+
+			try {
+				aabService.updateMyInfo(
+								params[0] //contact
 							    );
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );

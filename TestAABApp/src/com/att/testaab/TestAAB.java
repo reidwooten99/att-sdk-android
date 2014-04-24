@@ -50,6 +50,7 @@ public class TestAAB extends Activity {
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		testApi = (EditText)findViewById(R.id.editText1);
+		testApi.setText("2"); // set default to 2
 		
 		btnGroups = (Button) findViewById(R.id.btnGroups);
 		btnGroups.setOnClickListener(new OnClickListener() {
@@ -85,7 +86,9 @@ public class TestAAB extends Activity {
 			@Override
 			public void onClick(View v) {
 			    String apiNumber = testApi.getText().toString();
-                int iOperation = Integer.valueOf(apiNumber);
+                int iOperation = 1;
+                try { iOperation = Integer.valueOf(apiNumber); }
+                catch(Exception e) {}
 				switch (iOperation) {
 					case 1:
 						aabManager = new AABManager("http://ldev.code-api-att.com:8888", 
