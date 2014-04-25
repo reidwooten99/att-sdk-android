@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.error.InAppMessagingError;
 
@@ -71,6 +72,19 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
+		int id = Integer.valueOf(contactId);
+		
+		switch(id) {
+			case -1:
+				AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getMyInfoListener());
+				aabManager.GetMyInfo();
+				break;
+			case -2:
+				break;
+			default :
+				break;
+				
+		}
 		AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
@@ -115,6 +129,31 @@ public class ContactDetails extends Activity implements OnClickListener {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("getContactAPI on error", "onError");
+
+		}
+	}
+	
+	private class getMyInfoListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			Contact result;
+			result = (Contact) response;
+			if (null != contactWrapper) { 
+				strText = null;
+				com.att.api.aab.service.QuickContact qc = contactWrapper.getQuickContact();
+				if (null != qc) {
+					strText = "\n" + qc.getContactId() + ", " + 
+								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+				}
+				return;
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getMyInfoAPI on error", "onError");
 
 		}
 	}

@@ -1,7 +1,5 @@
 package com.att.api.aab.manager;
 
-import java.text.ParseException;
-
 import android.os.AsyncTask;
 
 import com.att.api.aab.listener.ATTIAMListener;
@@ -15,17 +13,29 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 
 public class AABManager {	
 	public static AABService aabService = null;
 	private ATTIAMListener aabListener = null;
+	private static OAuthService osrvc = null;
 	
 	public AABManager(String fqdn, OAuthToken token, ATTIAMListener listener) {		
 		aabService = new AABService(fqdn, token);
 		aabListener = listener;
 	}
+	
+	public AABManager(String fqdn, String clientId, String clientSecret, ATTIAMListener listener) {
+		osrvc = new OAuthService(fqdn, clientId, clientSecret);
+		aabListener = listener;
+	}
+	
+	public void getOAuthToken(String code){
+    	GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
+		getTokenUsingCodetask.execute(code);
+    }
 	
 	public void CreateContact(Contact contact) {
 		CreateContactTask createContactTask = new CreateContactTask();
@@ -106,6 +116,36 @@ public class AABManager {
 		UpdateMyInfoTask task = new UpdateMyInfoTask();
 		task.execute(contact);
 	}
+	
+	public class GetTokenUsingCodeTask extends AsyncTask<String, Void, OAuthToken> {
+
+		@Override
+		protected OAuthToken doInBackground(String... params) {
+			OAuthToken accestoken = null;
+			InAppMessagingError errorObj = new InAppMessagingError();
+			try {
+				accestoken = osrvc.getTokenUsingCode(params[0]);
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}		
+			return accestoken;
+		}
+
+		@Override
+		protected void onPostExecute(OAuthToken accestoken) {
+			super.onPostExecute(accestoken);
+			if(null != accestoken) {
+				if (null != aabListener) {
+					aabListener.onSuccess(accestoken);
+				}
+			}
+		}
+    	
+    }
+
 	
 	public class  CreateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override

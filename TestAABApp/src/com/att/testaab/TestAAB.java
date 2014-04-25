@@ -10,11 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.manager.AABManager;
-import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
@@ -25,10 +23,10 @@ import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-import com.att.api.rest.RESTException;
 
-public class TestAAB extends Activity {
+public class TestAAB extends Activity implements OnClickListener {
 
 	private AABManager aabManager;
 	private PageParams pageParams;
@@ -39,9 +37,13 @@ public class TestAAB extends Activity {
 	private ContactWrapper contactWrapper;	
 	private Button BtnContactsList;
 	private EditText testApi;
-	private String serverEndPoint = "http://ldev.code-api-att.com:8888";
 	private String strText = "";
 	private Button btnGroups;
+	private final int OAUTH_CODE = 1;
+	private Button btnLogIn;
+	private Button btnLogOut;
+	private OAuthService osrvc;
+	private OAuthToken authToken;
 	//private String serverEndPoint = "http://localhost:8888";
     
 	@Override
@@ -54,6 +56,12 @@ public class TestAAB extends Activity {
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		testApi = (EditText)findViewById(R.id.editText1);
 		testApi.setText("5"); // set default to 2
+		
+		btnLogIn = (Button) findViewById(R.id.btnLogin);
+		btnLogIn.setOnClickListener(this);
+		btnLogOut = (Button) findViewById(R.id.btnLogout);
+		btnLogIn.setOnClickListener(this);
+		
 		
 		btnGroups = (Button) findViewById(R.id.btnGroups);
 		btnGroups.setOnClickListener(new OnClickListener() {
@@ -79,7 +87,7 @@ public class TestAAB extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(TestAAB.this, ContactsList.class);
-				startActivity(i);				
+				startActivity(i);					
 			}
 		});
 	
@@ -244,5 +252,89 @@ public class TestAAB extends Activity {
 		getMenuInflater().inflate(R.menu.test_aab, menu);
 		return true;
 	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		if (requestCode == OAUTH_CODE) {
+			String oAuthCode = null;
+			if (resultCode == RESULT_OK) {
+				oAuthCode = data.getStringExtra("oAuthCode");
+				Log.i("TestAAB", "oAuthCode:" + oAuthCode);
+				if (null != oAuthCode) {
+					aabManager = new AABManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
+					aabManager.getOAuthToken(oAuthCode);
+				} else {
+					Log.i("TestAAB", "oAuthCode: is null");
+
+				}
+			} else if(resultCode == RESULT_CANCELED) {
+						oAuthCode = data.getStringExtra("oAuthCode");
+						Log.i("TestAAB", "oAuthCode:" + oAuthCode);
+						if (null != oAuthCode) {
+							aabManager = new AABManager(Config.iamFqdn, Config.clientID,Config.secretKey,new getTokenListener());
+							aabManager.getOAuthToken(oAuthCode);
+						} else {
+							Log.i("TestAAB", "oAuthCode: is null");
+
+				}
+								
+			}
+		} 
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch(v.getId()) {
+			case R.id.btnLogin : logIntoAddressBook(Config.iamFqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
+				break;
+			case R.id.btnLogout : logOutOfAddressBook();
+				break;				
+		
+		}
+		
+	}
+
+	public void logOutOfAddressBook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void logIntoAddressBook(String fqdn, String clientId, String secretKey, String refirectUri, String appScope) {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(TestAAB.this, com.att.api.consentactivity.UserConsentActivity.class);
+		i.putExtra("fqdn", Config.iamFqdn);
+		i.putExtra("clientId", Config.clientID);
+		i.putExtra("clientSecret", Config.secretKey);
+		i.putExtra("redirectUri", Config.redirectUri);
+		i.putExtra("appScope", Config.appScope);
+		startActivityForResult(i, OAUTH_CODE);
+		
+	}
+
+	public class getTokenListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			  authToken = (OAuthToken) response;
+			if (null != authToken) {
+				Config.token = authToken.getAccessToken();
+				Config.refreshToken = authToken.getRefreshToken();
+				Log.i("getTokenListener",
+						"onSuccess Message : " + authToken.getAccessToken());
+				Intent i = new Intent(TestAAB.this, ContactsList.class);
+				startActivity(i);	
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			/*authToken = new OAuthToken("abcd", 1, "xyz");
+			Config.token = authToken.getAccessToken().toString();*/
+			Log.i("getTokenListener",
+					"onError Message : " );
+		}
+	}
+
 
 }

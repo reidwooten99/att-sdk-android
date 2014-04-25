@@ -17,12 +17,12 @@
             android:text="@string/Groups" />
 
         <Button
-            android:id="@+id/contacts"
+            android:id="@+id/newContact"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              android:layout_toRightOf="@id/Groups"
-            android:text="@string/Contacts" />
+            android:text="@string/newGrp" />
         
          <ListView
         android:id="@+id/contactsListViewItem"
@@ -37,8 +37,8 @@
              style="?android:attr/buttonStyleSmall"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:layout_alignTop="@+id/contacts"
-             android:layout_toRightOf="@+id/contacts"
+             android:layout_alignTop="@+id/newContact"
+             android:layout_toRightOf="@+id/newContact"
              android:text="@string/settings" />
 
          <Button

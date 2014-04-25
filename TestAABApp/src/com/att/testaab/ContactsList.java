@@ -33,9 +33,13 @@ public class ContactsList extends Activity implements OnClickListener {
 	private Button myGrps;
 	private Button allContacts;
 	private Button mySettings;
-
+	
 	private ListView ContactsListView;
 	private ContactsAdapter adapter;
+	
+	public final String MY_INFO = "-1";
+	public final String NEW_CONTACT = "-2";
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		myGrps = (Button) findViewById(R.id.Groups);
 		myGrps.setOnClickListener(this);
 
-		allContacts = (Button) findViewById(R.id.contacts);
+		allContacts = (Button) findViewById(R.id.newContact);
 		allContacts.setOnClickListener(this);
 		
 		mySettings = (Button) findViewById(R.id.settings);
@@ -125,18 +129,21 @@ public class ContactsList extends Activity implements OnClickListener {
 		switch(v.getId()) {	
 			case R.id.MyInfo :
 				 intent = new Intent(ContactsList.this, ContactDetails.class);
-				intent.putExtra("contactId", contactId);
+				intent.putExtra("contactId", "-1");
 				startActivity(intent);	
 				break;
 				
 			case R.id.Groups :
 				 intent = new Intent(ContactsList.this, GroupList.class);
-				intent.putExtra("contactId", "-1");
+				intent.putExtra("contactId", MY_INFO);
 				startActivity(intent);
 				break;
 				
-			case R.id.contacts :
-				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
+			case R.id.newContact :
+				intent = new Intent(ContactsList.this, ContactDetails.class);
+				intent.putExtra("contactId", NEW_CONTACT);
+				startActivity(intent);	
+				//Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
 				break;
 				
 			case R.id.settings :

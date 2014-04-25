@@ -8,6 +8,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_contact_details">ContactDetails</string>
     <string name="title_activity_group_list">GroupList</string>
+    <string name="title_activity_user_consent">UserConsent</string>
     <string name="Update">Update</string>
     <string name="Delete">Delete</string>
     <string name="Groups">Groups</string>

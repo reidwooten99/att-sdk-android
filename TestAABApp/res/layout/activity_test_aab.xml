@@ -49,4 +49,21 @@
         android:layout_marginLeft="18dp"
         android:text="@string/Groups" />
 
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/displayContacts1"
+        android:layout_alignTop="@+id/displayContacts1"
+        android:text="LogIn" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnLogin"
+        android:layout_alignBottom="@+id/btnLogin"
+        android:layout_alignLeft="@+id/btnGroups"
+        android:text="LogOut" />
+
 </RelativeLayout>

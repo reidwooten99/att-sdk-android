@@ -46,6 +46,12 @@
         <activity
             android:name="com.att.testaab.GroupListAdapter"
             android:label="@string/title_activity_group_list_adapter" >
+        </activity>      
+         <activity
+            android:name="com.att.api.consentactivity.UserConsentActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_user_consent"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

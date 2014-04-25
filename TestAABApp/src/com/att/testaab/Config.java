@@ -11,6 +11,7 @@ public class Config {
 	public static final int maxRecipients 			= 	10;
 	public static final int	maxAttachments			= 	21;
 	public static final String fqdn		 			= 	"http://ldev.code-api-att.com:8888";
+	public static final String iamFqdn				= 	"https://api.att.com";
 	public  static OAuthToken authToken = new OAuthToken("abcd", 1, "xyz");
 	
 	/*public static final String clientID			= 	 APP_KEY;
