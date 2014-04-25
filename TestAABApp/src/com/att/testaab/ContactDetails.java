@@ -72,9 +72,10 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
-		int id = Integer.valueOf(contactId);
+		//int id = Integer.valueOf(contactId);
 		
-		switch(id) {
+		
+		/*switch(id) {
 			case -1:
 				AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getMyInfoListener());
 				aabManager.GetMyInfo();
@@ -84,7 +85,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 			default :
 				break;
 				
-		}
+		}*/
 		AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
