@@ -18,6 +18,7 @@ import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.error.InAppMessagingError;
+import com.att.api.oauth.OAuthToken;
 
 
 public class ContactDetails extends Activity implements OnClickListener {
@@ -44,6 +45,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details); 
 		
@@ -86,7 +88,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 				
 		}*/
-		AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getContactListener());
+		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}
@@ -198,7 +200,8 @@ public class ContactDetails extends Activity implements OnClickListener {
 	    .setMessage("Are you sure you want to delete this contact?")
 	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	        	AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new DeleteContactListener());
+	            OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
+	        	AABManager aabManager = new AABManager(Config.fqdn, authToken, new DeleteContactListener());
 				aabManager.DeleteContact(contactId);
 	        }
 	     })

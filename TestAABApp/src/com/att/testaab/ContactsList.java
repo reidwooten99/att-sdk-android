@@ -20,6 +20,7 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
+import com.att.api.oauth.OAuthToken;
 
 public class ContactsList extends Activity implements OnClickListener {
 
@@ -43,7 +44,9 @@ public class ContactsList extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
+
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts_list);
 
 		myInfo = (Button) findViewById(R.id.MyInfo);
@@ -62,7 +65,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		
 
 		aabManager = new AABManager(Config.fqdn,
-				Config.authToken, new getContactsListener());
+				authToken, new getContactsListener());
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
 		setupContactListListener();

@@ -23,7 +23,6 @@ import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
-import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 
 public class TestAAB extends Activity implements OnClickListener {
@@ -42,9 +41,6 @@ public class TestAAB extends Activity implements OnClickListener {
 	private final int OAUTH_CODE = 1;
 	private Button btnLogIn;
 	private Button btnLogOut;
-	private OAuthService osrvc;
-	private OAuthToken authToken;
-	//private String serverEndPoint = "http://localhost:8888";
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,23 +96,25 @@ public class TestAAB extends Activity implements OnClickListener {
                 int iOperation = 1;
                 try { iOperation = Integer.valueOf(apiNumber); }
                 catch(Exception e) {}
+                
+                OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 				switch (iOperation) {
 					case 1:
 						aabManager = new AABManager(Config.fqdn, 
-													Config.authToken,
+													authToken,
 													new getContactsListener());
 						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
 					case 2:
 						aabManager = new AABManager(Config.fqdn, 
-													Config.authToken,
+													authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
 						break;
 					case 3:
 						aabManager = new AABManager(Config.fqdn, 
-													Config.authToken,
+													authToken,
 													new getContactGroupsListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						pageParams = new PageParams("ASC", "firstName", "2", "0");
@@ -124,7 +122,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						break;
 					case 4:
 						aabManager = new AABManager(Config.fqdn, 
-													Config.authToken,
+													authToken,
 													new createContactListener());
 						Contact.Builder builder = new Contact.Builder(); 
 						builder.setFirstName("First");
@@ -316,9 +314,10 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			  authToken = (OAuthToken) response;
+			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
 				Config.token = authToken.getAccessToken();
+				// Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
 				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());

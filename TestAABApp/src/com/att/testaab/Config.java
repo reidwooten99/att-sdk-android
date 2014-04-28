@@ -2,17 +2,17 @@ package com.att.testaab;
 
 import com.att.api.oauth.OAuthToken;
 
-public class Config {
-	
-	public static String token;
-	public static String refreshToken;
+public class Config {	
+	public static String token = "abcd";
+	public static long accessTokenExpiry = 50000000;
+	public static String refreshToken = "wxyz";
 	public static final int messageLimit 			= 	500;
 	public static final int messageOffset 			= 	0;
 	public static final int maxRecipients 			= 	10;
 	public static final int	maxAttachments			= 	21;
 	public static final String fqdn		 			= 	"http://ldev.code-api-att.com:8888";
 	public static final String iamFqdn				= 	"https://api.att.com";
-	public  static OAuthToken authToken = new OAuthToken("abcd", 1, "xyz");
+	//public static OAuthToken authToken 				= 	new OAuthToken("abcd", 1, "xyz");
 	
 	/*public static final String clientID			= 	 APP_KEY;
 	public static final String secretKey 			= 	 APP_SECRET;
