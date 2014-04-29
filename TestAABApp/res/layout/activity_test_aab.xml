@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/contactsListView"
-        android:layout_below="@+id/contactsListView" />
+        android:layout_below="@+id/btnLogin" />
 
     <Button
         android:id="@+id/btnGroups"
@@ -53,8 +53,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/displayContacts1"
-        android:layout_alignTop="@+id/displayContacts1"
+        android:layout_below="@+id/contactsListView"
         android:text="LogIn" />
 
     <Button

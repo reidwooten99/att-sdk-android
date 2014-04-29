@@ -58,7 +58,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		allContacts = (Button) findViewById(R.id.newContact);
 		allContacts.setOnClickListener(this);
 		
-		mySettings = (Button) findViewById(R.id.settings);
+		mySettings = (Button) findViewById(R.id.searchContactList);
 		mySettings.setOnClickListener(this);
 		
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);

@@ -51,7 +51,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		BtnContactsList = (Button)findViewById(R.id.contactsListView);
 		testApi = (EditText)findViewById(R.id.editText1);
-		testApi.setText("5"); // set default to 2
+		testApi.setText("1"); // set default to 2
 		
 		btnLogIn = (Button) findViewById(R.id.btnLogin);
 		btnLogIn.setOnClickListener(this);
@@ -100,20 +100,20 @@ public class TestAAB extends Activity implements OnClickListener {
                 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 				switch (iOperation) {
 					case 1:
-						aabManager = new AABManager(Config.fqdn, 
+						aabManager = new AABManager(Config.ldevFqdn, 
 													authToken,
 													new getContactsListener());
 						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
 					case 2:
-						aabManager = new AABManager(Config.fqdn, 
+						aabManager = new AABManager(Config.ldevFqdn, 
 													authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
 						break;
 					case 3:
-						aabManager = new AABManager(Config.fqdn, 
+						aabManager = new AABManager(Config.ldevFqdn, 
 													authToken,
 													new getContactGroupsListener());
 						//aabManager.GetContact("09876544321", "shallow");
@@ -121,7 +121,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
 					case 4:
-						aabManager = new AABManager(Config.fqdn, 
+						aabManager = new AABManager(Config.ldevFqdn, 
 													authToken,
 													new createContactListener());
 						Contact.Builder builder = new Contact.Builder(); 
@@ -269,7 +269,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						oAuthCode = data.getStringExtra("oAuthCode");
 						Log.i("TestAAB", "oAuthCode:" + oAuthCode);
 						if (null != oAuthCode) {
-							aabManager = new AABManager(Config.iamFqdn, Config.clientID,Config.secretKey,new getTokenListener());
+							aabManager = new AABManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
 							aabManager.getOAuthToken(oAuthCode);
 						} else {
 							Log.i("TestAAB", "oAuthCode: is null");
@@ -284,7 +284,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()) {
-			case R.id.btnLogin : logIntoAddressBook(Config.iamFqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
+			case R.id.btnLogin : logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
 				break;
 			case R.id.btnLogout : logOutOfAddressBook();
 				break;				
@@ -301,7 +301,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	public void logIntoAddressBook(String fqdn, String clientId, String secretKey, String refirectUri, String appScope) {
 		// TODO Auto-generated method stub
 		Intent i = new Intent(TestAAB.this, com.att.api.consentactivity.UserConsentActivity.class);
-		i.putExtra("fqdn", Config.iamFqdn);
+		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
