@@ -10,6 +10,7 @@ public class Config {
 	public static final int maxRecipients 			= 	10;
 	public static final int	maxAttachments			= 	21;
 	public static final String fqdn		 			= 	"https://api-stage.mars.bf.sl.attcompute.com";
+	public static final String ldevFqdn				=	"http://ldev.code-api-att.com:8888";
 	public static final String iamFqdn				= 	"https://api.att.com";
 	
 	/*public static final String clientID			= 	 APP_KEY;
