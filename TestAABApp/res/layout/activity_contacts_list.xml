@@ -23,23 +23,23 @@
             android:layout_height="wrap_content"
              android:layout_toRightOf="@id/Groups"
             android:text="@string/newGrp" />
-        
+                
          <ListView
         android:id="@+id/contactsListViewItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fastScrollEnabled="false"
-        android:layout_below="@id/MyInfo"
+        android:layout_below="@id/newContact"
        />
 
          <Button
-             android:id="@+id/settings"
+             android:id="@+id/searchContactList"
              style="?android:attr/buttonStyleSmall"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignTop="@+id/newContact"
              android:layout_toRightOf="@+id/newContact"
-             android:text="@string/settings" />
+             android:text="@string/Search" />
 
          <Button
              android:id="@+id/MyInfo"
