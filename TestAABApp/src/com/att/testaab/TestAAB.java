@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,7 +58,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		btnLogIn = (Button) findViewById(R.id.btnLogin);
 		btnLogIn.setOnClickListener(this);
 		btnLogOut = (Button) findViewById(R.id.btnLogout);
-		btnLogIn.setOnClickListener(this);
+		btnLogOut.setOnClickListener(this);
 		
 		
 		btnGroups = (Button) findViewById(R.id.btnGroups);
@@ -294,8 +296,10 @@ public class TestAAB extends Activity implements OnClickListener {
 	}
 
 	public void logOutOfAddressBook() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
+		CookieSyncManager.createInstance(this);
+		CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookie();		
 	}
 
 	public void logIntoAddressBook(String fqdn, String clientId, String secretKey, String refirectUri, String appScope) {
