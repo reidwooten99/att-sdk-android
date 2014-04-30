@@ -43,6 +43,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	private final int OAUTH_CODE = 1;
 	private Button btnLogIn;
 	private Button btnLogOut;
+	private Button btnTabView;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class TestAAB extends Activity implements OnClickListener {
 		btnLogIn.setOnClickListener(this);
 		btnLogOut = (Button) findViewById(R.id.btnLogout);
 		btnLogOut.setOnClickListener(this);
+		btnTabView = (Button) findViewById(R.id.ContactsTabView);
+		btnTabView.setOnClickListener(this);
 		
 		
 		btnGroups = (Button) findViewById(R.id.btnGroups);
@@ -289,8 +292,10 @@ public class TestAAB extends Activity implements OnClickListener {
 			case R.id.btnLogin : logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
 				break;
 			case R.id.btnLogout : logOutOfAddressBook();
-				break;				
-		
+				break;		
+			case R.id.ContactsTabView : 
+				Intent i = new Intent(TestAAB.this, ContactsTabView.class);
+				startActivity(i);
 		}
 		
 	}

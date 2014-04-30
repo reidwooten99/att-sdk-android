@@ -31,5 +31,7 @@
     <string name="hint2">2</string>
     <string name="newGrp">New</string>
     <string name="title_activity_group_list_adapter">GroupListAdapter</string>
+    <string name="title_activity_contacts_tab_view">ContactsTabView</string>
+    <string name="title_activity_contacts_list_tab_view">ContactsListTabView</string>
 
 </resources>

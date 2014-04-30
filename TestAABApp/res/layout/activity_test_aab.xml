@@ -65,4 +65,12 @@
         android:layout_alignLeft="@+id/btnGroups"
         android:text="LogOut" />
 
+    <Button
+        android:id="@+id/ContactsTabView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/getContactsBtn"
+        android:layout_toRightOf="@+id/getContactsBtn"
+        android:text="TabView" />
+
 </RelativeLayout>
