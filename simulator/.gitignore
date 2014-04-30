@@ -1,0 +1,9 @@
+# jsdoc
+out/
+
+# vim
+*.swp
+tags
+
+#libs
+node_modules/*

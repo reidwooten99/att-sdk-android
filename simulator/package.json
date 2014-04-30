@@ -1,0 +1,13 @@
+{
+  "name": "att-simulator",
+  "version": "0.0.1",
+  "private": true,
+  "main" : "simulator.js",
+  "scripts": {
+      "start" : "node simulator.js"
+  },
+  "dependencies": {
+      "commander" : "~2.0",
+      "JSON" : "*"
+  }
+}
