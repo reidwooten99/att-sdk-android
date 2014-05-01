@@ -7,14 +7,16 @@ public class Config {
 
 	public static long accessTokenExpiry = 50000000;
 	public static String refreshToken ;
+	
 	public static final int messageLimit 			= 	500;
 	public static final int messageOffset 			= 	0;
 	public static final int maxRecipients 			= 	10;
 	public static final int	maxAttachments			= 	21;
 	public static final String f6fqdn		 		= 	"https://api-stage.mars.bf.sl.attcompute.com";
-	public static final String ldevFqdn				=	"http://ldev.code-api-att.com:8888";
+	public static final String ldevFqdn				=	"http://api-simulator.herokuapp.com";//http://ldev.code-api-att.com:8888";
 	public static final String prodFqdn				= 	"https://api.att.com";
-	public static final String fqdn				= 	"https://api.att.com";
+	public static final String fqdn					= 	"https://api.att.com";
+	public static final String localFqdn			=   "http://192.168.43.117:8888";
 	
 	//public static final String f6Fqdn		 		= 	"https://api-stage.mars.bf.sl.attcompute.com";
 	//public static String f6token 					= 	"ERVYgpBqYbFJMnWvCAnhqJVOUXShDOQD";
