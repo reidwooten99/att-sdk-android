@@ -61,16 +61,16 @@ public class ContactDetails extends Activity implements OnClickListener {
 		editZipCode =(EditText) findViewById(R.id.editzipCode);
 		
 		btnUpdateContact = (Button) findViewById(R.id.Update);
-		btnUpdateContact.setOnClickListener(this);
+		//btnUpdateContact.setOnClickListener(this);
 		
 		btnDeleteContact =(Button) findViewById(R.id.Delete);
-		btnDeleteContact.setOnClickListener(this);
+		//btnDeleteContact.setOnClickListener(this);
 		
 		btnGroups = (Button) findViewById(R.id.Groups);
-		btnGroups.setOnClickListener(this);
+		//btnGroups.setOnClickListener(this);
 		
 		btnSettings = (Button) findViewById(R.id.settings);
-		btnSettings.setOnClickListener(this);
+		//btnSettings.setOnClickListener(this);
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
@@ -88,7 +88,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 				
 		}*/
-		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
+		AABManager aabManager = new AABManager(Config.ldevFqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}

@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:visibility="invisible"
         android:text="@string/Update" />
 
     <Button
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/Update"
+         android:visibility="invisible"
         android:text="@string/Delete" />
 
     <Button
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/Delete"
+         android:visibility="invisible"
         android:text="@string/Groups" />
 
     <Button
@@ -51,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/Groups"
+         android:visibility="invisible"
         android:text="@string/settings" />
 
     <ImageButton

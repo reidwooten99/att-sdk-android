@@ -37,8 +37,10 @@ public class ContactsTabView extends TabActivity {
 		
 		final TabHost tabHost = getTabHost();
 		
+		Intent i = new Intent(this, ContactDetails.class);
+		i.putExtra("contactId", "0987654432123");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MyInfo")
-				.setContent(new Intent(this, ContactsListTabView.class)));
+				.setContent(i));
 		
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Groups")
 				.setContent(new Intent(this, ContactsListTabView.class)));
@@ -46,10 +48,10 @@ public class ContactsTabView extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("New")
 				.setContent(new Intent(this, ContactsListTabView.class)));
 		
-		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);		
+		/*ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);		
 		aabManager = new AABManager(Config.ldevFqdn,
 				authToken, new getContactsListener());
-		aabManager.GetContacts("shallow", pageParams, searchParams);
+		aabManager.GetContacts("shallow", pageParams, searchParams);*/
 	}
 	
 	private class getContactsListener implements ATTIAMListener {
@@ -58,11 +60,13 @@ public class ContactsTabView extends TabActivity {
 		public void onSuccess(Object response) {
 			// TODO Auto-generated method stub
 
+			
 			contactResultSet = (ContactResultSet) response;
 			if (null != contactResultSet && null != contactResultSet.getQuickContacts()
 				&& contactResultSet.getQuickContacts().length > 0) {
 				
 				contactsList = contactResultSet.getQuickContacts();
+
 				adapter = new ContactsAdapter(getApplicationContext(),contactsList);
 				ContactsListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
