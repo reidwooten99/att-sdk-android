@@ -1,1 +1,0 @@
-Pass in the string 'image', 'audio' or 'video' as the message id to obtain that content type!
