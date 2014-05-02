@@ -16,7 +16,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="14dp"
-        android:text="@string/MyInfo" />
+        android:text="@string/MyInfo" 
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/contacts"
@@ -25,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/myInfo"
         android:layout_toRightOf="@+id/myInfo"
-        android:text="@string/Contacts" />
+        android:text="@string/Contacts"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/newGrp"
@@ -35,7 +37,8 @@
         android:layout_alignBaseline="@+id/contacts"
         android:layout_alignBottom="@+id/contacts"
         android:layout_toRightOf="@+id/contacts"
-        android:text="@string/newGrp" />
+        android:text="@string/newGrp" 
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/settings"
@@ -44,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/newGrp"
         android:layout_toRightOf="@+id/newGrp"
-        android:text="@string/settings" />
+        android:text="@string/settings"
+        android:visibility="invisible" />
     
     <ListView
         android:id="@+id/groupsListViewItem"

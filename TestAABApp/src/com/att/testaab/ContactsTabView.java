@@ -28,6 +28,7 @@ public class ContactsTabView extends TabActivity {
 	private ContactsAdapter adapter;
 	private QuickContact[] contactsList;
 	private ListView ContactsListView;
+	Intent i;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -37,13 +38,15 @@ public class ContactsTabView extends TabActivity {
 		
 		final TabHost tabHost = getTabHost();
 		
-		Intent i = new Intent(this, ContactDetails.class);
+		 i = new Intent(this, ContactDetails.class);
 		i.putExtra("contactId", "0987654432123");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MyInfo")
 				.setContent(i));
 		
+		 i = new Intent(this, ContactDetails.class);
+		i.putExtra("contactId", "-1");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Groups")
-				.setContent(new Intent(this, ContactsListTabView.class)));
+				.setContent(new Intent(this, GroupList.class)));
 
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("New")
 				.setContent(new Intent(this, ContactsListTabView.class)));
