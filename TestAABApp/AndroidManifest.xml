@@ -61,6 +61,10 @@
             android:name="com.att.testaab.ContactsListTabView"
             android:label="@string/title_activity_contacts_list_tab_view" >
         </activity>
+        <activity
+            android:name="com.att.testaab.ContactsFragmentView"
+            android:label="@string/title_activity_contacts_fragment_view" >
+        </activity>
     </application>
 
 </manifest>

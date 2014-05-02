@@ -294,7 +294,8 @@ public class TestAAB extends Activity implements OnClickListener {
 			case R.id.btnLogout : logOutOfAddressBook();
 				break;		
 			case R.id.ContactsTabView : 
-				Intent i = new Intent(TestAAB.this, ContactsTabView.class);
+				//Intent i = new Intent(TestAAB.this, ContactsTabView.class);
+				Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
 				startActivity(i);
 		}
 		
