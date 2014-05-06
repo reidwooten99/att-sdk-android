@@ -1,39 +1,38 @@
 package com.att.testaab;
 
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
+
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-public class ContactsFragmentView extends FragmentActivity implements TabListener{
+public class ContactsFragmentView extends FragmentActivity implements ActionBar.TabListener{
 	
-	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
-	 ViewPager mViewPager;
+	//AppSectionsPagerAdapter mAppSectionsPagerAdapter;
+	// ViewPager mViewPager;
+	
+	FragmentTransaction ft;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contacts_fragment_view);
 		
-		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
-		final ActionBar actionBar = getActionBar();
-		
+		//mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+				
+		 ft = getFragmentManager().beginTransaction();
+		 final ActionBar actionBar = getActionBar();
 		 actionBar.setHomeButtonEnabled(false);
 		 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		 mViewPager = (ViewPager) findViewById(R.id.pager);
-	        mViewPager.setAdapter(mAppSectionsPagerAdapter);
+		 
+		/* mViewPager = (ViewPager) findViewById(R.id.pager);
+	       mViewPager.setAdapter(mAppSectionsPagerAdapter);
 	        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 	            @Override
 	            public void onPageSelected(int position) {
@@ -42,15 +41,17 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
 	                // Tab.
 	                actionBar.setSelectedNavigationItem(position);
 	            }
-	        });
+	        });*/
 	        
 	            // Create a tab with text corresponding to the page title defined by the adapter.
 	            // Also specify this Activity object, which implements the TabListener interface, as the
 	            // listener for when this tab is selected.
 	            actionBar.addTab(
 	                    actionBar.newTab()
-	                            .setText("MyInfo") 
-	                            .setTabListener(this));
+	                            .setText("MyInfo").setTabListener(this) );
+	           
+	                    
+	                            
 	            actionBar.addTab(
 	                    actionBar.newTab()
 	                            .setText("Groups") 
@@ -62,8 +63,7 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
 	                            .setTabListener(this));
 	      
 	    }		
-	
-
+		
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -79,9 +79,14 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-		
+		// TODO Auto-generated method stub		
+		if (tab.getText().equals("MyInfo")) {
+			ContactListFragment contactListFragment;
+			contactListFragment = new ContactListFragment();
+			ft = getFragmentManager().beginTransaction();
+			ft.add(R.id.pager, contactListFragment);
+			ft.commit();
+		} 
 	}
 
 	@Override
@@ -90,7 +95,10 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
 		
 	}
 	
-	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+	
+	
+	
+	/*public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -102,7 +110,8 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
                 case 0:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+                    //return new LaunchpadSectionFragment();
+                	return new ContactListFragment();
 
                 case 1:
                     // The other sections of the app are dummy placeholders.
@@ -128,18 +137,21 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
             return "Section " + (position + 1);
         }
     }
-	
-	 public static class LaunchpadSectionFragment extends Fragment {
+*/	
+	/* public static  class LaunchpadSectionFragment extends Fragment {
 
 	        @Override
 	        public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                Bundle savedInstanceState) {
-	            View rootView = inflater.inflate(R.layout.activity_contact_details, container, false);
+	        	
+	            View rootView = inflater.inflate(R.layout.activity_contacts_list, container, false);  
 	            return rootView;
 	        }
-	    }
+	    }*/
+	
+	
 	 
-	 public static class DummySectionFragment extends Fragment {
+	/* public static class DummySectionFragment extends Fragment {
 
 	        public static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -148,11 +160,11 @@ public class ContactsFragmentView extends FragmentActivity implements TabListene
 	                Bundle savedInstanceState) {
 	     	            View rootView = inflater.inflate(R.layout.activity_group_list, container, false);
 	            Bundle args = getArguments();
-	            /*((TextView) rootView.findViewById(android.R.id.text1)).setText(
-	                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));*/
+	            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+	                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
 	            return rootView;
 	        }
-	    }
+	    }*/
 
 
 }
