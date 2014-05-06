@@ -105,20 +105,20 @@ public class TestAAB extends Activity implements OnClickListener {
                 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 				switch (iOperation) {
 					case 1:
-						aabManager = new AABManager(Config.ldevFqdn, 
+						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactsListener());
 						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
 					case 2:
-						aabManager = new AABManager(Config.ldevFqdn, 
+						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
 						break;
 					case 3:
-						aabManager = new AABManager(Config.ldevFqdn, 
+						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactGroupsListener());
 						//aabManager.GetContact("09876544321", "shallow");
@@ -126,7 +126,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
 					case 4:
-						aabManager = new AABManager(Config.ldevFqdn, 
+						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new createContactListener());
 						Contact.Builder builder = new Contact.Builder(); 
@@ -294,8 +294,8 @@ public class TestAAB extends Activity implements OnClickListener {
 			case R.id.btnLogout : logOutOfAddressBook();
 				break;		
 			case R.id.ContactsTabView : 
-				//Intent i = new Intent(TestAAB.this, ContactsTabView.class);
-				Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
+				Intent i = new Intent(TestAAB.this, ContactsTabView.class);
+				//Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
 				startActivity(i);
 		}
 		
