@@ -68,4 +68,4 @@ Id,Task,Estimate,Priority,Assigned To,Status,Due Date
 ,Create a driver for a group of sample unit tests,,,Surender,,
 ,"Remove buttons in the Contact list, Contact details page, Groups Page",,,Pooja,In Progress,
 ,"Add Tabs for MyInfo, Groups, Search, Settings",,,Pooja,In Progress,
-,Inform Pavel/Kyle about changes in the CodeKit's  createContact method in AABservice.java,,,Pooja,,
+,Inform Pavel/Kyle about changes in the CodeKit's  createContact method in AABservice.java,,,Surender,,
