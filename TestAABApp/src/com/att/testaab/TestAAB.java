@@ -44,6 +44,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	private Button btnLogIn;
 	private Button btnLogOut;
 	private Button btnTabView;
+	private String contactSubscriberId;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,25 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.CreateContact(contact);
 						break;
 						
+					case 5: 
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new updateContactListener());
+						Contact.Builder builderForUpdate = new Contact.Builder(); 
+						builderForUpdate.setFirstName("Last");
+						builderForUpdate.setLastName("First");
+						builderForUpdate.setFormattedName("LastFirst");
+						
+						Contact contactForupdate = builderForUpdate.build();
+						aabManager.UpdateContact(contactForupdate);					
+						break; 
+					
+					case 6: 
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new deleteContactListener());
+						aabManager.DeleteContact(contactSubscriberId);
+						
 				}
 			}
 		});
@@ -235,8 +255,13 @@ public class TestAAB extends Activity implements OnClickListener {
 			String location = (String) response;
 			if (null != location) {
 				strText = (String) displayContacts.getText();
-				Log.i("createContactAPI","OnSuccess : Location :  " + location);
+				Log.i("createContactAPI","Contact created : Location :  " + location);
 				strText += "\n" + location;
+				
+				String[] locationUrl = location.split("contacts/");
+				contactSubscriberId = locationUrl[1];
+				Log.i("createContactAPI","Contact created : contactId :  " + contactSubscriberId);
+				
 				displayContacts.setText(strText);
 				return;
 			}
@@ -245,6 +270,46 @@ public class TestAAB extends Activity implements OnClickListener {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("createContactAPI on error", "onError");
+
+		}
+	}
+	
+	private class updateContactListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = (String) displayContacts.getText();
+			strText += "\n" +"updateContactAPI : " + "\n" + result;
+			Log.i("updateContactAPI","OnSuccess : RESULT :  " + result);
+			displayContacts.setText(strText);
+			return;
+			
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getContactsAPI on error", "onError");
+
+		}
+	}
+	
+	private class deleteContactListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = (String) displayContacts.getText();
+			strText += "\n" +"deleteContactAPI : " + "\n" + result;
+			Log.i("deleteContactAPI","OnSuccess : RESULT :  " + result);
+			displayContacts.setText(strText);
+			return;
+			
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getContactsAPI on error", "onError");
 
 		}
 	}
