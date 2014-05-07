@@ -4,7 +4,7 @@
 	android:id="@android:id/tabhost"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<RelativeLayout
+	<LinearLayout
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
@@ -12,23 +12,14 @@
 		<TabWidget
 			android:id="@android:id/tabs"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentTop="true" />
+			android:layout_height="wrap_content" />
+		
 		<FrameLayout
 			android:id="@android:id/tabcontent"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:layout_above="@android:id/tabs"
 			android:layout_marginBottom="2dp" />
-		<ListView
-        android:id="@+id/contactsListViewItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fastScrollEnabled="false"
-        android:layout_below="@android:id/tabs"
-       />
 		
-		
-	</RelativeLayout>
+	</LinearLayout>
 	
 </TabHost>
