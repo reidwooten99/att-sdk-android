@@ -45,6 +45,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	private Button btnLogOut;
 	private Button btnTabView;
 	private String contactSubscriberId;
+	private String groupSubscriberId;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						pageParams = new PageParams("ASC", "firstName", "2", "0");
 						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
-					case 4:
+					case 4: //Create Contact
 						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new createContactListener());
@@ -143,10 +144,11 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.CreateContact(contact);
 						break;
 						
-					case 5: 
+					case 5: //getcontacts n then update
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
-													new updateContactListener());
+													new getContactsListener());
+						
 						Contact.Builder builderForUpdate = new Contact.Builder(); 
 						builderForUpdate.setFirstName("Last");
 						builderForUpdate.setLastName("First");
@@ -156,11 +158,25 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.UpdateContact(contactForupdate);					
 						break; 
 					
-					case 6: 
+					case 6: //Delete Contact
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
 													new deleteContactListener());
 						aabManager.DeleteContact(contactSubscriberId);
+						
+					case 7 : //Get Groups
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new getGroupsListener());
+						aabManager.GetGroups(pageParams, null);
+						
+					case 8:  //Create Group
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new createGroupListener());
+						Group newGroup = new Group("0505","TestGroup","USER");
+						aabManager.CreateGroup(newGroup);
+					
 						
 				}
 			}
@@ -180,6 +196,7 @@ public class TestAAB extends Activity implements OnClickListener {
 					QuickContact qc = quickContacts_arr[i];
 					strText += "\n" + qc.getContactId() + ", " + 
 								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+					
 				}
 				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
 				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
@@ -289,7 +306,7 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Log.i("getContactsAPI on error", "onError");
+			Log.i("updateContactAPI on error", "onError");
 
 		}
 	}
@@ -309,7 +326,62 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Log.i("getContactsAPI on error", "onError");
+			Log.i("deleteContactAPI on error", "onError");
+
+		}
+	}
+	
+	private class getGroupsListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			GroupResultSet groupResultSet = (GroupResultSet) response;
+			
+			if (null != groupResultSet) {
+				strText = (String) displayContacts.getText();
+				Group[] groups_arr = groupResultSet.getGroups();
+				for (int i=0; i < groups_arr.length; i++) {
+					Group grp = groups_arr[i];
+					strText += "\n" + grp.getGroupId() + ", " + 
+							grp.getGroupName() + ", " + grp.getGroupType();
+					
+				}
+			Log.i("getGroupsAPI","OnSuccess : RESULT :  " + strText);
+			displayContacts.setText(strText);
+			
+			return;
+			}	
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("getGroupsAPI on error", "onError");
+
+		}
+	}
+	
+	private class createGroupListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String location = (String) response;
+			if (null != location) {
+				strText = (String) displayContacts.getText();
+				Log.i("createGroupAPI","Group created : Location :  " + location);
+				strText += "\n" + location;
+				
+				String[] locationUrl = location.split("groups/");
+				groupSubscriberId = locationUrl[1];
+				Log.i("createGroupAPI","Group created : groupId :  " + groupSubscriberId);
+				
+				displayContacts.setText(strText);
+				return;
+			}	
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("createGroupAPI on error", "onError");
 
 		}
 	}
