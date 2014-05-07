@@ -32,7 +32,6 @@ public class TestAAB extends Activity implements OnClickListener {
 	private AABManager aabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
-	private ContactResultSet contactResultSet;
 	private Button getContacts;
 	private TextView displayContacts;
 	private ContactWrapper contactWrapper;	
@@ -46,6 +45,8 @@ public class TestAAB extends Activity implements OnClickListener {
 	private Button btnTabView;
 	private String contactSubscriberId;
 	private String groupSubscriberId;
+	
+	 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,22 +105,25 @@ public class TestAAB extends Activity implements OnClickListener {
                 try { iOperation = Integer.valueOf(apiNumber); }
                 catch(Exception e) {}
                 
-                OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
+               // OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 				switch (iOperation) {
-					case 1:
+				
+					case 1: //GetContacts
 						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactsListener());
 						aabManager.GetContacts("shallow", pageParams, searchParams);
 						break;
-					case 2:
+						
+					case 2: //GetContact
 						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactListener());
 						//aabManager.GetContact("09876544321", "shallow");
 						aabManager.GetContact("0987654432123", "shallow");	
 						break;
-					case 3:
+						
+					case 3: //GetContactGroups
 						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new getContactGroupsListener());
@@ -127,7 +131,8 @@ public class TestAAB extends Activity implements OnClickListener {
 						pageParams = new PageParams("ASC", "firstName", "2", "0");
 						aabManager.GetContactGroups("0987654432123", pageParams);	
 						break;
-					case 4: //Create Contact
+						
+					case 4: //CreateContact
 						aabManager = new AABManager(Config.herokufqdn, 
 													authToken,
 													new createContactListener());
@@ -144,38 +149,70 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.CreateContact(contact);
 						break;
 						
-					case 5: //getcontacts n then update
+					case 5: //UpdateContact //getcontacts n then update
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
-													new getContactsListener());
-						
-						Contact.Builder builderForUpdate = new Contact.Builder(); 
+													new getContactsforUpdateListener());
+						aabManager.GetContacts("shallow", pageParams, searchParams);
+						/*Contact.Builder builderForUpdate = new Contact.Builder(); 
 						builderForUpdate.setFirstName("Last");
 						builderForUpdate.setLastName("First");
 						builderForUpdate.setFormattedName("LastFirst");
 						
 						Contact contactForupdate = builderForUpdate.build();
-						aabManager.UpdateContact(contactForupdate);					
+						aabManager.UpdateContact(contactForupdate);		*/			
 						break; 
 					
-					case 6: //Delete Contact
+					case 6: //DeleteContact
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
 													new deleteContactListener());
 						aabManager.DeleteContact(contactSubscriberId);
+						break;
 						
-					case 7 : //Get Groups
+					case 7 : //GetGroups
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
 													new getGroupsListener());
 						aabManager.GetGroups(pageParams, null);
+						break;
 						
-					case 8:  //Create Group
+					case 8:  //CreateGroup
 						aabManager = new AABManager(Config.herokufqdn,
 													authToken,
 													new createGroupListener());
 						Group newGroup = new Group("0505","TestGroup","USER");
 						aabManager.CreateGroup(newGroup);
+						break;
+						
+					case 9: //DeleteGroup
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new deleteGroupListener());
+						aabManager.DeleteGroup(groupSubscriberId);		
+						break;
+						
+					case 10: //UpdateGroup
+						aabManager = new AABManager(Config.herokufqdn,
+													authToken,
+													new updateGroupListener());
+						//aabManager.UpdateGroup(group);
+						break;
+						
+					case 11: //AddContactsToGroup
+							break;
+					
+					case 12: //RemoveContactsFromGroup
+							break;
+					
+					case 13: //GetGroupContacts
+							break;
+							
+					case 14: //GetMyInfo
+							break;
+					
+					case 15: //UpdateMyInfo
+							break;
 					
 						
 				}
@@ -188,7 +225,8 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			contactResultSet = (ContactResultSet) response;
+			ContactResultSet contactResultSet = (ContactResultSet) response;
+			
 			if (null != contactResultSet) {
 				strText = (String) displayContacts.getText();
 				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
@@ -291,6 +329,45 @@ public class TestAAB extends Activity implements OnClickListener {
 		}
 	}
 	
+	
+	private class getContactsforUpdateListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			ContactResultSet contactResultSet = (ContactResultSet) response;
+			
+			if (null != contactResultSet) {
+				strText = (String) displayContacts.getText();
+				QuickContact[] quickContactsArray = contactResultSet.getQuickContacts();
+				Contact[] contactsArray = contactResultSet.getContacts();
+				
+				Contact.Builder builderForUpdate = new Contact.Builder(); 
+				builderForUpdate.setContactId(contactsArray[0].getContactId());
+				builderForUpdate.setFirstName("Last");
+				builderForUpdate.setLastName("First");
+				builderForUpdate.setFormattedName("LastFirst");
+				Contact contactForUpdate  = builderForUpdate.build();
+				
+				aabManager = new AABManager(Config.herokufqdn,
+											authToken,
+											new updateContactListener());
+				aabManager.UpdateContact(contactForUpdate);
+				
+				Log.i("updateContactAPI","OnSuccess : ContactID :  " + strText);
+				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
+				displayContacts.setText(strText);
+				return;
+			}
+			
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("updateContactAPI on error", "onError");
+
+		}
+	}
+	
 	private class updateContactListener implements ATTIAMListener {
 
 		@Override
@@ -382,6 +459,55 @@ public class TestAAB extends Activity implements OnClickListener {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("createGroupAPI on error", "onError");
+
+		}
+	}
+	
+	private class deleteGroupListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = (String) displayContacts.getText();
+			strText += "\n" +"deleteGroupAPI : " + "\n" + result;
+			Log.i("deleteGroupAPI","OnSuccess : RESULT :  " + result);
+			displayContacts.setText(strText);
+			return;
+			
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("deleteGroupAPI on error", "onError");
+
+		}
+	}
+	
+	private class updateGroupListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			GroupResultSet groupResultSet = (GroupResultSet) response;
+			
+			if (null != groupResultSet) {
+				strText = (String) displayContacts.getText();
+				Group[] groups_arr = groupResultSet.getGroups();
+				for (int i=0; i < groups_arr.length; i++) {
+					Group grp = groups_arr[i];
+					strText += "\n" + grp.getGroupId() + ", " + 
+							grp.getGroupName() + ", " + grp.getGroupType();
+					
+				}
+			Log.i("updateGroupAPI","OnSuccess : RESULT :  " + strText);
+			displayContacts.setText(strText);
+			
+			return;
+			}	
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			Log.i("updateGroupAPI on error", "onError");
 
 		}
 	}
