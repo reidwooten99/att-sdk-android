@@ -71,3 +71,4 @@ Id,Task,Estimate,Priority,Assigned To,Status,Due Date
 ,Change the “location”  to Location in createContact method of AABService.java in CodeKit,,,Surender,,
 ,Inform Pavel/Kyle about changes in the CodeKit's  createContact method in AABservice.java,,,Surender,,
 ,Change the Simulator for GetContacts to return Contacts instead of Quick Contacts and update Heroku,,,Surender,,
+,Add setters in the CodeKit's Group.java to set the groupName which is required in updateGroup API,,,,,
