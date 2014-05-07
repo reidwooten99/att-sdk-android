@@ -64,7 +64,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
 		
 
-		aabManager = new AABManager(Config.ldevFqdn,
+		aabManager = new AABManager(Config.fqdn,
 				authToken, new getContactsListener());
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		

@@ -59,7 +59,7 @@ public class GroupList extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");
 		
-		aabManager = new AABManager(Config.ldevFqdn, 
+		aabManager = new AABManager(Config.fqdn, 
 									authToken,
 									new getContactGroupsListener());
 		pageParams = new PageParams("ASC", "firstName", "2", "0");

@@ -254,13 +254,17 @@ public class TestAAB extends Activity implements OnClickListener {
 			if (null != contactWrapper) {
 				strText = (String) displayContacts.getText();
 				QuickContact qc = contactWrapper.getQuickContact();
+				Contact c = contactWrapper.getContact();
 				if (null != qc) {
 					strText += "\n" + qc.getContactId() + ", " + 
 								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
-					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
-					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-					displayContacts.setText(strText);
+				} else if (null != c) {
+						strText += "\n" + c.getContactId() + ", " + 
+									c.getFormattedName() + ", " + c.getPhones()[0].getNumber();
 				}
+				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
+				displayContacts.setText(strText);
 				return;
 			}
 		}
@@ -422,13 +426,13 @@ public class TestAAB extends Activity implements OnClickListener {
 			Log.i("getGroupsAPI","OnSuccess : RESULT :  " + strText);
 			displayContacts.setText(strText);
 			
-			String grpName ="TESTGROUP";
-			groups_arr[0].setGroupName(grpName);
-			
+			String grpName ="UpdateGroup";
+			Group udpateGroup = new Group("0505",grpName,null);
+
 			aabManager = new AABManager(Config.fqdn,
 										authToken,
 										new updateGroupListener());
-			aabManager.UpdateGroup(groups_arr[0]);
+			aabManager.UpdateGroup(udpateGroup);
 			
 			return;
 			}	

@@ -75,7 +75,7 @@ public class ContactListFragment extends Fragment {
 				
 			//int id = Integer.valueOf(contactId);
 			
-			AABManager aabManager = new AABManager(Config.ldevFqdn, authToken, new getContactListener());
+			AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
 			aabManager.GetContact("0987654432123", "shallow");
 			
 			return view;

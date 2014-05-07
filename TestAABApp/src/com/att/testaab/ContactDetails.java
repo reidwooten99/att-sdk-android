@@ -88,7 +88,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 				
 		}*/
-		AABManager aabManager = new AABManager(Config.ldevFqdn, authToken, new getContactListener());
+		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, "shallow");	
 		
 	}
