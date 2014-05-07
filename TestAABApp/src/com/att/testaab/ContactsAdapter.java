@@ -59,7 +59,7 @@ public class ContactsAdapter extends BaseAdapter {
 		
 		 holder.txtFormattedName.setText(quickContacts[position].getFormattedName());
 		 holder.txtContactId.setText(quickContacts[position].getContactId());
-		 holder.txtZipcode.setText(quickContacts[position].getEmail().getEmailAddress().toString());
+		// holder.txtZipcode.setText(quickContacts[position].getEmail().getEmailAddress().toString());
 		
 		return convertView;
 	}
