@@ -177,7 +177,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						aabManager.GetGroups(pageParams, null);
 						break;
 						
-					case 8:  //CreateGroup 
+					case 8:  //CreateGroup  - creates, gets, updates and shows(gets) the groups
 						aabManager = new AABManager(Config.fqdn,
 													authToken,
 													new createGroupListener());
@@ -193,10 +193,6 @@ public class TestAAB extends Activity implements OnClickListener {
 						break;
 						
 					case 10: //UpdateGroup
-						aabManager = new AABManager(Config.fqdn,
-													authToken,
-													new getGroupsForUpdateListener());
-						//aabManager.UpdateGroup(group);
 						break;
 						
 					case 11: //AddContactsToGroup
@@ -426,6 +422,14 @@ public class TestAAB extends Activity implements OnClickListener {
 			Log.i("getGroupsAPI","OnSuccess : RESULT :  " + strText);
 			displayContacts.setText(strText);
 			
+			String grpName ="TESTGROUP";
+			groups_arr[0].setGroupName(grpName);
+			
+			aabManager = new AABManager(Config.fqdn,
+										authToken,
+										new updateGroupListener());
+			aabManager.UpdateGroup(groups_arr[0]);
+			
 			return;
 			}	
 		}
@@ -451,6 +455,11 @@ public class TestAAB extends Activity implements OnClickListener {
 				groupSubscriberId = locationUrl[1];
 				Log.i("createGroupAPI","Group created : groupId :  " + groupSubscriberId);
 				
+				aabManager = new AABManager(Config.fqdn,
+											authToken,
+											new getGroupsListener());
+				aabManager.GetGroups(pageParams, "TestGroup");
+								
 				displayContacts.setText(strText);
 				return;
 			}	
@@ -487,22 +496,14 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			GroupResultSet groupResultSet = (GroupResultSet) response;
+			String result = (String) response;
+			strText = (String) displayContacts.getText();
+			strText += "\n" +"updateGroupAPI : " + "\n" + result;
+			Log.i("updateGroupAPI","OnSuccess : RESULT :  " + result);
 			
-			if (null != groupResultSet) {
-				strText = (String) displayContacts.getText();
-				Group[] groups_arr = groupResultSet.getGroups();
-				for (int i=0; i < groups_arr.length; i++) {
-					Group grp = groups_arr[i];
-					strText += "\n" + grp.getGroupId() + ", " + 
-							grp.getGroupName() + ", " + grp.getGroupType();
-					
-				}
-			Log.i("updateGroupAPI","OnSuccess : RESULT :  " + strText);
+			ShowGroups("TESTGROUP"); //grpname or null 
 			displayContacts.setText(strText);
-			
 			return;
-			}	
 		}
 
 		@Override
@@ -512,7 +513,16 @@ public class TestAAB extends Activity implements OnClickListener {
 		}
 	}
 	
-	private class getGroupsForUpdateListener implements ATTIAMListener {
+	private void ShowGroups(String grpName) {
+		// TODO Auto-generated method stub
+		aabManager = new AABManager(Config.fqdn,
+									authToken,
+									new displayGroupsListener());
+		aabManager.GetGroups(pageParams, grpName);
+		
+	}
+	
+	private class displayGroupsListener implements ATTIAMListener {
 
 		@Override
 		public void onSuccess(Object response) {
@@ -527,9 +537,8 @@ public class TestAAB extends Activity implements OnClickListener {
 							grp.getGroupName() + ", " + grp.getGroupType();
 					
 				}
-			Log.i("getGroupsForUpdateAPI","OnSuccess : RESULT :  " + strText);
-			String grpName = groups_arr[0].getGroupName();
-			aabManager.UpdateGroup(groups_arr[0]);
+			Log.i("displayGroups","OnSuccess : RESULT :  " + strText);
+			
 			displayContacts.setText(strText);
 			
 			return;
@@ -538,7 +547,7 @@ public class TestAAB extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			Log.i("getGroupsForUpdateAPI on error", "onError");
+			Log.i("displayGroups on error", "onError");
 
 		}
 	}
