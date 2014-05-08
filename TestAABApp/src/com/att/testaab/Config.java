@@ -3,7 +3,7 @@ package com.att.testaab;
 
 public class Config {	
 
-	public static String token = "ERVYgpBqYbFJMnWvCAnhqJVOUXShDOQD";
+	public static String token = "PAhHNHrmuLNYQnot7ERJa2hEW9ClFpT0";
 
 	public static long accessTokenExpiry = 50000000;
 	public static String refreshToken ;
