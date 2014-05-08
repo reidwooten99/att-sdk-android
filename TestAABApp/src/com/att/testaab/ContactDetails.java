@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
+import com.att.testaab.TestAAB.getContactsforUpdateListener;
 
 
 public class ContactDetails extends Activity implements OnClickListener {
@@ -100,6 +102,17 @@ public class ContactDetails extends Activity implements OnClickListener {
 		return true;
 	}
 	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		switch(item.getItemId()) {
+			case R.id.action_save :
+				//UpdateContact API
+				break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+
 	private class getContactListener implements ATTIAMListener {
 
 		@Override

@@ -16,6 +16,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -65,5 +66,21 @@ public class ContactsTabView extends TabActivity {
 		getMenuInflater().inflate(R.menu.contacts_tab_view, menu);
 		return true;
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		
+		switch(item.getItemId()) {
+		 case R.id.action_new :
+			 i = new Intent(this, ContactDetails.class);
+			 i.putExtra("contactId", "-2");
+			 startActivity(i);
+			 break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	
 
 }
