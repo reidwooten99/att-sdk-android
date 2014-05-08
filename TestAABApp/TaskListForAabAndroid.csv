@@ -72,3 +72,8 @@ Id,Task,Estimate,Priority,Assigned To,Status,Due Date
 ,Inform Pavel/Kyle about changes in the CodeKit's  createContact method in AABservice.java,,,Surender,,
 ,Change the Simulator for GetContacts to return Contacts instead of Quick Contacts and update Heroku,,,Surender,,
 ,Add setters in the CodeKit's Group.java to set the groupName which is required in updateGroup API,,,,,
+,Add New/Create Contact in the ContactDetails page,,,Pooja,,
+,Add Save menu in the contact Details page,,,Pooja,,
+,Send the apk to the team to test UserConsent activity.,,,Pooja,,
+,Remove buttons in the Contact list page,,,Surender,,
+,Add them to the Contact tab (when the contact is clicked),,,Surender,,
