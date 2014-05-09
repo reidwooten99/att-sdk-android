@@ -3,23 +3,22 @@ package com.att.api.consentactivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import com.att.api.error.InAppMessagingError;
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.oauth.OAuthService;
-import com.att.api.rest.RESTException;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+
+import com.att.api.aab.listener.ATTIAMListener;
+import com.att.api.error.InAppMessagingError;
+import com.att.api.oauth.OAuthService;
+import com.att.api.rest.RESTException;
 
 public class UserConsentActivity extends Activity {
 
@@ -124,13 +123,7 @@ public class UserConsentActivity extends Activity {
 					// TODO Auto-generated catch block
 					errorObj = new InAppMessagingError(e.getMessage());
 				}																			
-			} else if(url.contains("network")) {
-				String oAuthCode = "abcd";
-				Log.i("onPageStarted", "oAuthCode: " + oAuthCode);				
-				Intent returnIntent = new Intent();
-				returnIntent.putExtra("oAuthCode", oAuthCode);
-				setResult(RESULT_OK,returnIntent);
-				finish();
+			
 			}
     	}	
     }

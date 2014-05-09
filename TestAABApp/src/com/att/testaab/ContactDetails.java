@@ -20,7 +20,6 @@ import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
-import com.att.testaab.TestAAB.getContactsforUpdateListener;
 
 
 public class ContactDetails extends Activity implements OnClickListener {
@@ -91,7 +90,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				
 		}*/
 		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
-		aabManager.GetContact(contactId, "shallow");	
+		aabManager.GetContact(contactId, " ");	
 		
 	}
 
@@ -105,10 +104,18 @@ public class ContactDetails extends Activity implements OnClickListener {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// TODO Auto-generated method stub
+		//Contact c = getContactFromFields();
 		switch(item.getItemId()) {
 			case R.id.action_save :
 				//UpdateContact API
 				break;
+				
+			case R.id.action_new :
+				Intent i = new Intent(this, ContactDetails.class);
+				 i.putExtra("contactId", "-2"); // not reqd. create API // create contact from fields aand populate fileds from contact
+				 startActivity(i);
+				 break;
+			
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -131,12 +138,12 @@ public class ContactDetails extends Activity implements OnClickListener {
 					editLastName.setText(qc.getLastName());
 					editOrganization.setText(/*qc.getOrganization()*/"ATT");
 					editPhone1.setText(qc.getPhone().getNumber());
-					editEmailAddress.setText(qc.getEmail().getEmailAddress());
+					/*editEmailAddress.setText(qc.getEmail().getEmailAddress());
 					editAddress.setText(qc.getAddress().getAddrLineOne());
 					editAddress2.setText(qc.getAddress().getAddrLineTwo());
 					editCity.setText(qc.getAddress().getCity());
 					editState.setText(qc.getAddress().getState());
-					editZipCode.setText(qc.getAddress().getZipcode());
+					editZipCode.setText(qc.getAddress().getZipcode()); */
 				}
 				return;
 			}
