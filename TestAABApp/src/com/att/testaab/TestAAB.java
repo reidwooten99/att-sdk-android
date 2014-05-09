@@ -34,7 +34,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	private SearchParams searchParams;
 	private Button getContacts;
 	private TextView displayContacts;
-	private ContactWrapper contactWrapper;	
+	//private ContactWrapper contactWrapper;	
 	private Button BtnContactsList;
 	private EditText testApi;
 	private String strText = "";
@@ -72,7 +72,6 @@ public class TestAAB extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(TestAAB.this, GroupList.class);
 				intent.putExtra("contactId", "-1");
 				startActivity(intent);
@@ -82,14 +81,13 @@ public class TestAAB extends Activity implements OnClickListener {
 		});
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
-		SearchParams.Builder builder = new SearchParams.Builder();
+		//SearchParams.Builder builder = new SearchParams.Builder();
 		//searchParams = new SearchParams(builder.setZipcode("94086"));
 		
 		BtnContactsList.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent i = new Intent(TestAAB.this, ContactsList.class);
 				startActivity(i);					
 			}
@@ -217,44 +215,44 @@ public class TestAAB extends Activity implements OnClickListener {
 		
 	}
 	
-	private class getContactsListener implements ATTIAMListener {
+	private class getContactsListener extends UnitTestListener {
+
+		public getContactsListener() {
+			super("GetContacts", displayContacts, null);
+		}
 
 		@Override
 		public void onSuccess(Object response) {
-			ContactResultSet contactResultSet = (ContactResultSet) response;
-			
+			ContactResultSet contactResultSet = (ContactResultSet) response;			
 			if (null != contactResultSet) {
-				strText = (String) displayContacts.getText();
+				strText = "\nPassed: " + strTestName + " test.";
 				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
 				for (int i=0; i < quickContacts_arr.length; i++) {
 					QuickContact qc = quickContacts_arr[i];
 					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
-					
+								qc.getFormattedName() + ", " + qc.getPhone().getNumber();					
 				}
-				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
-				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-				displayContacts.setText(strText);
-				return;
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
 			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("getContactsAPI on error", "onError");
-
+			updateTextDisplay(strText);
+			return;
 		}
 	}
 
-	private class getContactListener implements ATTIAMListener {
+	private class getContactListener extends UnitTestListener {
+
+		public getContactListener() {
+			super("GetContact", displayContacts, null);
+		}
 
 		@Override
 		public void onSuccess(Object response) {
-			contactWrapper = (ContactWrapper) response;
+			ContactWrapper contactWrapper = (ContactWrapper) response;
 			if (null != contactWrapper) {
-				strText = (String) displayContacts.getText();
 				QuickContact qc = contactWrapper.getQuickContact();
 				Contact c = contactWrapper.getContact();
+				strText = "\nPassed: " + strTestName + " test.";
 				if (null != qc) {
 					strText += "\n" + qc.getContactId() + ", " + 
 								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
@@ -262,70 +260,58 @@ public class TestAAB extends Activity implements OnClickListener {
 						strText += "\n" + c.getContactId() + ", " + 
 									c.getFormattedName() + ", " + c.getPhones()[0].getNumber();
 				}
-				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
-				//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-				displayContacts.setText(strText);
-				return;
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
 			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("getContactAPI on error", "onError");
-
+			updateTextDisplay(strText);
+			return;
 		}
 	}
 
-	private class getContactGroupsListener implements ATTIAMListener {
-		public GroupResultSet groupResultSet;
+	private class getContactGroupsListener extends UnitTestListener {
+
+		public getContactGroupsListener() {
+			super("GetContactGroups", displayContacts, null);
+		}
 
 		@Override
 		public void onSuccess(Object response) {
-			groupResultSet = (GroupResultSet) response;
+			GroupResultSet groupResultSet = (GroupResultSet) response;
 			if (null != groupResultSet) {
-				strText = (String) displayContacts.getText();
-				//QuickContact qc = contactWrapper.getQuickContact();
+				strText = "\nPassed: " + strTestName + " test.";
 				Group[] groups_arr = groupResultSet.getGroups();
 				for (int i=0; i < groups_arr.length; i++) {
 					Group grp = groups_arr[i];
 					strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
-					Log.i("getContactGroupsAPI","OnSuccess : ContactID :  " + strText);
-					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-					displayContacts.setText(strText);
 				}
-				return;
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
 			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("getContactGroups on error", "onError");
-
+			updateTextDisplay(strText);
+			return;
 		}
 	}
 
-	private class createContactListener implements ATTIAMListener {
+	private class createContactListener extends UnitTestListener {
+
+		public createContactListener() {
+			super("CreateContact", displayContacts, null);
+		}
+
 		@Override
 		public void onSuccess(Object response) {
 			String location = (String) response;
 			if (null != location) {
-				strText = (String) displayContacts.getText();
 				Log.i("createContactAPI","Contact created : Location :  " + location);
-				strText += "\n" + location;
-				
+				strText = "\nPassed: " + strTestName + " test.";
+				strText += "\n" + location;				
 				String[] locationUrl = location.split("contacts/");
 				contactSubscriberId = locationUrl[1];
-				Log.i("createContactAPI","Contact created : contactId :  " + contactSubscriberId);
-				
-				displayContacts.setText(strText);
-				return;
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
 			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("createContactAPI on error", "onError");
-
+			updateTextDisplay(strText);
+			return;
 		}
 	}
 	
@@ -338,7 +324,7 @@ public class TestAAB extends Activity implements OnClickListener {
 			
 			if (null != contactResultSet) {
 				strText = (String) displayContacts.getText();
-				QuickContact[] quickContactsArray = contactResultSet.getQuickContacts();
+				//QuickContact[] quickContactsArray = contactResultSet.getQuickContacts();
 				Contact[] contactsArray = contactResultSet.getContacts();
 				
 				Contact.Builder builderForUpdate = new Contact.Builder(); 
@@ -518,7 +504,6 @@ public class TestAAB extends Activity implements OnClickListener {
 	}
 	
 	private void ShowGroups(String grpName) {
-		// TODO Auto-generated method stub
 		aabManager = new AABManager(Config.fqdn,
 									authToken,
 									new displayGroupsListener());
@@ -594,7 +579,6 @@ public class TestAAB extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId()) {
 			case R.id.btnLogin : logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
 				break;
@@ -609,14 +593,12 @@ public class TestAAB extends Activity implements OnClickListener {
 	}
 
 	public void logOutOfAddressBook() {
-		// TODO Auto-generated method stub	
 		CookieSyncManager.createInstance(this);
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookie();		
 	}
 
 	public void logIntoAddressBook(String fqdn, String clientId, String secretKey, String refirectUri, String appScope) {
-		// TODO Auto-generated method stub
 		Intent i = new Intent(TestAAB.this, com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
