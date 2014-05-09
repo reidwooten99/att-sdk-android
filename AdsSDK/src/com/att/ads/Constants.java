@@ -10,7 +10,7 @@ package com.att.ads;
  */
 public class Constants {
 
-	public static final String SDK_VERSION = "1.0";
+	public static final String SDK_VERSION = "2.0.6";
 	
 	public static final long AD_RELOAD_PERIOD = 120000; //in milliseconds
 	public static final int DEFAULT_REQUEST_TIMEOUT = 20000; //in seconds
@@ -59,6 +59,7 @@ public class Constants {
 	
 	//Ads headers 
 	public static final String AUTHORIZATION  = "Authorization";
+	public static final String XARG  = "X-Arg";
 	public static final String UDID  = "UDID";
 	public static final String PSEDO_ZONE  = "psedo_zone";
 	
