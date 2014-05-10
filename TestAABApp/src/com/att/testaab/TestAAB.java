@@ -43,7 +43,6 @@ public class TestAAB extends Activity implements OnClickListener {
 	private Button btnLogIn;
 	private Button btnLogOut;
 	private Button btnTabView;
-	private String contactSubscriberId;
 	private String groupSubscriberId;
 	
 	 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
@@ -98,6 +97,8 @@ public class TestAAB extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(View v) {
+				ContactsTestCase ctc = new ContactsTestCase(displayContacts, null);
+				
 			    String apiNumber = testApi.getText().toString();
                 int iOperation = 1;
                 try { iOperation = Integer.valueOf(apiNumber); }
@@ -107,18 +108,11 @@ public class TestAAB extends Activity implements OnClickListener {
 				switch (iOperation) {
 				
 					case 1: //GetContacts
-						aabManager = new AABManager(Config.fqdn, 
-													authToken,
-													new getContactsListener());
-						aabManager.GetContacts("shallow", pageParams, searchParams);
+						ctc.testGetContacts("shallow", pageParams, searchParams);
 						break;
 						
 					case 2: //GetContact
-						aabManager = new AABManager(Config.fqdn, 
-													authToken,
-													new getContactListener());
-						//aabManager.GetContact("09876544321", "shallow");
-						aabManager.GetContact("0987654432123", "shallow");	
+						ctc.testGetContact("0987654432123", "shallow");	
 						break;
 						
 					case 3: //GetContactGroups
@@ -131,20 +125,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						break;
 						
 					case 4: //CreateContact
-						aabManager = new AABManager(Config.fqdn, 
-													authToken,
-													new createContactListener());
-						Contact.Builder builder = new Contact.Builder(); 
-						builder.setFirstName("First");
-						builder.setLastName("Last");
-						builder.setFormattedName("First Last");
-						long time= System.currentTimeMillis();
-						builder.setContactId(String.valueOf(time));
-						Phone [] phones = new Phone[1];
-						phones[0] = new Phone("Work", "1234567890", true);
-						builder.setPhones(phones);
-						Contact contact = builder.build();
-						aabManager.CreateContact(contact);
+						ctc.testCreateContact("First", "Last");
 						break;
 						
 					case 5: //UpdateContact //getcontacts n then update
@@ -162,10 +143,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						break; 
 					
 					case 6: //DeleteContact
-						aabManager = new AABManager(Config.fqdn,
-													authToken,
-													new deleteContactListener());
-						aabManager.DeleteContact(contactSubscriberId);
+						ctc.testDeleteContact(ctc.newContactId);
 						break;
 						
 					case 7 : //GetGroups
@@ -214,59 +192,6 @@ public class TestAAB extends Activity implements OnClickListener {
 		});
 		
 	}
-	
-	private class getContactsListener extends UnitTestListener {
-
-		public getContactsListener() {
-			super("GetContacts", displayContacts, null);
-		}
-
-		@Override
-		public void onSuccess(Object response) {
-			ContactResultSet contactResultSet = (ContactResultSet) response;			
-			if (null != contactResultSet) {
-				strText = "\nPassed: " + strTestName + " test.";
-				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
-				for (int i=0; i < quickContacts_arr.length; i++) {
-					QuickContact qc = quickContacts_arr[i];
-					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();					
-				}
-			} else {
-				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
-			}
-			updateTextDisplay(strText);
-			return;
-		}
-	}
-
-	private class getContactListener extends UnitTestListener {
-
-		public getContactListener() {
-			super("GetContact", displayContacts, null);
-		}
-
-		@Override
-		public void onSuccess(Object response) {
-			ContactWrapper contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) {
-				QuickContact qc = contactWrapper.getQuickContact();
-				Contact c = contactWrapper.getContact();
-				strText = "\nPassed: " + strTestName + " test.";
-				if (null != qc) {
-					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
-				} else if (null != c) {
-						strText += "\n" + c.getContactId() + ", " + 
-									c.getFormattedName() + ", " + c.getPhones()[0].getNumber();
-				}
-			} else {
-				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
-			}
-			updateTextDisplay(strText);
-			return;
-		}
-	}
 
 	private class getContactGroupsListener extends UnitTestListener {
 
@@ -290,31 +215,7 @@ public class TestAAB extends Activity implements OnClickListener {
 			updateTextDisplay(strText);
 			return;
 		}
-	}
-
-	private class createContactListener extends UnitTestListener {
-
-		public createContactListener() {
-			super("CreateContact", displayContacts, null);
-		}
-
-		@Override
-		public void onSuccess(Object response) {
-			String location = (String) response;
-			if (null != location) {
-				Log.i("createContactAPI","Contact created : Location :  " + location);
-				strText = "\nPassed: " + strTestName + " test.";
-				strText += "\n" + location;				
-				String[] locationUrl = location.split("contacts/");
-				contactSubscriberId = locationUrl[1];
-			} else {
-				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
-			}
-			updateTextDisplay(strText);
-			return;
-		}
-	}
-	
+	}	
 	
 	private class getContactsforUpdateListener implements ATTIAMListener {
 
@@ -370,26 +271,6 @@ public class TestAAB extends Activity implements OnClickListener {
 		@Override
 		public void onError(InAppMessagingError error) {
 			Log.i("updateContactAPI on error", "onError");
-
-		}
-	}
-	
-	private class deleteContactListener implements ATTIAMListener {
-
-		@Override
-		public void onSuccess(Object response) {
-			String result = (String) response;
-			strText = (String) displayContacts.getText();
-			strText += "\n" +"deleteContactAPI : " + "\n" + result;
-			Log.i("deleteContactAPI","OnSuccess : RESULT :  " + result);
-			displayContacts.setText(strText);
-			return;
-			
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			Log.i("deleteContactAPI on error", "onError");
 
 		}
 	}
