@@ -124,4 +124,28 @@ public class GroupsTestCase extends AabTestCase {
 			
 		}
 	}
-}
+	
+	public void testAddContactsToGroup(String groupId, String contactIds) {
+		aabManager = new AABManager(Config.fqdn, authToken, new addContactsToGroupListener());
+		aabManager.AddContactsToGroup(groupId, contactIds);
+	}
+	
+	private class addContactsToGroupListener extends UnitTestListener {
+		public addContactsToGroupListener() {
+			super("AddContactsToGroup",display,null);
+		}
+		
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			if (null != result) {
+				strText = "\nPassed: " + strTestName + " test.";
+				strText += "\n" +"AddContactsToGroup : " + "  " + result;
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
+			}
+			updateTextDisplay(strText);
+			return;
+		}
+	}
+ }
