@@ -1,11 +1,9 @@
 package com.att.testaab;
 
+import android.widget.TextView;
+
 import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
-import com.att.api.aab.service.ContactResultSet;
-import com.att.api.aab.service.QuickContact;
-
-import android.widget.TextView;
 
 public class OtherTestCase extends AabTestCase {
 

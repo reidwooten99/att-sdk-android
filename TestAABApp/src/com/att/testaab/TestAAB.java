@@ -16,10 +16,9 @@ import android.widget.TextView;
 import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
-import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.Group;
-import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
+import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
@@ -122,18 +121,18 @@ public class TestAAB extends Activity implements OnClickListener {
 							ctc.testCreateContact("TestFirstFive", "Last");
 							break;
 						
-					case 5: //UpdateContact 
-							/*aabManager = new AABManager(Config.fqdn,
-														authToken,
-														new getContactsforUpdateListener());
-							aabManager.GetContacts("shallow", pageParams, searchParams);
-							Contact.Builder builderForUpdate = new Contact.Builder(); 
-							builderForUpdate.setFirstName("Last");
-							builderForUpdate.setLastName("First");
-							builderForUpdate.setFormattedName("LastFirst");
-							
-							Contact contactForupdate = builderForUpdate.build();
-							aabManager.UpdateContact(contactForupdate);		*/			
+					case 5: //UpdateContact
+							Contact.Builder builder = new Contact.Builder(); 
+							builder.setFirstName("FirstView");
+							builder.setLastName("LastUsage");
+							builder.setContactId("12CE1C28362013082800371294D457585C50A2B1");
+							Phone [] phones = new Phone[2];
+							phones[0] = new Phone("WORK,CELL", "1234567890", true);
+							phones[1] = new Phone("HOME,CELL", "1234567800", true);
+							builder.setPhones(phones);
+							Contact contact = builder.build();
+						
+							ctc.testUpdateContact(contact);
 							break; 
 					
 					case 6: //DeleteContact

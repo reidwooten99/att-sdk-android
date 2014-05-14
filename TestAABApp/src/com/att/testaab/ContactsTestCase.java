@@ -181,5 +181,25 @@ public class ContactsTestCase extends AabTestCase {
 			return;
 		}
 	}
-
+	
+	public void testUpdateContact(Contact contact) {
+		aabManager = new AABManager(Config.fqdn, authToken, new updateContactListener());
+		aabManager.UpdateContact(contact);	
+	}
+	
+	private class updateContactListener extends UnitTestListener {
+		
+		public updateContactListener() {
+			super("UpdateContact", display, null);
+		}
+		
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = "\nPassed: " + strTestName + " test.";
+			strText += "\n" +"UpdateContactAPI : " + "  " + result;
+			updateTextDisplay(strText);
+			return;			
+		}	
+	}
 }
