@@ -175,4 +175,25 @@ public class GroupsTestCase extends AabTestCase {
 			return;
 		}
 	}
+	
+	public void testRemoveContactsFromGroup(String groupId, String contactIds) {
+		aabManager = new AABManager(Config.fqdn, authToken, new removeContactsFromGroupListener());
+		aabManager.RemoveContactsFromGroup(groupId, contactIds);
+	}
+	
+	private class removeContactsFromGroupListener extends UnitTestListener {
+		public removeContactsFromGroupListener() {
+			super("RemoveContactsFromGroup", display, null);
+		}
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = "\nPassed: " + strTestName + " test.";
+			strText += "\n" +"RemoveContactsFromGroupAPI : " + "  " + result;
+			updateTextDisplay(strText);
+			return;
+			
+		}
+	}
  }
