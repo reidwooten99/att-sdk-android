@@ -155,6 +155,8 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 						
 					case 10: //UpdateGroup
+							Group group = new Group("a749f6b6-a563-42e9-89c3-0cda468a043e", "TestUpdateGroup", "USER" );
+							gtc.testUpdateGroup(group);
 							break;
 						
 					case 11: //AddContactsToGroup

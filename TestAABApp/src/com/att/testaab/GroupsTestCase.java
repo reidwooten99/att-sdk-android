@@ -167,4 +167,25 @@ public class GroupsTestCase extends AabTestCase {
 			
 		}
 	}
+	
+	public void testUpdateGroup(Group group) {
+		aabManager = new AABManager(Config.fqdn, authToken, new updateGroupListener());
+		aabManager.UpdateGroup(group);
+	}
+	
+	private class updateGroupListener extends UnitTestListener {
+		public updateGroupListener() {
+			super("UpdateGroup", display, null);
+		}
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			strText = "\nPassed: " + strTestName + " test.";
+			strText += "\n" +"UpdateGroupAPI : " + "  " + result;
+			updateTextDisplay(strText);
+			return;
+			
+		}
+	}
  }
