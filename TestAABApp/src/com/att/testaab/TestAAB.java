@@ -176,7 +176,17 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 					
 					case 15: //UpdateMyInfo
-							//otc.testUpdateMyInfo(contact);
+							Contact.Builder builderForMyInfo = new Contact.Builder(); 
+							builderForMyInfo.setFirstName("FirstMyInfo");
+							builderForMyInfo.setLastName("LastMyInfo");
+							builderForMyInfo.setContactId("3acc524a-0600-4548-a9f2-2d94b9bfcd0e");
+							Phone [] phonesForMyInfo = new Phone[2];
+							phonesForMyInfo[0] = new Phone("WORK,CELL", "1234567890", true);
+							phonesForMyInfo[1] = new Phone("HOME,CELL", "1234567800", true);
+							builderForMyInfo.setPhones(phonesForMyInfo);
+							Contact contactForMyInfo = builderForMyInfo.build();
+							
+							otc.testUpdateMyInfo(contactForMyInfo);
 							break;					
 				}
 			}
