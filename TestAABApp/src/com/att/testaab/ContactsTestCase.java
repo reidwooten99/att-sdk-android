@@ -4,6 +4,8 @@ import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
+import com.att.api.aab.service.Group;
+import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
@@ -98,7 +100,7 @@ public class ContactsTestCase extends AabTestCase {
 		long time= System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
 		Phone [] phones = new Phone[1];
-		phones[0] = new Phone("Work", "1234567890", true);
+		phones[0] = new Phone("WORK,CELL", "1234567890", true);
 		builder.setPhones(phones);
 		Contact contact = builder.build();
 		aabManager.CreateContact(contact);
@@ -144,10 +146,39 @@ public class ContactsTestCase extends AabTestCase {
 		public void onSuccess(Object response) {
 			String result = (String) response;
 			strText = "\nPassed: " + strTestName + " test.";
-			strText += "\n" +"DeleteContactAPI : " + "\n" + result;
+			strText += "\n" +"DeleteContactAPI : " + " "+ result;
 			updateTextDisplay(strText);
 			return;
 			
+		}
+	}
+	
+	public void testGetContactGroups(String contactId, PageParams pageParams) {
+		aabManager = new AABManager(Config.fqdn, authToken, new getContactGroupsListener());
+		aabManager.GetContactGroups(contactId, pageParams);	
+	}
+	
+	private class getContactGroupsListener extends UnitTestListener {
+
+		public getContactGroupsListener() {
+			super("GetContactGroups", display, null);
+		}
+
+		@Override
+		public void onSuccess(Object response) {
+			GroupResultSet groupResultSet = (GroupResultSet) response;
+			if (null != groupResultSet) {
+				strText = "\nPassed: " + strTestName + " test.";
+				Group[] groups_arr = groupResultSet.getGroups();
+				for (int i=0; i < groups_arr.length; i++) {
+					Group grp = groups_arr[i];
+					strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
+				}
+			} else {
+				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
+			}
+			updateTextDisplay(strText);
+			return;
 		}
 	}
 

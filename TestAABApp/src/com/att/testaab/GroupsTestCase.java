@@ -47,35 +47,6 @@ public class GroupsTestCase extends AabTestCase {
 
 	}
 	
-	public void testGetContactGroups(String contactId, PageParams pageParams) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getContactGroupsListener());
-		aabManager.GetContactGroups(contactId, pageParams);	
-	}
-	
-	private class getContactGroupsListener extends UnitTestListener {
-
-		public getContactGroupsListener() {
-			super("GetContactGroups", display, null);
-		}
-
-		@Override
-		public void onSuccess(Object response) {
-			GroupResultSet groupResultSet = (GroupResultSet) response;
-			if (null != groupResultSet) {
-				strText = "\nPassed: " + strTestName + " test.";
-				Group[] groups_arr = groupResultSet.getGroups();
-				for (int i=0; i < groups_arr.length; i++) {
-					Group grp = groups_arr[i];
-					strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
-				}
-			} else {
-				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
-			}
-			updateTextDisplay(strText);
-			return;
-		}
-	}
-	
 	public void testCreateGroup( Group group) {
 		aabManager = new AABManager(Config.fqdn, authToken, new createGroupListener());
 		aabManager.CreateGroup(group);
