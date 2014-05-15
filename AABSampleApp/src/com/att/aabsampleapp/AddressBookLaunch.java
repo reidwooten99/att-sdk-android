@@ -23,7 +23,7 @@ public class AddressBookLaunch extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_contact_list);
+		setContentView(R.layout.activity_address_book_launch);
 
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
@@ -62,6 +62,7 @@ public class AddressBookLaunch extends Activity {
 				Config.token = authToken.getAccessToken();
 				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener","onSuccess Message : " + authToken.getAccessToken());
+				getAddressBookContacts();
 			}
 		}
 
@@ -75,11 +76,18 @@ public class AddressBookLaunch extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.contact_list, menu);
+		inflater.inflate(R.menu.address_book_launch, menu);
 
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	public void getAddressBookContacts() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(AddressBookLaunch.this, ContactList.class);
+		startActivity(i);
+		
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -98,5 +106,7 @@ public class AddressBookLaunch extends Activity {
 				return super.onOptionsItemSelected(item);
 			}		
 			return true;
-	}		
+	}	
+
+	
 }
