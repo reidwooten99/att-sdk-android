@@ -15,7 +15,7 @@ import com.att.api.aab.manager.AABManager;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.oauth.OAuthToken;
 
-public class ContactList extends Activity {
+public class AddressBookLaunch extends Activity {
 	
 	private final int OAUTH_CODE = 1;
 	private AABManager aabManager;

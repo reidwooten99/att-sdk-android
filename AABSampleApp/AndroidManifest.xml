@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme" >
                       
         <activity
-            android:name="com.att.aabsampleapp.ContactList"
+            android:name="com.att.aabsampleapp.AddressBookLaunch"
             android:label="@string/title_activity_contact_list" >
         </activity>
         <activity
