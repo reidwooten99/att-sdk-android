@@ -121,18 +121,11 @@ public class TestAAB extends Activity implements OnClickListener {
 							ctc.testCreateContact("TestFirstFive", "Last");
 							break;
 						
-					case 5: //UpdateContact
-							Contact.Builder builder = new Contact.Builder(); 
-							builder.setFirstName("FirstView");
-							builder.setLastName("LastUsage");
-							builder.setContactId("12CE1C28362013082800371294D457585C50A2B1");
-							Phone [] phones = new Phone[2];
-							phones[0] = new Phone("WORK,CELL", "1234567890", true);
-							phones[1] = new Phone("HOME,CELL", "1234567800", true);
-							builder.setPhones(phones);
-							Contact contact = builder.build();
-						
-							ctc.testUpdateContact(contact);
+					case 5: //UpdateContact, Fist and Last, Verify, Switch back
+							//ctc.testUpdateContact("12CE1C28362013082800371294D457585C50A2B1", "FirstView", "LastUsage");
+							ctc.testUpdateContact(ctc.newContactId, "Last", "TestFirstFive");
+							// Verify and then switch back
+							ctc.testUpdateContact(ctc.newContactId, "TestFirstFive", "Last");
 							break; 
 					
 					case 6: //DeleteContact
@@ -145,8 +138,7 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 							
 					case 8:  //CreateGroup 
-							Group newGroup = new Group("05058","TestGroup8","USER");
-							gtc.testCreateGroup(newGroup);
+							gtc.testCreateGroup("TestGroup8","USER");
 							break;
 						
 					case 9: //DeleteGroup
@@ -175,18 +167,10 @@ public class TestAAB extends Activity implements OnClickListener {
 							otc.testGetMyInfo();
 							break;
 					
-					case 15: //UpdateMyInfo
-							Contact.Builder builderForMyInfo = new Contact.Builder(); 
-							builderForMyInfo.setFirstName("FirstMyInfo");
-							builderForMyInfo.setLastName("LastMyInfo");
-							builderForMyInfo.setContactId("3acc524a-0600-4548-a9f2-2d94b9bfcd0e");
-							Phone [] phonesForMyInfo = new Phone[2];
-							phonesForMyInfo[0] = new Phone("WORK,CELL", "1234567890", true);
-							phonesForMyInfo[1] = new Phone("HOME,CELL", "1234567800", true);
-							builderForMyInfo.setPhones(phonesForMyInfo);
-							Contact contactForMyInfo = builderForMyInfo.build();
-							
-							otc.testUpdateMyInfo(contactForMyInfo);
+					case 15: //UpdateMyInfo,  Switch first and last
+							otc.testUpdateMyInfo("LastMyInfo", "FirstMyInfo");
+							// Verify that two are switched. and change back to original
+							otc.testUpdateMyInfo("FirstMyInfo", "LastMyInfo");
 							break;					
 				}
 			}

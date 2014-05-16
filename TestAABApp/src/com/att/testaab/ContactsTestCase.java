@@ -182,8 +182,18 @@ public class ContactsTestCase extends AabTestCase {
 		}
 	}
 	
-	public void testUpdateContact(Contact contact) {
+	public void testUpdateContact(String contactId, String firstName, String lastName) {
 		aabManager = new AABManager(Config.fqdn, authToken, new updateContactListener());
+		Contact.Builder builder = new Contact.Builder(); 
+		builder.setFirstName(firstName);
+		builder.setLastName(lastName);
+		builder.setContactId(contactId);
+//		Phone [] phones = new Phone[2];
+//		phones[0] = new Phone("WORK,CELL", "1234567890", true);
+//		phones[1] = new Phone("HOME,CELL", "1234567800", true);
+//		builder.setPhones(phones);
+		Contact contact = builder.build();
+	
 		aabManager.UpdateContact(contact);	
 	}
 	

@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import com.att.api.aab.manager.AABManager;
 import com.att.api.aab.service.Contact;
+import com.att.api.aab.service.Phone;
 
 public class OtherTestCase extends AabTestCase {
 
@@ -36,9 +37,19 @@ public class OtherTestCase extends AabTestCase {
 		}
 	}
 	
-	public void testUpdateMyInfo (Contact contact) {
+	public void testUpdateMyInfo (String firstName, String lastName) {
 		aabManager = new AABManager(Config.fqdn, authToken, new updateMyInfoListener());
-		aabManager.UpdateMyInfo(contact);
+		Contact.Builder builderForMyInfo = new Contact.Builder(); 
+		builderForMyInfo.setFirstName("FirstMyInfo");
+		builderForMyInfo.setLastName("LastMyInfo");
+		builderForMyInfo.setContactId("3acc524a-0600-4548-a9f2-2d94b9bfcd0e");
+//		Phone [] phonesForMyInfo = new Phone[2];
+//		phonesForMyInfo[0] = new Phone("WORK,CELL", "1234567890", true);
+//		phonesForMyInfo[1] = new Phone("HOME,CELL", "1234567800", true);
+//		builderForMyInfo.setPhones(phonesForMyInfo);
+		Contact contactForMyInfo = builderForMyInfo.build();
+		
+		aabManager.UpdateMyInfo(contactForMyInfo);
 	}
 	
 private class updateMyInfoListener extends UnitTestListener {

@@ -47,8 +47,9 @@ public class GroupsTestCase extends AabTestCase {
 
 	}
 	
-	public void testCreateGroup( Group group) {
+	public void testCreateGroup(String groupName, String groupType) {
 		aabManager = new AABManager(Config.fqdn, authToken, new createGroupListener());
+		Group group = new Group("05058", groupName, groupType);
 		aabManager.CreateGroup(group);
 	}
 	
