@@ -1,16 +1,13 @@
 package com.att.aabsampleapp;
 
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.TabHost;
 
+@SuppressWarnings("deprecation")
 public class ContactList extends TabActivity {
 	
 	Intent i;

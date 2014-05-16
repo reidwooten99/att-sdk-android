@@ -1,6 +1,7 @@
 package com.att.aabsampleapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,12 @@ public class AddressBookLaunch extends Activity {
 	
 	private final int OAUTH_CODE = 1;
 	private AABManager aabManager;
+	private ProgressDialog pDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		showProgressDialog("Opening  AddressBook .. ");
 		setContentView(R.layout.activity_address_book_launch);
 
 		Intent i = new Intent(this,
@@ -82,9 +85,10 @@ public class AddressBookLaunch extends Activity {
 	}
 
 	public void getAddressBookContacts() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub	
 		Intent i = new Intent(AddressBookLaunch.this, ContactList.class);
 		startActivity(i);
+		dismissProgressDialog();
 		
 	}
 	
@@ -108,5 +112,20 @@ public class AddressBookLaunch extends Activity {
 			return true;
 	}	
 
+	// Progress Dialog
+		public void showProgressDialog(String dialogMessage) {
+
+			if (null == pDialog)
+				pDialog = new ProgressDialog(this);
+			pDialog.setCancelable(false);
+			pDialog.setMessage(dialogMessage);
+			pDialog.show();
+		}
+
+		public void dismissProgressDialog() {
+			if (null != pDialog) {
+				pDialog.dismiss();
+			}
+		}
 	
 }
