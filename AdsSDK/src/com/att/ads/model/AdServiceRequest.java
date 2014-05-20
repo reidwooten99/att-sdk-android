@@ -40,11 +40,8 @@ public class AdServiceRequest {
 	private static final String PARAM_TYPE	   	   = "Type";
 	private static final String PARAM_TIMEOUT	   = "Timeout";
 	private static final String PARAM_AGEGROUP	   = "AgeGroup";
-	private static final String PARAM_OVER18	   = "Over18";
 	private static final String PARAM_KEYWORDS	   = "Keywords";
-	private static final String PARAM_ISSIZEREQUIRED   = "IsSizeRequired";
-	private static final String PARAM_PREMIUM	   = "Premium";
-
+	
 	private Map<String, String> parameters = new HashMap<String, String>();
 
 
@@ -80,32 +77,6 @@ public class AdServiceRequest {
 			parameters.remove(PARAM_KEYWORDS);
 		}
 
-	}
-
-	/**
-	 * Optional.
-	 * Set Filter by premium (0 - non-premium, 
-	 * 1 - premium only, 2 - both). 
-	 * Can be used only by premium publishers.
-	 * @param premium
-	 * @return
-	 */
-	public void setPremium(Integer premium) {
-		if(premium != null) {
-			switch(premium)
-			{
-			case 0: case 1: case 2:
-
-				parameters.put(PARAM_PREMIUM, String.valueOf(premium));
-
-				break;
-			default:
-				adLog.log(com.att.ads.AdLog.LOG_LEVEL_3, com.att.ads.AdLog.LOG_TYPE_ERROR, Constants.STR_INVALID_PARAM,"premium="+premium.toString()+"  (valid: 0 - non-premium, 1 - premium only, 2 - both)");
-			};
-		} else{
-			parameters.remove(PARAM_PREMIUM);
-		}
-	
 	}
 
 	public void setGender(String gender) {
@@ -298,32 +269,6 @@ public class AdServiceRequest {
 	}
 
 	/**
-	 * Set the filter ads by over 18 content: 0 or 1 — deny over 18 content, 
-	 * 2 — only over 18 content, 3 - allow all ads
-	 * @param type
-	 */
-	public void setOver18(Integer type) {
-		if(type != null) {
-			parameters.put(PARAM_OVER18, String.valueOf(type));
-		} else {
-			parameters.remove(PARAM_OVER18);
-		}
-	
-	}
-
-	/**
-	 * If set true, the image size values (width and height) will be returned in html.
-	 * @param type
-	 */
-	public void setIsSizeRequired(Boolean type) {
-		if(type != null) {
-			parameters.put(PARAM_ISSIZEREQUIRED, String.valueOf(type.booleanValue()));
-		} else {
-			parameters.remove(PARAM_ISSIZEREQUIRED);
-		}
-	
-	}
-	/**
 	 * Optional.
 	 * Set maximum width of advertising. 
 	 * @param sizeX
@@ -385,38 +330,9 @@ public class AdServiceRequest {
 
 	}
 
-	public Integer getPremium() {
-
-		String premium = parameters.get(PARAM_PREMIUM);
-		return getIntParameter(premium,0);
-
-	}
-
 	public String getGender() {
 
 		return parameters.get(PARAM_GENDER);
-
-	}
-
-	public Integer getOver18() {
-
-		String test = parameters.get(PARAM_OVER18);
-		return getIntParameter(test,null);
-
-	}
-
-	public Boolean isSizeRequired() {
-
-		String test = parameters.get(PARAM_ISSIZEREQUIRED);
-		if(test != null) {
-			if(test.equals("1")) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
 
 	}
 

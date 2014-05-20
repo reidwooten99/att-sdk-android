@@ -33,17 +33,14 @@ public class SettingsViewActivity extends Activity {
 
 	private static final String TAG = "SettingsViewActivity";
 
-	private static final int DIALOG_PREMIUM_TYPE = 1;
-
 	private static final int DIALOG_AGE_GROUP_TYPE = 2;
 
 	private static final int DIALOG_AD_SIZE_TYPE = 3;
 
 	private static final int DIALOG_AD_LOCATION = 4;
-	
-	private static final int LOCATION_SOURCE_SETTINGS = 5;	     
-	
-	private TextView premiumType = null;
+
+	private static final int LOCATION_SOURCE_SETTINGS = 5;
+
 	private TextView ageGroup = null;
 	private TextView adSize = null;
 
@@ -53,7 +50,6 @@ public class SettingsViewActivity extends Activity {
 
 	private EditText keyWordsEditText = null;
 	private EditText zipEditText = null;
-	private String[] premiumTypes = null;
 	private String[] ageGroupTypes = null;
 	private String[] adSizeTypes = null;
 
@@ -73,11 +69,13 @@ public class SettingsViewActivity extends Activity {
 		keyWordsEditText.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
@@ -87,8 +85,8 @@ public class SettingsViewActivity extends Activity {
 			}
 		});
 		keyWordsEditText.setFilters(new InputFilter[] { new InputFilter() {
-			public CharSequence filter(CharSequence src, int start, int end, Spanned dst,
-					int dstart, int dend) {
+			public CharSequence filter(CharSequence src, int start, int end,
+					Spanned dst, int dstart, int dend) {
 				if (src.equals("")) { // for backspace
 					return src;
 				}
@@ -102,27 +100,25 @@ public class SettingsViewActivity extends Activity {
 		zipEditText.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				int zip = (s != null && s.length() > 0) ? Integer.parseInt(s.toString()) : 0;
+				int zip = (s != null && s.length() > 0) ? Integer.parseInt(s
+						.toString()) : 0;
 				AdsApplication.getInstance().setZip(zip);
 			}
 		});
 
-		premiumTypes = getResources().getStringArray(R.array.premiumTypes);
 		ageGroupTypes = getResources().getStringArray(R.array.ageGroupTypes);
 		adSizeTypes = getResources().getStringArray(R.array.adSizeTypes);
-
-		premiumType = (TextView) findViewById(R.id.premiumType);
-		premiumType.setText(premiumTypes[0]);
-		premiumType.setOnClickListener(onClickListener);
 
 		ageGroup = (TextView) findViewById(R.id.ageGroupType);
 		ageGroup.setText(ageGroupTypes[0]);
@@ -136,20 +132,22 @@ public class SettingsViewActivity extends Activity {
 		latitudeEditTextView.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if(s != null && s.length() > 0) {
+				if (s != null && s.length() > 0) {
 					double latitude = 0;
-					try{
-						latitude = Double.parseDouble(s.toString());						
-					}catch (NumberFormatException e) {
+					try {
+						latitude = Double.parseDouble(s.toString());
+					} catch (NumberFormatException e) {
 
 					}
 					AdsApplication.getInstance().setLatitude(latitude);
@@ -160,20 +158,22 @@ public class SettingsViewActivity extends Activity {
 		longitudeEditTextView.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if(s != null && s.length() > 0) {
+				if (s != null && s.length() > 0) {
 					double longitude = 0;
-					try{
-						longitude = Double.parseDouble(s.toString());						
-					}catch (NumberFormatException e) {
+					try {
+						longitude = Double.parseDouble(s.toString());
+					} catch (NumberFormatException e) {
 
 					}
 					AdsApplication.getInstance().setLongitude(longitude);
@@ -182,34 +182,39 @@ public class SettingsViewActivity extends Activity {
 		});
 
 		showLatLongCheckBox = (CheckBox) findViewById(R.id.showLatLong);
-		showLatLongCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		showLatLongCheckBox
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					if (!isLocationServiceEnabled()) {
-						Log.d(TAG, "showDialog");
-						showDialog(DIALOG_AD_LOCATION);
-					} else {
-						GPSListener.getInstance().setOnLocationInitialized(onLocationInitialized);
-						GPSListener.getInstance().startLocationListening();
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							if (!isLocationServiceEnabled()) {
+								Log.d(TAG, "showDialog");
+								showDialog(DIALOG_AD_LOCATION);
+							} else {
+								GPSListener.getInstance()
+										.setOnLocationInitialized(
+												onLocationInitialized);
+								GPSListener.getInstance()
+										.startLocationListening();
 
-						displayProgressDialog();
+								displayProgressDialog();
 
-						latitudeEditTextView.setEnabled(false);
-						longitudeEditTextView.setEnabled(false);
+								latitudeEditTextView.setEnabled(false);
+								longitudeEditTextView.setEnabled(false);
+							}
+						} else {
+
+							isChecked = false;
+							latitudeEditTextView.setEnabled(true);
+							longitudeEditTextView.setEnabled(true);
+
+							latitudeEditTextView.setText("");
+							longitudeEditTextView.setText("");
+						}
 					}
-				} else {
-					
-					isChecked = false;
-					latitudeEditTextView.setEnabled(true);
-					longitudeEditTextView.setEnabled(true);
-
-					latitudeEditTextView.setText("");
-					longitudeEditTextView.setText("");
-				}
-			}
-		});
+				});
 
 	}
 
@@ -222,18 +227,6 @@ public class SettingsViewActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
-		case DIALOG_PREMIUM_TYPE:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.select_premium);
-			builder.setSingleChoiceItems(premiumTypes, 0, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					premiumType.setText(premiumTypes[item]);
-					AdsApplication.getInstance().setPremium(item);
-
-					dialog.cancel();
-				}
-			});
-			return builder.create();
 
 		case DIALOG_AGE_GROUP_TYPE:
 			AlertDialog.Builder ageGroupBuilder = new AlertDialog.Builder(this);
@@ -241,10 +234,11 @@ public class SettingsViewActivity extends Activity {
 			ageGroupBuilder.setSingleChoiceItems(ageGroupTypes, 0,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
-							if(ageGroupTypes[item].contains("-")){
-							ageGroup.setText(ageGroupTypes[item]);
-							AdsApplication.getInstance().setAgeGroup(ageGroupTypes[item]);
-							}else{
+							if (ageGroupTypes[item].contains("-")) {
+								ageGroup.setText(ageGroupTypes[item]);
+								AdsApplication.getInstance().setAgeGroup(
+										ageGroupTypes[item]);
+							} else {
 								AdsApplication.getInstance().setAgeGroup(null);
 							}
 							dialog.cancel();
@@ -258,15 +252,17 @@ public class SettingsViewActivity extends Activity {
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
 							adSize.setText(adSizeTypes[item]);
-							if(adSizeTypes[item].contains("x")){
+							if (adSizeTypes[item].contains("x")) {
 								String items[] = adSizeTypes[item].split(" x ");
-								AdsApplication.getInstance().setMaxWidth(Integer.parseInt(items[0]));
-								AdsApplication.getInstance().setMaxHeight(Integer.parseInt(items[1]));
-							}else{
+								AdsApplication.getInstance().setMaxWidth(
+										Integer.parseInt(items[0]));
+								AdsApplication.getInstance().setMaxHeight(
+										Integer.parseInt(items[1]));
+							} else {
 								AdsApplication.getInstance().setMaxWidth(0);
 								AdsApplication.getInstance().setMaxHeight(0);
 							}
-							dialog.cancel();							
+							dialog.cancel();
 						}
 					});
 			return adSizeBuilder.create();
@@ -275,19 +271,21 @@ public class SettingsViewActivity extends Activity {
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 			builder1.setMessage(R.string.no_location_providers);
 			builder1.setCancelable(false);
-			builder1.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-					startLocationSettingActivity();
-				}
-			});
-			builder1.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					showLatLongCheckBox.setChecked(false);
-					dialog.cancel();
-					
-				}
-			});
+			builder1.setPositiveButton("Settings",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							startLocationSettingActivity();
+						}
+					});
+			builder1.setNegativeButton("Quit",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							showLatLongCheckBox.setChecked(false);
+							dialog.cancel();
+
+						}
+					});
 
 			return builder1.create();
 		default:
@@ -304,9 +302,6 @@ public class SettingsViewActivity extends Activity {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.premiumType:
-				showDialog(DIALOG_PREMIUM_TYPE);
-				break;
 			case R.id.ageGroupType:
 				showDialog(DIALOG_AGE_GROUP_TYPE);
 				break;
@@ -324,14 +319,18 @@ public class SettingsViewActivity extends Activity {
 		@Override
 		public void onTimeExpired(Location lastKnownLocation) {
 			if (lastKnownLocation != null) {
-				AdsApplication.getInstance().setLatitude(lastKnownLocation.getLatitude());
-				AdsApplication.getInstance().setLongitude(lastKnownLocation.getLongitude());
+				AdsApplication.getInstance().setLatitude(
+						lastKnownLocation.getLatitude());
+				AdsApplication.getInstance().setLongitude(
+						lastKnownLocation.getLongitude());
 			} else {
 				// Null cases will be handled here
 			}
 
-			latitudeEditTextView.setText("" + AdsApplication.getInstance().getLatitude());
-			longitudeEditTextView.setText("" + AdsApplication.getInstance().getLongitude());
+			latitudeEditTextView.setText(""
+					+ AdsApplication.getInstance().getLatitude());
+			longitudeEditTextView.setText(""
+					+ AdsApplication.getInstance().getLongitude());
 
 			GPSListener.getInstance().stopLocationListening();
 
@@ -341,14 +340,18 @@ public class SettingsViewActivity extends Activity {
 		@Override
 		public void onLocationChanged(Location currentLocation) {
 			if (currentLocation != null) {
-				AdsApplication.getInstance().setLatitude(currentLocation.getLatitude());
-				AdsApplication.getInstance().setLongitude(currentLocation.getLongitude());
+				AdsApplication.getInstance().setLatitude(
+						currentLocation.getLatitude());
+				AdsApplication.getInstance().setLongitude(
+						currentLocation.getLongitude());
 			} else {
 				// Null cases will be handled here
 			}
 
-			latitudeEditTextView.setText("" + AdsApplication.getInstance().getLatitude());
-			longitudeEditTextView.setText("" + AdsApplication.getInstance().getLongitude());
+			latitudeEditTextView.setText(""
+					+ AdsApplication.getInstance().getLatitude());
+			longitudeEditTextView.setText(""
+					+ AdsApplication.getInstance().getLongitude());
 
 			GPSListener.getInstance().stopLocationListening();
 
@@ -382,7 +385,8 @@ public class SettingsViewActivity extends Activity {
 				showDialog(DIALOG_AD_LOCATION);
 			} else {
 				// start GPS
-				GPSListener.getInstance().setOnLocationInitialized(onLocationInitialized);
+				GPSListener.getInstance().setOnLocationInitialized(
+						onLocationInitialized);
 				GPSListener.getInstance().startLocationListening();
 				displayProgressDialog();
 				latitudeEditTextView.setEnabled(false);
@@ -404,10 +408,12 @@ public class SettingsViewActivity extends Activity {
 		LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 		boolean gpsExists = (lm.getProvider(LocationManager.GPS_PROVIDER) != null);
-		boolean networkExists = (lm.getProvider(LocationManager.NETWORK_PROVIDER) != null);
+		boolean networkExists = (lm
+				.getProvider(LocationManager.NETWORK_PROVIDER) != null);
 
 		if (gpsExists || networkExists) {
-			enabled = ((!gpsExists || lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) && (!networkExists || lm
+			enabled = ((!gpsExists || lm
+					.isProviderEnabled(LocationManager.GPS_PROVIDER)) && (!networkExists || lm
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER)));
 		}
 		Log.d(TAG, "enabled = " + enabled);
@@ -418,7 +424,7 @@ public class SettingsViewActivity extends Activity {
 		Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		startActivityForResult(intent, LOCATION_SOURCE_SETTINGS);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub

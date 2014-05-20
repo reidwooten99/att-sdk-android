@@ -98,8 +98,8 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 		} catch (Exception e) {
 			Log.e(TAG, "Eror :" + e.fillInStackTrace());
 		}*/
-		appKey = "UPDATE_APP_KEY_HERE";
-		secret = "UPDATE_SECRET_KEY_HERE";
+		appKey = UPDATE_APP_KEY_HERE;
+		secret = UPDATE_SECRET_KEY_HERE;
 		
 		// Category always in lower case
 		if(null == appKey || null == secret){
@@ -150,7 +150,6 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 			if (AdsApplication.getInstance().getZip() > 0) {
 				attAdView.setZipCode(AdsApplication.getInstance().getZip());
 			}
-			attAdView.setPremium(AdsApplication.getInstance().getPremium());
 			if (AdsApplication.getInstance().getAgeGroup() != null
 					&& AdsApplication.getInstance().getAgeGroup().length() > 0) {
 				attAdView.setAgeGroup(AdsApplication.getInstance().getAgeGroup());
@@ -349,8 +348,6 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 		 */
 
 		try {
-			String appKey = "4534545e9a5b7381d9090e70cdd118046c462b2234234";
-			String secret = "234534780fbad343dd30bcdfgf";
 			String en_appKey = AdsEncryptDecrypt.getEncryptedValue(appKey,
 					AdsEncryptDecrypt.getSecretKeySpec("app_key"));
 			String en_secret = AdsEncryptDecrypt.getEncryptedValue(secret,

@@ -535,17 +535,6 @@ public class ATTAdView extends WebView {
 	}
 
 	/**
-	 * Optional. Set Filter by premium (0 - non-premium, 1 - premium only, 2 -
-	 * both). Can be used only by premium publishers.
-	 * 
-	 * @param premium
-	 * @return
-	 */
-	public void setPremium(Integer premium) {
-		adSvcReq.setPremium(premium);
-	}
-
-	/**
 	 * Optional. Set Gender to search ad.
 	 * 
 	 * @param keywords
@@ -676,26 +665,6 @@ public class ATTAdView extends WebView {
 	}
 
 	/**
-	 * Optional. Set the filter ads by over 18 content: 0 or 1 � deny over 18
-	 * content, 2 � only over 18 content, 3 - allow all ads
-	 * 
-	 * @param type
-	 */
-	public void setOver18(Integer type) {
-		adSvcReq.setOver18(type);
-	}
-
-	/**
-	 * Optional. If set true, the image size values (width and height) will be
-	 * returned in html.
-	 * 
-	 * @param type
-	 */
-	public void setIsSizeRequired(Boolean type) {
-		adSvcReq.setIsSizeRequired(type);
-	}
-
-	/**
 	 * Optional. Set maximum width of advertising.
 	 * 
 	 * @param sizeX
@@ -725,15 +694,6 @@ public class ATTAdView extends WebView {
 	}
 
 	/**
-	 * Get Premium type info.
-	 * 
-	 * @return Premium type
-	 */
-	public Integer getPremium() {
-		return adSvcReq.getPremium();
-	}
-
-	/**
 	 * Get Gender info.
 	 * 
 	 * @return Gender
@@ -742,26 +702,6 @@ public class ATTAdView extends WebView {
 
 		return adSvcReq.getGender();
 
-	}
-
-	/**
-	 * Get over 18 type info.
-	 * 
-	 * @return over 18 type
-	 */
-	public Integer getOver18() {
-
-		return adSvcReq.getOver18();
-	}
-
-	/**
-	 * Get Size Required type info.
-	 * 
-	 * @return Size Required type
-	 */
-	public Boolean isSizeRequired() {
-
-		return adSvcReq.isSizeRequired();
 	}
 
 	/**
