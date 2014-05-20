@@ -55,7 +55,7 @@ public class AdService {
 			get = new HttpGet(url);
 			Log.i(TAG, "accessToken :" + accessToken);
 			get.addHeader(Constants.AUTHORIZATION, "BEARER " + accessToken);
-			get.addHeader(Constants.XARG, "ClientSdk=ATTADSSDK-Android-" + Constants.SDK_VERSION);
+			get.addHeader(Constants.XARG, "ClientSdk=att.android." + Constants.SDK_VERSION);
 
 			String udid = adView.getUdid();
 			String category = adView.getCategory();
