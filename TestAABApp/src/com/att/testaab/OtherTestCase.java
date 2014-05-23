@@ -2,7 +2,7 @@ package com.att.testaab;
 
 import android.widget.TextView;
 
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.Phone;
 
@@ -14,7 +14,7 @@ public class OtherTestCase extends AabTestCase {
 	}
 	
 	public void testGetMyInfo() {
-		aabManager = new AABManager(Config.fqdn, authToken, new getMyInfoListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getMyInfoListener());
 		aabManager.GetMyInfo();
 	}
 
@@ -38,7 +38,7 @@ public class OtherTestCase extends AabTestCase {
 	}
 	
 	public void testUpdateMyInfo (String firstName, String lastName) {
-		aabManager = new AABManager(Config.fqdn, authToken, new updateMyInfoListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new updateMyInfoListener());
 		Contact.Builder builderForMyInfo = new Contact.Builder(); 
 		builderForMyInfo.setFirstName("FirstMyInfo");
 		builderForMyInfo.setLastName("LastMyInfo");

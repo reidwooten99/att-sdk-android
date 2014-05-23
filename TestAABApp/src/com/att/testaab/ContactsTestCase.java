@@ -1,6 +1,6 @@
 package com.att.testaab;
 
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.ContactWrapper;
@@ -28,7 +28,7 @@ public class ContactsTestCase extends AabTestCase {
 	}
 
 	public void testGetContacts(String xFields, PageParams pageParams, SearchParams searchParams) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getContactsListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getContactsListener());
 		aabManager.GetContacts(xFields, pageParams, searchParams);
 		return;
 	}
@@ -59,7 +59,7 @@ public class ContactsTestCase extends AabTestCase {
 	}
 
 	public void testGetContact(String contactId, String xFields) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, xFields);	
 		return;
 	}
@@ -93,7 +93,7 @@ public class ContactsTestCase extends AabTestCase {
 	}
 
 	public void testCreateContact(String firstName, String lastName) {
-		aabManager = new AABManager(Config.fqdn, authToken, new createContactListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new createContactListener());
 		Contact.Builder builder = new Contact.Builder(); 
 		builder.setFirstName(firstName);
 		builder.setLastName(lastName);
@@ -131,7 +131,7 @@ public class ContactsTestCase extends AabTestCase {
 
 
 	public void testDeleteContact(String contactId) {
-		aabManager = new AABManager(Config.fqdn, authToken, new deleteContactListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new deleteContactListener());
 		aabManager.DeleteContact(contactId);	
 		return;
 	}
@@ -154,7 +154,7 @@ public class ContactsTestCase extends AabTestCase {
 	}
 	
 	public void testGetContactGroups(String contactId, PageParams pageParams) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getContactGroupsListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getContactGroupsListener());
 		aabManager.GetContactGroups(contactId, pageParams);	
 	}
 	
@@ -183,7 +183,7 @@ public class ContactsTestCase extends AabTestCase {
 	}
 	
 	public void testUpdateContact(String contactId, String firstName, String lastName) {
-		aabManager = new AABManager(Config.fqdn, authToken, new updateContactListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new updateContactListener());
 		Contact.Builder builder = new Contact.Builder(); 
 		builder.setFirstName(firstName);
 		builder.setLastName(lastName);

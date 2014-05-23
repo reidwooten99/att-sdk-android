@@ -1,12 +1,12 @@
 package com.att.testaab;
 
+import com.att.api.error.AttSdkError;
+import com.att.sdk.listener.AttSdkListener;
+
 import android.util.Log;
 import android.widget.TextView;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.error.InAppMessagingError;
-
-public class UnitTestListener implements ATTIAMListener {
+public class UnitTestListener implements AttSdkListener {
 	protected String strTestName = "Unknown";
 	protected TextView txtDisplay;
 	protected String strLogFilePath = null;
@@ -23,7 +23,7 @@ public class UnitTestListener implements ATTIAMListener {
 	}
 
 	@Override
-	public void onError(InAppMessagingError error) {
+	public void onError(AttSdkError error) {
 		String strText = "Failed in " + strTestName + ": " + error.getErrorMessage();
 		updateTextDisplay(strText);
 	}

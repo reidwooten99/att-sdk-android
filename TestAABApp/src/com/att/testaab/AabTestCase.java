@@ -2,7 +2,7 @@ package com.att.testaab;
 
 import android.test.AndroidTestCase;
 import android.widget.TextView;
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.oauth.OAuthToken;
 
 public class AabTestCase extends AndroidTestCase {
@@ -10,7 +10,7 @@ public class AabTestCase extends AndroidTestCase {
 	protected OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
 	protected TextView display = null;
 	protected String strLogFilePath = null;
-	protected AABManager aabManager = null;
+	protected AabManager aabManager = null;
 	public String strText;
 	
 	public AabTestCase(TextView textView, String strLogFilePath) {

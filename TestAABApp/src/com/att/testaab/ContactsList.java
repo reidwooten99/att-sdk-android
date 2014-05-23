@@ -13,18 +13,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.sdk.listener.AttSdkListener;
 
 public class ContactsList extends Activity implements OnClickListener {
 
-	private AABManager aabManager;
+	private AabManager aabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
 	private ContactResultSet contactResultSet;
@@ -64,7 +64,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
 		
 
-		aabManager = new AABManager(Config.fqdn,
+		aabManager = new AabManager(Config.fqdn,
 				authToken, new getContactsListener());
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
@@ -81,12 +81,10 @@ public class ContactsList extends Activity implements OnClickListener {
 		return true;
 	}
 
-	private class getContactsListener implements ATTIAMListener {
+	private class getContactsListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
-
 			contactResultSet = (ContactResultSet) response;
 			if (null != contactResultSet && null != contactResultSet.getQuickContacts()
 				&& contactResultSet.getQuickContacts().length > 0) {
@@ -101,8 +99,7 @@ public class ContactsList extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
-			// TODO Auto-generated method stub
+		public void onError(AttSdkError error) {
 			Log.i("getContactsAPI on error", "onError");
 
 		}
@@ -114,8 +111,6 @@ public class ContactsList extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				// TODO Auto-generated method stub
-				
 				contactId = ((QuickContact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
 				
 				Intent intent = new Intent(ContactsList.this, ContactDetails.class);
@@ -127,7 +122,6 @@ public class ContactsList extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		Intent intent;
 		switch(v.getId()) {	
 			case R.id.MyInfo :

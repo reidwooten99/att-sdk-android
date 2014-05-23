@@ -14,18 +14,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.sdk.listener.AttSdkListener;
 
 
 public class ContactDetails extends Activity implements OnClickListener {
 	
 	private String contactId;
-	//private AABManager aabManager;
+	//private AabManager AabManager;
 	private ContactWrapper contactWrapper;	
 	private EditText editFirstName;
 	private EditText editLastName;
@@ -80,8 +80,8 @@ public class ContactDetails extends Activity implements OnClickListener {
 		
 		/*switch(id) {
 			case -1:
-				AABManager aabManager = new AABManager(Config.fqdn, Config.authToken, new getMyInfoListener());
-				aabManager.GetMyInfo();
+				AabManager AabManager = new AabManager(Config.fqdn, Config.authToken, new getMyInfoListener());
+				AabManager.GetMyInfo();
 				break;
 			case -2:
 				break;
@@ -89,7 +89,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 				
 		}*/
-		AABManager aabManager = new AABManager(Config.fqdn, authToken, new getContactListener());
+		AabManager aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, " ");	
 		
 	}
@@ -120,7 +120,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 		return super.onMenuItemSelected(featureId, item);
 	}
 
-	private class getContactListener implements ATTIAMListener {
+	private class getContactListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
@@ -150,13 +150,13 @@ public class ContactDetails extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
+		public void onError(AttSdkError error) {
 			Log.i("getContactAPI on error", "onError");
 
 		}
 	}
 	
-	private class getMyInfoListener implements ATTIAMListener {
+	private class getMyInfoListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
@@ -175,7 +175,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
+		public void onError(AttSdkError error) {
 			Log.i("getMyInfoAPI on error", "onError");
 
 		}
@@ -196,8 +196,8 @@ public class ContactDetails extends Activity implements OnClickListener {
 			case R.id.Update :
 				/*Contact contactToUpdate; 
 				contactToUpdate = contactWrapper.getContact();
-				aabManager = new AABManager(Config.fqdn, authToken,new UpdateContactListener());
-				aabManager.UpdateContact(contactToUpdate);	*/	
+				AabManager = new AabManager(Config.fqdn, authToken,new UpdateContactListener());
+				AabManager.UpdateContact(contactToUpdate);	*/	
 				Toast.makeText(getApplicationContext(), "TO BE IMPLEMENTED", Toast.LENGTH_LONG).show();
 				break;
 			
@@ -221,8 +221,8 @@ public class ContactDetails extends Activity implements OnClickListener {
 	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
 	            OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
-	        	AABManager aabManager = new AABManager(Config.fqdn, authToken, new DeleteContactListener());
-				aabManager.DeleteContact(contactId);
+	        	AabManager AabManager = new AabManager(Config.fqdn, authToken, new DeleteContactListener());
+				AabManager.DeleteContact(contactId);
 	        }
 	     })
 	    .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -234,7 +234,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 	    .show();	
 	}
 
-	private class DeleteContactListener implements ATTIAMListener {
+	private class DeleteContactListener implements AttSdkListener {
 	
 		@Override
 		public void onSuccess(Object response) {
@@ -245,7 +245,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 		}
 	
 		@Override
-		public void onError(InAppMessagingError error) {
+		public void onError(AttSdkError error) {
 			Log.i("deleteContact on error", "onError");	
 		}
 	}

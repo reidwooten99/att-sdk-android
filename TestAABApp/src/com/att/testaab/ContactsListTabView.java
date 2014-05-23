@@ -1,6 +1,6 @@
 package com.att.testaab;
 
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
@@ -19,7 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ContactsListTabView extends Activity {
 	
-	private AABManager aabManager;
+	private AabManager AabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
 	private ContactResultSet contactResultSet;

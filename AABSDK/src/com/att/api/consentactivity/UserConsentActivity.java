@@ -15,10 +15,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthService;
 import com.att.api.rest.RESTException;
+import com.att.sdk.listener.AttSdkListener;
 
 public class UserConsentActivity extends Activity {
 
@@ -30,7 +30,7 @@ public class UserConsentActivity extends Activity {
 	private String redirectUri;
 	OAuthService osrvc;
 	WebView webView ;
-	private ATTIAMListener iamListener;
+	private AttSdkListener iamListener;
 	protected Handler handler = new Handler();
 	
 	@SuppressWarnings("deprecation")
@@ -71,7 +71,7 @@ public class UserConsentActivity extends Activity {
 	}
 	private class myWebViewClient extends WebViewClient {
 		
-		InAppMessagingError errorObj = new InAppMessagingError();
+		AttSdkError errorObj = new AttSdkError();
 		
 		 @Override
 		    public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -121,7 +121,7 @@ public class UserConsentActivity extends Activity {
 											"Check the APP_KEY,APP_SECRET,APP_SCOPE and REDIRECT_URI");
 				} catch (RESTException e) {
 					// TODO Auto-generated catch block
-					errorObj = new InAppMessagingError(e.getMessage());
+					errorObj = new AttSdkError(e.getMessage());
 				}																			
 			
 			}

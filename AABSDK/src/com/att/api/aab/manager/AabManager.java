@@ -2,7 +2,6 @@ package com.att.api.aab.manager;
 
 import android.os.AsyncTask;
 
-import com.att.api.aab.listener.ATTIAMListener;
 import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
@@ -11,23 +10,24 @@ import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.SearchParams;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.error.Utils;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
+import com.att.sdk.listener.AttSdkListener;
 
-public class AABManager {	
+public class AabManager {	
 	public static AABService aabService = null;
-	private ATTIAMListener aabListener = null;
+	private AttSdkListener aabListener = null;
 	private static OAuthService osrvc = null;
 	
-	public AABManager(String fqdn, OAuthToken token, ATTIAMListener listener) {		
+	public AabManager(String fqdn, OAuthToken token, AttSdkListener listener) {		
 		aabService = new AABService(fqdn, token);
 		aabListener = listener;
 	}
 	
-	public AABManager(String fqdn, String clientId, String clientSecret, ATTIAMListener listener) {
+	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
 		aabListener = listener;
 	}
@@ -122,7 +122,7 @@ public class AABManager {
 		@Override
 		protected OAuthToken doInBackground(String... params) {
 			OAuthToken accestoken = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			try {
 				accestoken = osrvc.getTokenUsingCode(params[0]);
 			} catch (RESTException e) {
@@ -151,7 +151,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(Contact... params) {
 			String result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				result = aabService.createContact(
@@ -182,7 +182,7 @@ public class AABManager {
 		@Override
 		protected ContactResultSet doInBackground(GetContactParams... params) {
 			ContactResultSet contactResultSet = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				contactResultSet = aabService.getContacts(
@@ -215,7 +215,7 @@ public class AABManager {
 		@Override
 		protected ContactWrapper doInBackground(String... params) {
 			ContactWrapper result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				result = aabService.getContact(
@@ -247,7 +247,7 @@ public class AABManager {
 		@Override
 		protected GroupResultSet doInBackground(String... params) {
 			GroupResultSet result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
@@ -279,7 +279,7 @@ public class AABManager {
 	public class  UpdateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override
 		protected String doInBackground(Contact... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {
@@ -311,7 +311,7 @@ public class AABManager {
 	public class  DeleteContactTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {
@@ -343,7 +343,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(Group... params) {
 			String result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 	
 			try {
 				result = aabService.createGroup(
@@ -374,7 +374,7 @@ public class AABManager {
 		@Override
 		protected GroupResultSet doInBackground(String... params) {
 			GroupResultSet result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
@@ -406,7 +406,7 @@ public class AABManager {
 	public class  DeleteGroupTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {
@@ -438,7 +438,7 @@ public class AABManager {
 		@Override
 		protected String doInBackground(Group... params) {
 			String result = "success";
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 	
 			try {
 				aabService.updateGroup(
@@ -469,7 +469,7 @@ public class AABManager {
 	public class  AddContactsToGroupTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {
@@ -501,7 +501,7 @@ public class AABManager {
 	public class  RemoveContactsFromGroupTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {
@@ -534,7 +534,7 @@ public class AABManager {
 		@Override
 		protected String[] doInBackground(String... params) {
 			String[] result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
@@ -567,7 +567,7 @@ public class AABManager {
 		@Override
 		protected Contact doInBackground(Void... params) {
 			Contact result = null;
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 
 			try {
 				result = aabService.getMyInfo();
@@ -595,7 +595,7 @@ public class AABManager {
 	public class  UpdateMyInfoTask extends AsyncTask<Contact, Void, String> {
 		@Override
 		protected String doInBackground(Contact... params) {
-			InAppMessagingError errorObj = new InAppMessagingError();
+			AttSdkError errorObj = new AttSdkError();
 			String result = "success";
 
 			try {

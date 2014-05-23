@@ -13,19 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
-import com.att.api.aab.service.Contact;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.PageParams;
-import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.SearchParams;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.sdk.listener.AttSdkListener;
 
 public class TestAAB extends Activity implements OnClickListener {
 
-	private AABManager aabManager;
+	private AabManager aabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
 	private Button getContacts;
@@ -33,13 +31,11 @@ public class TestAAB extends Activity implements OnClickListener {
 	//private ContactWrapper contactWrapper;	
 	private Button BtnContactsList;
 	private EditText testApi;
-	private String strText = "";
 	private Button btnGroups;
 	private final int OAUTH_CODE = 1;
 	private Button btnLogIn;
 	private Button btnLogOut;
 	private Button btnTabView;
-	private String groupSubscriberId;
 	
 	 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
     
@@ -193,7 +189,7 @@ public class TestAAB extends Activity implements OnClickListener {
 				oAuthCode = data.getStringExtra("oAuthCode");
 				Log.i("TestAAB", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode) {
-					aabManager = new AABManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
+					aabManager = new AabManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
 					aabManager.getOAuthToken(oAuthCode);
 				} else {
 					Log.i("TestAAB", "oAuthCode: is null");
@@ -203,7 +199,7 @@ public class TestAAB extends Activity implements OnClickListener {
 						oAuthCode = data.getStringExtra("oAuthCode");
 						Log.i("TestAAB", "oAuthCode:" + oAuthCode);
 						if (null != oAuthCode) {
-							aabManager = new AABManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
+							aabManager = new AabManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
 							aabManager.getOAuthToken(oAuthCode);
 						} else {
 							Log.i("TestAAB", "oAuthCode: is null");
@@ -246,7 +242,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		
 	}
 
-	public class getTokenListener implements ATTIAMListener {
+	public class getTokenListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
@@ -263,7 +259,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
+		public void onError(AttSdkError error) {
 			/*authToken = new OAuthToken("abcd", 1, "xyz");
 			Config.token = authToken.getAccessToken().toString();*/
 			Log.i("getTokenListener",

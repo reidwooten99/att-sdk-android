@@ -14,16 +14,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.sdk.listener.AttSdkListener;
 public class GroupList extends Activity implements OnClickListener {
 	
-	private AABManager aabManager;
+	private AabManager aabManager;
 	private PageParams pageParams;
 	private GroupListAdapter adapter;
 	private String contactId;
@@ -59,7 +59,7 @@ public class GroupList extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");
 		
-		aabManager = new AABManager(Config.fqdn, 
+		aabManager = new AabManager(Config.fqdn, 
 									authToken,
 									new getContactGroupsListener());
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
@@ -74,7 +74,6 @@ public class GroupList extends Activity implements OnClickListener {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// TODO Auto-generated method stub
 				Group grpResult = (Group) groupListView.getItemAtPosition(position);
 				
 				CharSequence popUpList[] = new CharSequence[] {"Edit GroupName", "Show Contacts","Delete Group" };
@@ -108,8 +107,8 @@ public class GroupList extends Activity implements OnClickListener {
 		String deleteGroupID;
 
 		deleteGroupID = grp.getGroupId();
-		aabManager = new AABManager(Config.fqdn, authToken, new deleteGroupListener());
-		aabManager.DeleteGroup(deleteGroupID);
+		AabManager = new AabManager(Config.fqdn, authToken, new deleteGroupListener());
+		AabManager.DeleteGroup(deleteGroupID);
 	}*/
 
 	@Override
@@ -119,13 +118,12 @@ public class GroupList extends Activity implements OnClickListener {
 		return true;
 	}
 	
-	private class getContactGroupsListener implements ATTIAMListener {
+	private class getContactGroupsListener implements AttSdkListener {
 		public GroupResultSet groupResultSet;
 		Group[] groupList;
 
 		@Override
 		public void onSuccess(Object response) {
-			// TODO Auto-generated method stub
 			groupResultSet = (GroupResultSet) response;
 			if (null != groupResultSet) {
 				 groupList = groupResultSet.getGroups();
@@ -145,8 +143,7 @@ public class GroupList extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
-			// TODO Auto-generated method stub
+		public void onError(AttSdkError error) {
 			Log.i("getContactsAPI on error", "onError");
 
 		}
@@ -154,7 +151,6 @@ public class GroupList extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		Intent intent;
 		switch(v.getId()) {	
 		case R.id.myInfo :

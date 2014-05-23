@@ -2,7 +2,7 @@ package com.att.testaab;
 
 import android.widget.TextView;
 
-import com.att.api.aab.manager.AABManager;
+import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
@@ -13,11 +13,10 @@ public class GroupsTestCase extends AabTestCase {
 	
 	public GroupsTestCase(TextView textView, String strLogFilePath) {
 		super(textView, strLogFilePath);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void testGetGroups(PageParams pageParams, SearchParams searchParams) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getGroupsListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getGroupsListener());
 		aabManager.GetGroups(pageParams, null);
 		return;
 	}
@@ -48,7 +47,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testCreateGroup(String groupName, String groupType) {
-		aabManager = new AABManager(Config.fqdn, authToken, new createGroupListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new createGroupListener());
 		Group group = new Group("05058", groupName, groupType);
 		aabManager.CreateGroup(group);
 	}
@@ -76,7 +75,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testDeleteGroup (String groupId) {	
-		aabManager = new AABManager(Config.fqdn, authToken, new deleteGroupListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new deleteGroupListener());
 		aabManager.DeleteGroup(groupId);
 	}
 	
@@ -98,7 +97,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testAddContactsToGroup(String groupId, String contactIds) {
-		aabManager = new AABManager(Config.fqdn, authToken, new addContactsToGroupListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new addContactsToGroupListener());
 		aabManager.AddContactsToGroup(groupId, contactIds);
 	}
 	
@@ -122,7 +121,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testGetGroupContacts( String groupId, PageParams params ) {
-		aabManager = new AABManager(Config.fqdn, authToken, new getGroupContactsListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new getGroupContactsListener());
 		aabManager.GetGroupContacts(groupId, params);
 	}
 	
@@ -149,7 +148,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testRemoveContactsFromGroup(String groupId, String contactIds) {
-		aabManager = new AABManager(Config.fqdn, authToken, new removeContactsFromGroupListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new removeContactsFromGroupListener());
 		aabManager.RemoveContactsFromGroup(groupId, contactIds);
 	}
 	
@@ -170,7 +169,7 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testUpdateGroup(Group group) {
-		aabManager = new AABManager(Config.fqdn, authToken, new updateGroupListener());
+		aabManager = new AabManager(Config.fqdn, authToken, new updateGroupListener());
 		aabManager.UpdateGroup(group);
 	}
 	

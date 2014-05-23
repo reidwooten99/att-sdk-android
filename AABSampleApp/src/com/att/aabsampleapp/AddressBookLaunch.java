@@ -11,15 +11,15 @@ import android.view.MenuItem;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import com.att.api.aab.listener.ATTIAMListener;
-import com.att.api.aab.manager.AABManager;
-import com.att.api.error.InAppMessagingError;
+import com.att.api.aab.manager.AabManager;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.sdk.listener.AttSdkListener;
 
 public class AddressBookLaunch extends Activity {
 	
 	private final int OAUTH_CODE = 1;
-	private AABManager aabManager;
+	private AabManager aabManager;
 	private ProgressDialog pDialog;
 
 	@Override
@@ -47,7 +47,7 @@ public class AddressBookLaunch extends Activity {
 				oAuthCode = data.getStringExtra("oAuthCode");
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode) {				
-					aabManager = new AABManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
+					aabManager = new AabManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
 					aabManager.getOAuthToken(oAuthCode);
 				} else {
 					Log.i("ContactList", "oAuthCode: is null");
@@ -56,7 +56,7 @@ public class AddressBookLaunch extends Activity {
 		} 
 	}
 	
-	public class getTokenListener implements ATTIAMListener {
+	public class getTokenListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
@@ -70,7 +70,7 @@ public class AddressBookLaunch extends Activity {
 		}
 
 		@Override
-		public void onError(InAppMessagingError error) {
+		public void onError(AttSdkError error) {
 			Log.i("getTokenListener","onError Message : " );
 		}
 	}
@@ -85,7 +85,6 @@ public class AddressBookLaunch extends Activity {
 	}
 
 	public void getAddressBookContacts() {
-		// TODO Auto-generated method stub	
 		Intent i = new Intent(AddressBookLaunch.this, ContactList.class);
 		startActivity(i);
 		dismissProgressDialog();
@@ -94,7 +93,6 @@ public class AddressBookLaunch extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			
 			case R.id.action_logout :
