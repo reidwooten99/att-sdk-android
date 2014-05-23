@@ -80,3 +80,7 @@ Id,Task,Estimate,Priority,Assigned To,Status,Due Date
 ,Add them to the Contact tab (when the contact is clicked),,,Surender,,
 ,"Create New Activities for Unit Tests – ContactUnitTestActivity, GroupUnitTestActivity etc",,,,,
 ,Create a generic listener for UnitTestActivities,,,,,
+,Create a blog in Stackoverflow – How to use ATT CodeKit in Eclipse,,,,,
+,Create Addressbook docs – giving links to add codeKit ,,,,,
+,"Rename IAMlistener, IAMError Object in AAB",,,,,
+,Add x args in AAB,,,,,
