@@ -39,11 +39,11 @@ public class AabManager {
 		aabService = new AABService(fqdn, token);
 		aabListener = listener;
 	}
-/*	
+	
 	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
 		aabListener = listener;
-	}*/
+	}
 	
 	/**
      * Gets an access token using the specified code.
