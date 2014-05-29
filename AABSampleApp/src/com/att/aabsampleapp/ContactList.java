@@ -1,9 +1,14 @@
 package com.att.aabsampleapp;
 
 
+import com.att.api.aab.service.ContactResultSet;
+import com.att.api.error.AttSdkError;
+import com.att.sdk.listener.AttSdkListener;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TabHost;
 
@@ -21,10 +26,16 @@ public class ContactList extends TabActivity {
 		
 		i = new Intent(this, AllContacts.class);
 		i.putExtra("groupId", "-1");
-		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("List")
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("LIST")
 				.setContent(i));
 		
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MYINFO")
+				.setContent(i));
+		
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("GROUPS")
+				.setContent(i));
+		
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("NEW")
 				.setContent(i));
 	}
 
@@ -34,6 +45,9 @@ public class ContactList extends TabActivity {
 		getMenuInflater().inflate(R.menu.contact_list, menu);
 		return true;
 	}
+	
+	
+
 	
 	
 }

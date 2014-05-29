@@ -1,5 +1,7 @@
 package com.att.aabsampleapp;
 
+import com.att.api.oauth.OAuthToken;
+
 public class Config {
 
 		public static long accessTokenExpiry = 50000000;
@@ -41,7 +43,7 @@ public class Config {
 		
 		
 		//F3 Credentials 
-		public static String token 					;//	= "PAhHNHrmuLNYQnot7ERJa2hEW9ClFpT0";
+		public static String token 					= "PAhHNHrmuLNYQnot7ERJa2hEW9ClFpT0";
 		
 		public static final String clientID				= 	 "hjelfbo7ioni1xhegmbp51dyi3ylgirn";
 		public static final String secretKey 			= 	"opfahnjscrfra3b1swab1nziam97xb0v";
