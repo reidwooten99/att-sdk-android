@@ -105,7 +105,7 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 						
 					case 2: //GetContact
-							ctc.testGetContact("12CE1C28362013082800371294D457585C50A2B1", "shallow");	
+							ctc.testGetContact(ctc.lastContactId, "shallow");	
 							break;
 						
 					case 3: //GetContactGroups

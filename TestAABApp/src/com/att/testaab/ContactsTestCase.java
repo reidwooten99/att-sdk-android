@@ -13,7 +13,8 @@ import com.att.api.aab.service.SearchParams;
 import android.widget.TextView;
 
 public class ContactsTestCase extends AabTestCase {
-	public String newContactId;
+	public String newContactId = null;
+	public String lastContactId = null;
 	
 	public ContactsTestCase(TextView textView, String strLogFilePath) {
 		super(textView, strLogFilePath);
@@ -45,10 +46,13 @@ public class ContactsTestCase extends AabTestCase {
 			if (null != contactResultSet) {
 				strText = "\nPassed: " + strTestName + " test.";
 				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
+				String strPhone = null;
 				for (int i=0; i < quickContacts_arr.length; i++) {
 					QuickContact qc = quickContacts_arr[i];
+					strPhone = (qc.getPhone() != null) ? qc.getPhone().getNumber() : "0001112222";
 					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();					
+								qc.getFormattedName() + ", " + strPhone;
+					lastContactId = qc.getContactId();
 				}
 			} else {
 				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
@@ -61,6 +65,7 @@ public class ContactsTestCase extends AabTestCase {
 	public void testGetContact(String contactId, String xFields) {
 		aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, xFields);	
+		lastContactId = contactId;
 		return;
 	}
 
@@ -76,13 +81,16 @@ public class ContactsTestCase extends AabTestCase {
 			if (null != contactWrapper) {
 				QuickContact qc = contactWrapper.getQuickContact();
 				Contact c = contactWrapper.getContact();
+				String strPhone = null;
 				strText = "\nPassed: " + strTestName + " test.";
 				if (null != qc) {
+					strPhone = (qc.getPhone() != null) ? qc.getPhone().getNumber() : "0001112222";
 					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+								qc.getFormattedName() + ", " + strPhone;
 				} else if (null != c) {
-						strText += "\n" + c.getContactId() + ", " + 
-									c.getFormattedName() + ", " + c.getPhones()[0].getNumber();
+					strPhone = (c.getPhones() != null && c.getPhones().length > 0) ? c.getPhones()[0].getNumber() : "0001112222";
+					strText += "\n" + c.getContactId() + ", " + 
+								c.getFormattedName() + ", " + c.getPhones()[0].getNumber();
 				}
 			} else {
 				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
@@ -148,6 +156,7 @@ public class ContactsTestCase extends AabTestCase {
 			strText = "\nPassed: " + strTestName + " test.";
 			strText += "\n" +"DeleteContactAPI : " + " "+ result;
 			updateTextDisplay(strText);
+			newContactId = null;
 			return;
 			
 		}
