@@ -58,11 +58,19 @@ public class Config {
 	
 	
 	//F3 Crdentials 
-	public static String token 				= "PAhHNHrmuLNYQnot7ERJa2hEW9ClFpT0";
+	//public static String token 				= "PAhHNHrmuLNYQnot7ERJa2hEW9ClFpT0";
+	//public static final String clientID			= 	 "hjelfbo7ioni1xhegmbp51dyi3ylgirn";
+	//public static final String secretKey 			= 	"opfahnjscrfra3b1swab1nziam97xb0v";
+	//public static final String 		fqdn			= 	"https://api-uat.mars.bf.sl.attcompute.com";
+	//public static final String redirectUri  		= 	"https://developer.att.com";
 	
-	public static final String clientID			= 	 "hjelfbo7ioni1xhegmbp51dyi3ylgirn";
-	public static final String secretKey 			= 	"opfahnjscrfra3b1swab1nziam97xb0v";
-	public static final String redirectUri  		= 	"https://developer.att.com";
+	//H4 token
+	public static String token 				= "oCxo6zOuxiLbu6JG4S1AtcMgbbjFbwQx";
+	
+	public static final String clientID			= 	 "fotrlxysjbqbjf0e3baq18kmtltm2kfg";
+	public static final String secretKey 			= 	"ago4tllcknsraolvfsjtmerdoyvcmkrw";
+	public static final String redirectUri  		= 	"http://localhost:55937/app1/Default.aspx";
 	public static final String appScope	 			= 	 "AAB";
-	public static final String 		fqdn			= 	"https://api-uat.mars.bf.sl.attcompute.com";
+	public static final String 		fqdn			= 	"https://api.att.com";
+	//public static final String fqdn			= 	"http://api-simulator.herokuapp.com";
 }
