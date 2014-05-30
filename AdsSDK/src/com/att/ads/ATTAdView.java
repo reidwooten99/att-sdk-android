@@ -135,7 +135,7 @@ public class ATTAdView extends WebView {
 						EncryptDecrypt.getSecretKeySpec("app_key"));
 				getPrefSecret = EncryptDecrypt.getDecryptedValue(secretEnc, 
 						EncryptDecrypt.getSecretKeySpec("app_secret"));
-				if(false == ((!getPrefAppKey.equals(appKey)) && (!getPrefSecret.equals(secret))))
+				if(false == (getPrefAppKey.equals(appKey) && (getPrefSecret.equals(secret))))
 					clearCache();
 			}
 		} catch (Exception e) {
