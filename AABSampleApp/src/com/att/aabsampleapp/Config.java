@@ -14,14 +14,6 @@ public class Config {
 		public static final String appScope	 			= 	 APP_SCOPE;
 		public static final String redirectUri  		= 	 REDIRECT_URI;*/
 		
-		//IAM Credentials
-		
-		/*public static final String clientID				= 	 "7vroavot7vittuzg8zegqszjnymyf3lw";
-		public static final String secretKey 			= 	"tvygie2blq8gf1yhshylf9kqspi7gfvx";
-		public static final String redirectUri  		= 	"https://developer.att.com";
-		public static final String 		fqdn			= 	"https://api.att.com";
-		public static final String appScope	 			= 	 "IMMN,MIM";*/
-
 		
 		//F6 Credentials - NOT WORKING 
 		
@@ -51,7 +43,8 @@ public class Config {
 
 		public static final String appScope	 			= 	 "AAB";
 		
-		public static String token 					= "oCxo6zOuxiLbu6JG4S1AtcMgbbjFbwQx";		
+		public static String token 			;//		= "oCxo6zOuxiLbu6JG4S1AtcMgbbjFbwQx";	
+		public static OAuthToken authToken;
 		public static final String clientID				= 	 "fotrlxysjbqbjf0e3baq18kmtltm2kfg";
 		public static final String secretKey 			= 	"ago4tllcknsraolvfsjtmerdoyvcmkrw";
 		public static final String redirectUri  		= 	"http://localhost:55937/app1/Default.aspx";

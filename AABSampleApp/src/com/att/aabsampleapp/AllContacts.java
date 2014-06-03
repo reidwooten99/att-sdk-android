@@ -16,7 +16,6 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.AttSdkError;
-import com.att.api.oauth.OAuthToken;
 import com.att.sdk.listener.AttSdkListener;
 
 
@@ -28,7 +27,6 @@ public class AllContacts extends Activity implements OnClickListener{
 	private SearchParams searchParams;
 	private ContactResultSet contactResultSet;
 	private ContactsAdapter adapter;
-	private OAuthToken authToken;
 	private ListView ContactsListView;
 	private QuickContact[] contactsList;
 
@@ -36,26 +34,25 @@ public class AllContacts extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_all_contacts);
-		
-		aabManager = new AabManager(Config.fqdn, authToken, new getContactsListener());
+				
+		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
+		aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactsListener());
 		
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
-		setupContactListListener();
+		//setupContactListListener();
 	}
 	
 	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.all_contacts, menu);
 		return true;
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -67,7 +64,7 @@ public class AllContacts extends Activity implements OnClickListener{
 			if (null != contactResultSet && null != contactResultSet.getQuickContacts()
 				&& contactResultSet.getQuickContacts().length > 0) {
 				
-				contactsList = contactResultSet.getQuickContacts();
+				contactsList = contactResultSet.getQuickContacts();			
 				adapter = new ContactsAdapter(getApplicationContext(),contactsList);
 				ContactsListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();

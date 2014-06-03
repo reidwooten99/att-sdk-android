@@ -26,7 +26,7 @@ public class ContactList extends TabActivity {
 		
 		i = new Intent(this, AllContacts.class);
 		i.putExtra("groupId", "-1");
-		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("LIST")
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("CONTCTS")
 				.setContent(i));
 		
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MYINFO")

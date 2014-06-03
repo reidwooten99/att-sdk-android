@@ -27,7 +27,7 @@ public class AddressBookLaunch extends Activity {
 		super.onCreate(savedInstanceState);
 		showProgressDialog("Opening  AddressBook .. ");
 		setContentView(R.layout.activity_address_book_launch);
-
+		
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
@@ -48,7 +48,8 @@ public class AddressBookLaunch extends Activity {
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode) {				
 					aabManager = new AabManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
-					aabManager.getOAuthToken(oAuthCode);
+					aabManager.getOAuthToken(oAuthCode); 
+					
 				} else {
 					Log.i("ContactList", "oAuthCode: is null");
 				}
@@ -56,12 +57,15 @@ public class AddressBookLaunch extends Activity {
 		} 
 	}
 	
+	
+	
 	public class getTokenListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
+				Config.authToken = authToken;
 				Config.token = authToken.getAccessToken();
 				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener","onSuccess Message : " + authToken.getAccessToken());
@@ -77,7 +81,6 @@ public class AddressBookLaunch extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.address_book_launch, menu);
 
