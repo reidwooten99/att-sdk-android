@@ -9,7 +9,8 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.SearchParams;
 
 public class GroupsTestCase extends AabTestCase {
-	public String newGroupId;
+	public static String newGroupId = null;
+	public static String lastGroupId = null;
 	
 	public GroupsTestCase(TextView textView, String strLogFilePath) {
 		super(textView, strLogFilePath);
@@ -35,7 +36,8 @@ public class GroupsTestCase extends AabTestCase {
 				for (int i=0; i < groups_arr.length; i++) {
 					Group grp = groups_arr[i];
 					strText += "\n" + grp.getGroupId() + ", " + 
-							grp.getGroupName() + ", " + grp.getGroupType();				
+							grp.getGroupName() + ", " + grp.getGroupType();	
+					lastGroupId = grp.getGroupId();
 				}			
 			} else {
 				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
@@ -75,6 +77,10 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testDeleteGroup (String groupId) {	
+		if (null == groupId) {
+			display.setText("Error: Please create a new group or call GetGroups first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new deleteGroupListener());
 		aabManager.DeleteGroup(groupId);
 	}
@@ -97,6 +103,10 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testAddContactsToGroup(String groupId, String contactIds) {
+		if (null == groupId) {
+			display.setText("Error: Please create a new group or call GetGroups first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new addContactsToGroupListener());
 		aabManager.AddContactsToGroup(groupId, contactIds);
 	}
@@ -121,6 +131,10 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testGetGroupContacts( String groupId, PageParams params ) {
+		if (null == groupId) {
+			display.setText("Error: Please create a new group or call GetGroups first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new getGroupContactsListener());
 		aabManager.GetGroupContacts(groupId, params);
 	}
@@ -148,6 +162,10 @@ public class GroupsTestCase extends AabTestCase {
 	}
 	
 	public void testRemoveContactsFromGroup(String groupId, String contactIds) {
+		if (null == groupId) {
+			display.setText("Error: Please create a new group or call GetGroups first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new removeContactsFromGroupListener());
 		aabManager.RemoveContactsFromGroup(groupId, contactIds);
 	}

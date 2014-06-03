@@ -98,6 +98,14 @@ public class TestAAB extends Activity implements OnClickListener {
                 try { iOperation = Integer.valueOf(apiNumber); }
                 catch(Exception e) {}
                 
+//                1 2 - contacts, display contact
+//                7 8 7 - groups, create group, groups
+//                13 11 13 - group contacts, add contact to group, group contacts
+//                3 - contact groups
+//                4 1 2 create contact, contacts, display
+//                5 1 2 update contact, contacts, display
+//                6 1 delete contact, contacts
+                
 				switch (iOperation) {
 				
 					case 1: //GetContacts
@@ -105,12 +113,12 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 						
 					case 2: //GetContact
-							ctc.testGetContact(ctc.lastContactId, "shallow");	
+							ctc.testGetContact(ContactsTestCase.lastContactId, "shallow");	
 							break;
 						
 					case 3: //GetContactGroups
 							pageParams = new PageParams("ASC", "groupName", "12", "0");
-							ctc.testGetContactGroups("12CE1C28362013082800371294D457585C50A2B1", pageParams);
+							ctc.testGetContactGroups(ContactsTestCase.lastContactId, pageParams);
 							break;
 						
 					case 4: //CreateContact
@@ -119,13 +127,13 @@ public class TestAAB extends Activity implements OnClickListener {
 						
 					case 5: //UpdateContact, Fist and Last, Verify, Switch back
 							//ctc.testUpdateContact("12CE1C28362013082800371294D457585C50A2B1", "FirstView", "LastUsage");
-							ctc.testUpdateContact(ctc.newContactId, "Last", "TestFirstFive");
+							ctc.testUpdateContact(ContactsTestCase.newContactId, "Last", "TestFirstFive");
 							// Verify and then switch back
-							ctc.testUpdateContact(ctc.newContactId, "TestFirstFive", "Last");
+							ctc.testUpdateContact(ContactsTestCase.newContactId, "TestFirstFive", "Last");
 							break; 
 					
 					case 6: //DeleteContact
-							ctc.testDeleteContact(ctc.newContactId);
+							ctc.testDeleteContact(ContactsTestCase.newContactId);
 							break;
 						
 					case 7 : //GetGroups
@@ -138,25 +146,25 @@ public class TestAAB extends Activity implements OnClickListener {
 							break;
 						
 					case 9: //DeleteGroup
-							gtc.testDeleteGroup("39597cb2-a609-4696-96c7-71d09f09907d");
+							gtc.testDeleteGroup(GroupsTestCase.newGroupId);
 							break;
 						
 					case 10: //UpdateGroup
-							Group group = new Group("a749f6b6-a563-42e9-89c3-0cda468a043e", "TestUpdateGroup", "USER" );
+							Group group = new Group(GroupsTestCase.newGroupId, "TestUpdateGroup", "USER" );
 							gtc.testUpdateGroup(group);
 							break;
 						
 					case 11: //AddContactsToGroup
-							gtc.testAddContactsToGroup("a749f6b6-a563-42e9-89c3-0cda468a043e" , "39FC506FE22013082800371294D457585C50A2B1");
+							gtc.testAddContactsToGroup(GroupsTestCase.newGroupId, ContactsTestCase.lastContactId);
 							break;
 					
 					case 12: //RemoveContactsFromGroup
-							gtc.testRemoveContactsFromGroup("a749f6b6-a563-42e9-89c3-0cda468a043e", "12CE1C28362013082800371294D457585C50A2B1");
+							gtc.testRemoveContactsFromGroup(GroupsTestCase.newGroupId, ContactsTestCase.lastContactId);
 							break;
 					
 					case 13: //GetGroupContacts
 							pageParams = new PageParams("ASC", "firstName", "10", "0");
-							gtc.testGetGroupContacts("a749f6b6-a563-42e9-89c3-0cda468a043e", pageParams);
+							gtc.testGetGroupContacts(GroupsTestCase.lastGroupId, pageParams);
 							break;
 							
 					case 14: //GetMyInfo
@@ -168,6 +176,13 @@ public class TestAAB extends Activity implements OnClickListener {
 							// Verify that two are switched. and change back to original
 							otc.testUpdateMyInfo("FirstMyInfo", "LastMyInfo");
 							break;					
+					
+					case 16: //DeleteLastContact
+						ctc.testDeleteContact(ContactsTestCase.lastContactId);
+						break;
+					case 17: //DeleteLastGroup
+						gtc.testDeleteGroup(GroupsTestCase.lastGroupId);
+						break;
 				}
 			}
 		});

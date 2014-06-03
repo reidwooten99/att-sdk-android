@@ -13,8 +13,8 @@ import com.att.api.aab.service.SearchParams;
 import android.widget.TextView;
 
 public class ContactsTestCase extends AabTestCase {
-	public String newContactId = null;
-	public String lastContactId = null;
+	public static String newContactId = null;
+	public static String lastContactId = null;
 	
 	public ContactsTestCase(TextView textView, String strLogFilePath) {
 		super(textView, strLogFilePath);
@@ -63,6 +63,10 @@ public class ContactsTestCase extends AabTestCase {
 	}
 
 	public void testGetContact(String contactId, String xFields) {
+		if (null == contactId) {
+			display.setText("Error: Please create a new contact or call GetContacts first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
 		aabManager.GetContact(contactId, xFields);	
 		lastContactId = contactId;
@@ -139,6 +143,10 @@ public class ContactsTestCase extends AabTestCase {
 
 
 	public void testDeleteContact(String contactId) {
+		if (null == contactId) {
+			display.setText("Error: Please create a new contact or call GetContacts first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new deleteContactListener());
 		aabManager.DeleteContact(contactId);	
 		return;
@@ -163,6 +171,10 @@ public class ContactsTestCase extends AabTestCase {
 	}
 	
 	public void testGetContactGroups(String contactId, PageParams pageParams) {
+		if (null == contactId) {
+			display.setText("Error: Please create a new contact or call GetContacts first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new getContactGroupsListener());
 		aabManager.GetContactGroups(contactId, pageParams);	
 	}
@@ -192,6 +204,10 @@ public class ContactsTestCase extends AabTestCase {
 	}
 	
 	public void testUpdateContact(String contactId, String firstName, String lastName) {
+		if (null == contactId) {
+			display.setText("Error: Please create a new contact or call GetContacts first.");
+			return;
+		}
 		aabManager = new AabManager(Config.fqdn, authToken, new updateContactListener());
 		Contact.Builder builder = new Contact.Builder(); 
 		builder.setFirstName(firstName);
