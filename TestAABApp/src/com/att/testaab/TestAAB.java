@@ -29,6 +29,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	private SearchParams searchParams;
 	private Button btnRun;
 	private Button btnClear;
+	private Button btnLogin;
 	
 	private TextView displayContacts;
 	//private ContactWrapper contactWrapper;	
@@ -48,6 +49,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		
 		btnRun = (Button) findViewById(R.id.getContactsBtn);
 		btnClear = (Button) findViewById(R.id.clearbutton);
+		btnLogin = (Button) findViewById(R.id.btnLogin);
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
 		
 		testApi = (EditText)findViewById(R.id.editText1);
@@ -58,11 +60,18 @@ public class TestAAB extends Activity implements OnClickListener {
 		//SearchParams.Builder builder = new SearchParams.Builder();
 		//searchParams = new SearchParams(builder.setZipcode("94086"));
 		
+		btnLogin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
+			}
+		});
+		
 		btnClear.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				displayContacts.setText("");
 			}
 		});
