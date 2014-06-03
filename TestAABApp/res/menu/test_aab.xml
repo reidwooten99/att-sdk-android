@@ -6,4 +6,35 @@
         android:showAsAction="never"
         android:title="@string/action_settings"/>
 
+    <item
+        android:id="@+id/action_login"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_login"/>
+    
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_logout"/>
+    
+    <item
+        android:id="@+id/action_groups"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/Groups"/>
+    
+     <item
+        android:id="@+id/action_contacts"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/Contacts"/>
+     
+     <item
+        android:id="@+id/action_tabview"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_tabview"/>
+    
+    
 </menu>

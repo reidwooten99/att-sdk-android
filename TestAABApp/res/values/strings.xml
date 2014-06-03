@@ -3,6 +3,9 @@
 
     <string name="app_name">TestAABApp</string>
     <string name="action_settings">Settings</string>
+    <string name="action_login">Login</string>   
+   <string name="action_logout">Logout</string>  
+   <string name="action_tabview">Tabview</string> 
     <string name="action_newContact">New Contact</string> 
      <string name="action_saveContact">Save Contact</string>   
     <string name="get_contacts">GetContacts</string>
@@ -29,7 +32,8 @@
     <string name="zipCode">ZipCode</string>
     <string name="MyInfo">MyInfo</string>
     <string name="Contacts">Contacts</string>
-    <string name="Enter">Enter</string>
+    <string name="Enter">Run</string>
+    <string name="Clear">Clear</string>
     <string name="hint2">2</string>
     <string name="newGrp">New</string>
     <string name="title_activity_group_list_adapter">GroupListAdapter</string>

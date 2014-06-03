@@ -7,70 +7,37 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TestAAB" >
-       
+
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="5"
-        android:inputType="number"
-        android:hint="@string/hint2" />
-
-    <Button
-        android:id="@+id/contactsListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/getContactsBtn"
-        android:layout_marginTop="16dp"
-        android:text="@string/Contacts" />
-
-    <Button
-        android:id="@+id/getContactsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText1"
-        android:layout_alignTop="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:text="@string/Enter" />
+        android:ems="3"
+        android:hint="@string/hint2"
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/displayContacts1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/contactsListView"
-        android:layout_below="@+id/btnLogin" />
+        android:layout_below="@+id/getContactsBtn" 
+        />
 
     <Button
-        android:id="@+id/btnGroups"
+        android:id="@+id/clearbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/contactsListView"
-        android:layout_alignLeft="@+id/getContactsBtn"
-        android:layout_marginLeft="18dp"
-        android:text="@string/Groups" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/contactsListView"
-        android:text="LogIn" />
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnLogin"
-        android:layout_alignBottom="@+id/btnLogin"
-        android:layout_alignLeft="@+id/btnGroups"
-        android:text="LogOut" />
-
-    <Button
-        android:id="@+id/ContactsTabView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/getContactsBtn"
+        android:layout_alignBaseline="@+id/getContactsBtn"
+        android:layout_alignBottom="@+id/getContactsBtn"
         android:layout_toRightOf="@+id/getContactsBtn"
-        android:text="TabView" />
+        android:text="@string/Clear" />
+
+    <Button
+        android:id="@+id/getContactsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editText1"
+        android:layout_toRightOf="@+id/editText1"
+        android:text="@string/Enter" />
 
 </RelativeLayout>

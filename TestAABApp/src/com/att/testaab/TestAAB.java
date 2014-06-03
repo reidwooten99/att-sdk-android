@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
@@ -26,16 +27,16 @@ public class TestAAB extends Activity implements OnClickListener {
 	private AabManager aabManager;
 	private PageParams pageParams;
 	private SearchParams searchParams;
-	private Button getContacts;
+	private Button btnRun;
+	private Button btnClear;
+	
 	private TextView displayContacts;
 	//private ContactWrapper contactWrapper;	
-	private Button BtnContactsList;
+	
 	private EditText testApi;
-	private Button btnGroups;
+
 	private final int OAUTH_CODE = 1;
-	private Button btnLogIn;
-	private Button btnLogOut;
-	private Button btnTabView;
+	
 	
 	 OAuthToken authToken = new OAuthToken(Config.token, Config.accessTokenExpiry, Config.refreshToken);
     
@@ -44,48 +45,30 @@ public class TestAAB extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_test_aab);
-		getContacts = (Button) findViewById(R.id.getContactsBtn);
+		
+		btnRun = (Button) findViewById(R.id.getContactsBtn);
+		btnClear = (Button) findViewById(R.id.clearbutton);
 		displayContacts = (TextView)findViewById(R.id.displayContacts1);
-		BtnContactsList = (Button)findViewById(R.id.contactsListView);
+		
 		testApi = (EditText)findViewById(R.id.editText1);
 		testApi.setText("1"); // set default to 2
 		
-		btnLogIn = (Button) findViewById(R.id.btnLogin);
-		btnLogIn.setOnClickListener(this);
-		btnLogOut = (Button) findViewById(R.id.btnLogout);
-		btnLogOut.setOnClickListener(this);
-		btnTabView = (Button) findViewById(R.id.ContactsTabView);
-		btnTabView.setOnClickListener(this);
-		
-		
-		btnGroups = (Button) findViewById(R.id.btnGroups);
-		btnGroups.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(TestAAB.this, GroupList.class);
-				intent.putExtra("contactId", "-1");
-				startActivity(intent);
-			
-				
-			}
-		});
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
 		//SearchParams.Builder builder = new SearchParams.Builder();
 		//searchParams = new SearchParams(builder.setZipcode("94086"));
 		
-		BtnContactsList.setOnClickListener(new OnClickListener() {
+		btnClear.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(TestAAB.this, ContactsList.class);
-				startActivity(i);					
+				// TODO Auto-generated method stub
+				displayContacts.setText("");
 			}
 		});
 	
 		
-		getContacts.setOnClickListener(new OnClickListener() {
+		btnRun.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -193,9 +176,46 @@ public class TestAAB extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.test_aab, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+		switch (item.getItemId()) {
+			
+			case R.id.action_logout : 
+				logOutOfAddressBook();
+				break;
+				
+			case R.id.action_login :
+				logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
+				break;
+			
+			case R.id.action_contacts :
+				 i = new Intent(TestAAB.this, ContactsList.class);
+				startActivity(i);	
+				break;
+			
+			case R.id.action_groups :
+				Intent intent = new Intent(TestAAB.this, GroupList.class);
+				intent.putExtra("contactId", "-1");
+				startActivity(intent);
+				break;
+			
+			case R.id.action_tabview :
+				 i = new Intent(TestAAB.this, ContactsTabView.class);
+				//Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
+				startActivity(i);
+				break;
+			
+			default :
+				return super.onOptionsItemSelected(item);
+		
+		}
+		return true;
+	}
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == OAUTH_CODE) {
@@ -225,20 +245,7 @@ public class TestAAB extends Activity implements OnClickListener {
 		} 
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()) {
-			case R.id.btnLogin : logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
-				break;
-			case R.id.btnLogout : logOutOfAddressBook();
-				break;		
-			case R.id.ContactsTabView : 
-				Intent i = new Intent(TestAAB.this, ContactsTabView.class);
-				//Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
-				startActivity(i);
-		}
-		
-	}
+	
 
 	public void logOutOfAddressBook() {
 		CookieSyncManager.createInstance(this);
@@ -280,6 +287,12 @@ public class TestAAB extends Activity implements OnClickListener {
 			Log.i("getTokenListener",
 					"onError Message : " );
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
