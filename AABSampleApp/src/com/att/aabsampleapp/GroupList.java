@@ -57,7 +57,7 @@ public class GroupList extends Activity implements OnClickListener {
 					int position, long arg3) {
 				Group grpResult = (Group) groupListView.getItemAtPosition(position);
 				
-				CharSequence popUpList[] = new CharSequence[] {"Edit GroupName", "Show Contacts","Delete Group" };
+				CharSequence popUpList[] = new CharSequence[] {"Edit GroupName", "Show Contacts","Delete Group", "Create Group" };
 				popUpActionList(popUpList, grpResult, position);
 				return true;
 			}

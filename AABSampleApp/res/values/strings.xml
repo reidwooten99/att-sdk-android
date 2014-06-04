@@ -9,5 +9,22 @@
     <string name="action_logout">Logout</string>
     <string name="title_activity_all_contacts">AllContacts</string>
     <string name="title_activity_all_groups">Groups</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
+    <string name="Update">Update</string>
+    <string name="Delete">Delete</string>
+    <string name="Groups">Groups</string>
+    <string name="Search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="FirstName">FirstName</string>
+    <string name="LastName">LastName</string>
+    <string name="Organization">Organization</string>
+    <string name="PhoneType1">PhoneType1</string>
+    <string name="PhoneType2">PhoneType2</string>
+    <string name="EmailAddress">Email Address</string>
+    <string name="Address">Address</string>
+    <string name="Address2">Address2</string>
+    <string name="City">City</string>
+    <string name="state">State</string>
+    <string name="zipCode">ZipCode</string>
 
 </resources>

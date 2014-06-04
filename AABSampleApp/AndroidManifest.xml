@@ -55,6 +55,10 @@
             android:name="com.att.aabsampleapp.GroupList"
             android:label="@string/title_activity_all_groups" >
         </activity>
+        <activity
+            android:name="com.att.aabsampleapp.ContactDetails"
+            android:label="@string/title_activity_contact_details" >
+        </activity>
     </application>
 
 </manifest>

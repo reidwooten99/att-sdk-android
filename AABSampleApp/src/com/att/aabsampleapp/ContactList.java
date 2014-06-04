@@ -29,6 +29,8 @@ public class ContactList extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("CONTCTS")
 				.setContent(i));
 		
+		i = new Intent(this, ContactDetails.class);
+		i.putExtra("contactId", "MY_INFO");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MYINFO")
 				.setContent(i));
 	
@@ -38,6 +40,9 @@ public class ContactList extends TabActivity {
 				.setContent(i));
 		
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("NEW")
+				.setContent(i));
+		
+		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("CONTACT")
 				.setContent(i));
 	}
 
