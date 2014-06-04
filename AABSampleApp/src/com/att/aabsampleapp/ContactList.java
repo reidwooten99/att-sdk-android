@@ -31,7 +31,9 @@ public class ContactList extends TabActivity {
 		
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MYINFO")
 				.setContent(i));
-		
+	
+		i = new Intent(this, GroupList.class);
+		i.putExtra("groupId", "-1");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("GROUPS")
 				.setContent(i));
 		

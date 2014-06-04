@@ -8,5 +8,6 @@
     <string name="title_activity_user_consent">UserConsentActivity</string>
     <string name="action_logout">Logout</string>
     <string name="title_activity_all_contacts">AllContacts</string>
+    <string name="title_activity_all_groups">Groups</string>
 
 </resources>
