@@ -21,6 +21,7 @@ import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
+
 public class GroupList extends Activity implements OnClickListener {
 	
 	private AabManager aabManager;
@@ -74,7 +75,7 @@ public class GroupList extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int options) {
 				switch (options) {
 				case 0:
-					editGroupName();
+					editGroupName(grp.getGroupId());
 					break;
 				case 2:
 					 // deleteGroup(grp); 
@@ -95,18 +96,21 @@ public class GroupList extends Activity implements OnClickListener {
 		AabManager.DeleteGroup(deleteGroupID);
 	}*/
 
-	public void editGroupName() {
+	public void editGroupName(final String groupId) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter Group Name");
 		builder.setMessage("Enter the Group name");
-		final EditText input = new EditText(getApplicationContext());
+		final EditText input = new EditText(getBaseContext());
 		builder.setView(input);
 		
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int whichButton) {
    
-        	 String srt = input.getEditableText().toString();
-        	 Toast.makeText(context,srt,Toast.LENGTH_LONG).show();        		
+        	 String editGroupName = input.getEditableText().toString();
+        	 
+        	 Group group = new Group(groupId, editGroupName, "USER" );
+        	 aabManager = new AabManager(Config.fqdn, Config.authToken, new updateGroupListener());
+        	 aabManager.UpdateGroup(group);
         	} 
         }); 
 		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -118,6 +122,23 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
+	private class updateGroupListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			String strText;
+			strText = "\n" +"UpdateGroupAPI : " + "  " + result;
+			Log.i("updateGroupAPI onSuccess", result);
+		}
+
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("updateGroupAPI on error", "onError");
+			
+		}
+		
+	}
 	
 	private class getGroupsListener implements AttSdkListener {
 		public GroupResultSet groupResultSet;
