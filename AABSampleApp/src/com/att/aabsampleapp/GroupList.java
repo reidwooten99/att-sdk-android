@@ -2,14 +2,18 @@ package com.att.aabsampleapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
@@ -24,6 +28,7 @@ public class GroupList extends Activity implements OnClickListener {
 	private GroupListAdapter adapter;
 	private String groupId;
 	ListView groupListView;
+	private Context context;
 	
 
 	@Override
@@ -68,6 +73,9 @@ public class GroupList extends Activity implements OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int options) {
 				switch (options) {
+				case 0:
+					editGroupName();
+					break;
 				case 2:
 					 // deleteGroup(grp); 
 					break;
@@ -87,6 +95,28 @@ public class GroupList extends Activity implements OnClickListener {
 		AabManager.DeleteGroup(deleteGroupID);
 	}*/
 
+	public void editGroupName() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Enter Group Name");
+		builder.setMessage("Enter the Group name");
+		final EditText input = new EditText(getApplicationContext());
+		builder.setView(input);
+		
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int whichButton) {
+   
+        	 String srt = input.getEditableText().toString();
+        	 Toast.makeText(context,srt,Toast.LENGTH_LONG).show();        		
+        	} 
+        }); 
+		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        	  public void onClick(DialogInterface dialog, int whichButton) {
+        		  dialog.cancel();
+        	  }
+        }); 
+		builder.create();	
+		builder.show();
+	}
 	
 	
 	private class getGroupsListener implements AttSdkListener {

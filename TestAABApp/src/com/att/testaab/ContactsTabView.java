@@ -1,23 +1,19 @@
 package com.att.testaab;
 
 
+import android.app.TabActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TabHost;
+
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
-import com.att.api.error.AttSdkError;
-import com.att.api.oauth.OAuthToken;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.TabActivity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TabHost;
 
 public class ContactsTabView extends TabActivity {
 	
@@ -44,7 +40,7 @@ public class ContactsTabView extends TabActivity {
 				.setContent(i));
 
 		i = new Intent(this, ContactDetails.class);
-		i.putExtra("contactId", "-1");
+		i.putExtra("contactId", "MY_INFO");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("MyInfo")
 				.setContent(i));
 		

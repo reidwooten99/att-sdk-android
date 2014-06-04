@@ -26,6 +26,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 	
 	private String contactId;
 	//private AabManager AabManager;
+	public static Contact contact; // Contact object used to display and update contact.
 	private ContactWrapper contactWrapper;	
 	private EditText editFirstName;
 	private EditText editLastName;
@@ -75,6 +76,15 @@ public class ContactDetails extends Activity implements OnClickListener {
 			
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
+		
+		if (contactId == "MY_INFO") {
+			AabManager AabManager = new AabManager(Config.fqdn, authToken, new getMyInfoListener());
+			AabManager.GetMyInfo();
+			
+		} else {
+			AabManager aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
+			aabManager.GetContact(contactId, " ");	
+		}
 		//int id = Integer.valueOf(contactId);
 		
 		
@@ -89,8 +99,7 @@ public class ContactDetails extends Activity implements OnClickListener {
 				break;
 				
 		}*/
-		AabManager aabManager = new AabManager(Config.fqdn, authToken, new getContactListener());
-		aabManager.GetContact(contactId, " ");	
+		
 		
 	}
 
@@ -123,29 +132,20 @@ public class ContactDetails extends Activity implements OnClickListener {
 	private class getContactListener implements AttSdkListener {
 
 		@Override
-		public void onSuccess(Object response) {
-			
+		public void onSuccess(Object response) {			
 			contactWrapper = (ContactWrapper) response;
 			if (null != contactWrapper) { 
-				strText = null;
-				com.att.api.aab.service.QuickContact qc = contactWrapper.getQuickContact();
-				if (null != qc) {
-					strText = "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
+				ContactDetails.contact = contactWrapper.getContact();
+				Contact c = ContactDetails.contact;
+				if (null != c) {
+					strText = "\n" + c.getContactId() + ", " + 
+								c.getFormattedName();
 					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
 					
-					editFirstName.setText(qc.getFirstName());
-					editLastName.setText(qc.getLastName());
-					editOrganization.setText(/*qc.getOrganization()*/"ATT");
-					editPhone1.setText(qc.getPhone().getNumber());
-					/*editEmailAddress.setText(qc.getEmail().getEmailAddress());
-					editAddress.setText(qc.getAddress().getAddrLineOne());
-					editAddress2.setText(qc.getAddress().getAddrLineTwo());
-					editCity.setText(qc.getAddress().getCity());
-					editState.setText(qc.getAddress().getState());
-					editZipCode.setText(qc.getAddress().getZipcode()); */
+					editFirstName.setText(c.getFirstName());
+					editLastName.setText(c.getLastName());
+					editOrganization.setText("ATT");
 				}
-				return;
 			}
 		}
 
@@ -157,27 +157,25 @@ public class ContactDetails extends Activity implements OnClickListener {
 	}
 	
 	private class getMyInfoListener implements AttSdkListener {
-
 		@Override
 		public void onSuccess(Object response) {
-			Contact result;
-			result = (Contact) response;
-			if (null != contactWrapper) { 
-				strText = null;
-				com.att.api.aab.service.QuickContact qc = contactWrapper.getQuickContact();
-				if (null != qc) {
-					strText = "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + qc.getPhone().getNumber();
-					Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
-				}
-				return;
+			ContactDetails.contact = (Contact) response;
+			Contact c = ContactDetails.contact;
+			if (null != c) {
+				strText = "\n" + c.getContactId() + ", " + 
+							c.getFormattedName();
+				Log.i("getContactsAPI","OnSuccess : ContactID :  " + strText);
+				
+				editFirstName.setText(c.getFirstName());
+				editLastName.setText(c.getLastName());
+				editOrganization.setText("ATT");
 			}
+			return;
 		}
 
 		@Override
 		public void onError(AttSdkError error) {
 			Log.i("getMyInfoAPI on error", "onError");
-
 		}
 	}
 
