@@ -2,18 +2,15 @@ package com.att.aabsampleapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
@@ -27,9 +24,8 @@ public class GroupList extends Activity implements OnClickListener {
 	private AabManager aabManager;
 	private PageParams pageParams;
 	private GroupListAdapter adapter;
-	private String groupId;
+	
 	ListView groupListView;
-	private Context context;
 	
 
 	@Override
@@ -41,7 +37,7 @@ public class GroupList extends Activity implements OnClickListener {
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
 	
 		Intent intent = getIntent();
-		groupId = intent.getStringExtra("groupId");
+		String groupId = intent.getStringExtra("groupId");
 		
 		aabManager = new AabManager(Config.fqdn, 
 									Config.authToken,
@@ -127,8 +123,11 @@ public class GroupList extends Activity implements OnClickListener {
 		@Override
 		public void onSuccess(Object response) {
 			String result = (String) response;
-			String strText;
-			strText = "\n" +"UpdateGroupAPI : " + "  " + result;
+			
+			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+			pageParams = new PageParams("ASC", "groupName", "5", "0");
+			aabManager.GetGroups(pageParams, null);
+			
 			Log.i("updateGroupAPI onSuccess", result);
 		}
 
@@ -139,6 +138,7 @@ public class GroupList extends Activity implements OnClickListener {
 		}
 		
 	}
+	
 	
 	private class getGroupsListener implements AttSdkListener {
 		public GroupResultSet groupResultSet;
