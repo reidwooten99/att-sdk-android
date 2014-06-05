@@ -5,6 +5,17 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-   
+     
+     <item
+        android:id="@+id/action_new"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_newContact"/>
+    
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_saveContact"/>
 
 </menu>

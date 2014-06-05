@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class ContactList extends TabActivity {
@@ -53,8 +55,23 @@ public class ContactList extends TabActivity {
 		return true;
 	}
 	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		//Contact c = getContactFromFields();
+		switch(item.getItemId()) {
+			case R.id.action_save :
+				//UpdateMyInfo or UpdateContact API
+				Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
+				break;
+				
+			case R.id.action_new :
+				// Create new contact based on the values in the fields
+				Toast.makeText(getApplicationContext(), "List New clicked", Toast.LENGTH_LONG).show();
+				break;
+			
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
 	
-
-	
-	
+		
 }
