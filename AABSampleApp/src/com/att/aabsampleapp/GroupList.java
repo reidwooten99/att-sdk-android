@@ -24,6 +24,8 @@ public class GroupList extends Activity implements OnClickListener {
 	private AabManager aabManager;
 	private PageParams pageParams;
 	private GroupListAdapter adapter;
+	private boolean isNewGroup = false;
+	private String groupId;
 	
 	ListView groupListView;
 	
@@ -37,12 +39,12 @@ public class GroupList extends Activity implements OnClickListener {
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
 	
 		Intent intent = getIntent();
-		String groupId = intent.getStringExtra("groupId");
+		groupId = intent.getStringExtra("groupId");
 		
 		aabManager = new AabManager(Config.fqdn, 
 									Config.authToken,
 									new getGroupsListener());
-		pageParams = new PageParams("ASC", "groupName", "2", "0");
+		pageParams = new PageParams("ASC", "groupName", "10", "0");
 		
 			aabManager.GetGroups(pageParams, null);
 		
@@ -54,7 +56,7 @@ public class GroupList extends Activity implements OnClickListener {
 					int position, long arg3) {
 				Group grpResult = (Group) groupListView.getItemAtPosition(position);
 				
-				CharSequence popUpList[] = new CharSequence[] {"Edit GroupName", "Show Contacts","Delete Group", "Create Group" };
+				CharSequence popUpList[] = new CharSequence[] {"Update Group", "Show Contacts","Delete Group", "Create Group" };
 				popUpActionList(popUpList, grpResult, position);
 				return true;
 			}
@@ -70,12 +72,23 @@ public class GroupList extends Activity implements OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int options) {
 				switch (options) {
-				case 0:
-					editGroupName(grp.getGroupId());
+				case 0: //Update GroupName
+					isNewGroup = false;
+					editGroupName(grp.getGroupId(), isNewGroup);
 					break;
-				case 2:
+					
+				case 1: //Show Contacts
+					break;
+					
+				case 2: //Delete Group
 					 // deleteGroup(grp); 
 					break;
+					
+				case 3: //Create Group
+					isNewGroup = true;
+					createGroup(isNewGroup);
+					break;
+					
 			default:
 					break;
 				}
@@ -91,8 +104,13 @@ public class GroupList extends Activity implements OnClickListener {
 		AabManager = new AabManager(Config.fqdn, authToken, new deleteGroupListener());
 		AabManager.DeleteGroup(deleteGroupID);
 	}*/
+	
+	public void createGroup(boolean isNewGroup) {
+		
+		editGroupName(null, isNewGroup);
+	}
 
-	public void editGroupName(final String groupId) {
+	public void editGroupName( final String grpId, final boolean isNewGroup) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter Group Name");
 		builder.setMessage("Enter the Group name");
@@ -103,10 +121,17 @@ public class GroupList extends Activity implements OnClickListener {
         	public void onClick(DialogInterface dialog, int whichButton) {
    
         	 String editGroupName = input.getEditableText().toString();
-        	 
-        	 Group group = new Group(groupId, editGroupName, "USER" );
-        	 aabManager = new AabManager(Config.fqdn, Config.authToken, new updateGroupListener());
-        	 aabManager.UpdateGroup(group);
+        	 if(!isNewGroup) {
+        		 Group group = new Group(grpId, editGroupName, "USER" );
+        		 aabManager = new AabManager(Config.fqdn, Config.authToken, new updateGroupListener());
+        		 aabManager.UpdateGroup(group);
+        	 	}
+        	 else {
+        		 
+        		 Group group = new Group ("",editGroupName, "USER" );
+        		 aabManager = new AabManager(Config.fqdn, Config.authToken, new createGroupListener());
+        		 aabManager.CreateGroup(group);
+        	 }
         	} 
         }); 
 		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -118,6 +143,29 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
+	private class createGroupListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			
+			String result = (String) response;
+			
+			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+			pageParams = new PageParams("ASC", "groupName", "10", "0");
+			aabManager.GetGroups(pageParams, null);
+			
+			Log.i("createGroupAPI onSuccess", result);
+		}
+
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("createGroupAPI on error", "onError");
+			
+		}
+		
+	}
+	
+	
 	private class updateGroupListener implements AttSdkListener {
 
 		@Override
@@ -125,7 +173,7 @@ public class GroupList extends Activity implements OnClickListener {
 			String result = (String) response;
 			
 			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
-			pageParams = new PageParams("ASC", "groupName", "5", "0");
+			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
 			
 			Log.i("updateGroupAPI onSuccess", result);
