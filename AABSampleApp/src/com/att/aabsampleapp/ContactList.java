@@ -41,9 +41,12 @@ public class ContactList extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("GROUPS")
 				.setContent(i));
 		
+		i = new Intent(this, ContactDetails.class);
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("NEW")
 				.setContent(i));
 		
+		i = new Intent(this, ContactDetails.class);
+		i.putExtra("contactId", "NEW_CONTACT");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("CONTACT")
 				.setContent(i));
 	}
@@ -66,7 +69,10 @@ public class ContactList extends TabActivity {
 				
 			case R.id.action_new :
 				// Create new contact based on the values in the fields
-				Toast.makeText(getApplicationContext(), "List New clicked", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getApplicationContext(), "List New clicked", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(ContactList.this, ContactDetails.class);
+				intent.putExtra("contactId", "NEW_CONTACT");
+				startActivity(intent);
 				break;
 			
 		}
