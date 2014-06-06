@@ -30,6 +30,7 @@ public class ContactDetails extends Activity {
 	private EditText editState;
 	private EditText editZipCode;
 	public static Contact contact; // Contact object used to display and update contact.
+	public static Contact newContact; //Contact object used to create new contact.
 	private ContactWrapper contactWrapper;	
 	
 	@Override
@@ -52,9 +53,9 @@ public class ContactDetails extends Activity {
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");	
 		
-		if(contactId == "NEW_CONTACT" ) {		
+		if(contactId == "NEW_CONTACT" ) {		 //To be implemented
 			
-			ContactDetails.contact = createContactFromContactDetails();
+			ContactDetails.newContact = createContactFromContactDetails();
 			
 		}
 		
@@ -154,9 +155,9 @@ public class ContactDetails extends Activity {
 		Phone [] phones = new Phone[1];
 		phones[0] = new Phone("WORK,CELL", "42567689700", true);
 		builder.setPhones(phones);*/
-		ContactDetails.contact = builder.build();
+		ContactDetails.newContact = builder.build();
 		
-		return ContactDetails.contact;
+		return ContactDetails.newContact;
 	}
 	
 	
@@ -168,8 +169,10 @@ public class ContactDetails extends Activity {
 			case R.id.action_save :
 				//UpdateMyInfo or UpdateContact API
 				//Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
+				//if(contactId == "NEW_CONTACT")
+				ContactDetails.newContact = createContactFromContactDetails();
 				aabManager = new AabManager(Config.fqdn, Config.authToken, new createContactListener());
-				aabManager.CreateContact(ContactDetails.contact);
+				aabManager.CreateContact(ContactDetails.newContact);
 				break;
 		}
 		return super.onMenuItemSelected(featureId, item);

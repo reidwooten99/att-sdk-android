@@ -1,14 +1,9 @@
 package com.att.aabsampleapp;
 
 
-import com.att.api.aab.service.ContactResultSet;
-import com.att.api.error.AttSdkError;
-import com.att.sdk.listener.AttSdkListener;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -41,14 +36,14 @@ public class ContactList extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("GROUPS")
 				.setContent(i));
 		
-		i = new Intent(this, ContactDetails.class);
+		/*i = new Intent(this, ContactDetails.class);
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("NEW")
 				.setContent(i));
 		
 		i = new Intent(this, ContactDetails.class);
 		i.putExtra("contactId", "NEW_CONTACT");
 		tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("CONTACT")
-				.setContent(i));
+				.setContent(i));*/
 	}
 
 	@Override
