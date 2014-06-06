@@ -1,6 +1,7 @@
 package com.att.aabsampleapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,7 +41,7 @@ public class AllContacts extends Activity implements OnClickListener{
 		
 		aabManager.GetContacts("shallow", pageParams, searchParams);
 		
-		//setupContactListListener();
+		setupContactListListener();
 	}
 	
 	
@@ -88,9 +89,9 @@ public class AllContacts extends Activity implements OnClickListener{
 					long id) {
 				contactId = ((QuickContact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
 				
-				/*Intent intent = new Intent(AllContacts.this, ContactDetails.class);
+				Intent intent = new Intent(AllContacts.this, ContactDetails.class);
 				intent.putExtra("contactId", contactId);
-				startActivity(intent);	*/			
+				startActivity(intent);				
 			}
 		});
 	}
