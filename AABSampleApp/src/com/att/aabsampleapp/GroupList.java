@@ -81,8 +81,8 @@ public class GroupList extends Activity implements OnClickListener {
 					break;
 					
 				case 2: //Delete Group
-					 // deleteGroup(grp); 
-					break;
+					  deleteGroup(grp); 
+					  break;
 					
 				case 3: //Create Group
 					isNewGroup = true;
@@ -97,13 +97,33 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
-	/*public void deleteGroup(Group grp) {
-		String deleteGroupID;
+	public void deleteGroup(final Group grp) {
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Delete Group");
+		builder.setMessage("Do you want to delete the group :  " + grp.getGroupName() + "?" );
+		
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-		deleteGroupID = grp.getGroupId();
-		AabManager = new AabManager(Config.fqdn, authToken, new deleteGroupListener());
-		AabManager.DeleteGroup(deleteGroupID);
-	}*/
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String deleteGroupID;
+				deleteGroupID = grp.getGroupId();
+				aabManager = new AabManager(Config.fqdn, Config.authToken, new deleteGroupListener());
+				aabManager.DeleteGroup(deleteGroupID);			
+			}
+			
+		});
+		
+		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+      	  public void onClick(DialogInterface dialog, int whichButton) {
+      		  dialog.cancel();
+      	  }
+      }); 
+		builder.create();	
+		builder.show();
+		
+	}
 	
 	public void createGroup(boolean isNewGroup) {
 		
@@ -143,6 +163,26 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
+	
+	private class deleteGroupListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String result = (String) response;
+			
+			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+			pageParams = new PageParams("ASC", "groupName", "10", "0");
+			aabManager.GetGroups(pageParams, null);
+			
+			Log.i("createGroupAPI onSuccess", result);
+		}
+
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("deleteGroupAPI on error", "onError");
+		}
+		
+	}
 	private class createGroupListener implements AttSdkListener {
 
 		@Override
