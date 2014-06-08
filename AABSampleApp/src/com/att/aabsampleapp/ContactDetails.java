@@ -29,7 +29,7 @@ public class ContactDetails extends Activity {
 	private EditText editCity;
 	private EditText editState;
 	private EditText editZipCode;
-	public static Contact contact; // Contact object used to display and update contact.
+	public static Contact currentContact; // Contact object used to display and update contact.
 	public static Contact newContact; //Contact object used to create new contact.
 	private ContactWrapper contactWrapper;	
 	
@@ -84,8 +84,8 @@ public class ContactDetails extends Activity {
 		
 		@Override
 		public void onSuccess(Object response) {
-			ContactDetails.contact = (Contact) response;
-			Contact c = ContactDetails.contact;
+			ContactDetails.currentContact = (Contact) response;
+			Contact c = ContactDetails.currentContact;
 			if (null != c) {
 				strText = "\n" + c.getContactId() + ", " + 
 							c.getFormattedName();
@@ -111,8 +111,8 @@ public class ContactDetails extends Activity {
 		public void onSuccess(Object response) {			
 			contactWrapper = (ContactWrapper) response;
 			if (null != contactWrapper) { 
-				ContactDetails.contact = contactWrapper.getContact();
-				Contact c = ContactDetails.contact;
+				ContactDetails.currentContact = contactWrapper.getContact();
+				Contact c = ContactDetails.currentContact;
 				if (null != c) {
 					strText = "\n" + c.getContactId() + ", " + 
 								c.getFormattedName();
