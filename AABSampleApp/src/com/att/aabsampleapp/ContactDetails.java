@@ -68,7 +68,11 @@ public class ContactDetails extends Activity {
 					aabManager  = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
 					aabManager.GetContact(contactId, " ");	
 				}
-			}	
+			}
+		
+		aabManager  = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
+		aabManager.GetContact(contactId, contactId);	
+	
 	}
 
 	@Override
@@ -167,6 +171,8 @@ public class ContactDetails extends Activity {
 		//Contact c = getContactFromFields();
 		switch(item.getItemId()) {
 			case R.id.action_save :
+			case R.id.action_update :
+
 				//UpdateMyInfo or UpdateContact API
 				//Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
 				//if(contactId == "NEW_CONTACT")
@@ -174,6 +180,8 @@ public class ContactDetails extends Activity {
 				aabManager = new AabManager(Config.fqdn, Config.authToken, new createContactListener());
 				aabManager.CreateContact(ContactDetails.newContact);
 				break;
+			
+				
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
