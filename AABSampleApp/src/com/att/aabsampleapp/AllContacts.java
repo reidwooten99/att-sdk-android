@@ -95,7 +95,7 @@ public class AllContacts extends Activity implements OnClickListener{
 		String contactId ;
 		contactId = contact.getContactId();
 		Intent i = new Intent(AllContacts.this, ContactDetails.class);
-		i.putExtra(contactId, contactId);
+		i.putExtra("contactId", contactId);
 		startActivity(i);
 	}
 	
