@@ -24,7 +24,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.att.aabsampleapp.AddressBookLaunch"
-            android:label="@string/title_activity_contact_list" >
+            android:label="@string/title_activity_contact_list" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.att.aabsampleapp.SplashScreen"
@@ -45,27 +46,33 @@
         </activity>
         <activity
             android:name="com.att.aabsampleapp.ContactList"
-            android:label="@string/title_activity_contact_list" >
+            android:label="@string/title_activity_contact_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.att.aabsampleapp.AllContacts"
-            android:label="@string/title_activity_all_contacts" >
+            android:label="@string/title_activity_all_contacts" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.att.aabsampleapp.GroupList"
-            android:label="@string/title_activity_all_groups" >
+            android:label="@string/title_activity_all_groups"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.att.aabsampleapp.ContactDetails"
-            android:label="@string/title_activity_contact_details" >
+            android:label="@string/title_activity_contact_details"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.att.aabsampleapp.ContactGroupList"
-            android:label="@string/title_activity_contact_group_list" >
+            android:label="@string/title_activity_contact_group_list"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.att.aabsampleapp.GroupContactList"
-            android:label="@string/title_activity_group_contact_list" >
+            android:label="@string/title_activity_group_contact_list"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

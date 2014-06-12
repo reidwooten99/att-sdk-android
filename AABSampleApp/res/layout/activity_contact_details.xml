@@ -237,14 +237,14 @@
         android:hint="@string/zipCode" />
 
     <Button
-        android:id="@+id/showgroups"
+        android:id="@+id/btnshowgroups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editlastName"
         android:layout_above="@+id/editorgName"
         android:layout_toRightOf="@+id/Last"
         android:layout_marginTop="5dp"
-         android:layout_marginLeft="15dp"
+        android:layout_marginLeft="15dp"
         android:text="@string/showGroups" />
             
 </RelativeLayout>

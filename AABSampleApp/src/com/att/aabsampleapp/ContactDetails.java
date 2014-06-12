@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.view.View.OnClickListener;
+
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
@@ -31,6 +35,7 @@ public class ContactDetails extends Activity {
 	private EditText editCity;
 	private EditText editState;
 	private EditText editZipCode;
+	
 	public static Contact currentContact; // Contact object used to display and update contact.
 	public static Contact newContact; //Contact object used to create new contact.
 	private ContactWrapper contactWrapper;	
@@ -38,8 +43,10 @@ public class ContactDetails extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
+		Button btnShowGroups;
 		
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		editLastName = (EditText) findViewById(R.id.editlastName);
@@ -52,12 +59,13 @@ public class ContactDetails extends Activity {
 		editCity = (EditText) findViewById(R.id.editCity);
 		editState =(EditText) findViewById(R.id.editState);
 		editZipCode =(EditText) findViewById(R.id.editzipCode);
+		btnShowGroups = (Button) findViewById(R.id.btnshowgroups);
 		
 		Intent intent = getIntent();
 		contactId = intent.getExtras().getString("contactId");	
 		isUpdateMyInfo = intent.getBooleanExtra("isUpdateMyInfo", false);
 		
-		if(contactId.equalsIgnoreCase( "NEW_CONTACT") ) {		 //To be implemented			
+		if(contactId.equalsIgnoreCase( "NEW_CONTACT") ) {		 			
 			ContactDetails.newContact = createContactFromContactDetails();
 		}			
 		
@@ -82,8 +90,16 @@ public class ContactDetails extends Activity {
 					aabManager  = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
 					aabManager.GetContact(contactId, " ");	
 				}
-	
 		
+		btnShowGroups.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(ContactDetails.this, ContactGroupList.class);
+				i.putExtra("contactId",contactId );
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override
