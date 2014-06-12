@@ -31,6 +31,7 @@
     <string name="City">City</string>
     <string name="state">State</string>
     <string name="zipCode">ZipCode</string>
+    <string name="showGroups">Show Groups</string>
     <string name="title_activity_contact_group_list">ContactGroupList</string>
     <string name="title_activity_group_contact_list">GroupContactList</string>
 
