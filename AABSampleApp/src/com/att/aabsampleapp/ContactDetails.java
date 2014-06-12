@@ -310,9 +310,11 @@ public class ContactDetails extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if(contactId.equalsIgnoreCase("MY_INFO")) {
+			aabManager = new AabManager(Config.fqdn, Config.authToken,new getMyInfoListener());	
+			aabManager.GetMyInfo();
+		} 
 		
-		aabManager = new AabManager(Config.fqdn, Config.authToken,new getMyInfoListener());	
-		aabManager.GetMyInfo();
 	
 	}
 
