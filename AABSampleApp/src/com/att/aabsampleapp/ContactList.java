@@ -56,16 +56,21 @@ public class ContactList extends TabActivity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		//Contact c = getContactFromFields();
+		Intent intent ;
 		switch(item.getItemId()) {
-			case R.id.action_save :
+			case R.id.action_update:
 				//UpdateMyInfo or UpdateContact API
-				Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
+				 intent = new Intent(ContactList.this, ContactDetails.class);
+				intent.putExtra("contactId", "MY_INFO");
+				intent.putExtra("isUpdateMyInfo", true);
+				startActivity(intent);
 				break;
 				
 			case R.id.action_new :
 				// Create new contact based on the values in the fields
 				//Toast.makeText(getApplicationContext(), "List New clicked", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(ContactList.this, ContactDetails.class);
+				 intent = new Intent(ContactList.this, ContactDetails.class);
 				intent.putExtra("contactId", "NEW_CONTACT");
 				startActivity(intent);
 				break;

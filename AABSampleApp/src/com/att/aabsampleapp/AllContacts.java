@@ -201,6 +201,20 @@ public class AllContacts extends Activity implements OnClickListener{
 			}
 		});
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
+		pageParams = new PageParams("ASC", "firstName", "25", "0");
+		aabManager.GetContacts("shallow", pageParams, searchParams);
+	
+	}
+	
+	
+	
 	
 	
 

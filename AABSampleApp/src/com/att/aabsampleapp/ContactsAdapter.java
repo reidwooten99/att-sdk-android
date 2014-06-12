@@ -57,7 +57,8 @@ public class ContactsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		 holder.txtFormattedName.setText(quickContacts[position].getFormattedName());
+		// holder.txtFormattedName.setText(quickContacts[position].getFormattedName());
+		 holder.txtFormattedName.setText(quickContacts[position].getFirstName());
 		 holder.txtContactId.setText(quickContacts[position].getContactId());
 		// holder.txtZipcode.setText(quickContacts[position].getEmail().getEmailAddress().toString());
 		
