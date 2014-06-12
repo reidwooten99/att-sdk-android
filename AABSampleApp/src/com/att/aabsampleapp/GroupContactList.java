@@ -3,12 +3,15 @@ package com.att.aabsampleapp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.att.api.aab.manager.AabManager;
@@ -17,6 +20,7 @@ import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.PageParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
+
 
 public class GroupContactList extends Activity implements OnClickListener{
 
@@ -42,6 +46,45 @@ public class GroupContactList extends Activity implements OnClickListener{
 		pageParams = new PageParams("ASC", "firstName", "12", "0");
 		aabManager = new AabManager(Config.fqdn, Config.authToken, new getGroupContactListener());
 		aabManager.GetGroupContacts(groupId, pageParams);
+		
+		groupContactListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				//Group grpResult = (Group) groupContactListView.getItemAtPosition(position);
+				Contact ctcResult = ((Contact)groupContactListView.getItemAtPosition(position));
+				CharSequence popUpList[] = new CharSequence[] {"Remove Contact from the Group"};
+				popUpActionList(popUpList, ctcResult, position);
+				return true;
+			}
+		});
+	}
+	public void popUpActionList(final CharSequence popUpList[],
+			final Contact ctcResult, int position) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Remove Contact ");
+		builder.setItems(popUpList, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int options) {
+				switch (options) {
+				case 0: //Remove Contact from the Group
+					removeContact(ctcResult,groupId);
+					break;
+			default:
+					break;
+				}
+			}
+		});
+		builder.show();
+		
+	}
+	
+	public void removeContact(Contact contact, String groupId) {
+		
+		aabManager = new AabManager(Config.fqdn, Config.authToken, new removeContactFromGroupListener());
+		aabManager.RemoveContactsFromGroup(groupId, contact.getContactId());
 	}
 	
 	
@@ -61,9 +104,6 @@ public class GroupContactList extends Activity implements OnClickListener{
 					Log.i("getGroupContactListener on success", "onSuccess" + strText);
 				}
 		}
-		else {
-				strText = "Unknown: " +  " test.\nNo data returned.";				
-			}
 				return;
 			
 		}
@@ -71,6 +111,26 @@ public class GroupContactList extends Activity implements OnClickListener{
 		@Override
 		public void onError(AttSdkError error) {
 			Log.i("getGroupContactAPI on error", "onError");
+
+		}
+	}
+	
+	private class removeContactFromGroupListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String strText;
+			String result = (String) response;
+			strText = "\n" +"RemoveContactsFromGroupAPI : " + "  " + result;
+			Log.i("removeContactFromGroupAPI on success", "onSuccess" + strText);
+			finish();
+			return;
+			
+		}
+
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("removeContactFromGroupAPI on error", "onError");
 
 		}
 	}
