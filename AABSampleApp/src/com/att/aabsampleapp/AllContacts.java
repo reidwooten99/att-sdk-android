@@ -54,7 +54,7 @@ public class AllContacts extends Activity implements OnClickListener{
 				//Contact ctcResult = (Contact) ContactsListView.getItemAtPosition(position);
 				QuickContact ctcResult = ((QuickContact)ContactsListView.getItemAtPosition(position));
 				
-				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact"};
+				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact", "Add to group"};
 				popUpActionList(popUpList, ctcResult, position);
 				return true;
 			}
@@ -76,6 +76,9 @@ public class AllContacts extends Activity implements OnClickListener{
 				case 1: //Update Contact
 						updateContact(contact);
 						break;
+				case 2 : //Add Contact to a Group
+						addContactToGroup(contact);
+						break;
 				
 			default:
 					break;
@@ -85,11 +88,13 @@ public class AllContacts extends Activity implements OnClickListener{
 		builder.show();
 	}
 	
-	/*@Override
-	public void onResume() {
-		//refreshContactList(ContactsListView);
-		setupContactListListener();
-	}*/
+	public void  addContactToGroup(QuickContact contact) {
+		Intent i = new Intent(AllContacts.this, GroupList.class);
+		i.putExtra("groupId", "-1");
+		i.putExtra("contactId", contact.getContactId());
+		startActivity(i);
+	}
+	
 	
 	public void updateContact(QuickContact contact) {
 		String contactId ;
