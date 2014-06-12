@@ -271,10 +271,7 @@ public class ContactDetails extends Activity {
 			if (null != result) {
 				Log.i("updateContactAPI","OnSuccess : ContactID :  " + result);
 				finish();
-			}
-			else {
-				result = "Unknown: " + "test.\nNo data returned.";				
-			}		
+			}	
 			
 		}
 
