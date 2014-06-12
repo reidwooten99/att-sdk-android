@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/photoImage"
         android:layout_marginTop="24dp"
-        android:layout_toLeftOf="@+id/Groups"
         android:layout_toRightOf="@+id/photoImage"
         android:text="@string/FirstName" />
 
@@ -50,7 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/Last"
-        android:layout_alignLeft="@+id/Groups"
         android:layout_alignParentRight="true"
         android:inputType="text"
         android:ems="10" />
