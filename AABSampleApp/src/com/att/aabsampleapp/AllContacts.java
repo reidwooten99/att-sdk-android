@@ -54,7 +54,7 @@ public class AllContacts extends Activity implements OnClickListener{
 				//Contact ctcResult = (Contact) ContactsListView.getItemAtPosition(position);
 				QuickContact ctcResult = ((QuickContact)ContactsListView.getItemAtPosition(position));
 				
-				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact", "Add to group", "Get Groups"};
+				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact", "Add to group", "Show Groups of the Contact"};
 				popUpActionList(popUpList, ctcResult, position);
 				return true;
 			}

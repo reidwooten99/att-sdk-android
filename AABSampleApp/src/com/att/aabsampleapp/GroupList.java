@@ -60,8 +60,8 @@ public class GroupList extends Activity implements OnClickListener {
 					int position, long arg3) {
 				Group grpResult = (Group) groupListView.getItemAtPosition(position);
 				
-				CharSequence popUpList[] = new CharSequence[] {"Update Group", "Show Contacts","Delete Group", 
-																"Create Group" ,"Add Contact to this Group", "Remove Contact from this group"};
+				CharSequence popUpList[] = new CharSequence[] {"Update Group", "Show Contacts of the Group","Delete Group", 
+																"Create Group" ,"Add Contact to this Group"};
 				popUpActionList(popUpList, grpResult, position);
 				return true;
 			}
@@ -95,7 +95,7 @@ public class GroupList extends Activity implements OnClickListener {
 					break;
 					
 				case 1: //GetGroupContacts
-					getGroupContacts(grp.getGroupId(), pageParams);
+					getGroupContacts(grp);
 					break;
 					
 				case 2: //Delete Group
@@ -118,14 +118,11 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 	
-	public void getGroupContacts(String groupId, PageParams pageParams) {
+	public void getGroupContacts(Group grp) {
 		
-		/*Intent i = new Intent(GroupList.this, ContactDetails.class);
-		i.putExtra("contactId", contactId);
-		startActivity(i);*/
-		pageParams = new PageParams("ASC", "firstName", "10", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new getGroupContactsListener());
-		aabManager.GetGroupContacts(groupId, pageParams);	
+		Intent i = new Intent(GroupList.this, GroupContactList.class);
+		i.putExtra("groupId", grp.getGroupId());
+		startActivity(i);	
 	}
 	
 	public void deleteGroup(final Group grp) {
@@ -318,39 +315,7 @@ public class GroupList extends Activity implements OnClickListener {
 		}
 	}
 	
-	private class getGroupContactsListener implements AttSdkListener {
-		String  contactId ;
-
-		@Override
-		public void onSuccess(Object response) {
-			String strText;
-			String[] result = (String[] ) response;
-			if (null != result) {
-				strText = "\nPassed: " +  " test.";
-				for(int i = 0; i < result.length; i++) {
-					String  contactId = result[i];
-					strText += "\n" + contactId;
-				}
-				
-				Intent i = new Intent(GroupList.this, ContactDetails.class);
-				i.putExtra("contactId", contactId);
-				startActivity(i);
-			}
-		else {
-				strText = "Unknown: " +  " test.\nNo data returned.";				
-			}
-				return;
-			
-		}
-
-		@Override
-		public void onError(AttSdkError error) {
-			Log.i("getGroupsAPI on error", "onError");
-
-		}
-	}
-
-	private class addContactsToGroupListener implements AttSdkListener {
+		private class addContactsToGroupListener implements AttSdkListener {
 		String  contactId ;
 
 		@Override
