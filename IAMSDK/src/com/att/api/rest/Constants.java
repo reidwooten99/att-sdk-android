@@ -11,6 +11,7 @@ package com.att.api.rest;
 public class Constants {
 
 	public static final String SDK_VERSION = "1.0";
+	public static final String XARG = "X-Arg";
 	
 	public static final long AD_RELOAD_PERIOD = 120000; //in milliseconds
 	public static final int DEFAULT_REQUEST_TIMEOUT = 20000; //in seconds

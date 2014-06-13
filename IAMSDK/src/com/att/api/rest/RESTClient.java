@@ -545,6 +545,7 @@ public class RESTClient {
 				query = "?" + buildQuery();
 			}
 			HttpGet httpGet = new HttpGet(url + query);
+			httpGet.addHeader(Constants.XARG, "ClientSdk=att.immn.android." + Constants.SDK_VERSION);
 			addInternalHeaders(httpGet);
 
 			response = httpClient.execute(httpGet);
@@ -645,6 +646,7 @@ public class RESTClient {
 
             HttpPost httpPost = new HttpPost(url);
             Log.d("Request",url);
+            httpPost.addHeader(Constants.XARG, "ClientSdk=att.immn.android." + Constants.SDK_VERSION);
             addInternalHeaders(httpPost);
             if (body != null && !body.equals("")) {
             	Log.d("Request : body - ",body);
