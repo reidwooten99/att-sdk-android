@@ -88,7 +88,7 @@ public class AddressBookLaunch extends Activity {
 	}
 
 	public void getAddressBookContacts() {
-		Intent i = new Intent(AddressBookLaunch.this, ContactList.class);
+		Intent i = new Intent(AddressBookLaunch.this, SampleAppLauncher.class);
 		startActivity(i);
 		dismissProgressDialog();
 		

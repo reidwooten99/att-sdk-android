@@ -45,12 +45,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.att.aabsampleapp.ContactList"
+            android:name="com.att.aabsampleapp.SampleAppLauncher"
             android:label="@string/title_activity_contact_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.att.aabsampleapp.AllContacts"
+            android:name="com.att.aabsampleapp.ContactList"
             android:label="@string/title_activity_all_contacts" 
             android:screenOrientation="portrait">
         </activity>
