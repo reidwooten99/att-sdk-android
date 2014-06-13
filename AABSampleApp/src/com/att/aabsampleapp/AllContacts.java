@@ -51,7 +51,6 @@ public class AllContacts extends Activity implements OnClickListener{
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				//Contact ctcResult = (Contact) ContactsListView.getItemAtPosition(position);
 				QuickContact ctcResult = ((QuickContact)ContactsListView.getItemAtPosition(position));
 				
 				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact", "Add to group", "Show Groups of the Contact"};
