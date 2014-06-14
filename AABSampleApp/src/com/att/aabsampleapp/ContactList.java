@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.att.api.aab.manager.AabManager;
+import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
@@ -35,7 +36,8 @@ public class ContactList extends Activity implements OnClickListener{
 	private ContactResultSet contactResultSet;
 	private ContactsAdapter adapter;
 	private ListView ContactsListView;
-	private QuickContact[] contactsList;
+	//private QuickContact[] contactsList;
+	private Contact[] contactsList;
 	private Group[] groupList;
 	
 
@@ -199,10 +201,10 @@ public class ContactList extends Activity implements OnClickListener{
 		@Override
 		public void onSuccess(Object response) {
 			contactResultSet = (ContactResultSet) response;
-			if (null != contactResultSet && null != contactResultSet.getQuickContacts()
-				&& contactResultSet.getQuickContacts().length > 0) {
+			if (null != contactResultSet && null != contactResultSet.getContacts()
+				&& contactResultSet.getContacts().length > 0) {
 				
-				contactsList = contactResultSet.getQuickContacts();			
+				contactsList = contactResultSet.getContacts();//getQuickContacts();			
 				adapter = new ContactsAdapter(getApplicationContext(),contactsList);
 				ContactsListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();

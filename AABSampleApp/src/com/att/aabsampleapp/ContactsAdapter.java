@@ -7,16 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.QuickContact;
 
 public class ContactsAdapter extends BaseAdapter {
 	
-	private static QuickContact[] quickContacts;
+	//private static QuickContact[] quickContacts;
+	private static Contact[] quickContacts;
 	//private Context ctx;
 	private LayoutInflater cInflater;
 	
 	
-	public ContactsAdapter(Context context, QuickContact[] contactsList) {
+	public ContactsAdapter(Context context, Contact[] contactsList) {
 		quickContacts = contactsList;
 		//this.ctx = context;
 		cInflater = LayoutInflater.from(context);
