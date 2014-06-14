@@ -100,6 +100,9 @@ public class TestAAB extends Activity implements OnClickListener {
                 
 				switch (iOperation) {
 				
+					case 101: //GetContacts
+						ctc.testGetContacts("contactId,formattedName,firstName,lastName,phones", pageParams, searchParams);
+						break;
 					case 1: //GetContacts
 							ctc.testGetContacts("shallow", pageParams, searchParams);
 							break;

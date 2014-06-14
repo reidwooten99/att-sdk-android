@@ -43,17 +43,34 @@ public class ContactsTestCase extends AabTestCase {
 		@Override
 		public void onSuccess(Object response) {
 			ContactResultSet contactResultSet = (ContactResultSet) response;			
+			String strPhone = null;
 			if (null != contactResultSet) {
 				strText = "\nPassed: " + strTestName + " test.";
-				QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
-				String strPhone = null;
-				for (int i=0; i < quickContacts_arr.length; i++) {
-					QuickContact qc = quickContacts_arr[i];
-					strPhone = (qc.getPhone() != null) ? qc.getPhone().getNumber() : "0001112222";
-					strText += "\n" + qc.getContactId() + ", " + 
-								qc.getFormattedName() + ", " + strPhone;
-					lastContactId = qc.getContactId();
+				if (contactResultSet.getQuickContacts() != null) {
+					QuickContact[] quickContacts_arr = contactResultSet.getQuickContacts();
+					QuickContact qc = null;
+					for (int i=0; i < quickContacts_arr.length; i++) {
+						qc = quickContacts_arr[i];
+						strPhone = (qc.getPhone() != null) ? qc.getPhone().getNumber() : "0001112222";
+						strText += "\n" + qc.getContactId() + ", " + 
+									qc.getFormattedName() + ", " + strPhone;
+						lastContactId = qc.getContactId();
+					}
+				} else if (contactResultSet.getContacts() != null) {
+					Contact[] contacts_arr = contactResultSet.getContacts();
+					Contact c = null;
+					for (int i=0; i < contacts_arr.length; i++) {
+						c = contacts_arr[i];						
+						strPhone = (c.getPhones().length > 0) ? c.getPhones()[0].getNumber() : "0001112222";
+						strText += "\n" + c.getContactId() + ", " + 
+									c.getFormattedName() + ", " + strPhone;
+						lastContactId = c.getContactId();
+					}
+					
+				} else {
+					strText = "Unknown: " + strTestName + " test.\nNo data returned.";									
 				}
+				
 			} else {
 				strText = "Unknown: " + strTestName + " test.\nNo data returned.";				
 			}
