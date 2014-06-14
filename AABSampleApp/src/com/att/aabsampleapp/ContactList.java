@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
+import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
@@ -37,7 +38,7 @@ public class ContactList extends Activity implements OnClickListener{
 	private ListView ContactsListView;
 	private Contact[] contactsList;
 	private Group[] groupList;
-	
+	private ArrayList<Contact> groupContactList = new ArrayList<Contact>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,15 @@ public class ContactList extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_all_contacts);
 				
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactsListener());		
-		aabManager.GetContacts("", pageParams, searchParams);
+		
+		String groupId = getIntent().getStringExtra("groupId");
+		if (groupId.equalsIgnoreCase("-1")) {
+			aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactsListener());
+			aabManager.GetContacts("", pageParams, searchParams);
+		} else {
+			aabManager = new AabManager(Config.fqdn, Config.authToken, new getGroupContactListener());
+			aabManager.GetGroupContacts(groupId, pageParams);			
+		}
 		
 		setupContactListListener();
 		
@@ -216,7 +224,7 @@ public class ContactList extends Activity implements OnClickListener{
 
 		}
 	}
-	
+
 	public void setupContactListListener() {
 		ContactsListView.setOnItemClickListener(new OnItemClickListener() {
 			private String contactId;
@@ -292,6 +300,62 @@ public class ContactList extends Activity implements OnClickListener{
 		@Override
 		public void onError(AttSdkError error) {
 			Log.i("getGroupsAPI on error", "onError");
+
+		}
+	}
+	
+	private class getGroupContactListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			String strText;
+			String[] result = (String[] ) response;
+			if (null != result) {
+				strText = "\nPassed: " +  " test.";
+				for(int i = 0; i < result.length; i++) {
+					String  contactId = result[i];
+					strText = "\n" + contactId;
+					AabManager aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
+					aabManager.GetContact(contactId, " ");
+					Log.i("getGroupContactListener on success", "onSuccess" + strText);
+				}
+				
+				adapter = new ContactsAdapter(getApplicationContext(),  groupContactList.toArray(new Contact[0]));
+				ContactsListView.setAdapter(adapter);
+				adapter.notifyDataSetChanged();				
+			}
+			return;			
+		}
+	
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("getContactsAPI on error", "onError");
+
+		}
+	}
+	
+	private class getContactListener implements AttSdkListener {
+
+		@Override
+		public void onSuccess(Object response) {	
+			 ContactWrapper contactWrapper;
+			 Contact contact;
+			 String strText;
+			 contactWrapper = (ContactWrapper) response;
+			 if (null != contactWrapper) { 
+				contact = contactWrapper.getContact();
+				groupContactList.add(contact);
+				if (null != contact) {
+					strText = "\n" + contact.getContactId() + ", " + 
+							contact.getFormattedName();
+					Log.i("getContactAPI","OnSuccess : ContactID :  " + strText);					
+				}
+			}
+		}
+
+		@Override
+		public void onError(AttSdkError error) {
+			Log.i("getContactAPI on error", "onError");
 
 		}
 	}
