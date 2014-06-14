@@ -21,7 +21,6 @@ import com.att.api.aab.service.ContactResultSet;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
-import com.att.api.aab.service.QuickContact;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
@@ -36,7 +35,6 @@ public class ContactList extends Activity implements OnClickListener{
 	private ContactResultSet contactResultSet;
 	private ContactsAdapter adapter;
 	private ListView ContactsListView;
-	//private QuickContact[] contactsList;
 	private Contact[] contactsList;
 	private Group[] groupList;
 	
@@ -47,9 +45,8 @@ public class ContactList extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_all_contacts);
 				
 		ContactsListView = (ListView) findViewById(R.id.contactsListViewItem);
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactsListener());
-		
-		aabManager.GetContacts("shallow", pageParams, searchParams);
+		aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactsListener());		
+		aabManager.GetContacts("", pageParams, searchParams);
 		
 		setupContactListListener();
 		
@@ -58,7 +55,7 @@ public class ContactList extends Activity implements OnClickListener{
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				QuickContact ctcResult = ((QuickContact)ContactsListView.getItemAtPosition(position));
+				Contact ctcResult = ((Contact)ContactsListView.getItemAtPosition(position));
 				
 				CharSequence popUpList[] = new CharSequence[] {"Delete Contact", "Update Contact", "Add to group", "Show Groups of the Contact"};
 				popUpActionList(popUpList, ctcResult, position);
@@ -68,7 +65,7 @@ public class ContactList extends Activity implements OnClickListener{
 	}
 	
 	public void popUpActionList(final CharSequence popUpList[],
-			final QuickContact contact, int position) {
+			final Contact contact, int position) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Contact Options");
@@ -97,7 +94,7 @@ public class ContactList extends Activity implements OnClickListener{
 		builder.show();
 	}
 	
-	public void getContactGroups(QuickContact contact) {
+	public void getContactGroups(Contact contact) {
 		Intent i = new Intent(ContactList.this, ContactGroupList.class);
 		i.putExtra("contactId", contact.getContactId());
 		startActivity(i);
@@ -108,7 +105,7 @@ public class ContactList extends Activity implements OnClickListener{
 	
 	}
 	
-	public void  addContactToGroup(QuickContact contact) {
+	public void  addContactToGroup(Contact contact) {
 		
 		aabManager = new AabManager(Config.fqdn,  Config.authToken,new getGroupsListener());
 		pageParams = new PageParams("ASC", "groupName", "25", "0");
@@ -124,7 +121,7 @@ public class ContactList extends Activity implements OnClickListener{
 	}
 	
 	
-	public void updateContact(QuickContact contact) {
+	public void updateContact(Contact contact) {
 		String contactId ;
 		contactId = contact.getContactId();
 		Intent i = new Intent(ContactList.this, ContactDetails.class);
@@ -132,7 +129,7 @@ public class ContactList extends Activity implements OnClickListener{
 		startActivity(i);
 	}
 	
-	public void deleteContact(final QuickContact delcontact) {
+	public void deleteContact(final Contact delcontact) {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Delete Contact");
@@ -204,7 +201,7 @@ public class ContactList extends Activity implements OnClickListener{
 			if (null != contactResultSet && null != contactResultSet.getContacts()
 				&& contactResultSet.getContacts().length > 0) {
 				
-				contactsList = contactResultSet.getContacts();//getQuickContacts();			
+				contactsList = contactResultSet.getContacts();		
 				adapter = new ContactsAdapter(getApplicationContext(),contactsList);
 				ContactsListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
@@ -226,7 +223,7 @@ public class ContactList extends Activity implements OnClickListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				contactId = ((QuickContact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
+				contactId = ((Contact)ContactsListView.getItemAtPosition(position)).getContactId().toString();
 				
 				Intent intent = new Intent(ContactList.this, ContactDetails.class);
 				intent.putExtra("contactId", contactId);
@@ -237,12 +234,12 @@ public class ContactList extends Activity implements OnClickListener{
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		
 		aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
 		pageParams = new PageParams("ASC", "firstName", "25", "0");
-		aabManager.GetContacts("shallow", pageParams, searchParams);
+		//aabManager.GetContacts("shallow", pageParams, searchParams);
+		aabManager.GetContacts("", pageParams, searchParams);
 	
 	}
 	
@@ -257,7 +254,7 @@ public class ContactList extends Activity implements OnClickListener{
 				 groupList = groupResultSet.getGroups();
 				 
 				 CharSequence[] groupNameArray = new CharSequence [groupList.length];
-				 final ArrayList  mSelectedItems = new ArrayList(); 
+				 final ArrayList<Integer>  mSelectedItems = new ArrayList<Integer>(); 
 				 for(int i = 0; i < groupList.length; ++i) {
 					 groupNameArray[i] = groupList[i].getGroupName();
 				 }
@@ -298,11 +295,4 @@ public class ContactList extends Activity implements OnClickListener{
 
 		}
 	}
-
-	
-	
-	
-	
-	
-
 }
