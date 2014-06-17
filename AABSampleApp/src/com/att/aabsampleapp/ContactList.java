@@ -172,7 +172,7 @@ public class ContactList extends Activity implements OnClickListener{
 			String result = (String) response;
 		
 			aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
-			pageParams = new PageParams("ASC", "firstName", "10", "0");
+			pageParams = new PageParams("ASC", "firstName", "30", "0");
 			aabManager.GetContacts("shallow", pageParams, searchParams);
 		
 			Log.i("deleteContactAPI onSuccess", result);

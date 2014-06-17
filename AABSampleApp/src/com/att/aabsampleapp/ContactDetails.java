@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
+import com.att.api.aab.service.Email;
 import com.att.api.aab.service.Phone;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
@@ -38,8 +39,8 @@ public class ContactDetails extends Activity {
 	private EditText editZipCode;
 	
 	public static Contact currentContact; // Contact object used to display and update contact.
-	public static Contact newContact; //Contact object used to create new contact.
-	public static Contact updateContact;
+	//public static Contact newContact; //Contact object used to create new contact.
+	//public static Contact updateContact;
 	private ContactWrapper contactWrapper;	
 	private boolean isUpdateMyInfo;
 	
@@ -67,10 +68,6 @@ public class ContactDetails extends Activity {
 		contactId = intent.getExtras().getString("contactId");	
 		isUpdateMyInfo = intent.getBooleanExtra("isUpdateMyInfo", false);
 		
-		if(contactId.equalsIgnoreCase( "NEW_CONTACT") ) {		 			
-			ContactDetails.newContact = createContactFromContactDetails();
-		}			
-		
 		if (contactId.equalsIgnoreCase("MY_INFO")) {	
 					
 			if(isUpdateMyInfo) {
@@ -88,7 +85,7 @@ public class ContactDetails extends Activity {
 						aabManager.GetMyInfo();
 					}
 			
-		} else {
+				} else {
 					aabManager  = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
 					aabManager.GetContact(contactId, " ");	
 				}
@@ -166,12 +163,17 @@ public class ContactDetails extends Activity {
 	public void createContactDetailsFromContact( Contact contact) {
 		editFirstName.setText(contact.getFirstName());
 		editLastName.setText(contact.getLastName());
+		editOrganization.setEnabled(true);
 		editOrganization.setText(contact.getOrganization());
-		 selectedContactId = contact.getContactId();
-		editPhone1.setText(contact.getPhones()[0].getNumber());
-		/*editPhone2.setText(contact.getPhones()[0].getNumber());
-		editEmailAddress.setText(contact.getEmails()[0].getEmailAddress());
-		editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
+		selectedContactId = contact.getContactId();
+		if(contact.getPhones() != null) {
+			editPhone1.setText(contact.getPhones()[0].getNumber());
+			editPhone2.setText(contact.getPhones()[1].getNumber());
+		}
+		if(contact.getEmails() != null) {
+			editEmailAddress.setText(contact.getEmails()[0].getEmailAddress());
+		}
+		/*editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
 		editAddress2.setText(contact.getAddresses()[0].getAddrLineOne());;
 		editCity.setText(contact.getAddresses()[0].getCity());
 		editState.setText(contact.getAddresses()[0].getState());
@@ -183,34 +185,37 @@ public class ContactDetails extends Activity {
 		Contact.Builder builder = new Contact.Builder(); 
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
+		editOrganization.setEnabled(true);
+		builder.setOrganization(editOrganization.getText().toString());	
 		
 		long time= System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
-		Phone [] phones = new Phone[1];
+		Phone [] phones = new Phone[2];
 		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
+		phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
 		builder.setPhones(phones);
-		ContactDetails.newContact = builder.build();
 		
-		return ContactDetails.newContact;
+		Email [] emails = new Email[1];
+		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(),true);
+		builder.setEmails(emails);
+		
+		
+		return builder.build();
 	}
 	
-	public Contact updateContactFromContactDetails() {
-		
+	public Contact getUpdatedContactFromContactDetails() {		
 		Contact.Builder builder = new Contact.Builder(); 
-		builder.setFirstName(editFirstName.getText().toString());
+		if (editFirstName.getText().toString() != currentContact.getFirstName()) {
+			builder.setFirstName(editFirstName.getText().toString());
+		}
 		builder.setLastName(editLastName.getText().toString());
 		builder.setContactId(selectedContactId);
-		ContactDetails.updateContact = builder.build();
-		ContactDetails.currentContact = builder.build();
+		
+		return builder.build();
+		//ContactDetails.updateContact = builder.build();
 		/*if ( ContactDetails.updateContact.getFirstName().equalsIgnoreCase(ContactDetails.currentContact.getFirstName()) ) {
 		}*/
-			return ContactDetails.currentContact;
-	}
-	
-	public Contact updateMyInfoFromContactDetails() {
-		
-		ContactDetails.currentContact = updateContactFromContactDetails();	
-		return ContactDetails.currentContact;
+		//return ContactDetails.updateContact;
 	}
 	
 	
@@ -220,22 +225,20 @@ public class ContactDetails extends Activity {
 		switch(item.getItemId()) {
 			case R.id.action_create ://createContact 
 							
-				ContactDetails.newContact = createContactFromContactDetails();
 				aabManager = new AabManager(Config.fqdn, Config.authToken, new createContactListener());
-				aabManager.CreateContact(ContactDetails.newContact);
+				aabManager.CreateContact(createContactFromContactDetails());
 				break;
 			
 			case R.id.action_update : //UpdateMyInfo or UpdateContact 
 			
 					if(isUpdateMyInfo) {
-						ContactDetails.currentContact = updateMyInfoFromContactDetails();
+						// ContactDetails.currentContact = getUpdatedContactFromContactDetails()
 						aabManager = new AabManager(Config.fqdn, Config.authToken, new updateMyInfoListener());
-						aabManager.UpdateMyInfo(ContactDetails.currentContact);
+						aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
 					}
 					else {
-						ContactDetails.updateContact = updateContactFromContactDetails();		
 						aabManager = new AabManager(Config.fqdn, Config.authToken, new updateContactListener());
-						aabManager.UpdateContact(ContactDetails.currentContact);
+						aabManager.UpdateContact(getUpdatedContactFromContactDetails());
 					}
 					break;
 			
