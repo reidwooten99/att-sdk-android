@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
+import com.att.api.aab.service.Phone;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
 
@@ -38,6 +39,7 @@ public class ContactDetails extends Activity {
 	
 	public static Contact currentContact; // Contact object used to display and update contact.
 	public static Contact newContact; //Contact object used to create new contact.
+	public static Contact updateContact;
 	private ContactWrapper contactWrapper;	
 	private boolean isUpdateMyInfo;
 	
@@ -166,8 +168,8 @@ public class ContactDetails extends Activity {
 		editLastName.setText(contact.getLastName());
 		editOrganization.setText(contact.getOrganization());
 		 selectedContactId = contact.getContactId();
-		/*editPhone1.setText(contact.getPhones()[0].getNumber());
-		editPhone2.setText(contact.getPhones()[0].getNumber());
+		editPhone1.setText(contact.getPhones()[0].getNumber());
+		/*editPhone2.setText(contact.getPhones()[0].getNumber());
 		editEmailAddress.setText(contact.getEmails()[0].getEmailAddress());
 		editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
 		editAddress2.setText(contact.getAddresses()[0].getAddrLineOne());;
@@ -182,11 +184,11 @@ public class ContactDetails extends Activity {
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
 		
-		/*long time= System.currentTimeMillis();
+		long time= System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
 		Phone [] phones = new Phone[1];
-		phones[0] = new Phone("WORK,CELL", "42567689700", true);
-		builder.setPhones(phones);*/
+		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
+		builder.setPhones(phones);
 		ContactDetails.newContact = builder.build();
 		
 		return ContactDetails.newContact;
@@ -198,9 +200,11 @@ public class ContactDetails extends Activity {
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
 		builder.setContactId(selectedContactId);
+		ContactDetails.updateContact = builder.build();
 		ContactDetails.currentContact = builder.build();
-		
-		return ContactDetails.currentContact;
+		/*if ( ContactDetails.updateContact.getFirstName().equalsIgnoreCase(ContactDetails.currentContact.getFirstName()) ) {
+		}*/
+			return ContactDetails.currentContact;
 	}
 	
 	public Contact updateMyInfoFromContactDetails() {
@@ -229,7 +233,7 @@ public class ContactDetails extends Activity {
 						aabManager.UpdateMyInfo(ContactDetails.currentContact);
 					}
 					else {
-						ContactDetails.currentContact = updateContactFromContactDetails();		
+						ContactDetails.updateContact = updateContactFromContactDetails();		
 						aabManager = new AabManager(Config.fqdn, Config.authToken, new updateContactListener());
 						aabManager.UpdateContact(ContactDetails.currentContact);
 					}

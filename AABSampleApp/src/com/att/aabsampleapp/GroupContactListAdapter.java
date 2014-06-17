@@ -54,18 +54,14 @@ public class GroupContactListAdapter extends BaseAdapter {
 			convertView = cInflater.inflate(R.layout.activity_contact_list_row, null);
 			holder = new ViewHolder();
 			holder.txtFormattedName = (TextView)convertView.findViewById(R.id.formattedname);
-			holder.txtContactId = (TextView)convertView.findViewById(R.id.contactId);
-			holder.txtZipcode = (TextView)convertView.findViewById(R.id.ZipCode);
+	
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		// holder.txtFormattedName.setText(quickContacts[position].getFormattedName());
 		 holder.txtFormattedName.setText(groupContacts.get(position).getFirstName());
-		 holder.txtContactId.setText(groupContacts.get(position).getContactId());
-		// holder.txtZipcode.setText(quickContacts[position].getEmail().getEmailAddress().toString());
-		
+	
 		return convertView;
 	}
 	

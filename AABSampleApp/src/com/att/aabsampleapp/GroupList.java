@@ -121,6 +121,8 @@ public class GroupList extends Activity implements OnClickListener {
 	public void getGroupContacts(Group grp) {
 		
 		Intent i = new Intent(GroupList.this, GroupContactList.class);
+		//Intent i = new Intent(GroupList.this, ContactList.class);
+
 		i.putExtra("groupId", grp.getGroupId());
 		startActivity(i);	
 	}

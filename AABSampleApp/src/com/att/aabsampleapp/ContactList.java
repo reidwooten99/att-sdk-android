@@ -115,17 +115,17 @@ public class ContactList extends Activity implements OnClickListener{
 	
 	public void  addContactToGroup(Contact contact) {
 		
-		aabManager = new AabManager(Config.fqdn,  Config.authToken,new getGroupsListener());
+		/*aabManager = new AabManager(Config.fqdn,  Config.authToken,new getGroupsListener());
 		pageParams = new PageParams("ASC", "groupName", "25", "0");
 
 		aabManager.GetGroups(pageParams, null);
-		
+*/		
 		
 		 
-		/*Intent i = new Intent(AllContacts.this, GroupList.class);
+		Intent i = new Intent(ContactList.this, GroupList.class);
 		i.putExtra("groupId", "-1");
 		i.putExtra("contactId", contact.getContactId());
-		startActivity(i);*/
+		startActivity(i);
 	}
 	
 	
