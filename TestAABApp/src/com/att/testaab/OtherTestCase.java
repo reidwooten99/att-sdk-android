@@ -4,13 +4,11 @@ import android.widget.TextView;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
-import com.att.api.aab.service.Phone;
 
 public class OtherTestCase extends AabTestCase {
 
 	public OtherTestCase(TextView textView, String strLogFilePath) {
 		super(textView, strLogFilePath);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void testGetMyInfo() {

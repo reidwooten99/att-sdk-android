@@ -22,7 +22,7 @@ import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
 import com.att.sdk.listener.AttSdkListener;
 
-public class TestAAB extends Activity implements OnClickListener {
+public class TestAab extends Activity implements OnClickListener {
 
 	private AabManager aabManager;
 	private PageParams pageParams;
@@ -97,6 +97,7 @@ public class TestAAB extends Activity implements OnClickListener {
 //                4 1 2 create contact, contacts, display
 //                5 1 2 update contact, contacts, display
 //                6 1 delete contact, contacts
+                //14 getMyInfo
                 
 				switch (iOperation) {
 				
@@ -193,7 +194,6 @@ public class TestAAB extends Activity implements OnClickListener {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent i;
 		switch (item.getItemId()) {
 			
 			case R.id.action_logout : 
@@ -202,23 +202,6 @@ public class TestAAB extends Activity implements OnClickListener {
 				
 			case R.id.action_login :
 				logIntoAddressBook(Config.fqdn,Config.clientID,Config.secretKey,Config.redirectUri,Config.appScope);
-				break;
-			
-			case R.id.action_contacts :
-				 i = new Intent(TestAAB.this, ContactsList.class);
-				startActivity(i);	
-				break;
-			
-			case R.id.action_groups :
-				Intent intent = new Intent(TestAAB.this, GroupList.class);
-				intent.putExtra("contactId", "-1");
-				startActivity(intent);
-				break;
-			
-			case R.id.action_tabview :
-				 i = new Intent(TestAAB.this, ContactsTabView.class);
-				//Intent i = new Intent(TestAAB.this, ContactsFragmentView.class);
-				startActivity(i);
 				break;
 			
 			default :
@@ -266,7 +249,7 @@ public class TestAAB extends Activity implements OnClickListener {
 	}
 
 	public void logIntoAddressBook(String fqdn, String clientId, String secretKey, String refirectUri, String appScope) {
-		Intent i = new Intent(TestAAB.this, com.att.api.consentactivity.UserConsentActivity.class);
+		Intent i = new Intent(TestAab.this, com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
@@ -287,8 +270,6 @@ public class TestAAB extends Activity implements OnClickListener {
 				Config.refreshToken = authToken.getRefreshToken();
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
-				Intent i = new Intent(TestAAB.this, ContactsList.class);
-				startActivity(i);	
 			}
 		}
 
@@ -303,9 +284,6 @@ public class TestAAB extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		
 	}
-
-
 }
