@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 
 
 import com.att.api.aab.manager.AabManager;
+import com.att.api.aab.service.Address;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.Email;
@@ -37,6 +38,7 @@ public class ContactDetails extends Activity {
 	private EditText editCity;
 	private EditText editState;
 	private EditText editZipCode;
+	private EditText editCountry;
 	
 	public static Contact currentContact; // Contact object used to display and update contact.
 	//public static Contact newContact; //Contact object used to create new contact.
@@ -62,6 +64,7 @@ public class ContactDetails extends Activity {
 		editCity = (EditText) findViewById(R.id.editCity);
 		editState =(EditText) findViewById(R.id.editState);
 		editZipCode =(EditText) findViewById(R.id.editzipCode);
+		editCountry = (EditText) findViewById(R.id.editCountry);
 		btnShowGroups = (Button) findViewById(R.id.btnshowgroups);
 		
 		Intent intent = getIntent();
@@ -164,20 +167,34 @@ public class ContactDetails extends Activity {
 		editFirstName.setText(contact.getFirstName());
 		editLastName.setText(contact.getLastName());
 		editOrganization.setEnabled(true);
-		editOrganization.setText(contact.getOrganization());
+		if(contact.getOrganization() != null) {
+			editOrganization.setText(contact.getOrganization());
+		}
+		else {
+			editOrganization.setText("UNKNOWN");
+		}
+			
 		selectedContactId = contact.getContactId();
 		if(contact.getPhones() != null) {
-			editPhone1.setText(contact.getPhones()[0].getNumber());
-			editPhone2.setText(contact.getPhones()[1].getNumber());
+			if(contact.getPhones()[0] != null)
+				editPhone1.setText(contact.getPhones()[0].getNumber());
+			if(contact.getPhones()[1] != null)
+				editPhone2.setText(contact.getPhones()[1].getNumber());
+			
 		}
 		if(contact.getEmails() != null) {
 			editEmailAddress.setText(contact.getEmails()[0].getEmailAddress());
 		}
-		/*editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
-		editAddress2.setText(contact.getAddresses()[0].getAddrLineOne());;
-		editCity.setText(contact.getAddresses()[0].getCity());
-		editState.setText(contact.getAddresses()[0].getState());
-		editZipCode.setText(contact.getAddresses()[0].getZipcode());*/
+		
+		if(contact.getAddresses() != null) {
+			editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
+			editAddress2.setText(contact.getAddresses()[0].getAddrLineTwo());;
+			editCity.setText(contact.getAddresses()[0].getCity());
+			editState.setText(contact.getAddresses()[0].getState());
+			editZipCode.setText(contact.getAddresses()[0].getZipcode());	
+			editCountry.setText(contact.getAddresses()[0].getCountry());
+		}
+		
 	}
 	
 	public Contact createContactFromContactDetails() {
@@ -185,19 +202,33 @@ public class ContactDetails extends Activity {
 		Contact.Builder builder = new Contact.Builder(); 
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
-		editOrganization.setEnabled(true);
 		builder.setOrganization(editOrganization.getText().toString());	
 		
 		long time= System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
-		Phone [] phones = new Phone[2];
+		Phone[] phones = new Phone[2];
 		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
 		phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
 		builder.setPhones(phones);
 		
-		Email [] emails = new Email[1];
+		Email[] emails = new Email[1];
 		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(),true);
 		builder.setEmails(emails);
+		
+		Address.Builder addressBuilder = new Address.Builder();
+		addressBuilder.setType("HOME");
+		addressBuilder.setPreferred(true);
+		addressBuilder.setPoBox("34567");
+		addressBuilder.setAddrLineOne(editAddress.getText().toString());
+		addressBuilder.setAddrLineTwo(editAddress2.getText().toString());
+		addressBuilder.setCity(editCity.getText().toString());
+		addressBuilder.setState(editState.getText().toString());
+		addressBuilder.setCountry(editCountry.getText().toString());
+		addressBuilder.setZipcode(editZipCode.getText().toString());
+
+		Address[] addresses = new Address[1];
+		addresses[0] = addressBuilder.build();
+		builder.setAddresses(addresses);
 		
 		
 		return builder.build();
@@ -208,7 +239,9 @@ public class ContactDetails extends Activity {
 		if (editFirstName.getText().toString() != currentContact.getFirstName()) {
 			builder.setFirstName(editFirstName.getText().toString());
 		}
-		builder.setLastName(editLastName.getText().toString());
+		if (editFirstName.getText().toString() != currentContact.getLastName()) {
+			builder.setLastName(editLastName.getText().toString());
+		}
 		builder.setContactId(selectedContactId);
 		
 		return builder.build();

@@ -245,7 +245,7 @@ public class ContactList extends Activity implements OnClickListener{
 		super.onResume();
 		
 		aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
-		pageParams = new PageParams("ASC", "firstName", "25", "0");
+		pageParams = new PageParams("ASC", "firstName", "55", "0");
 		//aabManager.GetContacts("shallow", pageParams, searchParams);
 		aabManager.GetContacts("", pageParams, searchParams);
 	

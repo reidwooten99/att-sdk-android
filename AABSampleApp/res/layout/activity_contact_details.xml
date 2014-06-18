@@ -224,7 +224,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/state"
-        android:text="@string/state"
+        android:text="@string/zipCode"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -235,7 +235,27 @@
         android:layout_alignBottom="@+id/zipCode"
         android:layout_toRightOf="@+id/PhoneType2"
         android:hint="@string/zipCode" />
-
+    
+     <TextView
+         android:id="@+id/country"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/zipCode"
+		android:text="@string/country"
+		android:textAppearance="?android:attr/textAppearanceMedium" />
+     
+     <EditText
+		android:id="@+id/editCountry"
+		 android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/country"
+        android:layout_alignBottom="@+id/country"
+        android:layout_toRightOf="@+id/PhoneType2"
+        android:hint="@string/country" />
+        
+        
+		
     <Button
         android:id="@+id/btnshowgroups"
         android:layout_width="wrap_content"
