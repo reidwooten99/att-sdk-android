@@ -85,6 +85,25 @@ public class ContactDetails extends Activity {
 				editLastName.setTextColor(Color.BLACK);
 				editOrganization.setEnabled(false);
 				editOrganization.setTextColor(Color.BLACK);
+				editPhone1.setEnabled(false);
+				editPhone1.setTextColor(Color.BLACK);
+				editPhone2.setEnabled(false);
+				editPhone2.setTextColor(Color.BLACK);
+				editEmailAddress.setEnabled(false);
+				editEmailAddress.setTextColor(Color.BLACK);
+				editAddress.setEnabled(false);
+				editAddress.setTextColor(Color.BLACK);
+				editAddress2.setEnabled(false);
+				editAddress2.setTextColor(Color.BLACK);
+				editCity.setEnabled(false);
+				editCity.setTextColor(Color.BLACK);
+				editState.setEnabled(false);
+				editState.setTextColor(Color.BLACK);
+				editZipCode.setEnabled(false);
+				editZipCode.setTextColor(Color.BLACK);
+				editCountry.setEnabled(false);
+				editCountry.setTextColor(Color.BLACK);
+				
 				aabManager = new AabManager(Config.fqdn, Config.authToken,
 						new getMyInfoListener());
 				aabManager.GetMyInfo();
@@ -129,7 +148,25 @@ public class ContactDetails extends Activity {
 				editFirstName.setText(c.getFirstName());
 				editLastName.setText(c.getLastName());
 				editOrganization.setText("ATT");
-				editPhone1.setText(c.getPhones()[0].getNumber());
+				if(c.getPhones() != null) {
+					editPhone1.setText(c.getPhones()[0].getNumber());
+					if(c.getPhones().length >1 && c.getPhones()[1].getNumber() != null) {
+						editPhone2.setText(c.getPhones()[1].getNumber());
+					}
+				}
+				if (c.getEmails() != null) {
+					editEmailAddress.setText(c.getEmails()[0].getEmailAddress());
+				}
+
+				if (c.getAddresses() != null) {
+					editAddress.setText(c.getAddresses()[0].getAddrLineOne());
+					editAddress2.setText(c.getAddresses()[0].getAddrLineTwo());
+					editCity.setText(c.getAddresses()[0].getCity());
+					editState.setText(c.getAddresses()[0].getState());
+					editZipCode.setText(c.getAddresses()[0].getZipcode());
+					editCountry.setText(c.getAddresses()[0].getCountry());
+				}
+
 				selectedContactId = c.getContactId();
 			}
 			return;
@@ -269,6 +306,15 @@ public class ContactDetails extends Activity {
 			 phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
 		}
 		builder.setPhones(phones);
+		
+		Email[] emails = new Email[1];
+		if(currentContact.getEmails() == null || 
+			 (currentContact.getEmails()[0] != null &&
+				editEmailAddress.getText().toString() != currentContact.getEmails()[0].getEmailAddress() ) ) {
+			emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(), true);
+		}
+		builder.setEmails(emails);
+
 		
 		Address[] addresses = new Address[1];
 		Address.Builder addressBuilder = new Address.Builder();
