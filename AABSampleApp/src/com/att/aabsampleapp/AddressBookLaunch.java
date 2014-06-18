@@ -1,15 +1,12 @@
 package com.att.aabsampleapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
@@ -50,8 +47,21 @@ public class AddressBookLaunch extends Activity {
 					aabManager = new AabManager(Config.fqdn, Config.clientID,Config.secretKey,new getTokenListener());
 					aabManager.getOAuthToken(oAuthCode); 
 					
-				} else {
-					Log.i("ContactList", "oAuthCode: is null");
+				} else  if(resultCode == RESULT_CANCELED) {
+					String errorMessage = null;
+					if(null != data) {
+						 errorMessage = data.getStringExtra("ErrorMessage");
+					} else 
+						errorMessage = getResources().getString(R.string.title_close_application);
+					new AlertDialog.Builder(AddressBookLaunch.this)
+					.setTitle("Error")
+					.setMessage(errorMessage)
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+							finish();
+						}
+					}).show();				
 				}
 			} 					
 		} 
@@ -79,39 +89,14 @@ public class AddressBookLaunch extends Activity {
 		}
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.address_book_launch, menu);
-
-		return super.onCreateOptionsMenu(menu);
-	}
-
 	public void getAddressBookContacts() {
 		Intent i = new Intent(AddressBookLaunch.this, SampleAppLauncher.class);
 		startActivity(i);
 		dismissProgressDialog();
+		finish();
 		
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			
-			case R.id.action_logout :
-				CookieSyncManager.createInstance(this);
-				CookieManager cookieManager = CookieManager.getInstance();
-				cookieManager.removeAllCookie();
-				cookieManager.removeExpiredCookie();
-				cookieManager.removeSessionCookie();
-				finish();
-				break;
-			
-			default :
-				return super.onOptionsItemSelected(item);
-			}		
-			return true;
-	}	
+
 
 	// Progress Dialog
 		public void showProgressDialog(String dialogMessage) {
