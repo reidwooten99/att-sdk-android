@@ -129,6 +129,7 @@ public class ContactDetails extends Activity {
 				editFirstName.setText(c.getFirstName());
 				editLastName.setText(c.getLastName());
 				editOrganization.setText("ATT");
+				editPhone1.setText(c.getPhones()[0].getNumber());
 				selectedContactId = c.getContactId();
 			}
 			return;
@@ -269,14 +270,46 @@ public class ContactDetails extends Activity {
 		}
 		builder.setPhones(phones);
 		
+		Address[] addresses = new Address[1];
+		Address.Builder addressBuilder = new Address.Builder();
+		if(currentContact.getAddresses() == null ||
+			(currentContact.getAddresses()[0] != null &&
+			editAddress.getText().toString() != currentContact.getAddresses()[0].getAddrLineOne() ) ) {
+			addressBuilder.setAddrLineOne(editAddress.getText().toString());
+		}
+		if(currentContact.getAddresses() == null ||
+				(currentContact.getAddresses()[0] != null &&
+				editAddress2.getText().toString() != currentContact.getAddresses()[0].getAddrLineTwo() ) ) {
+				addressBuilder.setAddrLineTwo(editAddress2.getText().toString());
+			}
+		if(currentContact.getAddresses() == null ||
+				(currentContact.getAddresses()[0] != null &&
+				editCity.getText().toString() != currentContact.getAddresses()[0].getCity() ) ) {
+				addressBuilder.setCity(editCity.getText().toString());
+			}
+		if(currentContact.getAddresses() == null ||
+				(currentContact.getAddresses()[0] != null &&
+				editState.getText().toString() != currentContact.getAddresses()[0].getState() ) ) {
+				addressBuilder.setState(editState.getText().toString());
+			}
+		if(currentContact.getAddresses() == null ||
+				(currentContact.getAddresses()[0] != null &&
+				editZipCode.getText().toString() != currentContact.getAddresses()[0].getZipcode() ) ) {
+				addressBuilder.setZipcode(editZipCode.getText().toString());
+			}
+		if(currentContact.getAddresses() == null ||
+				(currentContact.getAddresses()[0] != null &&
+				editCountry.getText().toString() != currentContact.getAddresses()[0].getCountry() ) ) {
+				addressBuilder.setCountry(editCountry.getText().toString());
+			}
 			
+		addresses[0] = addressBuilder.build();
+		builder.setAddresses(addresses);
+		
 		builder.setContactId(selectedContactId);
 		
 		return builder.build();
-		//ContactDetails.updateContact = builder.build();
-		/*if ( ContactDetails.updateContact.getFirstName().equalsIgnoreCase(ContactDetails.currentContact.getFirstName()) ) {
-		}*/
-		//return ContactDetails.updateContact;
+		
 	}
 
 	@Override
