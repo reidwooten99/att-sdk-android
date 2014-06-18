@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Contact;
@@ -25,8 +26,6 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.SearchParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
-
-
 
 public class ContactList extends Activity implements OnClickListener{
 	
@@ -170,10 +169,12 @@ public class ContactList extends Activity implements OnClickListener{
 		@Override
 		public void onSuccess(Object response) {
 			String result = (String) response;
-		
+			
+			Toast.makeText(getApplicationContext(), "Contact was succesfully deleted.", Toast.LENGTH_LONG).show();
+			
 			aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
 			pageParams = new PageParams("ASC", "firstName", "30", "0");
-			aabManager.GetContacts("shallow", pageParams, searchParams);
+			aabManager.GetContacts("", pageParams, searchParams);
 		
 			Log.i("deleteContactAPI onSuccess", result);
 		}
@@ -246,7 +247,6 @@ public class ContactList extends Activity implements OnClickListener{
 		
 		aabManager = new AabManager(Config.fqdn, Config.authToken,new getContactsListener());
 		pageParams = new PageParams("ASC", "firstName", "55", "0");
-		//aabManager.GetContacts("shallow", pageParams, searchParams);
 		aabManager.GetContacts("", pageParams, searchParams);
 	
 	}
