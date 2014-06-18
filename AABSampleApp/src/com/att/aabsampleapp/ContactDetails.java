@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
 
-
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Address;
 import com.att.api.aab.service.Contact;
@@ -39,20 +38,22 @@ public class ContactDetails extends Activity {
 	private EditText editState;
 	private EditText editZipCode;
 	private EditText editCountry;
-	
-	public static Contact currentContact; // Contact object used to display and update contact.
-	//public static Contact newContact; //Contact object used to create new contact.
-	//public static Contact updateContact;
-	private ContactWrapper contactWrapper;	
+
+	public static Contact currentContact; // Contact object used to display and
+											// update contact.
+	// public static Contact newContact; //Contact object used to create new
+	// contact.
+	// public static Contact updateContact;
+	private ContactWrapper contactWrapper;
 	private boolean isUpdateMyInfo;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_details);
 		Button btnShowGroups;
-		
+
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		editLastName = (EditText) findViewById(R.id.editlastName);
 		editOrganization = (EditText) findViewById(R.id.editorgName);
@@ -62,43 +63,46 @@ public class ContactDetails extends Activity {
 		editAddress = (EditText) findViewById(R.id.editAddress);
 		editAddress2 = (EditText) findViewById(R.id.editAddress2);
 		editCity = (EditText) findViewById(R.id.editCity);
-		editState =(EditText) findViewById(R.id.editState);
-		editZipCode =(EditText) findViewById(R.id.editzipCode);
+		editState = (EditText) findViewById(R.id.editState);
+		editZipCode = (EditText) findViewById(R.id.editzipCode);
 		editCountry = (EditText) findViewById(R.id.editCountry);
 		btnShowGroups = (Button) findViewById(R.id.btnshowgroups);
-		
+
 		Intent intent = getIntent();
-		contactId = intent.getExtras().getString("contactId");	
+		contactId = intent.getExtras().getString("contactId");
 		isUpdateMyInfo = intent.getBooleanExtra("isUpdateMyInfo", false);
-		
-		if (contactId.equalsIgnoreCase("MY_INFO")) {	
-					
-			if(isUpdateMyInfo) {
-						aabManager = new AabManager(Config.fqdn, Config.authToken, new getMyInfoListener());
-						aabManager.GetMyInfo();					
-					}
-			else {
-						editFirstName.setEnabled(false);
-						editFirstName.setTextColor(Color.BLACK);
-						editLastName.setEnabled(false);
-						editLastName.setTextColor(Color.BLACK);
-						editOrganization.setEnabled(false);
-						editOrganization.setTextColor(Color.BLACK);
-						aabManager = new AabManager(Config.fqdn, Config.authToken, new getMyInfoListener());
-						aabManager.GetMyInfo();
-					}
-			
-				} else {
-					aabManager  = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
-					aabManager.GetContact(contactId, " ");	
-				}
-		
+
+		if (contactId.equalsIgnoreCase("MY_INFO")) {
+
+			if (isUpdateMyInfo) {
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new getMyInfoListener());
+				aabManager.GetMyInfo();
+			} else {
+				editFirstName.setEnabled(false);
+				editFirstName.setTextColor(Color.BLACK);
+				editLastName.setEnabled(false);
+				editLastName.setTextColor(Color.BLACK);
+				editOrganization.setEnabled(false);
+				editOrganization.setTextColor(Color.BLACK);
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new getMyInfoListener());
+				aabManager.GetMyInfo();
+			}
+
+		} else {
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new getContactListener());
+			aabManager.GetContact(contactId, " ");
+		}
+
 		btnShowGroups.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(ContactDetails.this, ContactGroupList.class);
-				i.putExtra("contactId",contactId );
+				Intent i = new Intent(ContactDetails.this,
+						ContactGroupList.class);
+				i.putExtra("contactId", contactId);
 				startActivity(i);
 			}
 		});
@@ -109,20 +113,19 @@ public class ContactDetails extends Activity {
 		getMenuInflater().inflate(R.menu.contact_details, menu);
 		return true;
 	}
-	
+
 	private class getMyInfoListener implements AttSdkListener {
-		
+
 		private String strText;
-		
+
 		@Override
 		public void onSuccess(Object response) {
 			ContactDetails.currentContact = (Contact) response;
 			Contact c = ContactDetails.currentContact;
 			if (null != c) {
-				strText = "\n" + c.getContactId() + ", " + 
-							c.getFormattedName();
-				Log.i("getMyInfoAPI","OnSuccess : ContactID :  " + strText);
-				
+				strText = "\n" + c.getContactId() + ", " + c.getFormattedName();
+				Log.i("getMyInfoAPI", "OnSuccess : ContactID :  " + strText);
+
 				editFirstName.setText(c.getFirstName());
 				editLastName.setText(c.getLastName());
 				editOrganization.setText("ATT");
@@ -136,21 +139,23 @@ public class ContactDetails extends Activity {
 			Log.i("getMyInfoAPI on error", "onError");
 		}
 	}
-	
+
 	private class getContactListener implements AttSdkListener {
 
 		private String strText;
+
 		@Override
-		public void onSuccess(Object response) {			
+		public void onSuccess(Object response) {
 			contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) { 
+			if (null != contactWrapper) {
 				ContactDetails.currentContact = contactWrapper.getContact();
 				Contact c = ContactDetails.currentContact;
 				if (null != c) {
-					strText = "\n" + c.getContactId() + ", " + 
-								c.getFormattedName();
-					Log.i("getContactAPI","OnSuccess : ContactID :  " + strText);
-					
+					strText = "\n" + c.getContactId() + ", "
+							+ c.getFormattedName();
+					Log.i("getContactAPI", "OnSuccess : ContactID :  "
+							+ strText);
+
 					createContactDetailsFromContact(c);
 				}
 			}
@@ -162,59 +167,64 @@ public class ContactDetails extends Activity {
 
 		}
 	}
-	
-	public void createContactDetailsFromContact( Contact contact) {
+
+	public void createContactDetailsFromContact(Contact contact) {
 		editFirstName.setText(contact.getFirstName());
 		editLastName.setText(contact.getLastName());
 		editOrganization.setEnabled(true);
-		if(contact.getOrganization() != null) {
+		if (contact.getOrganization() != null) {
 			editOrganization.setText(contact.getOrganization());
-		}
-		else {
+		} else {
 			editOrganization.setText("UNKNOWN");
 		}
-			
+
 		selectedContactId = contact.getContactId();
-		if(contact.getPhones() != null) {
-			if(contact.getPhones()[0] != null)
+
+		
+		if (contact.getPhones() != null) {
+			int numPhoneContacts = contact.getPhones().length;
+			if (contact.getPhones()[0] != null) {
 				editPhone1.setText(contact.getPhones()[0].getNumber());
-			if(contact.getPhones()[1] != null)
+			}
+			if (numPhoneContacts > 1 && contact.getPhones()[1] != null) {
 				editPhone2.setText(contact.getPhones()[1].getNumber());
-			
+			}
 		}
-		if(contact.getEmails() != null) {
+		if (contact.getEmails() != null) {
 			editEmailAddress.setText(contact.getEmails()[0].getEmailAddress());
 		}
-		
-		if(contact.getAddresses() != null) {
+
+		if (contact.getAddresses() != null) {
 			editAddress.setText(contact.getAddresses()[0].getAddrLineOne());
-			editAddress2.setText(contact.getAddresses()[0].getAddrLineTwo());;
+			editAddress2.setText(contact.getAddresses()[0].getAddrLineTwo());
 			editCity.setText(contact.getAddresses()[0].getCity());
 			editState.setText(contact.getAddresses()[0].getState());
-			editZipCode.setText(contact.getAddresses()[0].getZipcode());	
+			editZipCode.setText(contact.getAddresses()[0].getZipcode());
 			editCountry.setText(contact.getAddresses()[0].getCountry());
 		}
-		
+
 	}
-	
+
 	public Contact createContactFromContactDetails() {
-		
-		Contact.Builder builder = new Contact.Builder(); 
+
+		Contact.Builder builder = new Contact.Builder();
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
-		builder.setOrganization(editOrganization.getText().toString());	
-		
-		long time= System.currentTimeMillis();
+		builder.setOrganization(editOrganization.getText().toString());
+
+		long time = System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
 		Phone[] phones = new Phone[2];
-		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
-		phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
+		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(),
+				true);
+		phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(),
+				false);
 		builder.setPhones(phones);
-		
+
 		Email[] emails = new Email[1];
-		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(),true);
+		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(), true);
 		builder.setEmails(emails);
-		
+
 		Address.Builder addressBuilder = new Address.Builder();
 		addressBuilder.setType("HOME");
 		addressBuilder.setPreferred(true);
@@ -229,19 +239,37 @@ public class ContactDetails extends Activity {
 		Address[] addresses = new Address[1];
 		addresses[0] = addressBuilder.build();
 		builder.setAddresses(addresses);
-		
-		
+
 		return builder.build();
 	}
-	
+
 	public Contact getUpdatedContactFromContactDetails() {		
 		Contact.Builder builder = new Contact.Builder(); 
 		if (editFirstName.getText().toString() != currentContact.getFirstName()) {
 			builder.setFirstName(editFirstName.getText().toString());
 		}
-		if (editFirstName.getText().toString() != currentContact.getLastName()) {
+		if (editLastName.getText().toString() != currentContact.getLastName()) {
 			builder.setLastName(editLastName.getText().toString());
 		}
+		if(editOrganization.getText().toString() != currentContact.getOrganization()) {
+			builder.setOrganization(editOrganization.getText().toString());
+		}
+		
+		Phone[] phones = new Phone[2];
+		if( currentContact.getPhones() == null ||
+			( currentContact.getPhones()[0] != null && 
+			  editPhone1.getText().toString() != currentContact.getPhones()[0].getNumber() ) )  {
+			phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
+		}
+		
+		if ( currentContact.getPhones() == null ||
+			 ( currentContact.getPhones().length > 1 &&
+			   editPhone2.getText().toString() != currentContact.getPhones()[1].getNumber() ) )  {
+			 phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
+		}
+		builder.setPhones(phones);
+		
+			
 		builder.setContactId(selectedContactId);
 		
 		return builder.build();
@@ -250,66 +278,66 @@ public class ContactDetails extends Activity {
 		}*/
 		//return ContactDetails.updateContact;
 	}
-	
-	
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		//Contact c = getContactFromFields();
-		switch(item.getItemId()) {
-			case R.id.action_create ://createContact 
-							
-				aabManager = new AabManager(Config.fqdn, Config.authToken, new createContactListener());
-				aabManager.CreateContact(createContactFromContactDetails());
-				break;
-			
-			case R.id.action_update : //UpdateMyInfo or UpdateContact 
-			
-					if(isUpdateMyInfo) {
-						// ContactDetails.currentContact = getUpdatedContactFromContactDetails()
-						aabManager = new AabManager(Config.fqdn, Config.authToken, new updateMyInfoListener());
-						aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
-					}
-					else {
-						aabManager = new AabManager(Config.fqdn, Config.authToken, new updateContactListener());
-						aabManager.UpdateContact(getUpdatedContactFromContactDetails());
-					}
-					break;
-			
-				
+		// Contact c = getContactFromFields();
+		switch (item.getItemId()) {
+		case R.id.action_create:// createContact
+
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new createContactListener());
+			aabManager.CreateContact(createContactFromContactDetails());
+			break;
+
+		case R.id.action_update: // UpdateMyInfo or UpdateContact
+
+			if (isUpdateMyInfo) {
+				// ContactDetails.currentContact =
+				// getUpdatedContactFromContactDetails()
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new updateMyInfoListener());
+				aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
+			} else {
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new updateContactListener());
+				aabManager.UpdateContact(getUpdatedContactFromContactDetails());
+			}
+			break;
+
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
-	
-	public void updateContact(String firstName,String contactId) {
-		
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new updateContactListener());
 
-		Contact.Builder builder = new Contact.Builder(); 
+	public void updateContact(String firstName, String contactId) {
+
+		aabManager = new AabManager(Config.fqdn, Config.authToken,
+				new updateContactListener());
+
+		Contact.Builder builder = new Contact.Builder();
 		builder.setFirstName(firstName);
 		builder.setContactId(contactId);
 		Contact contact = builder.build();
 		aabManager.UpdateContact(contact);
 	}
-	
+
 	private class createContactListener implements AttSdkListener {
 
-		
 		@Override
-		public void onSuccess(Object response) {		
+		public void onSuccess(Object response) {
 			String strText;
 			String newContactId;
 			String result = (String) response;
 			if (null != result) {
-				strText = "\n" + result;				
+				strText = "\n" + result;
 				String[] locationUrl = result.split("contacts/");
 				newContactId = locationUrl[1];
-				Log.i("createContactAPI","OnSuccess : ContactID :  " + result);
+				Log.i("createContactAPI", "OnSuccess : ContactID :  " + result);
 				finish();
+			} else {
+				strText = "Unknown: " + "test.\nNo data returned.";
 			}
-			else {
-					strText = "Unknown: " + "test.\nNo data returned.";				
-			}		
-			
+
 		}
 
 		@Override
@@ -318,17 +346,17 @@ public class ContactDetails extends Activity {
 
 		}
 	}
-	
+
 	private class updateContactListener implements AttSdkListener {
-		
+
 		@Override
-		public void onSuccess(Object response) {		
+		public void onSuccess(Object response) {
 			String result = (String) response;
 			if (null != result) {
-				Log.i("updateContactAPI","OnSuccess : ContactID :  " + result);
+				Log.i("updateContactAPI", "OnSuccess : ContactID :  " + result);
 				finish();
-			}	
-			
+			}
+
 		}
 
 		@Override
@@ -337,20 +365,19 @@ public class ContactDetails extends Activity {
 
 		}
 	}
-	
+
 	private class updateMyInfoListener implements AttSdkListener {
-		
+
 		@Override
-		public void onSuccess(Object response) {		
+		public void onSuccess(Object response) {
 			String result = (String) response;
 			if (null != result) {
-				Log.i("updateMyInfoAPI","OnSuccess : ContactID :  " + result);
+				Log.i("updateMyInfoAPI", "OnSuccess : ContactID :  " + result);
 				finish();
+			} else {
+				result = "Unknown: " + "test.\nNo data returned.";
 			}
-			else {
-				result = "Unknown: " + "test.\nNo data returned.";				
-			}		
-			
+
 		}
 
 		@Override
@@ -359,16 +386,16 @@ public class ContactDetails extends Activity {
 
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(contactId.equalsIgnoreCase("MY_INFO")) {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,new getMyInfoListener());	
+		if (contactId.equalsIgnoreCase("MY_INFO")) {
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new getMyInfoListener());
 			aabManager.GetMyInfo();
-		} 
-		
-	
+		}
+
 	}
 
 }
