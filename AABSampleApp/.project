@@ -3,6 +3,7 @@
 	<name>AabSampleApp</name>
 	<comment></comment>
 	<projects>
+		<project>AabSdk</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
