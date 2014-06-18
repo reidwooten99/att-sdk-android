@@ -4,8 +4,11 @@ package com.att.aabsampleapp;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -60,7 +63,6 @@ public class SampleAppLauncher extends TabActivity {
 		switch(item.getItemId()) {
 			case R.id.action_update:
 				//UpdateMyInfo or UpdateContact API
-				//Toast.makeText(getApplicationContext(), "List Save clicked", Toast.LENGTH_LONG).show();
 				 intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
 				intent.putExtra("contactId", "MY_INFO");
 				intent.putExtra("isUpdateMyInfo", true);
@@ -75,9 +77,23 @@ public class SampleAppLauncher extends TabActivity {
 				startActivity(intent);
 				break;
 			
+			case R.id.action_logout :
+				CookieSyncManager.createInstance(this);
+				CookieManager cookieManager = CookieManager.getInstance();
+				cookieManager.removeAllCookie();
+				cookieManager.removeExpiredCookie();
+				cookieManager.removeSessionCookie();
+				finish();
+				break;
+			
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
 	
+	@Override
+	public void onBackPressed() {
+	    super.onBackPressed();
+	    finish();
+	}
 		
 }

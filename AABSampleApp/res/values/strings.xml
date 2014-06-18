@@ -8,6 +8,7 @@
     <string name="action_saveContact">Save Contact</string>
     <string name="action_updateContactnInfo">Update </string>
     <string name="action_updateMyInfo">Update MyInfo</string>
+    <string name="action_logout">Logout</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_contact_list">Address Book Sample</string>
     <string name="title_activity_user_consent">UserConsentActivity</string>
@@ -35,5 +36,6 @@
     <string name="showGroups">Show Groups</string>
     <string name="title_activity_contact_group_list">ContactGroupList</string>
     <string name="title_activity_group_contact_list">GroupContactList</string>
+    <string name="title_close_application">"Closing the Application"</string>
 
 </resources>
