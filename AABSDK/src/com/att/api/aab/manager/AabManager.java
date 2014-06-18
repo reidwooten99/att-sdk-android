@@ -36,7 +36,7 @@ public class AabManager {
 	 * @param aabListener - Specifies the Listener for callbacks.
 	 */	
 	public AabManager(String fqdn, OAuthToken token, AttSdkListener listener) {		
-		aabService = new AABService(fqdn, token);
+		aabService = new AABService(fqdn, token, "att.aab.android.1.0");
 		aabListener = listener;
 	}
 	

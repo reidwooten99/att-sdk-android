@@ -61,7 +61,7 @@ public class ContactsTestCase extends AabTestCase {
 					Contact c = null;
 					for (int i=0; i < contacts_arr.length; i++) {
 						c = contacts_arr[i];						
-						strPhone = (c.getPhones().length > 0) ? c.getPhones()[0].getNumber() : "0001112222";
+						strPhone = (c.getPhones() != null && c.getPhones().length > 0) ? c.getPhones()[0].getNumber() : "0001112222";
 						strText += "\n" + c.getContactId() + ", " + 
 									c.getFormattedName() + ", " + strPhone;
 						lastContactId = c.getContactId();
