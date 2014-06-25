@@ -28,9 +28,7 @@ public class ContactDetails extends Activity {
 	private EditText editFirstName;
 	private String selectedContactId;
 	private EditText editLastName;
-	private EditText editOrganization;
 	private EditText editPhone1;
-	private EditText editPhone2;
 	private EditText editEmailAddress;
 	private EditText editAddress;
 	private EditText editAddress2;
@@ -56,9 +54,7 @@ public class ContactDetails extends Activity {
 
 		editFirstName = (EditText) findViewById(R.id.editfirstName);
 		editLastName = (EditText) findViewById(R.id.editlastName);
-		editOrganization = (EditText) findViewById(R.id.editorgName);
 		editPhone1 = (EditText) findViewById(R.id.editPhoneType1);
-		editPhone2 = (EditText) findViewById(R.id.editPhoneType2);
 		editEmailAddress = (EditText) findViewById(R.id.editEmailAdddress);
 		editAddress = (EditText) findViewById(R.id.editAddress);
 		editAddress2 = (EditText) findViewById(R.id.editAddress2);
@@ -83,12 +79,8 @@ public class ContactDetails extends Activity {
 				editFirstName.setTextColor(Color.BLACK);
 				editLastName.setEnabled(false);
 				editLastName.setTextColor(Color.BLACK);
-				editOrganization.setEnabled(false);
-				editOrganization.setTextColor(Color.BLACK);
 				editPhone1.setEnabled(false);
 				editPhone1.setTextColor(Color.BLACK);
-				editPhone2.setEnabled(false);
-				editPhone2.setTextColor(Color.BLACK);
 				editEmailAddress.setEnabled(false);
 				editEmailAddress.setTextColor(Color.BLACK);
 				editAddress.setEnabled(false);
@@ -147,12 +139,8 @@ public class ContactDetails extends Activity {
 
 				editFirstName.setText(c.getFirstName());
 				editLastName.setText(c.getLastName());
-				editOrganization.setText("ATT");
 				if(c.getPhones() != null) {
 					editPhone1.setText(c.getPhones()[0].getNumber());
-					if(c.getPhones().length >1 && c.getPhones()[1].getNumber() != null) {
-						editPhone2.setText(c.getPhones()[1].getNumber());
-					}
 				}
 				if (c.getEmails() != null) {
 					editEmailAddress.setText(c.getEmails()[0].getEmailAddress());
@@ -209,12 +197,6 @@ public class ContactDetails extends Activity {
 	public void createContactDetailsFromContact(Contact contact) {
 		editFirstName.setText(contact.getFirstName());
 		editLastName.setText(contact.getLastName());
-		editOrganization.setEnabled(true);
-		if (contact.getOrganization() != null) {
-			editOrganization.setText(contact.getOrganization());
-		} else {
-			editOrganization.setText("UNKNOWN");
-		}
 
 		selectedContactId = contact.getContactId();
 
@@ -223,9 +205,6 @@ public class ContactDetails extends Activity {
 			int numPhoneContacts = contact.getPhones().length;
 			if (contact.getPhones()[0] != null) {
 				editPhone1.setText(contact.getPhones()[0].getNumber());
-			}
-			if (numPhoneContacts > 1 && contact.getPhones()[1] != null) {
-				editPhone2.setText(contact.getPhones()[1].getNumber());
 			}
 		}
 		if (contact.getEmails() != null) {
@@ -248,15 +227,12 @@ public class ContactDetails extends Activity {
 		Contact.Builder builder = new Contact.Builder();
 		builder.setFirstName(editFirstName.getText().toString());
 		builder.setLastName(editLastName.getText().toString());
-		builder.setOrganization(editOrganization.getText().toString());
 
 		long time = System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
 		Phone[] phones = new Phone[2];
 		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(),
 				true);
-		phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(),
-				false);
 		builder.setPhones(phones);
 
 		Email[] emails = new Email[1];
@@ -289,9 +265,6 @@ public class ContactDetails extends Activity {
 		if (editLastName.getText().toString() != currentContact.getLastName()) {
 			builder.setLastName(editLastName.getText().toString());
 		}
-		if(editOrganization.getText().toString() != currentContact.getOrganization()) {
-			builder.setOrganization(editOrganization.getText().toString());
-		}
 		
 		Phone[] phones = new Phone[2];
 		if( currentContact.getPhones() == null ||
@@ -299,12 +272,7 @@ public class ContactDetails extends Activity {
 			  editPhone1.getText().toString() != currentContact.getPhones()[0].getNumber() ) )  {
 			phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
 		}
-		
-		if ( currentContact.getPhones() == null ||
-			 ( currentContact.getPhones().length > 1 &&
-			   editPhone2.getText().toString() != currentContact.getPhones()[1].getNumber() ) )  {
-			 phones[1] = new Phone("HOME,CELL", editPhone2.getText().toString(), false);
-		}
+	
 		builder.setPhones(phones);
 		
 		Email[] emails = new Email[1];
