@@ -208,19 +208,28 @@
         android:id="@+id/btnshowgroups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editCity"
+        android:layout_alignLeft="@+id/editPhoneType1"
         android:layout_below="@+id/editlastName"
         android:text="@string/showGroups" />
 
-    <Button
-        android:id="@+id/createContact"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editlastName"
-        android:layout_toLeftOf="@+id/btnshowgroups"
-        android:text="Create"
-        android:visibility="invisible" />
+     <Button
+         android:id="@+id/createContact"
+         style="?android:attr/buttonStyle"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/editCountry"
+         android:layout_toRightOf="@+id/emailAddress"
+         android:text="Create" />
+
+     <Button
+         android:id="@+id/update"
+         style="?android:attr/buttonStyle"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBaseline="@+id/createContact"
+         android:layout_alignBottom="@+id/createContact"
+         android:layout_toRightOf="@+id/editzipCode"
+         android:text="Update" />
             
 </RelativeLayout>
 

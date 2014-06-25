@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.view.View.OnClickListener;
 
 import com.att.api.aab.manager.AabManager;
@@ -36,6 +37,8 @@ public class ContactDetails extends Activity {
 	private EditText editState;
 	private EditText editZipCode;
 	private EditText editCountry;
+	private Button btnCreateContact;
+	private Button btnUpdateContactInfo;
 
 	public static Contact currentContact; // Contact object used to display and
 											// update contact.
@@ -44,6 +47,7 @@ public class ContactDetails extends Activity {
 	// public static Contact updateContact;
 	private ContactWrapper contactWrapper;
 	private boolean isUpdateMyInfo;
+	private boolean isUpdateContact;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,8 @@ public class ContactDetails extends Activity {
 		editZipCode = (EditText) findViewById(R.id.editzipCode);
 		editCountry = (EditText) findViewById(R.id.editCountry);
 		btnShowGroups = (Button) findViewById(R.id.btnshowgroups);
+		btnCreateContact = (Button) findViewById(R.id.createContact);
+		btnUpdateContactInfo = (Button) findViewById(R.id.update);
 
 		Intent intent = getIntent();
 		contactId = intent.getExtras().getString("contactId");
@@ -71,9 +77,21 @@ public class ContactDetails extends Activity {
 		if (contactId.equalsIgnoreCase("MY_INFO")) {
 
 			if (isUpdateMyInfo) {
+				btnCreateContact.setEnabled(false);
 				aabManager = new AabManager(Config.fqdn, Config.authToken,
 						new getMyInfoListener());
 				aabManager.GetMyInfo();
+				btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						aabManager = new AabManager(Config.fqdn, Config.authToken,
+								new updateMyInfoListener());
+						aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
+					}						
+					
+				});
+
 			} else {
 				editFirstName.setEnabled(false);
 				editFirstName.setTextColor(Color.BLACK);
@@ -95,6 +113,9 @@ public class ContactDetails extends Activity {
 				editZipCode.setTextColor(Color.BLACK);
 				editCountry.setEnabled(false);
 				editCountry.setTextColor(Color.BLACK);
+				btnCreateContact.setEnabled(false);
+				btnUpdateContactInfo.setEnabled(false);
+				
 				
 				aabManager = new AabManager(Config.fqdn, Config.authToken,
 						new getMyInfoListener());
@@ -102,9 +123,19 @@ public class ContactDetails extends Activity {
 			}
 
 		} else {
+			btnCreateContact.setEnabled(false);
 			aabManager = new AabManager(Config.fqdn, Config.authToken,
 					new getContactListener());
 			aabManager.GetContact(contactId, " ");
+			btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					aabManager = new AabManager(Config.fqdn, Config.authToken,
+							new updateContactListener());
+					aabManager.UpdateContact(getUpdatedContactFromContactDetails());					
+				}
+			});
 		}
 
 		btnShowGroups.setOnClickListener(new OnClickListener() {
@@ -117,13 +148,30 @@ public class ContactDetails extends Activity {
 				startActivity(i);
 			}
 		});
+		
+		if(contactId.equalsIgnoreCase("NEW_CONTACT")) {
+			btnCreateContact.setEnabled(true);
+			btnUpdateContactInfo.setEnabled(false);
+
+		}
+		
+		btnCreateContact.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new createContactListener());
+				aabManager.CreateContact(createContactFromContactDetails());
+			}
+			
+		});
+	
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.contact_details, menu);
 		return true;
-	}
+	}*/
 
 	private class getMyInfoListener implements AttSdkListener {
 
@@ -342,10 +390,8 @@ public class ContactDetails extends Activity {
 			if (isUpdateMyInfo) {
 				// ContactDetails.currentContact =
 				// getUpdatedContactFromContactDetails()
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new updateMyInfoListener());
-				aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
-			} else {
+				
+			}	 else {
 				aabManager = new AabManager(Config.fqdn, Config.authToken,
 						new updateContactListener());
 				aabManager.UpdateContact(getUpdatedContactFromContactDetails());
@@ -401,7 +447,9 @@ public class ContactDetails extends Activity {
 			String result = (String) response;
 			if (null != result) {
 				Log.i("updateContactAPI", "OnSuccess : ContactID :  " + result);
-				finish();
+				//finish();
+				Intent intent = new Intent(ContactDetails.this, SampleAppLauncher.class);
+				 startActivity(intent);
 			}
 
 		}
@@ -420,7 +468,9 @@ public class ContactDetails extends Activity {
 			String result = (String) response;
 			if (null != result) {
 				Log.i("updateMyInfoAPI", "OnSuccess : ContactID :  " + result);
-				finish();
+				//finish();
+				Intent intent = new Intent(ContactDetails.this, SampleAppLauncher.class);
+				 startActivity(intent);
 			} else {
 				result = "Unknown: " + "test.\nNo data returned.";
 			}

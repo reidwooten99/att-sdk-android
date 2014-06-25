@@ -132,6 +132,7 @@ public class ContactList extends Activity implements OnClickListener{
 		String contactId ;
 		contactId = contact.getContactId();
 		Intent i = new Intent(ContactList.this, ContactDetails.class);
+		i.putExtra("isUpdateContact", true);
 		i.putExtra("contactId", contactId);
 		startActivity(i);
 	}
