@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_webview">WebviewActivity</string>
     <string name="title_activity_user_consent">User Consent</string>
+    <string name="title_activity_test_aab">TestAAB</string>
+    <string name="title_activity_aabtest">AABTest</string>
 
 </resources>

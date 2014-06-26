@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="18" />
-    
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -28,6 +28,14 @@
         <activity
             android:name="com.att.api.consentactivity.UserConsentActivity"
             android:label="@string/title_activity_user_consent" >
+        </activity>
+        <activity
+            android:name="com.example.iamsdk.TestAAB"
+            android:label="@string/title_activity_test_aab" >
+        </activity>
+        <activity
+            android:name="com.example.iamsdk.AABTest"
+            android:label="@string/title_activity_aabtest" >
         </activity>
     </application>
 
