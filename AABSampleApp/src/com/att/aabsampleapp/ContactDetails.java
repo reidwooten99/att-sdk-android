@@ -278,7 +278,7 @@ public class ContactDetails extends Activity {
 
 		long time = System.currentTimeMillis();
 		builder.setContactId(String.valueOf(time));
-		Phone[] phones = new Phone[2];
+		Phone[] phones = new Phone[1];
 		phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(),
 				true);
 		builder.setPhones(phones);
