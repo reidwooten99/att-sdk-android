@@ -36,7 +36,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.params.ConnRoutePNames;
@@ -498,8 +497,7 @@ public class RESTClient {
 	 * @see #addAuthorizationHeader(String)
 	 */
 	public RESTClient addAuthorizationHeader(OAuthToken token) {
-		//return addAuthorizationHeader(token.getAccessToken());
-		return addAuthorizationHeader("R0xP65CSPiYk0CleZcoFM1kd2rkqWdVp");
+		return addAuthorizationHeader(token.getAccessToken());
 	}
 
 	/*
@@ -548,7 +546,6 @@ public class RESTClient {
 				query = "?" + buildQuery();
 			}
 			HttpGet httpGet = new HttpGet(url + query);
-			httpGet.addHeader(Constants.XARG, "ClientSdk=att.immn.android." + Constants.SDK_VERSION);
 			addInternalHeaders(httpGet);
 
 			response = httpClient.execute(httpGet);
@@ -648,7 +645,6 @@ public class RESTClient {
             HttpClient httpClient = createClient();
 
             HttpPost httpPost = new HttpPost(url);
-            httpPost.addHeader(Constants.XARG, "ClientSdk=att.immn.android." + Constants.SDK_VERSION);
             Log.d("Request",url);
             addInternalHeaders(httpPost);
             if (body != null && !body.equals("")) {
@@ -1065,10 +1061,6 @@ public class RESTClient {
 			}
 		}
 	}
-	
-	public APIResponse httpDelete() throws RESTException {
-		return httpDeleteMessage();
-	}
 
 	public APIResponse httpDeleteMessage() throws RESTException {
 		HttpClient httpClient = null;
@@ -1096,32 +1088,4 @@ public class RESTClient {
 			}
 		}
 	}
-	
-	
-	public APIResponse httpPatch(String body) throws RESTException {
-        HttpClient httpClient = null;
-        HttpResponse response = null;
-
-        try {
-            httpClient = createClient();
-
-            HttpPatch httpPatch = new HttpPatch(this.url);
-
-            addInternalHeaders(httpPatch);
-            if (body != null && !body.equals("")) {
-                httpPatch.setEntity(new StringEntity(body));
-            }
-
-            response = httpClient.execute(httpPatch);
-
-            APIResponse apiResponse = buildResponse(response);
-            return apiResponse;
-        } catch (IOException ioe) {
-            throw new RESTException(ioe);
-        } finally {
-            if (response != null) {
-                this.releaseConnection(response);
-            }
-        }
-    }
 }

@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.att.api.aab.service.TypeMetaData;
-
 public final class Message {
     private String messageId;
     private String from;

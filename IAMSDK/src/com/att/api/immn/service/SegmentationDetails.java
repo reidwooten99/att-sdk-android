@@ -1,4 +1,4 @@
-package com.att.api.aab.service;
+package com.att.api.immn.service;
 
 import org.json.JSONException;
 import org.json.JSONObject;

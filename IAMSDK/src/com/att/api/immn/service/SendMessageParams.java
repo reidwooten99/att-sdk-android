@@ -1,4 +1,4 @@
-package com.att.api.aab.service;
+package com.att.api.immn.service;
 
 public class SendMessageParams {
 	

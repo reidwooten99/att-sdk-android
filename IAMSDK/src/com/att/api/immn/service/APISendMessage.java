@@ -7,7 +7,6 @@ import org.json.JSONException;
 import android.os.AsyncTask;
 import android.os.Handler;
 
-import com.att.api.aab.service.SendMessageParams;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
