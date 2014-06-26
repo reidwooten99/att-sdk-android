@@ -314,7 +314,7 @@ public class ContactDetails extends Activity {
 			builder.setLastName(editLastName.getText().toString());
 		}
 		
-		Phone[] phones = new Phone[2];
+		Phone[] phones = new Phone[1];
 		if( currentContact.getPhones() == null ||
 			( currentContact.getPhones()[0] != null && 
 			  editPhone1.getText().toString() != currentContact.getPhones()[0].getNumber() ) )  {
@@ -374,7 +374,7 @@ public class ContactDetails extends Activity {
 		
 	}
 
-	@Override
+	/*@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// Contact c = getContactFromFields();
 		switch (item.getItemId()) {
@@ -401,7 +401,7 @@ public class ContactDetails extends Activity {
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
-
+*/
 	public void updateContact(String firstName, String contactId) {
 
 		aabManager = new AabManager(Config.fqdn, Config.authToken,
