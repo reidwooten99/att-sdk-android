@@ -123,6 +123,7 @@ public class ContactList extends Activity implements OnClickListener{
 		 
 		Intent i = new Intent(ContactList.this, GroupList.class);
 		i.putExtra("groupId", "-1");
+		i.putExtra("isFromContactList", true);
 		i.putExtra("contactId", contact.getContactId());
 		startActivity(i);
 	}

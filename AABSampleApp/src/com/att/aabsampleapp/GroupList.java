@@ -31,6 +31,7 @@ public class GroupList extends Activity implements OnClickListener {
 	public static String newGroupId = null;
 	ListView groupListView;
 	private String selectedGroupId;
+	private boolean isFromContactList;
 	
 
 	@Override
@@ -44,6 +45,7 @@ public class GroupList extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		groupId = intent.getStringExtra("groupId");
 		contactId = intent.getStringExtra("contactId");
+		isFromContactList = intent.getBooleanExtra("isFromContactList", false);
 		
 		aabManager = new AabManager(Config.fqdn, 
 									Config.authToken,
@@ -108,7 +110,13 @@ public class GroupList extends Activity implements OnClickListener {
 					break;
 					
 				case 4: //Add Contact to Group
-					selectGroup( grp, contactId);
+					if(isFromContactList) {
+						selectGroup( grp, contactId);
+					}
+					else {
+						selectContact();
+					}
+					
 					break;
 			default:
 					break;
@@ -116,6 +124,29 @@ public class GroupList extends Activity implements OnClickListener {
 			}
 		});
 		builder.show();
+	}
+	
+	public void selectContact() {
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Select Contact");
+		builder.setMessage("Select a contact from the Contact List :  " );
+		
+		
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+				Intent i = new Intent(GroupList.this, ContactList.class);
+				i.putExtra("groupId", "-1");
+				startActivity(i);			
+			}
+			
+		});
+		builder.create();	
+		builder.show();
+		
 	}
 	
 	public void getGroupContacts(Group grp) {
