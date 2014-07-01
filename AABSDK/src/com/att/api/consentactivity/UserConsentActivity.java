@@ -2,7 +2,7 @@ package com.att.api.consentactivity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,12 +14,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthService;
 import com.att.api.rest.RESTException;
-import com.att.sdk.listener.AttSdkListener;
 
+@SuppressLint({ "InlinedApi", "SetJavaScriptEnabled" })
 public class UserConsentActivity extends Activity {
 
 
@@ -30,7 +29,6 @@ public class UserConsentActivity extends Activity {
 	private String redirectUri;
 	OAuthService osrvc;
 	WebView webView ;
-	private AttSdkListener iamListener;
 	protected Handler handler = new Handler();
 	
 	@SuppressWarnings("deprecation")
@@ -71,6 +69,7 @@ public class UserConsentActivity extends Activity {
 	}
 	private class myWebViewClient extends WebViewClient {
 		
+		@SuppressWarnings("unused")
 		AttSdkError errorObj = new AttSdkError();
 		
 		 @Override
@@ -112,7 +111,6 @@ public class UserConsentActivity extends Activity {
 						finish();
 					}
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else if(url.contains("error=")) {
@@ -120,7 +118,6 @@ public class UserConsentActivity extends Activity {
 					throw new RESTException("Incorrect Url! Unable to open the Authorization page." +
 											"Check the APP_KEY,APP_SECRET,APP_SCOPE and REDIRECT_URI");
 				} catch (RESTException e) {
-					// TODO Auto-generated catch block
 					errorObj = new AttSdkError(e.getMessage());
 				}																			
 			
