@@ -20,8 +20,9 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
 
+@SuppressWarnings("unused")
 public class GroupList extends Activity implements OnClickListener {
-	
+
 	private AabManager aabManager;
 	private PageParams pageParams;
 	private GroupListAdapter adapter;
@@ -32,56 +33,57 @@ public class GroupList extends Activity implements OnClickListener {
 	ListView groupListView;
 	private String selectedGroupId;
 	private boolean isFromContactList;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-		
+		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_all_groups);
 		groupListView = (ListView) findViewById(R.id.groupsListViewItem);
-	
+
 		Intent intent = getIntent();
 		groupId = intent.getStringExtra("groupId");
 		contactId = intent.getStringExtra("contactId");
 		isFromContactList = intent.getBooleanExtra("isFromContactList", false);
-		
-		aabManager = new AabManager(Config.fqdn, 
-									Config.authToken,
-									new getGroupsListener());
-		pageParams = new PageParams("ASC", "groupName", "10", "0");
-		
-			aabManager.GetGroups(pageParams, null);
-		
-		
-		groupListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				Group grpResult = (Group) groupListView.getItemAtPosition(position);
-				
-				CharSequence popUpList[] = new CharSequence[] {"Update Group", "Show Contacts of the Group","Delete Group", 
-																"Create Group" ,"Add Contact to this Group"};
-				popUpActionList(popUpList, grpResult, position);
-				return true;
-			}
-		});
-		
+		aabManager = new AabManager(Config.fqdn, Config.authToken,
+				new getGroupsListener());
+		pageParams = new PageParams("ASC", "groupName", "10", "0");
+
+		aabManager.GetGroups(pageParams, null);
+
+		groupListView
+				.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+					@Override
+					public boolean onItemLongClick(AdapterView<?> arg0,
+							View arg1, int position, long arg3) {
+						Group grpResult = (Group) groupListView
+								.getItemAtPosition(position);
+
+						CharSequence popUpList[] = new CharSequence[] {
+								"Update Group", "Show Contacts of the Group",
+								"Delete Group", "Create Group",
+								"Add Contact to this Group" };
+						popUpActionList(popUpList, grpResult, position);
+						return true;
+					}
+				});
+
 		groupListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				
-				//  Disable on click
-				
+
+				// Disable on click
+
 			}
-			
+
 		});
 	}
-	
+
 	public void popUpActionList(final CharSequence popUpList[],
 			final Group grp, int position) {
 
@@ -91,175 +93,182 @@ public class GroupList extends Activity implements OnClickListener {
 			@Override
 			public void onClick(DialogInterface dialog, int options) {
 				switch (options) {
-				case 0: //Update GroupName
+				case 0: // Update GroupName
 					isNewGroup = false;
 					editGroupName(grp.getGroupId(), isNewGroup);
 					break;
-					
-				case 1: //GetGroupContacts
+
+				case 1: // GetGroupContacts
 					getGroupContacts(grp);
 					break;
-					
-				case 2: //Delete Group
-					  deleteGroup(grp); 
-					  break;
-					
-				case 3: //Create Group
+
+				case 2: // Delete Group
+					deleteGroup(grp);
+					break;
+
+				case 3: // Create Group
 					isNewGroup = true;
 					createGroup(isNewGroup);
 					break;
-					
-				case 4: //Add Contact to Group
-					if(isFromContactList) {
-						selectGroup( grp, contactId);
-					}
-					else {
+
+				case 4: // Add Contact to Group
+					if (isFromContactList) {
+						selectGroup(grp, contactId);
+					} else {
 						selectContact();
 					}
-					
+
 					break;
-			default:
+				default:
 					break;
 				}
 			}
 		});
 		builder.show();
 	}
-	
+
 	public void selectContact() {
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Select Contact");
-		builder.setMessage("Select a contact from the Contact List :  " );
-		
-		
+		builder.setMessage("Select a contact from the Contact List :  ");
+
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 				Intent i = new Intent(GroupList.this, ContactList.class);
 				i.putExtra("groupId", "-1");
-				startActivity(i);			
+				startActivity(i);
 			}
-			
+
 		});
-		builder.create();	
+		builder.create();
 		builder.show();
-		
+
 	}
-	
+
 	public void getGroupContacts(Group grp) {
-		
+
 		Intent i = new Intent(GroupList.this, GroupContactList.class);
-		//Intent i = new Intent(GroupList.this, ContactList.class);
+		// Intent i = new Intent(GroupList.this, ContactList.class);
 
 		i.putExtra("groupId", grp.getGroupId());
-		startActivity(i);	
+		startActivity(i);
 	}
-	
+
 	public void deleteGroup(final Group grp) {
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Delete Group");
-		builder.setMessage("Do you want to delete the group :  " + grp.getGroupName() + "?" );
-		
+		builder.setMessage("Do you want to delete the group :  "
+				+ grp.getGroupName() + "?");
+
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String deleteGroupID;
 				deleteGroupID = grp.getGroupId();
-				aabManager = new AabManager(Config.fqdn, Config.authToken, new deleteGroupListener());
-				aabManager.DeleteGroup(deleteGroupID);			
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new deleteGroupListener());
+				aabManager.DeleteGroup(deleteGroupID);
 			}
-			
+
 		});
-		
-		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-      	  public void onClick(DialogInterface dialog, int whichButton) {
-      		  dialog.cancel();
-      	  }
-      }); 
-		builder.create();	
+
+		builder.setNegativeButton("CANCEL",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+		builder.create();
 		builder.show();
-		
+
 	}
-	
+
 	public void selectGroup(final Group group, final String contactId) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Select Group");
-		builder.setMessage("Do you want to select the group :  " + group.getGroupName() + "?" );
-		
+		builder.setMessage("Do you want to select the group :  "
+				+ group.getGroupName() + "?");
+
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 				selectedGroupId = group.getGroupId();
-				aabManager = new AabManager(Config.fqdn, Config.authToken, new addContactsToGroupListener());
-				aabManager.AddContactsToGroup(selectedGroupId, contactId);			
+				aabManager = new AabManager(Config.fqdn, Config.authToken,
+						new addContactsToGroupListener());
+				aabManager.AddContactsToGroup(selectedGroupId, contactId);
 			}
-			
+
 		});
-		
-		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-      	  public void onClick(DialogInterface dialog, int whichButton) {
-      		  dialog.cancel();
-      	  }
-      }); 
-		builder.create();	
-		builder.show();	}
-	
+
+		builder.setNegativeButton("CANCEL",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+		builder.create();
+		builder.show();
+	}
+
 	public void createGroup(boolean isNewGroup) {
-		
+
 		editGroupName(null, isNewGroup);
 	}
 
-	public void editGroupName( final String grpId, final boolean isNewGroup) {
+	public void editGroupName(final String grpId, final boolean isNewGroup) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Enter Group Name");
 		builder.setMessage("Enter the Group name");
 		final EditText input = new EditText(getBaseContext());
 		builder.setView(input);
-		
+
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface dialog, int whichButton) {
-   
-        	 String editGroupName = input.getEditableText().toString();
-        	 if(!isNewGroup) {
-        		 Group group = new Group(grpId, editGroupName, "USER" );
-        		 aabManager = new AabManager(Config.fqdn, Config.authToken, new updateGroupListener());
-        		 aabManager.UpdateGroup(group);
-        	 	}
-        	 else {
-        		 
-        		 Group group = new Group ("",editGroupName, "USER" );
-        		 aabManager = new AabManager(Config.fqdn, Config.authToken, new createGroupListener());
-        		 aabManager.CreateGroup(group);
-        	 }
-        	} 
-        }); 
-		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-        	  public void onClick(DialogInterface dialog, int whichButton) {
-        		  dialog.cancel();
-        	  }
-        }); 
-		builder.create();	
+			public void onClick(DialogInterface dialog, int whichButton) {
+
+				String editGroupName = input.getEditableText().toString();
+				if (!isNewGroup) {
+					Group group = new Group(grpId, editGroupName, "USER");
+					aabManager = new AabManager(Config.fqdn, Config.authToken,
+							new updateGroupListener());
+					aabManager.UpdateGroup(group);
+				} else {
+
+					Group group = new Group("", editGroupName, "USER");
+					aabManager = new AabManager(Config.fqdn, Config.authToken,
+							new createGroupListener());
+					aabManager.CreateGroup(group);
+				}
+			}
+		});
+		builder.setNegativeButton("CANCEL",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+		builder.create();
 		builder.show();
 	}
-	
-	
+
 	private class deleteGroupListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			String result = (String) response;
-			
-			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
-			
+
 			Log.i("createGroupAPI onSuccess", result);
 		}
 
@@ -267,56 +276,57 @@ public class GroupList extends Activity implements OnClickListener {
 		public void onError(AttSdkError error) {
 			Log.i("deleteGroupAPI on error", "onError");
 		}
-		
+
 	}
+
 	private class createGroupListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
-			
+
 			String result = (String) response;
-			
+
 			String[] locationUrl = result.split("com/");
 			newGroupId = locationUrl[1];
-			
-			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
-			
+
 			Log.i("createGroupAPI onSuccess", result);
 		}
 
 		@Override
 		public void onError(AttSdkError error) {
 			Log.i("createGroupAPI on error", "onError");
-			
+
 		}
-		
+
 	}
-	
-	
+
 	private class updateGroupListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			String result = (String) response;
-			
-			aabManager = new AabManager(Config.fqdn, Config.authToken,new getGroupsListener());
+
+			aabManager = new AabManager(Config.fqdn, Config.authToken,
+					new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
-			
+
 			Log.i("updateGroupAPI onSuccess", result);
 		}
 
 		@Override
 		public void onError(AttSdkError error) {
 			Log.i("updateGroupAPI on error", "onError");
-			
+
 		}
-		
+
 	}
-	
-	
+
 	private class getGroupsListener implements AttSdkListener {
 		public GroupResultSet groupResultSet;
 		Group[] groupList;
@@ -325,17 +335,21 @@ public class GroupList extends Activity implements OnClickListener {
 		public void onSuccess(Object response) {
 			groupResultSet = (GroupResultSet) response;
 			if (null != groupResultSet) {
-				 groupList = groupResultSet.getGroups();
-				adapter = new GroupListAdapter(getApplicationContext(), groupList);
+				groupList = groupResultSet.getGroups();
+				adapter = new GroupListAdapter(getApplicationContext(),
+						groupList);
 				groupListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
-				
-				for (int i=0; i < groupList.length; i++) {
+
+				for (int i = 0; i < groupList.length; i++) {
 					Group grp = groupList[i];
-					//strText += "\n" + grp.getGroupId() + ", " + grp.getGroupName() + ", "  + grp.getGroupType();
-					Log.i("getGroupsAPI","OnSuccess : ContactID :  " + grp.getGroupId());
-					//Log.i("getContactsAPI", "OnSuccess : ContactID :  " +contactResultSet.getQuickContacts()[1].getContactId().toString());
-					//displayContacts.setText(strText);
+					// strText += "\n" + grp.getGroupId() + ", " +
+					// grp.getGroupName() + ", " + grp.getGroupType();
+					Log.i("getGroupsAPI",
+							"OnSuccess : ContactID :  " + grp.getGroupId());
+					// Log.i("getContactsAPI", "OnSuccess : ContactID :  "
+					// +contactResultSet.getQuickContacts()[1].getContactId().toString());
+					// displayContacts.setText(strText);
 				}
 				return;
 			}
@@ -347,22 +361,22 @@ public class GroupList extends Activity implements OnClickListener {
 
 		}
 	}
-	
-		private class addContactsToGroupListener implements AttSdkListener {
-		String  contactId ;
+
+	private class addContactsToGroupListener implements AttSdkListener {
+		String contactId;
 
 		@Override
 		public void onSuccess(Object response) {
 			String strText;
 			String result = (String) response;
 			if (null != result) {
-				strText = "\nPassed: " +  " test.";
-				strText += "\n" +"AddContactsToGroup : " + "  " + result;
+				strText = "\nPassed: " + " test.";
+				strText += "\n" + "AddContactsToGroup : " + "  " + result;
 			} else {
-				strText = "Unknown: " +  " test.\nNo data returned.";				
+				strText = "Unknown: " + " test.\nNo data returned.";
 			}
-			//getGroupContacts(selectedGroupId, pageParams);	
-			Log.i("addContactsToGroupAPI on success ", "Success" );
+			// getGroupContacts(selectedGroupId, pageParams);
+			Log.i("addContactsToGroupAPI on success ", "Success");
 			finish();
 		}
 
@@ -377,8 +391,4 @@ public class GroupList extends Activity implements OnClickListener {
 	public void onClick(View v) {
 	}
 
-	
-
-	
 }
-	

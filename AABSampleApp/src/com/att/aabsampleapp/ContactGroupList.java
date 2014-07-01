@@ -18,28 +18,28 @@ import android.widget.ListView;
 
 public class ContactGroupList extends Activity implements OnClickListener {
 
-	
 	private AabManager aabManager;
 	private PageParams pageParams;
 	private ContactGroupListAdapter adapter;
 	private String contactId;
 	public static String newGroupId = null;
 	ListView contactGroupListView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_group_list);
-		
+
 		contactGroupListView = (ListView) findViewById(R.id.contactGroupsListViewItem);
 		Intent intent = getIntent();
 		contactId = intent.getStringExtra("contactId");
-		
+
 		pageParams = new PageParams("ASC", "groupName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactGroupsListener());
+		aabManager = new AabManager(Config.fqdn, Config.authToken,
+				new getContactGroupsListener());
 		aabManager.GetContactGroups(contactId, pageParams);
 	}
-	
+
 	private class getContactGroupsListener implements AttSdkListener {
 		public GroupResultSet groupResultSet;
 		Group[] groupList;
@@ -48,14 +48,16 @@ public class ContactGroupList extends Activity implements OnClickListener {
 		public void onSuccess(Object response) {
 			groupResultSet = (GroupResultSet) response;
 			if (null != groupResultSet) {
-				 groupList = groupResultSet.getGroups();
-				adapter = new ContactGroupListAdapter(getApplicationContext(), groupList);
+				groupList = groupResultSet.getGroups();
+				adapter = new ContactGroupListAdapter(getApplicationContext(),
+						groupList);
 				contactGroupListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
-				
-				for (int i=0; i < groupList.length; i++) {
+
+				for (int i = 0; i < groupList.length; i++) {
 					Group grp = groupList[i];
-					Log.i("getContactGroupsAPI","OnSuccess : ContactID :  " + grp.getGroupId());
+					Log.i("getContactGroupsAPI", "OnSuccess : ContactID :  "
+							+ grp.getGroupId());
 				}
 				return;
 			}
@@ -68,20 +70,17 @@ public class ContactGroupList extends Activity implements OnClickListener {
 		}
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.contact_group_list, menu);
-		
-		
+
 		return true;
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

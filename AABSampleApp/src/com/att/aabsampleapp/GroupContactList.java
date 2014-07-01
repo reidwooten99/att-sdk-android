@@ -21,8 +21,7 @@ import com.att.api.aab.service.PageParams;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
 
-
-public class GroupContactList extends Activity implements OnClickListener{
+public class GroupContactList extends Activity implements OnClickListener {
 
 	private AabManager aabManager;
 	private PageParams pageParams;
@@ -30,36 +29,40 @@ public class GroupContactList extends Activity implements OnClickListener{
 	private ListView groupContactListView;
 	private String groupId;
 	private ArrayList<Contact> groupContactList;
-	 
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_contact_list);
-		
+
 		groupContactList = new ArrayList<Contact>();
-		
+
 		groupContactListView = (ListView) findViewById(R.id.groupContactListViewItem);
 		Intent intent = getIntent();
 		groupId = intent.getStringExtra("groupId");
-		
-		pageParams = new PageParams("ASC", "firstName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new getGroupContactListener());
-		aabManager.GetGroupContacts(groupId, pageParams);
-		
-		groupContactListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				//Group grpResult = (Group) groupContactListView.getItemAtPosition(position);
-				Contact ctcResult = ((Contact)groupContactListView.getItemAtPosition(position));
-				CharSequence popUpList[] = new CharSequence[] {"Remove Contact from the Group"};
-				popUpActionList(popUpList, ctcResult, position);
-				return true;
-			}
-		});
+		pageParams = new PageParams("ASC", "firstName", "12", "0");
+		aabManager = new AabManager(Config.fqdn, Config.authToken,
+				new getGroupContactListener());
+		aabManager.GetGroupContacts(groupId, pageParams);
+
+		groupContactListView
+				.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+					@Override
+					public boolean onItemLongClick(AdapterView<?> arg0,
+							View arg1, int position, long arg3) {
+						// Group grpResult = (Group)
+						// groupContactListView.getItemAtPosition(position);
+						Contact ctcResult = ((Contact) groupContactListView
+								.getItemAtPosition(position));
+						CharSequence popUpList[] = new CharSequence[] { "Remove Contact from the Group" };
+						popUpActionList(popUpList, ctcResult, position);
+						return true;
+					}
+				});
 	}
+
 	public void popUpActionList(final CharSequence popUpList[],
 			final Contact ctcResult, int position) {
 
@@ -69,43 +72,45 @@ public class GroupContactList extends Activity implements OnClickListener{
 			@Override
 			public void onClick(DialogInterface dialog, int options) {
 				switch (options) {
-				case 0: //Remove Contact from the Group
-					removeContact(ctcResult,groupId);
+				case 0: // Remove Contact from the Group
+					removeContact(ctcResult, groupId);
 					break;
-			default:
+				default:
 					break;
 				}
 			}
 		});
 		builder.show();
-		
+
 	}
-	
+
 	public void removeContact(Contact contact, String groupId) {
-		
-		aabManager = new AabManager(Config.fqdn, Config.authToken, new removeContactFromGroupListener());
+
+		aabManager = new AabManager(Config.fqdn, Config.authToken,
+				new removeContactFromGroupListener());
 		aabManager.RemoveContactsFromGroup(groupId, contact.getContactId());
 	}
-	
-	
+
 	private class getGroupContactListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			String strText;
-			String[] result = (String[] ) response;
+			String[] result = (String[]) response;
 			if (null != result) {
-				strText = "\nPassed: " +  " test.";
-				for(int i = 0; i < result.length; i++) {
-					String  contactId = result[i];
+				strText = "\nPassed: " + " test.";
+				for (int i = 0; i < result.length; i++) {
+					String contactId = result[i];
 					strText = "\n" + contactId;
-					AabManager aabManager = new AabManager(Config.fqdn, Config.authToken, new getContactListener());
+					AabManager aabManager = new AabManager(Config.fqdn,
+							Config.authToken, new getContactListener());
 					aabManager.GetContact(contactId, " ");
-					Log.i("getGroupContactListener on success", "onSuccess" + strText);
+					Log.i("getGroupContactListener on success", "onSuccess"
+							+ strText);
 				}
-		}
-				return;
-			
+			}
+			return;
+
 		}
 
 		@Override
@@ -114,18 +119,18 @@ public class GroupContactList extends Activity implements OnClickListener{
 
 		}
 	}
-	
+
 	private class removeContactFromGroupListener implements AttSdkListener {
 
 		@Override
 		public void onSuccess(Object response) {
 			String strText;
 			String result = (String) response;
-			strText = "\n" +"RemoveContactsFromGroupAPI : " + "  " + result;
+			strText = "\n" + "RemoveContactsFromGroupAPI : " + "  " + result;
 			Log.i("removeContactFromGroupAPI on success", "onSuccess" + strText);
 			finish();
 			return;
-			
+
 		}
 
 		@Override
@@ -138,24 +143,26 @@ public class GroupContactList extends Activity implements OnClickListener{
 	private class getContactListener implements AttSdkListener {
 
 		@Override
-		public void onSuccess(Object response) {	
-			 ContactWrapper contactWrapper;
-			 Contact contact;
-			 String strText;
+		public void onSuccess(Object response) {
+			ContactWrapper contactWrapper;
+			Contact contact;
+			String strText;
 			contactWrapper = (ContactWrapper) response;
-			if (null != contactWrapper) { 
+			if (null != contactWrapper) {
 				contact = contactWrapper.getContact();
 				groupContactList.add(contact);
-				
-				adapter = new GroupContactListAdapter(getApplicationContext(),  groupContactList);
+
+				adapter = new GroupContactListAdapter(getApplicationContext(),
+						groupContactList);
 				groupContactListView.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
-				
+
 				if (null != contact) {
-					strText = "\n" + contact.getContactId() + ", " + 
-							contact.getFormattedName();
-					Log.i("getContactAPI","OnSuccess : ContactID :  " + strText);
-					
+					strText = "\n" + contact.getContactId() + ", "
+							+ contact.getFormattedName();
+					Log.i("getContactAPI", "OnSuccess : ContactID :  "
+							+ strText);
+
 				}
 			}
 		}
@@ -176,8 +183,7 @@ public class GroupContactList extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

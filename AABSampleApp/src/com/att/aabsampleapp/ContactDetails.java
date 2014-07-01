@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Address;
@@ -22,6 +19,7 @@ import com.att.api.aab.service.Phone;
 import com.att.api.error.AttSdkError;
 import com.att.sdk.listener.AttSdkListener;
 
+@SuppressWarnings("unused")
 public class ContactDetails extends Activity {
 
 	private AabManager aabManager;
@@ -82,14 +80,15 @@ public class ContactDetails extends Activity {
 						new getMyInfoListener());
 				aabManager.GetMyInfo();
 				btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-						aabManager = new AabManager(Config.fqdn, Config.authToken,
-								new updateMyInfoListener());
-						aabManager.UpdateMyInfo(getUpdatedContactFromContactDetails());
-					}						
-					
+						aabManager = new AabManager(Config.fqdn,
+								Config.authToken, new updateMyInfoListener());
+						aabManager
+								.UpdateMyInfo(getUpdatedContactFromContactDetails());
+					}
+
 				});
 
 			} else {
@@ -115,8 +114,7 @@ public class ContactDetails extends Activity {
 				editCountry.setTextColor(Color.BLACK);
 				btnCreateContact.setEnabled(false);
 				btnUpdateContactInfo.setEnabled(false);
-				
-				
+
 				aabManager = new AabManager(Config.fqdn, Config.authToken,
 						new getMyInfoListener());
 				aabManager.GetMyInfo();
@@ -128,12 +126,13 @@ public class ContactDetails extends Activity {
 					new getContactListener());
 			aabManager.GetContact(contactId, " ");
 			btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					aabManager = new AabManager(Config.fqdn, Config.authToken,
 							new updateContactListener());
-					aabManager.UpdateContact(getUpdatedContactFromContactDetails());					
+					aabManager
+							.UpdateContact(getUpdatedContactFromContactDetails());
 				}
 			});
 		}
@@ -148,13 +147,13 @@ public class ContactDetails extends Activity {
 				startActivity(i);
 			}
 		});
-		
-		if(contactId.equalsIgnoreCase("NEW_CONTACT")) {
+
+		if (contactId.equalsIgnoreCase("NEW_CONTACT")) {
 			btnCreateContact.setEnabled(true);
 			btnUpdateContactInfo.setEnabled(false);
 
 		}
-		
+
 		btnCreateContact.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -162,16 +161,15 @@ public class ContactDetails extends Activity {
 						new createContactListener());
 				aabManager.CreateContact(createContactFromContactDetails());
 			}
-			
+
 		});
-	
+
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.contact_details, menu);
-		return true;
-	}*/
+	/*
+	 * @Override public boolean onCreateOptionsMenu(Menu menu) {
+	 * getMenuInflater().inflate(R.menu.contact_details, menu); return true; }
+	 */
 
 	private class getMyInfoListener implements AttSdkListener {
 
@@ -187,11 +185,12 @@ public class ContactDetails extends Activity {
 
 				editFirstName.setText(c.getFirstName());
 				editLastName.setText(c.getLastName());
-				if(c.getPhones() != null) {
+				if (c.getPhones() != null) {
 					editPhone1.setText(c.getPhones()[0].getNumber());
 				}
 				if (c.getEmails() != null) {
-					editEmailAddress.setText(c.getEmails()[0].getEmailAddress());
+					editEmailAddress
+							.setText(c.getEmails()[0].getEmailAddress());
 				}
 
 				if (c.getAddresses() != null) {
@@ -248,8 +247,8 @@ public class ContactDetails extends Activity {
 
 		selectedContactId = contact.getContactId();
 
-		
 		if (contact.getPhones() != null) {
+
 			int numPhoneContacts = contact.getPhones().length;
 			if (contact.getPhones()[0] != null) {
 				editPhone1.setText(contact.getPhones()[0].getNumber());
@@ -284,7 +283,8 @@ public class ContactDetails extends Activity {
 		builder.setPhones(phones);
 
 		Email[] emails = new Email[1];
-		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(), true);
+		emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText()
+				.toString(), true);
 		builder.setEmails(emails);
 
 		Address.Builder addressBuilder = new Address.Builder();
@@ -305,103 +305,104 @@ public class ContactDetails extends Activity {
 		return builder.build();
 	}
 
-	public Contact getUpdatedContactFromContactDetails() {		
-		Contact.Builder builder = new Contact.Builder(); 
+	public Contact getUpdatedContactFromContactDetails() {
+		Contact.Builder builder = new Contact.Builder();
 		if (editFirstName.getText().toString() != currentContact.getFirstName()) {
 			builder.setFirstName(editFirstName.getText().toString());
 		}
 		if (editLastName.getText().toString() != currentContact.getLastName()) {
 			builder.setLastName(editLastName.getText().toString());
 		}
-		
+
 		Phone[] phones = new Phone[1];
-		if( currentContact.getPhones() == null ||
-			( currentContact.getPhones()[0] != null && 
-			  editPhone1.getText().toString() != currentContact.getPhones()[0].getNumber() ) )  {
-			phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(), true);
+		if (currentContact.getPhones() == null
+				|| (currentContact.getPhones()[0] != null && editPhone1
+						.getText().toString() != currentContact.getPhones()[0]
+						.getNumber())) {
+			phones[0] = new Phone("WORK,CELL", editPhone1.getText().toString(),
+					true);
 		}
-	
+
 		builder.setPhones(phones);
-		
+
 		Email[] emails = new Email[1];
-		if(currentContact.getEmails() == null || 
-			 (currentContact.getEmails()[0] != null &&
-				editEmailAddress.getText().toString() != currentContact.getEmails()[0].getEmailAddress() ) ) {
-			emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText().toString(), true);
+		if (currentContact.getEmails() == null
+				|| (currentContact.getEmails()[0] != null && editEmailAddress
+						.getText().toString() != currentContact.getEmails()[0]
+						.getEmailAddress())) {
+			emails[0] = new Email("INTERNET,HOME", editEmailAddress.getText()
+					.toString(), true);
 		}
 		builder.setEmails(emails);
 
-		
 		Address[] addresses = new Address[1];
 		Address.Builder addressBuilder = new Address.Builder();
-		if(currentContact.getAddresses() == null ||
-			(currentContact.getAddresses()[0] != null &&
-			editAddress.getText().toString() != currentContact.getAddresses()[0].getAddrLineOne() ) ) {
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editAddress
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getAddrLineOne())) {
 			addressBuilder.setAddrLineOne(editAddress.getText().toString());
 		}
-		if(currentContact.getAddresses() == null ||
-				(currentContact.getAddresses()[0] != null &&
-				editAddress2.getText().toString() != currentContact.getAddresses()[0].getAddrLineTwo() ) ) {
-				addressBuilder.setAddrLineTwo(editAddress2.getText().toString());
-			}
-		if(currentContact.getAddresses() == null ||
-				(currentContact.getAddresses()[0] != null &&
-				editCity.getText().toString() != currentContact.getAddresses()[0].getCity() ) ) {
-				addressBuilder.setCity(editCity.getText().toString());
-			}
-		if(currentContact.getAddresses() == null ||
-				(currentContact.getAddresses()[0] != null &&
-				editState.getText().toString() != currentContact.getAddresses()[0].getState() ) ) {
-				addressBuilder.setState(editState.getText().toString());
-			}
-		if(currentContact.getAddresses() == null ||
-				(currentContact.getAddresses()[0] != null &&
-				editZipCode.getText().toString() != currentContact.getAddresses()[0].getZipcode() ) ) {
-				addressBuilder.setZipcode(editZipCode.getText().toString());
-			}
-		if(currentContact.getAddresses() == null ||
-				(currentContact.getAddresses()[0] != null &&
-				editCountry.getText().toString() != currentContact.getAddresses()[0].getCountry() ) ) {
-				addressBuilder.setCountry(editCountry.getText().toString());
-			}
-			
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editAddress2
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getAddrLineTwo())) {
+			addressBuilder.setAddrLineTwo(editAddress2.getText().toString());
+		}
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editCity
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getCity())) {
+			addressBuilder.setCity(editCity.getText().toString());
+		}
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editState
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getState())) {
+			addressBuilder.setState(editState.getText().toString());
+		}
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editZipCode
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getZipcode())) {
+			addressBuilder.setZipcode(editZipCode.getText().toString());
+		}
+		if (currentContact.getAddresses() == null
+				|| (currentContact.getAddresses()[0] != null && editCountry
+						.getText().toString() != currentContact.getAddresses()[0]
+						.getCountry())) {
+			addressBuilder.setCountry(editCountry.getText().toString());
+		}
+
 		addresses[0] = addressBuilder.build();
 		builder.setAddresses(addresses);
-		
+
 		builder.setContactId(selectedContactId);
-		
+
 		return builder.build();
-		
+
 	}
 
-	/*@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		// Contact c = getContactFromFields();
-		switch (item.getItemId()) {
-		case R.id.action_create:// createContact
-
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new createContactListener());
-			aabManager.CreateContact(createContactFromContactDetails());
-			break;
-
-		case R.id.action_update: // UpdateMyInfo or UpdateContact
-
-			if (isUpdateMyInfo) {
-				// ContactDetails.currentContact =
-				// getUpdatedContactFromContactDetails()
-				
-			}	 else {
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new updateContactListener());
-				aabManager.UpdateContact(getUpdatedContactFromContactDetails());
-			}
-			break;
-
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
-*/
+	/*
+	 * @Override public boolean onMenuItemSelected(int featureId, MenuItem item)
+	 * { // Contact c = getContactFromFields(); switch (item.getItemId()) { case
+	 * R.id.action_create:// createContact
+	 * 
+	 * aabManager = new AabManager(Config.fqdn, Config.authToken, new
+	 * createContactListener());
+	 * aabManager.CreateContact(createContactFromContactDetails()); break;
+	 * 
+	 * case R.id.action_update: // UpdateMyInfo or UpdateContact
+	 * 
+	 * if (isUpdateMyInfo) { // ContactDetails.currentContact = //
+	 * getUpdatedContactFromContactDetails()
+	 * 
+	 * } else { aabManager = new AabManager(Config.fqdn, Config.authToken, new
+	 * updateContactListener());
+	 * aabManager.UpdateContact(getUpdatedContactFromContactDetails()); } break;
+	 * 
+	 * } return super.onMenuItemSelected(featureId, item); }
+	 */
 	public void updateContact(String firstName, String contactId) {
 
 		aabManager = new AabManager(Config.fqdn, Config.authToken,
@@ -447,9 +448,10 @@ public class ContactDetails extends Activity {
 			String result = (String) response;
 			if (null != result) {
 				Log.i("updateContactAPI", "OnSuccess : ContactID :  " + result);
-				//finish();
-				Intent intent = new Intent(ContactDetails.this, SampleAppLauncher.class);
-				 startActivity(intent);
+				// finish();
+				Intent intent = new Intent(ContactDetails.this,
+						SampleAppLauncher.class);
+				startActivity(intent);
 			}
 
 		}
@@ -468,9 +470,10 @@ public class ContactDetails extends Activity {
 			String result = (String) response;
 			if (null != result) {
 				Log.i("updateMyInfoAPI", "OnSuccess : ContactID :  " + result);
-				//finish();
-				Intent intent = new Intent(ContactDetails.this, SampleAppLauncher.class);
-				 startActivity(intent);
+				// finish();
+				Intent intent = new Intent(ContactDetails.this,
+						SampleAppLauncher.class);
+				startActivity(intent);
 			} else {
 				result = "Unknown: " + "test.\nNo data returned.";
 			}
