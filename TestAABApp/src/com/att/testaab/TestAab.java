@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.PageParams;
-import com.att.api.aab.service.SearchParams;
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
 import com.att.sdk.listener.AttSdkListener;
@@ -26,7 +25,6 @@ public class TestAab extends Activity implements OnClickListener {
 
 	private AabManager aabManager;
 	private PageParams pageParams;
-	private SearchParams searchParams;
 	private Button btnRun;
 	private Button btnClear;
 	private Button btnLogin;
@@ -57,8 +55,6 @@ public class TestAab extends Activity implements OnClickListener {
 		
 		
 		pageParams = new PageParams("ASC", "firstName", "2", "0");
-		//SearchParams.Builder builder = new SearchParams.Builder();
-		//searchParams = new SearchParams(builder.setZipcode("94086"));
 		
 		btnLogin.setOnClickListener(new OnClickListener() {
 			
@@ -102,10 +98,10 @@ public class TestAab extends Activity implements OnClickListener {
 				switch (iOperation) {
 				
 					case 101: //GetContacts
-						ctc.testGetContacts("contactId,formattedName,firstName,lastName,phones", pageParams, searchParams);
+						ctc.testGetContacts("contactId,formattedName,firstName,lastName,phones", pageParams, "");
 						break;
 					case 1: //GetContacts
-							ctc.testGetContacts("shallow", pageParams, searchParams);
+							ctc.testGetContacts("shallow", pageParams, "");
 							break;
 						
 					case 2: //GetContact

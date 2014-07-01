@@ -9,7 +9,6 @@ import com.att.api.aab.service.ContactWrapper;
 import com.att.api.aab.service.Group;
 import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
-import com.att.api.aab.service.SearchParams;
 import com.att.api.error.AttSdkError;
 import com.att.api.error.Utils;
 import com.att.api.oauth.OAuthService;

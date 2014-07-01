@@ -9,7 +9,6 @@ import com.att.api.aab.service.GroupResultSet;
 import com.att.api.aab.service.PageParams;
 import com.att.api.aab.service.Phone;
 import com.att.api.aab.service.QuickContact;
-import com.att.api.aab.service.SearchParams;
 import android.widget.TextView;
 
 public class ContactsTestCase extends AabTestCase {
@@ -28,7 +27,7 @@ public class ContactsTestCase extends AabTestCase {
 	    super.tearDown();
 	}
 
-	public void testGetContacts(String xFields, PageParams pageParams, SearchParams searchParams) {
+	public void testGetContacts(String xFields, PageParams pageParams, String searchParams) {
 		aabManager = new AabManager(Config.fqdn, authToken, new getContactsListener());
 		aabManager.GetContacts(xFields, pageParams, searchParams);
 		return;
