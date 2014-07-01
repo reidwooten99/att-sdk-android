@@ -389,7 +389,7 @@ public class RESTClient {
 		this.trustAllCerts = cfg.trustAllCerts();
 		this.proxyHost = cfg.getProxyHost();
 		this.proxyPort = cfg.getProxyPort();
-		this.addHeader(Constants.XARG, "ClientSdk=att.immn.android." + Constants.SDK_VERSION);
+		this.addHeader(Constants.XARG, "ClientSdk=att.iam.android." + Constants.SDK_VERSION);
 	}
 
 	/*
