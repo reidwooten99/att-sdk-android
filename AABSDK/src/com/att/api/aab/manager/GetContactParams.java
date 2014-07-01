@@ -8,10 +8,10 @@ public class GetContactParams {
 	
 	private String xFields;
 	private PageParams pageParams;
-	private SearchParams searchParams;
+	private String searchParams;
 	
 	public GetContactParams(String xFields, PageParams pageParams,
-			SearchParams searchParams) {
+			String searchParams) {
 		super();
 		this.xFields = xFields;
 		this.pageParams = pageParams;
@@ -34,11 +34,11 @@ public class GetContactParams {
 		this.pageParams = pageParams;
 	}
 
-	public SearchParams getSearchParams() {
+	public String getSearchParams() {
 		return searchParams;
 	}
 
-	public void setSearchParams(SearchParams searchParams) {
+	public void setSearchParams(String searchParams) {
 		this.searchParams = searchParams;
 	}
 	

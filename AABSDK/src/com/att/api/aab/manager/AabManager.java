@@ -87,7 +87,7 @@ public class AabManager {
 	 * 
 	 * @return ContactResultSet Object if successful
 	 */
-	public void GetContacts(String xFields, PageParams pParams, SearchParams sParams) {
+	public void GetContacts(String xFields, PageParams pParams, String sParams) {
 		GetContactParams contactParams;
 		contactParams = new GetContactParams(xFields, pParams, sParams);
 		GetContactsTask task = new GetContactsTask();
