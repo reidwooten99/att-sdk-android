@@ -31,7 +31,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 	private AabManager aabManager;
 	private PageParams pageParams;
-	private String searchParams;
+	private String searchParams = "";
 	private ContactResultSet contactResultSet;
 	private ContactsAdapter adapter;
 	private ListView ContactsListView;
