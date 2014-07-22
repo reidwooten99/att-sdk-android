@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/ScrollView01"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" >
+
+
+	<RelativeLayout 
+	    android:id="@+id/RelativeLayout01"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		 >
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:hint="@string/hint2"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/displayContacts1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/getContactsBtn" 
+        />
+
+    <Button
+        android:id="@+id/clearbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/getContactsBtn"
+        android:layout_alignBottom="@+id/getContactsBtn"
+        android:layout_toRightOf="@+id/getContactsBtn"
+        android:text="@string/Clear" />
+
+    <Button
+        android:id="@+id/getContactsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/editText1"
+        android:layout_toRightOf="@+id/editText1"
+        android:text="@string/Enter" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/clearbutton"
+        android:text="@string/action_login" />
+
+</RelativeLayout>
+</ScrollView>

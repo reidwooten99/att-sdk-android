@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TestAabApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_login">Login</string>   
+   <string name="action_logout">Logout</string>  
+   <string name="action_tabview">Tabview</string> 
+    <string name="action_newContact">New Contact</string> 
+     <string name="action_saveContact">Save Contact</string>   
+    <string name="get_contacts">GetContacts</string>
+    <string name="title_activity_contacts_list">ContactsList</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_contact_details">ContactDetails</string>
+    <string name="title_activity_group_list">GroupList</string>
+    <string name="title_activity_user_consent">UserConsent</string>
+    <string name="Update">Update</string>
+    <string name="Delete">Delete</string>
+    <string name="Groups">Groups</string>
+    <string name="Search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="FirstName">FirstName</string>
+    <string name="LastName">LastName</string>
+    <string name="Organization">Organization</string>
+    <string name="PhoneType1">PhoneType1</string>
+    <string name="PhoneType2">PhoneType2</string>
+    <string name="EmailAddress">Email Address</string>
+    <string name="Address">Address</string>
+    <string name="Address2">Address2</string>
+    <string name="City">City</string>
+    <string name="state">State</string>
+    <string name="zipCode">ZipCode</string>
+    <string name="MyInfo">MyInfo</string>
+    <string name="Contacts">Contacts</string>
+    <string name="Enter">Run</string>
+    <string name="Clear">Clear</string>
+    <string name="hint2">2</string>
+    <string name="newGrp">New</string>
+    <string name="title_activity_group_list_adapter">GroupListAdapter</string>
+    <string name="title_activity_contacts_tab_view">ContactsTabView</string>
+    <string name="title_activity_contacts_list_tab_view">ContactsListTabView</string>
+    <string name="title_activity_contacts_fragment_view">ContactsFragmentView</string>
+
+</resources>

@@ -1,0 +1,54 @@
+1.	Open the Android project for your application in Package Explorer.
+2.	Select Project, Properties.
+3.	Select the Java Build Path entry in the navigation bar.
+4.	Click the Libraries tab.
+5.	Click the Add External JARs button on the right side of the properties window.
+6.	Browse to the folder where you extracted the Advertising files.
+Select the library adsapi.jar.
+7.	Click OK. The library should appear in Package Explorer and update the AndroidManifest.xml
+	Double-click AndroidManifest.xml and add the following permissions. 
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission. ACCESS_NETWORK_STATE " />
+8.	Open the activity and layout that contain the UI elements of your application.
+9.	Follow the instructions in the Using the ATTAdView Class section. 
+10.	Build your application that includes the AT&T Ad SDK.
+11.	Sample App - Update the following with respect to your application from the developer portal.
+•	appKey
+•	category
+•	secret
+•	udid
+
+Revision:
+1. May 29 2013 - Ads size issue fixed in SDK and updated the jar file.
+
+Version 2.0.1 - Aug 27, 2013
+
+¥ Ads spike error and oAuth 3.0 fixes updated.
+¥ JSON Exception error: Auth API spike violation issue is now handled properly.
+¥ Key Decryption Issue Fix: the library can now run on Android 4.2 and above.
+¥ Ads setReloadPeriod now defaults to a minimum of 30 seconds. If the application tries to set the reload period to less than 30 seconds, the SDK will override the setting, reverting to 30 seconds.
+¥ Ads cropped issue: when setting SetlayoutParams(), use pixels instead of dp value, i.e., px = dp*(dpi/160), or specify a height of "webview" in dp+(dp/2).
+
+Version 2.0.2 - Nov 20, 2013
+
+BugFixes contains the following
+¥ Interstial ADS launch on click of banner ad is made configurable, now onclick of the banner ads the user will be navigated to clickurl.
+¥ To enable the interstial ads onclick of banner ads is configurable by showInterstialViewOnBannerAdClick(true);
+¥ Invalid token scenario handled.
+
+Version 2.0.3 - Dec 27, 2013
+
+Fix for the issue - SF7411 - Thread warning output when displaying ads
+
+
+Procedure to update the library.
+
+1.Open the Android project for your app in Package Explorer.
+2.Select Project > Properties.
+3.Select Java Build Path in the navigation bar.
+4.Click the Libraries tab.
+5.Click the Add External JARs button on the right side of the properties window.
+6.Browse to the folder where you extracted the Advertising SDK files, and select the library adsapi.jar.
+7.Click OK. The library should appear in Package Explorer
