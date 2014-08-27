@@ -250,6 +250,7 @@ public class AuthService {
 					errInfo.append(" and response: " + tempBuffer.toString());
 					Log.e(TAG, errInfo.toString());
 					if (adView != null)
+						adView.clearCache();
 						adView.setResult(null,
 								new ATTAdViewError(
 										ATTAdViewError.ERROR_OAUTH_ERROR,
@@ -258,6 +259,7 @@ public class AuthService {
 
 			} else {
 				if (adView != null)
+					adView.clearCache();
 					adView.setResult(null, new ATTAdViewError(
 							ATTAdViewError.ERROR_OAUTH_ERROR,
 							Constants.STR_EMPTY_SERVER_RESPONSE));
