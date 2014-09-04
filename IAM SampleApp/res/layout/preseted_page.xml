@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConversationList" >
+    
+    <LinearLayout
+         android:id="@+id/forceOffNetSection"
+         android:layout_height="40dp"
+         android:layout_width="wrap_content"
+         android:layout_marginTop="60dp"
+         android:orientation="horizontal"
+         android:layout_centerHorizontal="true">
+        
+    <Button 
+         android:id="@+id/forceOffNetCheckBox"
+         android:layout_height="40dp"
+         android:layout_width="40dp"
+         />
+    
+     <TextView 
+         android:id="@+id/forceOffNetText"
+         android:layout_height="40dp"
+         android:layout_width="220dp"
+         android:layout_marginLeft="10dp"
+         android:gravity="left|center_vertical"
+         android:text="By pass on-network"
+         android:textSize="20sp"
+         />
+    </LinearLayout>
+    
+      <LinearLayout
+         android:id="@+id/forceSuppressSection"
+         android:layout_height="40dp"
+         android:layout_width="wrap_content"
+         android:layout_marginTop="20dp"
+         android:layout_below="@+id/forceOffNetSection"
+         android:orientation="horizontal"
+         android:layout_centerHorizontal="true">
+        
+    <Button 
+         android:id="@+id/forceSuppressCheckBox"
+         android:layout_height="40dp"
+         android:layout_width="40dp"
+         />
+    
+     <TextView 
+         android:id="@+id/subpressText"
+         android:layout_height="40dp"
+         android:layout_width="220dp"
+         android:layout_marginLeft="10dp"
+         android:gravity="left|center_vertical"
+         android:text="Suppress landing page"
+         android:textSize="20sp"
+         />
+    </LinearLayout>
+    
+    
+     
+     <Button 
+         android:id="@+id/startButton"
+         android:layout_height="60dp"
+         android:layout_width="120dp"
+         android:layout_centerHorizontal="true"
+         android:gravity="center"
+         android:layout_marginTop="80dp"
+         android:layout_below="@+id/forceSuppressSection"
+         android:background="@drawable/btn_blue_2"
+         android:layout_marginRight="20dp"
+         android:layout_marginLeft="20dp"
+         android:layout_marginBottom="50dp"
+         android:text="Next"
+         android:textColor="#FFFFFF"
+         android:textSize="20sp"
+         />
+    
+</RelativeLayout>

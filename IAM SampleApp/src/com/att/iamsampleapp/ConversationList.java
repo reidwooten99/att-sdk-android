@@ -1,5 +1,8 @@
 package com.att.iamsampleapp;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,8 +13,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,6 +27,7 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -37,6 +43,7 @@ import com.att.api.immn.service.MessageList;
 import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.iamsampleapp.MessageListAdapter;
 
 public class ConversationList extends Activity {
 
@@ -65,7 +72,7 @@ public class ConversationList extends Activity {
 		setContentView(R.layout.activity_conversation_list);
 		showProgressDialog("Loading Messages .. ");
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
-
+		
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
 		
@@ -75,10 +82,27 @@ public class ConversationList extends Activity {
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
+		i.putExtra("fqdn_extend", Config.fqdn_extend);
 		i.putExtra("clientId", Config.clientID);
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		
+		Config.byPassANDsuppress = "";
+		
+		if ((PresetedPage.OFF_NET) && (!PresetedPage.SUPPRESS)){
+			   Config.byPassANDsuppress = Config.byPassOnNetwork; // off_net 
+		}
+		else  
+		  if ((!PresetedPage.OFF_NET) && (PresetedPage.SUPPRESS)){
+				   Config.byPassANDsuppress = Config.suppressLandingPage; // suppress landing page 
+	    }
+		else
+		  if ((PresetedPage.OFF_NET) && (PresetedPage.SUPPRESS)){
+				   Config.byPassANDsuppress = Config.byPassOnNetANDsuppressLandingPage; // off_net & suppress landing page
+	    }
+	    
+		i.putExtra("byPassAndsuppress", Config.byPassANDsuppress);
 
 		startActivityForResult(i, OAUTH_CODE);
 		setupMessageListListener();
@@ -173,7 +197,7 @@ public class ConversationList extends Activity {
 
 	/*
 	 * This operation allows the developer to get the state, status and message
-	 * count of the index cache for the subscriberÕs inbox. authToken will be
+	 * count of the index cache for the subscriberï¿½s inbox. authToken will be
 	 * used to get access to GetMessageIndexInfo of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :
@@ -219,7 +243,7 @@ public class ConversationList extends Activity {
 
 	/*
 	 * This operation allows the developer to create an index cache for the
-	 * subscriberÕs inbox. authToken will be used to get access to
+	 * subscriberï¿½s inbox. authToken will be used to get access to
 	 * CreateMessageIndex of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :
@@ -699,7 +723,7 @@ public class ConversationList extends Activity {
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
 			cookieManager.removeExpiredCookie();
-			cookieManager.removeSessionCookie();
+		    cookieManager.removeSessionCookie(); 
 			finish();
 			break;
 		}
@@ -799,5 +823,63 @@ public class ConversationList extends Activity {
 			adapter.notifyDataSetChanged();
 		}
 		dismissProgressDialog();
-	}		
+	}	
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		String FileName = Config.backUpPreseted;
+ 		FileOutputStream fos = null;
+ 		
+ 		try {
+			fos = openFileOutput(FileName, Context.MODE_PRIVATE);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Log.d("Close the app ---- ", "Close the app ---- ");
+		if ((PresetedPage.OFF_NET_CHECKBOX) && (!PresetedPage.SUPPRESS)){
+	 		        try {
+	 	    	 	      fos.write(Config.byPassOnNetStr.getBytes());
+						  fos.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		}
+		else
+			if ((!PresetedPage.OFF_NET_CHECKBOX) && (PresetedPage.SUPPRESS)){
+ 	 		        try {
+						fos.write(Config.suppressLndgPageStr.getBytes());
+						fos.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace(); 
+						}
+ 	 	 }
+		 else
+			 if ((PresetedPage.OFF_NET_CHECKBOX) && (PresetedPage.SUPPRESS)){
+	    	 		        try {
+								fos.write(Config.byPassOnNetANDsuppressLandingPage.getBytes());
+								fos.close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	     }
+		 else {
+				 try {
+					  fos.close();
+				 } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				 }
+				 
+		 }
+		
+		 System.exit(0);
+	}
+
 }
