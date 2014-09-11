@@ -316,7 +316,7 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 		if (null != attAdView) {
 			// Stops the Reload timer and all listeners
 			attAdView.stopRefresh();
-		}
+		}z,sdkjggkzjsdgfjhzbsgd jzsdfkjzh
 	}
 
 	@Override
