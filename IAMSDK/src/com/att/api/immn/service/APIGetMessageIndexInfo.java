@@ -1,16 +1,20 @@
 package com.att.api.immn.service;
 
 import java.text.ParseException;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
+import com.att.api.util.Preferences;
+//import com.att.iamsampleapp.ConversationList.getTokenListener;
 
 public class APIGetMessageIndexInfo implements ATTIAMListener {
 	
@@ -47,6 +51,9 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			} catch (ParseException e) {
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
+			} catch (Exception e){
+				Log.d("GD", "Exception - " + e.getMessage() + " , " + e.getLocalizedMessage() + " , " + e.getCause());
+				System.exit(0);
 			}
 			return messageIndexInfo;
 		}
@@ -88,6 +95,7 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			public void run() {
 				if (null != iamListener) {
 					iamListener.onError(error);
+					return;
 				}
 			}
 		});

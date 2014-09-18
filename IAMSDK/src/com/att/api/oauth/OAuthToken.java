@@ -19,8 +19,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import org.json.JSONException;
+import android.content.Context;
+import android.util.Log;
+
+import com.att.api.rest.RESTException;
+import com.att.api.util.Preferences;
 
 /**
  * An immutable OAuthToken object that encapsulates an OAuth 2.0 token, which
@@ -65,23 +73,23 @@ public class OAuthToken {
     private static HashMap<String, OAuthToken> cachedTokens = null;
 
     /* Access token. */
-    private final String accessToken;
+    private String accessToken;
 
     /* Unix timestamp, in seconds, to denote access token expiry. */
-    private final long accessTokenExpiry;
+    private  long accessTokenExpiry;
 
     /* Refresh token. */
-    private final String refreshToken;
+    private String refreshToken;
 
     /* Used to indicate access token does not expire. */
     public static final long NO_EXPIRATION = -1;
-
+   
     /**
      * Gets the current time as a Unix timestamp.
      *
      * @return seconds since Unix epoch
      */
-    private static long xtimestamp() {
+    public static long xtimestamp() {
         return System.currentTimeMillis() / 1000;
     }
 
@@ -99,19 +107,23 @@ public class OAuthToken {
      * @param refreshToken refresh token
      * @param creationTime access token creation time as a Unix timestamp
      */
+    
+    
     public OAuthToken(String accessToken, long expiresIn, String refreshToken,
             long creationTime) {
 
         if (expiresIn == OAuthToken.NO_EXPIRATION) {
             this.accessTokenExpiry = OAuthToken.NO_EXPIRATION;
-        } else {
-            this.accessTokenExpiry = expiresIn + creationTime;
+        } 
+        else {
+             this.accessTokenExpiry = expiresIn + creationTime;
         }
-
+        
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+    
     }
-
+    
     /**
      * Creates an OAuthToken object with the <code>creationTime</code> set to
      * the current time.
@@ -125,7 +137,7 @@ public class OAuthToken {
         this(accessToken, expiresIn, refreshToken, xtimestamp());
     }
 
-    /**
+	/**
      * Gets whether the access token is expired.
      *
      * @return <tt>true</tt> if access token is expired, <tt>false</tt>
@@ -135,7 +147,16 @@ public class OAuthToken {
         return accessTokenExpiry != NO_EXPIRATION
             && xtimestamp() >= accessTokenExpiry;
     }
-
+    
+    /**
+     * Gets access token expiry.
+     *
+     * @return access token
+     */
+    public long getAccessTokenExpiry() {
+        return accessTokenExpiry;
+    }
+    
     /**
      * Gets access token.
      *
@@ -153,7 +174,7 @@ public class OAuthToken {
     public String getRefreshToken() {
         return refreshToken;
     }
-
+    
     /*
      * Saves this token to a file in an asynchronous-safe manner.
      *
@@ -208,7 +229,7 @@ public class OAuthToken {
      * @throws IOException if there was an error loading the token
      * @see #useTokenCaching(boolean)
      */
-    public static OAuthToken loadToken(String fpath) throws IOException {
+   /* public static OAuthToken loadToken(String fpath) throws IOException {
         FileInputStream fInputStream = null;
         FileLock fLock = null;
 
@@ -236,7 +257,7 @@ public class OAuthToken {
             String sExpiry = props.getProperty("accessTokenExpiry", "0");
             long expiry = new Long(sExpiry).longValue();
             String refreshToken = props.getProperty("refreshToken");
-            return new OAuthToken(accessToken, expiry, refreshToken);
+            return new OAuthToken(accessToken, expiry, refreshToken, m_context);
         } catch (IOException e) {
             throw e; // pass along exception
         } finally {
@@ -244,7 +265,8 @@ public class OAuthToken {
             if (fInputStream != null) { fInputStream.close(); }
         }
     }
-
+*/
+    
     /*
      * Not yet implemented.
      *

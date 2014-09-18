@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -67,15 +68,18 @@ public class MMSContent extends Activity {
 		mmsContentName = (String[]) ext.get("MMSContentName");
 		mmsContentType = (String[]) ext.get("MMSContentName");
 		mmsContentUrl = (String[]) ext.get("MMSContentUrl");
-		token = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
-				Config.refreshToken);
+		
+		//token = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
+		//		Config.refreshToken);
+		
+		token = new OAuthToken(Config.token, Config.tokenExpiredTime, Config.refreshToken);
 
 		for (int n = 0; n < mmsContentName.length; n++) {
 
 			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
-			iamManager = new IAMManager(Config.fqdn, token,
+			iamManager = new IAMManager(Config.fqdn, token, getApplicationContext(),
 					new getMessageContentListener());
 			String mmsContentDetails[] = mmsContentUrl[n].split("/");
 			iamManager.GetMessageContent(
@@ -204,7 +208,6 @@ public class MMSContent extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(),error);
-			
 		}
 		
 	}

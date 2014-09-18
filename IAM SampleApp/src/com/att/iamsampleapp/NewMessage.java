@@ -1,5 +1,9 @@
 package com.att.iamsampleapp;
 
+import java.text.ParseException;
+
+import org.json.JSONException;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,7 +27,10 @@ import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.SendResponse;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
+import com.att.api.util.Preferences;
 
 public class NewMessage extends Utils {
 
@@ -34,6 +41,9 @@ public class NewMessage extends Utils {
 	String attachments[] = new String[Config.maxAttachments];
 	String attMimeType[] = new String[Config.maxAttachments];
 	ProgressDialog pDialog;
+	OAuthService osrvc;
+	OAuthToken token;
+	Preferences pref;
 
 
 	@Override
@@ -189,11 +199,43 @@ public class NewMessage extends Utils {
 			infoDialog("No Message Content !!", false);
 			return;
 		}
+		
+		token = new OAuthToken(Config.token, Config.tokenExpiredTime - OAuthToken.xtimestamp(), Config.refreshToken);
+		
+		if (token.isAccessTokenExpired()){
+			pref = new Preferences(getApplicationContext());
+		
+			try {
+				token = osrvc.refreshToken(Config.refreshToken);
+				if (token == null){
+					osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
+					osrvc.getOAuthToken(Config.oAuthCode, new getTokenListener());
+				}
+				else{
+					Config.refreshToken = token.getRefreshToken();
+					Config.token = token.getAccessToken();
+					Config.tokenExpiredTime = token.getAccessTokenExpiry();
+					pref.setString("Token", Config.token);
+					pref.setString("RefreshToken", Config.refreshToken );
+					pref.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
+					}
+				
+			} catch (RESTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+		      token = new OAuthToken(Config.token, Config.tokenExpiredTime, Config.refreshToken);
+		}
 
-		OAuthToken token = new OAuthToken(Config.token,
-				OAuthToken.NO_EXPIRATION, Config.refreshToken);
-
-		IAMManager iamManager = new IAMManager(Config.fqdn, token,
+		IAMManager iamManager = new IAMManager(Config.fqdn, token, getApplicationContext(),
 				new sendMessageListener());
 
 		Boolean isGroup = false;
@@ -334,5 +376,32 @@ public class NewMessage extends Utils {
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
+	}
+	
+	private class getTokenListener implements ATTIAMListener {
+
+		@Override
+		public void onSuccess(Object response) {
+			token = (OAuthToken) response;
+			if (null != token) {
+				Config.token = token.getAccessToken();
+				Log.i(" ---- getTokenListener ---", "777");
+				Config.refreshToken = token.getRefreshToken();
+				Log.i(" ---- getTokenListener ---", "888");
+				Config.tokenExpiredTime =  token.getAccessTokenExpiry();
+				Log.i("getTokenListener",
+						"onSuccess Message : " + token.getAccessToken());
+				pref.setString("Token", Config.token);
+				pref.setString("RefreshToken", Config.refreshToken );
+				pref.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
+	
+			}
+		}
+
+		@Override
+		public void onError(InAppMessagingError error) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }
