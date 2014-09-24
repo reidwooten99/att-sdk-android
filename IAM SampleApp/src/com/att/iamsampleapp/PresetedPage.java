@@ -26,7 +26,6 @@ public class PresetedPage extends Activity {
 	private boolean CLEAR_COOKIES = false;
 	private boolean FORCE_AC_EXPIRE = false;
 	private Preferences pref = null;
-	private LinearLayout m_forceExpiredTokenSection = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +35,15 @@ public class PresetedPage extends Activity {
 		boolean suppressed = false;
 		boolean bypass = false;
 		
-		m_curAC = (EditText)findViewById(R.id.curAC);
-		m_curAC.setText(Config.token);
-		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
-		m_refreshToken.setText(Config.refreshToken);
-		m_curACTime = (TextView)findViewById(R.id.curACTime);
-		m_curACTime.setText(String.valueOf(Config.tokenExpiredTime));
-		
 		pref = new Preferences(getApplicationContext());
+		
+		m_curAC = (EditText)findViewById(R.id.curAC);
+		m_curAC.setText(pref.getString("Token", Config.none));
+		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
+		m_refreshToken.setText(pref.getString("RefreshToken", Config.none));
+		m_curACTime = (TextView)findViewById(R.id.curACTime);
+		m_curACTime.setText(String.valueOf(pref.getLong("AccessTokenExpiry", 0L)));
+		
 		String presetedStr = pref.getString(Config.preset, Config.none);
 		
 		if (!presetedStr.contains(Config.none)){
@@ -140,8 +140,6 @@ public class PresetedPage extends Activity {
 	   
 	   
 	   m_forceCheckBox = (Button) findViewById(R.id.forceCheckBox);
-	   m_forceExpiredTokenSection = (LinearLayout)findViewById(R.id.forceExpiredTokenSection);
-	   m_forceExpiredTokenSection.setVisibility(View.GONE);
 	   m_forceCheckBox.setOnClickListener(new Button.OnClickListener(){
 	   	     public void onClick(View v) {
 	   	    	 
@@ -156,9 +154,7 @@ public class PresetedPage extends Activity {
 	   m_applyButton = (Button) findViewById(R.id.applyButton);
 	   m_applyButton.setOnClickListener(new Button.OnClickListener(){
 	   	 	 public void onClick(View v) {
-	   	 		 
-	   	 //	 Preferences pref = new Preferences(getApplicationContext());
-	   			
+	   
 	   	 	 if (CLEAR_COOKIES){
 	   	 	    pref.setString("PRESET",Config.none);  
 	   	 	    pref.setLong("AccessTokenExpiry", 0L);

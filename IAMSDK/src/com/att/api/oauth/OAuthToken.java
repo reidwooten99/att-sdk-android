@@ -175,13 +175,39 @@ public class OAuthToken {
         return refreshToken;
     }
     
+    /**
+     * Sets refresh token.
+     *
+     */
+    public void setRefreshToken(String AC_freshToken) {
+        refreshToken = AC_freshToken;
+    }
+    
+    /**
+     * Sets access token.
+     *
+     */
+    
+    public void setAccessToken(String AC_token) {
+        accessToken = AC_token;
+    }
+    
+    /**
+     * Sets access token expired time.
+     *
+     */
+    public void setAccessTokenExpiry(long AC_expiry) {
+        accessTokenExpiry = AC_expiry;
+    }
+
+    
     /*
      * Saves this token to a file in an asynchronous-safe manner.
      *
      * @param fpath file path
      * @throws IOException if unable to save token
      */
-    public void saveToken(String fpath) throws IOException {
+  /*  public void saveToken(String fpath) throws IOException {
         FileOutputStream fOutputStream = null;
         FileLock fLock = null;
 
@@ -209,7 +235,7 @@ public class OAuthToken {
             if (fOutputStream != null) { fOutputStream.close(); }
         }
     }
-
+*/
     /*
      * Attempts to load an OAuthToken from a file in an asynchronous-safe
      * manner.

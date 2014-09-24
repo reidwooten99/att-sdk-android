@@ -69,13 +69,9 @@ public class MMSContent extends Activity {
 		mmsContentType = (String[]) ext.get("MMSContentName");
 		mmsContentUrl = (String[]) ext.get("MMSContentUrl");
 		
-		//token = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
-		//		Config.refreshToken);
-		
-		token = new OAuthToken(Config.token, Config.tokenExpiredTime, Config.refreshToken);
+		token = new OAuthToken(Config.token, Config.tokenExpiredTime - OAuthToken.xtimestamp(), Config.refreshToken);
 
 		for (int n = 0; n < mmsContentName.length; n++) {
-
 			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
