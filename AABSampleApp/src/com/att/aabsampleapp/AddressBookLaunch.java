@@ -32,6 +32,7 @@ public class AddressBookLaunch extends Activity {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", Config.customParam);
 
 		startActivityForResult(i, OAUTH_CODE);
 	}
@@ -82,6 +83,7 @@ public class AddressBookLaunch extends Activity {
 				Config.authToken = authToken;
 				Config.token = authToken.getAccessToken();
 				Config.refreshToken = authToken.getRefreshToken();
+				Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
 				getAddressBookContacts();
