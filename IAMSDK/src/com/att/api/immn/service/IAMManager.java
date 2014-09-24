@@ -2,7 +2,10 @@ package com.att.api.immn.service;
 
 import java.util.concurrent.ExecutionException;
 
+import org.json.JSONException;
+
 import android.content.Context;
+import android.net.ParseException;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.util.Log;
@@ -12,6 +15,7 @@ import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
 
 /**
@@ -29,6 +33,10 @@ public class IAMManager {
 	private OAuthToken m_token = null;
 	Preferences m_pref = null;
 	public Context context = null;
+	public static boolean must_wait = false;
+	private OAuthToken m_authToken = null;
+
+	
 
 	/**
 	 * The IAMManager method creates an IAMManager object.
@@ -44,11 +52,57 @@ public class IAMManager {
 	public IAMManager(String fqdn, OAuthToken token, Context m_context,
 			ATTIAMListener iamListener) {
 		
-		context = m_context;
-		m_fqdn = fqdn;
-		m_token = token;
-		this.iamListener = iamListener;
-	    immnSrvc = new IMMNService(m_fqdn, m_token);
+			must_wait = false;
+			context = m_context;
+			m_fqdn = fqdn;
+			m_token = token;
+			this.iamListener = iamListener;
+			
+			if (m_token.isAccessTokenExpired()) {
+				must_wait = true;
+				m_pref = new Preferences(context);
+				final String clientId = m_pref.getString("clientID", "none");
+				final String clientSecretKey = m_pref.getString("secretKey", "none");
+			    final String oAuthCode =  m_pref.getString("oAuthCodeStr", "none");
+			    
+			    new Thread(new Runnable() {
+			    
+		            @Override
+		            public void run() {
+		                // DO YOUR STUFFS HERE
+		            	
+		            	Looper.prepare();
+		            	OAuthService m_osrvc = new OAuthService(m_fqdn, clientId, clientSecretKey);
+		            	
+						try {
+							while ((m_authToken = m_osrvc.refreshToken(m_token.getRefreshToken())) == null);
+						} catch (RESTException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (java.text.ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+		    			Log.d("----DB ----------", "--- Out Of the Loop --- ");
+		    			m_token.setAccessToken(m_authToken.getAccessToken());
+		    			m_token.setAccessTokenExpiry(m_authToken.getAccessTokenExpiry());
+		    			m_token.setRefreshToken(m_authToken.getRefreshToken());	
+		    			m_pref.setString("Token", m_token.getAccessToken());
+		    			m_pref.setString("RefreshToken", m_token.getRefreshToken());
+		    			m_pref.setLong("AccessTokenExpiry", m_token.getAccessTokenExpiry());
+		    			Log.d("----DB ----------", "New ACToken: " +  m_authToken.getAccessToken());
+		    			immnSrvc = new IMMNService(m_fqdn, m_token);
+		    			must_wait = false;
+		            }
+		        }).start();
+			}
+			else {
+				  immnSrvc = new IMMNService(m_fqdn, m_token);
+			}
 	}
 
 	/**
@@ -200,6 +254,11 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageIndexInfo() {
+		
+		// In case of an expired Access token, wait until the process of creating the new Access token completed
+		//  and process getMessageIndexInfo
+		while (must_wait); 
+		
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(
 				immnSrvc, iamListener);
 		getMessageIndexInfo.GetMessageIndexInfo();

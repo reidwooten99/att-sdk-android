@@ -201,40 +201,6 @@ public class NewMessage extends Utils {
 		}
 		
 		token = new OAuthToken(Config.token, Config.tokenExpiredTime - OAuthToken.xtimestamp(), Config.refreshToken);
-		
-		if (token.isAccessTokenExpired()){
-			pref = new Preferences(getApplicationContext());
-		
-			try {
-				token = osrvc.refreshToken(Config.refreshToken);
-				if (token == null){
-					osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-					osrvc.getOAuthToken(Config.oAuthCode, new getTokenListener());
-				}
-				else{
-					Config.refreshToken = token.getRefreshToken();
-					Config.token = token.getAccessToken();
-					Config.tokenExpiredTime = token.getAccessTokenExpiry();
-					pref.setString("Token", Config.token);
-					pref.setString("RefreshToken", Config.refreshToken );
-					pref.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
-					}
-				
-			} catch (RESTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else {
-		      token = new OAuthToken(Config.token, Config.tokenExpiredTime, Config.refreshToken);
-		}
-
 		IAMManager iamManager = new IAMManager(Config.fqdn, token, getApplicationContext(),
 				new sendMessageListener());
 
