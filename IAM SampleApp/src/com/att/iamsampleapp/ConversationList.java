@@ -109,7 +109,8 @@ public class ConversationList extends Activity {
 				}
 				else
 				   if (bypass && suppressed){
-							   Config.byPassANDsuppress = Config.byPassOnNetANDsuppressLandingPage; // off_net & suppress landing page
+					           // off_net and suppress landing page
+							   Config.byPassANDsuppress = Config.byPassOnNetANDsuppressLandingPage;
 			    }
 				i.putExtra("byPassAndsuppress", Config.byPassANDsuppress);
 				startActivityForResult(i, OAUTH_CODE);
@@ -158,7 +159,6 @@ public class ConversationList extends Activity {
 		} 
 		else 
 		  if (requestCode == OAUTH_CODE) {
-		   // String oAuthCode = null;
 			oAuthCode = null;
 			if (resultCode == RESULT_OK) {
 				oAuthCode = data.getStringExtra("oAuthCode");
@@ -261,7 +261,6 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-			//osrvc.getOAuthToken(oAuthCode, new getTokenListener());
 		}
 	}
 
@@ -306,9 +305,8 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-			// createMessageIndex();
-			Utils.toastOnError(getApplicationContext(), error);
-			Log.d("---ERROR CODE---", String.valueOf(error.getHttpResponseCode()));
+
+			 Utils.toastOnError(getApplicationContext(), error);
 			
 			 if ( error.getHttpResponseCode() == 401){
 
@@ -419,7 +417,6 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-			Log.d("---I AM HERE IN MSG LISTENER---", String.valueOf(error.getHttpResponseCode()));
 		}
 
 	}
