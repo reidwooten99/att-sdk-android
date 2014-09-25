@@ -16,11 +16,12 @@ public class Config {
 	public static final String clientID = APP_KEY;
 	public static final String secretKey = APP_SECRET;
 	public static final String redirectUri = REDIRECT_URI;
-	
 	// Testers can test the customParam functionality by setting this config value to following combinations
 	// "" - default behavior - do not send any custom_param
 	// "bypass_onnetwork_auth"
 	// "suppress_landing_page"
 	// "bypass_onnetwork_auth,suppress_landing_page"
 	public static final String customParam = "";
+	// reduceTokenExpiryInSeconds_Debug is parameter that is used to test access token epxiry code
+	public static final long reduceTokenExpiryInSeconds_Debug = 0;
 }

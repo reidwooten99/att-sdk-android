@@ -22,6 +22,7 @@ public class AddressBookLaunch extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		showProgressDialog("Opening  AddressBook .. ");
 		setContentView(R.layout.activity_address_book_launch);
 
@@ -35,6 +36,10 @@ public class AddressBookLaunch extends Activity {
 		i.putExtra("customParam", Config.customParam);
 
 		startActivityForResult(i, OAUTH_CODE);
+		
+		// Initialize the AabManager also:
+		AabManager.SetApiFqdn(Config.fqdn);
+		AabManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
 	}
 
 	@SuppressWarnings("unused")
@@ -80,10 +85,12 @@ public class AddressBookLaunch extends Activity {
 		public void onSuccess(Object response) {
 			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
-				Config.authToken = authToken;
-				Config.token = authToken.getAccessToken();
-				Config.refreshToken = authToken.getRefreshToken();
-				Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
+				Config.authToken = null; // authToken;
+				//Config.token = authToken.getAccessToken();
+				//Config.refreshToken = authToken.getRefreshToken();
+				//Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
+				AabManager.SetCurrentToken(authToken);
+				
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
 				getAddressBookContacts();

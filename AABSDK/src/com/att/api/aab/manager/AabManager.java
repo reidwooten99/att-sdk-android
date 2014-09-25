@@ -1,6 +1,10 @@
 package com.att.api.aab.manager;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
@@ -27,21 +31,99 @@ public class AabManager {
 	public static AABService aabService = null;
 	private AttSdkListener aabListener = null;
 	private static OAuthService osrvc = null;
+	private static OAuthToken currentToken = null;
+	private static String apiFqdn = "https://api.att.com";
+	private static long reduceTokenExpiryInSeconds_Debug = 0;
+	
+	private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
 	
 	/**
 	 * The AabManager method creates an AabManager object.
-	 * @param fqdn - Specifies the fully qualified domain name that is used to send requests.
-	 * @param token - Specifies the OAuth token that is used for authorization.
+	 * @param paramNotUsed - This param is not used anymore.
+	 * @param token - Overrides the default OAuth token used for authorization.
 	 * @param aabListener - Specifies the Listener for callbacks.
 	 */	
-	public AabManager(String fqdn, OAuthToken token, AttSdkListener listener) {		
-		aabService = new AABService(fqdn, token, "att.aab.android.1.0");
-		aabListener = listener;
+	public AabManager(String paramNotUsed, OAuthToken token, final AttSdkListener listener) {
+		if (token != null) {
+			currentToken = token;
+		}
+		
+		if (CheckAndRefreshExpiredToken(listener)) {
+			assert (currentToken != null); 
+			aabListener = listener;
+		}
 	}
 	
+	// Note: This constructor is used to obtain the auth code 
 	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
 		aabListener = listener;
+	}
+	
+	// Note: This constructor is used for RefreshToken 
+	public AabManager(AttSdkListener listener) {
+		assert(osrvc != null);
+		aabListener = listener;
+	}
+	
+	public static void SetCurrentToken(OAuthToken token) {
+		currentToken = token;
+	}
+	
+	public static void SetReduceTokenExpiryInSeconds_Debug (long value) {
+		reduceTokenExpiryInSeconds_Debug = value;
+	}
+	
+	public static void SetApiFqdn(String fqdn) {
+		apiFqdn = fqdn;
+	}
+	
+	public static Boolean isCurrentTokenExpired() {
+		// Replace to simple expiry check after testing
+		//return currentToken.isAccessTokenExpired();
+		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
+	}
+	
+	public Boolean CheckAndRefreshExpiredToken(final AttSdkListener listener) {
+		// Check if the passed token has expired
+		//if (currentToken != null) {
+		//	return true;
+		//}
+		class getRefreshTokenListener implements AttSdkListener {
+			@Override
+			public void onSuccess(Object response) {
+				OAuthToken authToken = (OAuthToken) response;
+				if (null != authToken) {
+					currentToken = authToken;
+					Log.i("getRefreshTokenListener",
+							"onSuccess Message : " + authToken.getAccessToken());
+					checkTokenExpirySignal.countDown();
+				}
+			}
+
+			@Override
+			public void onError(AttSdkError error) {
+				Log.i("getRefreshTokenListener", "onError Message : ");
+				currentToken = null;
+				checkTokenExpirySignal.countDown();
+				listener.onError(error);						
+			}
+		} 
+		try {
+			synchronized (this) {
+				if (isCurrentTokenExpired()) {
+					AabManager refreshManager = new AabManager(new getRefreshTokenListener());
+					refreshManager.getRefreshToken(currentToken.getRefreshToken());
+				} else {
+					checkTokenExpirySignal.countDown();					
+				}
+				checkTokenExpirySignal.await(60, TimeUnit.SECONDS); // Allow 60 seconds for token refresh
+				aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
+			}
+		} catch (Exception /*InterruptedException*/ e) {
+			currentToken = null;
+		}	
+		return (currentToken != null);
 	}
 	
 	/**
@@ -62,6 +144,26 @@ public class AabManager {
 	public void getOAuthToken(String code){
     	GetTokenUsingCodeTask getTokenUsingCodetask  = new GetTokenUsingCodeTask();
 		getTokenUsingCodetask.execute(code);
+    }
+	
+	/**
+     * Gets an access token using the specified code.
+     *
+     * <p>
+     * The parameters set during object creation will be used when requesting
+     * the access token.
+     * </p>
+     * <p>
+     * The token request is done using the 'authorization_code' grant type.
+     * </p>
+     *
+     * @param code code to use when requesting access token
+     * @return OAuthToken object if successful
+     *
+     */
+	public void getRefreshToken(String refreshToken){
+		RefreshExpiredTokenTask refreshExpiredTokenTask  = new RefreshExpiredTokenTask();
+		refreshExpiredTokenTask.execute(refreshToken);
     }
 	
 	/**
@@ -88,9 +190,11 @@ public class AabManager {
 	 */
 	public void GetContacts(String xFields, PageParams pParams, String sParams) {
 		GetContactParams contactParams;
-		contactParams = new GetContactParams(xFields, pParams, sParams);
-		GetContactsTask task = new GetContactsTask();
-		task.execute(contactParams);
+		if (CheckAndRefreshExpiredToken(aabListener)) {
+			contactParams = new GetContactParams(xFields, pParams, sParams);
+			GetContactsTask task = new GetContactsTask();
+			task.execute(contactParams);
+		}
 	}
 	
 	/**
@@ -107,8 +211,10 @@ public class AabManager {
 	 */
 	
 	public void GetContact(String contactId, String xFields) {
-		GetContactTask task = new GetContactTask();
-		task.execute(contactId, xFields);
+		if (CheckAndRefreshExpiredToken(aabListener)) {
+			GetContactTask task = new GetContactTask();
+			task.execute(contactId, xFields);
+		}
 	}
 	
 	/**
@@ -301,7 +407,35 @@ public class AabManager {
 		}
     	
     }
+	
+	public class RefreshExpiredTokenTask extends AsyncTask<String, Void, OAuthToken> {
 
+		@Override
+		protected OAuthToken doInBackground(String... params) {
+			OAuthToken accestoken = null;
+			AttSdkError errorObj = new AttSdkError();
+			try {
+				accestoken = osrvc.refreshToken(params[0]);
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}		
+			return accestoken;
+		}
+
+		@Override
+		protected void onPostExecute(OAuthToken accestoken) {
+			super.onPostExecute(accestoken);
+			if(null != accestoken) {
+				if (null != aabListener) {
+					aabListener.onSuccess(accestoken);
+				}
+			}
+		}
+    	
+    }
 	
 	public class  CreateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override
