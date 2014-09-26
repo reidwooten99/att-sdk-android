@@ -115,7 +115,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupContactAPI on error", "onError");
+			Log.i("getGroupContactAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -135,7 +135,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("removeContactFromGroupAPI on error", "onError");
+			Log.i("removeContactFromGroupAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -169,7 +169,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
+			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}

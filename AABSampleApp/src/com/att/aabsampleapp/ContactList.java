@@ -194,7 +194,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("deleteContactAPI on error", "onError");
+			Log.i("deleteContactAPI on error", "Error:" + error.getHttpResponse());
 		}
 
 	}
@@ -235,7 +235,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "onError");
+			Log.i("getContactsAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -325,7 +325,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupsAPI on error", "onError");
+			Log.i("getGroupsAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -358,7 +358,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "onError");
+			Log.i("getContactsAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -385,7 +385,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
+			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}

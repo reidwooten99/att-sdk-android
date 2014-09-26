@@ -1,4 +1,4 @@
-package com.att.utils;
+package com.att.api.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

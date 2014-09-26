@@ -236,8 +236,7 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
-
+			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
 		}
 	}
 

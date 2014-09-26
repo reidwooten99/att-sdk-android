@@ -65,7 +65,7 @@ public class ContactGroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactGroupsAPI on error", "onError");
+			Log.i("getContactGroupsAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}

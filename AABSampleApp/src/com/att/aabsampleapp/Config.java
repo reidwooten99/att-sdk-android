@@ -22,6 +22,26 @@ public class Config {
 	// "suppress_landing_page"
 	// "bypass_onnetwork_auth,suppress_landing_page"
 	public static final String customParam = "";
-	// reduceTokenExpiryInSeconds_Debug is parameter that is used to test access token epxiry code
-	public static final long reduceTokenExpiryInSeconds_Debug = 0;
+	// reduceTokenExpiryInSeconds_Debug is parameter that is used to test access token expiration logic
+	public static final long reduceTokenExpiryInSeconds_Debug = 172790;
+	// Used to send the bad refresh token. Set this to blank for final version.
+	public static final String appendToRefreshToken_Debug = "junk";
+
+	// Delete these one by one
+	public static final String byPassOnNetwork      =   "&custom_param=bypass_onnetwork_auth";
+	public static final String byPassOnNetStr       =   "bypass_onnetwork_auth";
+	public static final String suppressLandingPage  =   "&custom_param=suppress_landing_page";
+	public static final String suppressLndgPageStr  =   "suppress_landing_page";
+	public static final String none                 =   "none";
+	public static final String byPassOnNetANDsuppressLandingPage =   
+			                                            "&custom_param=bypass_onnetwork_auth,suppress_landing_page";
+	public static String byPassANDsuppress          =   "";
+	public static final String iamDownloadDirectory =   "InAppMessagingDownloads";
+	public static final String backUpPreseted       =   "backUpPreseted";
+	public static final String preset               =   "PRESET";
+	public static final String expiredTime          =   "EXPIRED_TIME";
+	public static final String oAuthCodeStr         =   "oAuthCodeStr";
+	public static long tokenExpiredTime             =   0;
+	public static final long noTokenExpiredTime     =   -1;
+
 }

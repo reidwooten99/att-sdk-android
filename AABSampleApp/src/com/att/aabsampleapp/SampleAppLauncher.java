@@ -86,6 +86,11 @@ public class SampleAppLauncher extends TabActivity {
 			finish();
 			break;
 
+		case R.id.action_debug_settings:
+			intent = new Intent(SampleAppLauncher.this, DebugSettingsPage.class);
+	   	 	startActivity(intent);
+			break;
+		
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -120,6 +125,11 @@ public class SampleAppLauncher extends TabActivity {
 			cookieManager.removeExpiredCookie();
 			cookieManager.removeSessionCookie();
 			finish();
+			break;
+
+		case R.id.action_debug_settings:
+			intent = new Intent(SampleAppLauncher.this, DebugSettingsPage.class);
+	   	 	startActivity(intent);
 			break;
 
 		}

@@ -274,7 +274,7 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("deleteGroupAPI on error", "onError");
+			Log.i("deleteGroupAPI on error", "Error:" + error.getHttpResponse());
 		}
 
 	}
@@ -299,7 +299,7 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("createGroupAPI on error", "onError");
+			Log.i("createGroupAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 
@@ -321,7 +321,7 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateGroupAPI on error", "onError");
+			Log.i("updateGroupAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 
