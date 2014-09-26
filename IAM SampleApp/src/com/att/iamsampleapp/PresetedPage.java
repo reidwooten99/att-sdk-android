@@ -1,5 +1,7 @@
 package com.att.iamsampleapp;
 import com.att.api.util.Preferences;
+import com.att.api.util.Sdk_Config;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,17 +40,17 @@ public class PresetedPage extends Activity {
 		pref = new Preferences(getApplicationContext());
 		
 		m_curAC = (EditText)findViewById(R.id.curAC);
-		m_curAC.setText(pref.getString("Token", Config.none));
+		m_curAC.setText(pref.getString("Token", Sdk_Config.none));
 		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
-		m_refreshToken.setText(pref.getString("RefreshToken", Config.none));
+		m_refreshToken.setText(pref.getString("RefreshToken", Sdk_Config.none));
 		m_curACTime = (TextView)findViewById(R.id.curACTime);
 		m_curACTime.setText(String.valueOf(pref.getLong("AccessTokenExpiry", 0L)));
 		
-		String presetedStr = pref.getString(Config.preset, Config.none);
+		String presetedStr = pref.getString(Sdk_Config.preset, Sdk_Config.none);
 		
-		if (!presetedStr.contains(Config.none)){
-			suppressed = presetedStr.contains(Config.suppressLndgPageStr);
-			bypass  =    presetedStr.contains(Config.byPassOnNetStr);
+		if (!presetedStr.contains(Sdk_Config.none)){
+			suppressed = presetedStr.contains(Sdk_Config.suppressLndgPageStr);
+			bypass  =    presetedStr.contains(Sdk_Config.byPassOnNetStr);
 		}
 		
 		m_forceOffNetButton = (Button) findViewById(R.id.forceOffNetCheckBox);
@@ -156,43 +158,43 @@ public class PresetedPage extends Activity {
 	   	 	 public void onClick(View v) {
 	   
 	   	 	 if (CLEAR_COOKIES){
-	   	 	    pref.setString("PRESET",Config.none);  
+	   	 	    pref.setString("PRESET",Sdk_Config.none);  
 	   	 	    pref.setLong("AccessTokenExpiry", 0L);
-  	 		    pref.setString("Token", Config.none);
-			    pref.setString("RefreshToken", Config.none);
-			    Config.tokenExpiredTime = 0L;
-			    Config.refreshToken = "";
-			    Config.token = ""; 
+  	 		    pref.setString("Token", Sdk_Config.none);
+			    pref.setString("RefreshToken", Sdk_Config.none);
+			    Sdk_Config.tokenExpiredTime = 0L;
+			    Sdk_Config.refreshToken = "";
+			    Sdk_Config.token = ""; 
 	   	 	 }
 	   	 	 else {
 			   	 if (OFF_NET && SUPPRESS){
-			   	 		pref.setString("PRESET",Config.byPassOnNetANDsuppressLandingPage );
+			   	 		pref.setString("PRESET",Sdk_Config.byPassOnNetANDsuppressLandingPage );
 			   	 }
 			   	 else
 			   	   if (!OFF_NET && SUPPRESS){
-			   		  pref.setString("PRESET", Config.suppressLndgPageStr);
+			   		  pref.setString("PRESET", Sdk_Config.suppressLndgPageStr);
 			   	 }
 			   	 else
 				   if (OFF_NET && !SUPPRESS){
-					   pref.setString("PRESET", Config.byPassOnNetStr);	 		 
+					   pref.setString("PRESET", Sdk_Config.byPassOnNetStr);	 		 
 				 }
 				 else{
-					   pref.setString("PRESET", Config.none);
+					   pref.setString("PRESET", Sdk_Config.none);
 				 }
 			   	 
 			     String ACToken = m_curAC.getText().toString().trim();
 	   	 		 pref.setString("Token", ACToken);
 	   	 		 String freshTokenEdt = m_refreshToken.getText().toString().trim();
 				 pref.setString("RefreshToken", freshTokenEdt );
-				 pref.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
-				 Config.token = ACToken;
-				 Config.refreshToken = freshTokenEdt;  
+				 pref.setLong("AccessTokenExpiry", Sdk_Config.tokenExpiredTime);
+				 Sdk_Config.token = ACToken;
+				 Sdk_Config.refreshToken = freshTokenEdt;  
 			   	 
 	   	 	 }
 	   	 	 
 	   	 	 if (FORCE_AC_EXPIRE){
 	   	 		pref.setLong("AccessTokenExpiry", 0L);
-	   	 		Config.tokenExpiredTime = 0L;
+	   	 		Sdk_Config.tokenExpiredTime = 0L;
 	   	 	 }
 
 		     finish();	 

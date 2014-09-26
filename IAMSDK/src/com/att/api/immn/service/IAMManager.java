@@ -17,6 +17,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
+import com.att.api.util.Sdk_Config;
 
 /**
  * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
@@ -61,9 +62,9 @@ public class IAMManager {
 			if (m_token.isAccessTokenExpired()) {
 				must_wait = true;
 				m_pref = new Preferences(context);
-				final String clientId = m_pref.getString("clientID", "none");
-				final String clientSecretKey = m_pref.getString("secretKey", "none");
-			    final String oAuthCode =  m_pref.getString("oAuthCodeStr", "none");
+				final String clientId = m_pref.getString("clientID", Sdk_Config.none);
+				final String clientSecretKey = m_pref.getString("secretKey", Sdk_Config.none);
+			//    final String oAuthCode =  m_pref.getString("oAuthCodeStr", Sdk_Config.none);
 			    
 			    new Thread(new Runnable() {
 			    
@@ -256,7 +257,7 @@ public class IAMManager {
 	public void GetMessageIndexInfo() {
 		
 		// In case of an expired Access token, wait until the process of creating the new Access token completed
-		//  and process getMessageIndexInfo
+		// and then process the getMessageIndexInfo
 		while (must_wait); 
 		
 		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(
