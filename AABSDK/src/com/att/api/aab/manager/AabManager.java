@@ -19,6 +19,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.sdk.listener.AttSdkListener;
+import com.att.sdk.listener.AttSdkTokenUpdater;
 
 /**
 * This class encapsulates the AT&T RESTfull APIs for AddressBook.
@@ -30,10 +31,12 @@ import com.att.sdk.listener.AttSdkListener;
 public class AabManager {	
 	private static AABService aabService = null;
 	private AttSdkListener aabListener = null;
+	private static AttSdkTokenUpdater tokenListener = null;
 	private static OAuthService osrvc = null;
 	private static OAuthToken currentToken = null;
 	private static String apiFqdn = "https://api.att.com";
 	private static long reduceTokenExpiryInSeconds_Debug = 0;
+	private static String appendToRefreshToken_Debug = "";
 	
 	private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
 	private final static Object lockRefreshToken = new Object();
@@ -74,8 +77,16 @@ public class AabManager {
 		reduceTokenExpiryInSeconds_Debug = value;
 	}
 	
+	public static void SetAppendToRefreshToken_Debug (String value) {
+		appendToRefreshToken_Debug = value;
+	}
+	
 	public static void SetApiFqdn(String fqdn) {
 		apiFqdn = fqdn;
+	}
+	
+	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
+		tokenListener = listener;
 	}
 	
 	public static Boolean isCurrentTokenExpired() {
@@ -85,10 +96,6 @@ public class AabManager {
 	}
 	
 	public Boolean CheckAndRefreshExpiredToken(final AttSdkListener listener) {
-		// Check if the passed token has expired
-		//if (currentToken != null) {
-		//	return true;
-		//}
 		class getRefreshTokenListener implements AttSdkListener {
 			@Override
 			public void onSuccess(Object response) {
@@ -98,6 +105,9 @@ public class AabManager {
 					Log.i("getRefreshTokenListener",
 							"onSuccess Message : " + authToken.getAccessToken());
 					aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
+					if (tokenListener != null) {
+						tokenListener.onTokenUpdate(authToken);
+					}
 					checkTokenExpirySignal.countDown();
 				}
 			}
@@ -114,7 +124,8 @@ public class AabManager {
 			synchronized (lockRefreshToken) {
 				if (isCurrentTokenExpired()) {
 					AabManager refreshManager = new AabManager(new getRefreshTokenListener());
-					refreshManager.getRefreshToken(currentToken.getRefreshToken());
+					// Following line just appends another string to test RefreshToken expiry case for debugging only
+					refreshManager.getRefreshToken(currentToken.getRefreshToken() + appendToRefreshToken_Debug);
 				} else {
 					checkTokenExpirySignal.countDown();					
 				}

@@ -11,35 +11,71 @@ import android.util.Log;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.util.Preferences;
 import com.att.sdk.listener.AttSdkListener;
+import com.att.sdk.listener.AttSdkTokenUpdater;
 
 public class AddressBookLaunch extends Activity {
 
 	private final int OAUTH_CODE = 1;
 	private AabManager aabManager;
 	private ProgressDialog pDialog;
+	
+	public static Preferences prefs = null; 
+	public static void UpdateSavedToken(OAuthToken token) {		
+		if (prefs != null && token != null) {
+			prefs.setString("CommaSeparatedAccessToken", 
+					String.format("%s,%d,%s", token.getAccessToken(),token.getAccessTokenExpiry(),token.getRefreshToken()));
+			Log.i("updateSavedToken", "Saved Token: " + token.getAccessToken());
+		}		
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		OAuthToken savedToken = null;
+		String strStoredToken = null;
+		String[] tokenParts  = null;
+
 		super.onCreate(savedInstanceState);
-		
+				
 		showProgressDialog("Opening  AddressBook .. ");
 		setContentView(R.layout.activity_address_book_launch);
-
-		Intent i = new Intent(this,
-				com.att.api.consentactivity.UserConsentActivity.class);
-		i.putExtra("fqdn", Config.fqdn);
-		i.putExtra("clientId", Config.clientID);
-		i.putExtra("clientSecret", Config.secretKey);
-		i.putExtra("redirectUri", Config.redirectUri);
-		i.putExtra("appScope", Config.appScope);
-		i.putExtra("customParam", Config.customParam);
-
-		startActivityForResult(i, OAUTH_CODE);
+		
+		prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredToken = prefs.getString("CommaSeparatedAccessToken", null);
+			if (strStoredToken != null) {
+				tokenParts = strStoredToken.split(",");
+				if (tokenParts.length == 3) {
+					savedToken = new OAuthToken(tokenParts[0], Long.parseLong(tokenParts[1]), tokenParts[2], 0);
+				}
+			}
+		}
 		
 		// Initialize the AabManager also:
 		AabManager.SetApiFqdn(Config.fqdn);
+		AabManager.SetTokenUpdatedListener(new tokenUpdatedListener());
 		AabManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
+		AabManager.SetAppendToRefreshToken_Debug(Config.appendToRefreshToken_Debug);
+		
+		savedToken = null; // Set it to null due to some UI issue.
+		
+		if (savedToken == null) {	
+			Intent i = new Intent(this,
+					com.att.api.consentactivity.UserConsentActivity.class);
+			i.putExtra("fqdn", Config.fqdn);
+			i.putExtra("clientId", Config.clientID);
+			i.putExtra("clientSecret", Config.secretKey);
+			i.putExtra("redirectUri", Config.redirectUri);
+			i.putExtra("appScope", Config.appScope);
+			i.putExtra("customParam", Config.customParam);
+	
+			startActivityForResult(i, OAUTH_CODE);
+		} else {
+			AabManager.SetCurrentToken(savedToken);	
+			Log.i("gotSavedToken", "Saved Token: " + savedToken.getAccessToken());
+			getAddressBookContacts();			
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -90,6 +126,7 @@ public class AddressBookLaunch extends Activity {
 				//Config.refreshToken = authToken.getRefreshToken();
 				//Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
 				AabManager.SetCurrentToken(authToken);
+				UpdateSavedToken(authToken); // Store the token in preferences
 				
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
@@ -124,6 +161,13 @@ public class AddressBookLaunch extends Activity {
 	public void dismissProgressDialog() {
 		if (null != pDialog) {
 			pDialog.dismiss();
+		}
+	}
+
+	public class tokenUpdatedListener implements AttSdkTokenUpdater {
+		@Override
+		public void onTokenUpdate(OAuthToken newToken) {
+			AddressBookLaunch.UpdateSavedToken(newToken);
 		}
 	}
 
