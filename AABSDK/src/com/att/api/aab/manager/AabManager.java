@@ -120,7 +120,7 @@ public class AabManager {
 					tokenListener.onTokenDelete();
 				}
 				checkTokenExpirySignal.countDown();
-				listener.onError(error);						
+				listener.onError(error); // send the error back to calling function also.						
 			}
 		} 
 		try {

@@ -1,5 +1,7 @@
 package com.att.aabsampleapp;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,20 +23,38 @@ public class AddressBookLaunch extends Activity {
 	private AabManager aabManager = null;
 	private ProgressDialog pDialog;
 	
-	public static Preferences prefs = null; 
-	public static void UpdateSavedToken(OAuthToken token) {		
+	public Preferences prefs = null; 
+	public void UpdateSavedToken(OAuthToken token) {		
 		if (prefs != null && token != null) {
 			prefs.setString("CommaSeparatedAccessToken", 
 					String.format("%s,%d,%s", token.getAccessToken(),token.getAccessTokenExpiry(),token.getRefreshToken()));
 			Log.i("updateSavedToken", "Saved Token: " + token.getAccessToken());
+			Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
+			Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
 		}		
 	}
 	
-	public static void DeleteSavedToken() {		
+	public void DeleteSavedToken() {		
 		if (prefs != null) {
 			prefs.setString("CommaSeparatedAccessToken", "");
 			Log.i("deleteSavedToken", "Deleted Saved Token.");
-		}		
+		}	
+		// Logout from the application and restart.
+		Log.e("Invalid Token", "Logout and Restart the application");
+		// GetUserConsentAuthCode();
+	}
+	
+	private void GetUserConsentAuthCode() {
+		Intent i = new Intent(this,
+				com.att.api.consentactivity.UserConsentActivity.class);
+		i.putExtra("fqdn", Config.fqdn);
+		i.putExtra("clientId", Config.clientID);
+		i.putExtra("clientSecret", Config.secretKey);
+		i.putExtra("redirectUri", Config.redirectUri);
+		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", Config.customParam);
+
+		startActivityForResult(i, OAUTH_CODE);		
 	}
 
 	@Override
@@ -69,16 +89,7 @@ public class AddressBookLaunch extends Activity {
 		//savedToken = null; // Set it to null due to some UI issue.
 		
 		if (savedToken == null) {	
-			Intent i = new Intent(this,
-					com.att.api.consentactivity.UserConsentActivity.class);
-			i.putExtra("fqdn", Config.fqdn);
-			i.putExtra("clientId", Config.clientID);
-			i.putExtra("clientSecret", Config.secretKey);
-			i.putExtra("redirectUri", Config.redirectUri);
-			i.putExtra("appScope", Config.appScope);
-			i.putExtra("customParam", Config.customParam);
-	
-			startActivityForResult(i, OAUTH_CODE);
+			GetUserConsentAuthCode();
 		} else {
 			AabManager.SetCurrentToken(savedToken);	
 			Log.i("gotSavedToken", "Saved Token: " + savedToken.getAccessToken());
@@ -143,7 +154,7 @@ public class AddressBookLaunch extends Activity {
 		public void onError(AttSdkError error) {
 			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
 			if (error.getHttpResponse().contains("invalid_grant")) {
-				AddressBookLaunch.DeleteSavedToken();
+				DeleteSavedToken();
 			}
 		}
 	}
@@ -175,12 +186,12 @@ public class AddressBookLaunch extends Activity {
 	public class tokenUpdatedListener implements AttSdkTokenUpdater {
 		@Override
 		public void onTokenUpdate(OAuthToken newToken) {
-			AddressBookLaunch.UpdateSavedToken(newToken);
+			UpdateSavedToken(newToken);
 		}
 		
 		@Override
 		public void onTokenDelete() {
-			AddressBookLaunch.DeleteSavedToken();
+			DeleteSavedToken();
 		}
 	}
 
