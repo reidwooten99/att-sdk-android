@@ -114,7 +114,7 @@ public class AabManager {
 
 			@Override
 			public void onError(AttSdkError error) {
-				Log.i("getRefreshTokenListener", "onError Message : ");
+				Log.i("getRefreshTokenListener", "Error:" + error.getHttpResponse());
 				currentToken = null;
 				checkTokenExpirySignal.countDown();
 				listener.onError(error);						

@@ -18,7 +18,7 @@ import com.att.sdk.listener.AttSdkTokenUpdater;
 public class AddressBookLaunch extends Activity {
 
 	private final int OAUTH_CODE = 1;
-	private AabManager aabManager;
+	private AabManager aabManager = null;
 	private ProgressDialog pDialog;
 	
 	public static Preferences prefs = null; 
@@ -57,8 +57,9 @@ public class AddressBookLaunch extends Activity {
 		AabManager.SetTokenUpdatedListener(new tokenUpdatedListener());
 		AabManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
 		AabManager.SetAppendToRefreshToken_Debug(Config.appendToRefreshToken_Debug);
+		aabManager = new AabManager(Config.fqdn, Config.clientID, Config.secretKey, new getTokenListener());
 		
-		savedToken = null; // Set it to null due to some UI issue.
+		//savedToken = null; // Set it to null due to some UI issue.
 		
 		if (savedToken == null) {	
 			Intent i = new Intent(this,
@@ -86,11 +87,8 @@ public class AddressBookLaunch extends Activity {
 			if (resultCode == RESULT_OK) {
 				oAuthCode = data.getStringExtra("oAuthCode");
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
-				if (null != oAuthCode) {
-					aabManager = new AabManager(Config.fqdn, Config.clientID,
-							Config.secretKey, new getTokenListener());
+				if (null != oAuthCode && null != aabManager) {
 					aabManager.getOAuthToken(oAuthCode);
-
 				} else if (resultCode == RESULT_CANCELED) {
 					String errorMessage = null;
 					if (null != data) {
