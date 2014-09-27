@@ -29,6 +29,13 @@ public class AddressBookLaunch extends Activity {
 			Log.i("updateSavedToken", "Saved Token: " + token.getAccessToken());
 		}		
 	}
+	
+	public static void DeleteSavedToken() {		
+		if (prefs != null) {
+			prefs.setString("CommaSeparatedAccessToken", "");
+			Log.i("deleteSavedToken", "Deleted Saved Token.");
+		}		
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +141,10 @@ public class AddressBookLaunch extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getTokenListener", "onError Message : ");
+			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
+			if (error.getHttpResponse().contains("invalid_grant")) {
+				AddressBookLaunch.DeleteSavedToken();
+			}
 		}
 	}
 
@@ -166,6 +176,11 @@ public class AddressBookLaunch extends Activity {
 		@Override
 		public void onTokenUpdate(OAuthToken newToken) {
 			AddressBookLaunch.UpdateSavedToken(newToken);
+		}
+		
+		@Override
+		public void onTokenDelete() {
+			AddressBookLaunch.DeleteSavedToken();
 		}
 	}
 

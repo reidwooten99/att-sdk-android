@@ -29,7 +29,8 @@ import com.att.sdk.listener.AttSdkTokenUpdater;
 
  */
 public class AabManager {	
-	private static AABService aabService = null;
+	//private AABService aabService = null; // Just storing the token now.
+	private static String aabSdkVersion = "att.aab.android.1.1";
 	private AttSdkListener aabListener = null;
 	private static AttSdkTokenUpdater tokenListener = null;
 	private static OAuthService osrvc = null;
@@ -53,7 +54,7 @@ public class AabManager {
 		}
 	
 		assert (currentToken != null); 
-		aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
+		//aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
 		aabListener = listener;
 	}
 	
@@ -104,7 +105,6 @@ public class AabManager {
 					currentToken = authToken;
 					Log.i("getRefreshTokenListener",
 							"onSuccess Message : " + authToken.getAccessToken());
-					aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
 					if (tokenListener != null) {
 						tokenListener.onTokenUpdate(authToken);
 					}
@@ -116,6 +116,9 @@ public class AabManager {
 			public void onError(AttSdkError error) {
 				Log.i("getRefreshTokenListener", "Error:" + error.getHttpResponse());
 				currentToken = null;
+				if (tokenListener != null) {
+					tokenListener.onTokenDelete();
+				}
 				checkTokenExpirySignal.countDown();
 				listener.onError(error);						
 			}
@@ -466,6 +469,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createContact(
 								params[0] //contact
 							    );
@@ -497,6 +501,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				contactResultSet = aabService.getContacts(
 								params[0].getxFields(), //xFields
 							    params[0].getPageParams(), //PageParams
@@ -530,6 +535,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContact(
 								params[0], //contactId
 							    params[1] //xFields 
@@ -563,6 +569,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContactGroups(
 								params[0], //contactId
 								pageParams //pageParams 
@@ -595,6 +602,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateContact(
 								params[0], //contact
 								params[0].getContactId() //contactId
@@ -627,6 +635,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteContact(
 								params[0] //contactId
 							    );
@@ -658,6 +667,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createGroup(
 								params[0] //group
 							    );
@@ -690,6 +700,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroups(
 								pageParams, //pageParams 
 								params[0] //groupName
@@ -722,6 +733,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteGroup(
 								params[0] //groupId
 							    );
@@ -753,6 +765,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateGroup(
 								params[0], //group
 								params[0].getGroupId() //groupId
@@ -785,6 +798,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.addContactsToGroup(
 								params[0], //groupId
 								params[1]  //contactIds
@@ -817,6 +831,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.removeContactsFromGroup(
 								params[0], //groupId
 								params[1]  //contactIds
@@ -850,6 +865,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroupContacts(
 								params[0], //groupId
 								pageParams //pageParams 
@@ -882,6 +898,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getMyInfo();
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
@@ -911,6 +928,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateMyInfo(
 								params[0] //contact
 							    );
