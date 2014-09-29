@@ -31,6 +31,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
+import com.att.api.util.Sdk_Config;
 
 public class NewMessage extends Utils {
 
@@ -200,8 +201,8 @@ public class NewMessage extends Utils {
 			return;
 		}
 		
-		token = new OAuthToken(Config.token, Config.tokenExpiredTime - OAuthToken.xtimestamp(), Config.refreshToken);
-		IAMManager iamManager = new IAMManager(Config.fqdn, token, getApplicationContext(),
+		token = new OAuthToken(Sdk_Config.token, Sdk_Config.tokenExpiredTime - OAuthToken.xtimestamp(), Sdk_Config.refreshToken);
+		IAMManager iamManager = new IAMManager(Sdk_Config.fqdn, token, getApplicationContext(),
 				new sendMessageListener());
 
 		Boolean isGroup = false;
@@ -342,32 +343,6 @@ public class NewMessage extends Utils {
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-	}
+	}	
 	
-	private class getTokenListener implements ATTIAMListener {
-
-		@Override
-		public void onSuccess(Object response) {
-			token = (OAuthToken) response;
-			if (null != token) {
-				Config.token = token.getAccessToken();
-				Log.i(" ---- getTokenListener ---", "777");
-				Config.refreshToken = token.getRefreshToken();
-				Log.i(" ---- getTokenListener ---", "888");
-				Config.tokenExpiredTime =  token.getAccessTokenExpiry();
-				Log.i("getTokenListener",
-						"onSuccess Message : " + token.getAccessToken());
-				pref.setString("Token", Config.token);
-				pref.setString("RefreshToken", Config.refreshToken );
-				pref.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
-	
-			}
-		}
-
-		@Override
-		public void onError(InAppMessagingError error) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
 }
