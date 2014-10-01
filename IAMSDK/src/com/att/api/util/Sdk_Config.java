@@ -17,6 +17,7 @@ public class Sdk_Config {
 	public static final String none                 =   "none";
 	public static final String byPassOnNetANDsuppressLandingPage =   
 			                                            "&custom_param=bypass_onnetwork_auth,suppress_landing_page";
+	public static final String byPassOnNetANDsuppressLandingStr = "bypass_onnetwork_auth,suppress_landing_page";
 	public static final String preset               =   "PRESET";
 	public static final String oAuthCodeStr         =   "oAuthCodeStr";
 	

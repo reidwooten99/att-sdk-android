@@ -12,7 +12,8 @@ public class Constants {
 	public static final String XARG = "X-Arg";
 
 	// set connection timeout
-	public static final int CONNECTION_TIMEOUT = 60000;
+	//public static final int CONNECTION_TIMEOUT = 60000;
+	public static final int CONNECTION_TIMEOUT = 3000;
 	// set socket connection timeout
 	public static final int SOCKET_TIMEOUT = 60000;
 }

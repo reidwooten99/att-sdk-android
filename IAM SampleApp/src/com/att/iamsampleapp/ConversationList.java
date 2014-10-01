@@ -87,10 +87,6 @@ public class ConversationList extends Activity {
 			osrvc = new OAuthService(Sdk_Config.fqdn, Config.clientID, Config.secretKey);
 			
 			if (suppressed || bypass){
-				
-				/*
-				 * Get the oAuthCode from the Authentication page
-				 */
 				Intent i = new Intent(this,
 						com.att.api.consentactivity.UserConsentActivity.class);
 				i.putExtra("fqdn", Sdk_Config.fqdn);
@@ -103,23 +99,30 @@ public class ConversationList extends Activity {
 				byPassANDsuppress = "";
 					
 				if (bypass && (!suppressed)){
-						   byPassANDsuppress = Sdk_Config.byPassOnNetwork; // off_net  
-						   Log.i(" --- mainActivity ---", "BY-PASS");
+							   byPassANDsuppress = Sdk_Config.byPassOnNetwork; // off_net  
+							   i.putExtra("byPassAndsuppress", byPassANDsuppress);
+							   startActivityForResult(i, OAUTH_CODE);
+							   setupMessageListListener();
+							   Log.i(" --- mainActivity ---", "BY-PASS");
 				}
 				else  
 				  if ((!bypass) && suppressed){
-						   byPassANDsuppress = Sdk_Config.suppressLandingPage; // suppress landing page 
-						   Log.i(" --- mainActivity ---", "SUPPRESS");
+							byPassANDsuppress = Sdk_Config.suppressLandingPage; // suppress landing page 
+							 i.putExtra("byPassAndsuppress", byPassANDsuppress);
+							 startActivityForResult(i, OAUTH_CODE);
+							 setupMessageListListener();
+						     Log.i(" --- mainActivity ---", "SUPPRESS");		   
 				}
 				else
-				  if (bypass && suppressed){
-					           // off_net and suppress landing page
-							   byPassANDsuppress = Sdk_Config.byPassOnNetANDsuppressLandingPage;
-							   Log.i(" --- mainActivity ---", "OFF_NET and SUPPRESS");
-			    }
-				i.putExtra("byPassAndsuppress", byPassANDsuppress);
-				startActivityForResult(i, OAUTH_CODE);
-			    setupMessageListListener();
+				if (bypass && suppressed){
+						           // off_net and suppress landing page
+								   byPassANDsuppress = Sdk_Config.byPassOnNetANDsuppressLandingPage;
+								   Log.i(" --- mainActivity ---", "OFF_NET and SUPPRESS");
+								   i.putExtra("byPassAndsuppress", byPassANDsuppress);
+								   startActivityForResult(i, OAUTH_CODE);
+								   setupMessageListListener();
+				}
+					
 			}
 			else {
 				   Log.i(" --- mainActivity ---", " NO OFF_NET NOR SUPPRESS");
@@ -131,9 +134,7 @@ public class ConversationList extends Activity {
 			}
 		}
 		else {
-			/*
-			 * Get the oAuthCode from the Authentication page
-			 */
+			
 			Log.i(" --- mainActivity ---", " FIRST TIME");
 			pref.setString("FQDN", Sdk_Config.fqdn);
 			pref.setString("clientID", Config.clientID);
@@ -154,7 +155,9 @@ public class ConversationList extends Activity {
 			startActivityForResult(i, OAUTH_CODE);
 		    setupMessageListListener();
 		}
-	}
+		
+	}  
+		
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -242,14 +245,15 @@ public class ConversationList extends Activity {
 		public void onSuccess(Object response) {
 			authToken = (OAuthToken) response;
 			if (null != authToken) {
-			    Sdk_Config.token = authToken.getAccessToken();
-				Sdk_Config.refreshToken = authToken.getRefreshToken();
-				Sdk_Config.tokenExpiredTime =  authToken.getAccessTokenExpiry();
+			   
+				Log.i(" ----getTokenListener ---",
+						"authToken.getRefreshToken() : " + authToken.getRefreshToken() );
 				Log.i("getTokenListener",
 						"onSuccess Message : " + authToken.getAccessToken());
-				pref.setString("Token", Sdk_Config.token);
-				pref.setString("RefreshToken", Sdk_Config.refreshToken );
-				pref.setLong("AccessTokenExpiry", Sdk_Config.tokenExpiredTime);
+				
+				pref.setString("Token", authToken.getAccessToken());
+				pref.setString("RefreshToken", authToken.getRefreshToken() );
+				pref.setLong("AccessTokenExpiry", authToken.getAccessTokenExpiry());
 				
 				/*
 				 * STEP 2: Getting the MessageIndexInfo
@@ -268,6 +272,9 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
+			 Log.i("getTokenListener",
+						"onSuccess Message  222 : " + error.getHttpResponseCode());
+			
 		}
 	}
 
@@ -314,12 +321,26 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 
 			 Utils.toastOnError(getApplicationContext(), error);
-			
+			 Log.i("getTokenListener",
+						"onSuccess Message : " + error.getHttpResponseCode());
+			 Log.i("getTokenListener",
+						"Sdk_Config.fqdn: " +Sdk_Config.fqdn );
+			 
+			 Log.i("getTokenListener",
+						"Client : " + Config.clientID );
+			 
+			 Log.i("getTokenListener",
+						"Secret Key  : " + Config.secretKey );
+			 
+			 Log.i("getTokenListener",
+						"Refresh Token  : " + pref.getString("RefreshToken", Sdk_Config.none));
+			 
 			 if ( error.getHttpResponseCode() == 401){
 
 				GetRefreshToken mGet = new GetRefreshToken();
 				try {
-					authToken = mGet.execute(Sdk_Config.fqdn, Config.clientID, Config.secretKey, Sdk_Config.refreshToken).get();
+					
+					authToken = mGet.execute(Sdk_Config.fqdn, Config.clientID, Config.secretKey, pref.getString("RefreshToken", Sdk_Config.none)).get();
 				} 
 				catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -967,16 +988,15 @@ public class ConversationList extends Activity {
 		
 	private void onSuccess(OAuthToken ret_Token) {	
 		
-			Sdk_Config.token = ret_Token.getAccessToken();
-			Sdk_Config.refreshToken = ret_Token.getRefreshToken();
-			Sdk_Config.tokenExpiredTime =  ret_Token.getAccessTokenExpiry();
 			Log.i("getTokenListener",
 					"onSuccess Message : " + ret_Token.getAccessToken());
-			pref.setString("Token", Sdk_Config.token);
-			pref.setString("RefreshToken", Sdk_Config.refreshToken );
-			pref.setLong("AccessTokenExpiry", Sdk_Config.tokenExpiredTime);	
+			pref.setString("Token", ret_Token.getAccessToken());
+			pref.setString("RefreshToken", ret_Token.getRefreshToken());
+			pref.setLong("AccessTokenExpiry", ret_Token.getAccessTokenExpiry());	
 			authToken = ret_Token;
-		    getMessageIndexInfo();
+			getMessageIndexInfo();
+			Log.i("I AM HERE  " , "------------------------------");
+		    
 		}
 			
 	}

@@ -27,7 +27,7 @@ public class PresetedPage extends Activity {
 	private boolean SUPPRESS = false;
 	private boolean CLEAR_COOKIES = false;
 	private boolean FORCE_AC_EXPIRE = false;
-	private Preferences pref = null;
+	Preferences pref = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +80,7 @@ public class PresetedPage extends Activity {
 	     	 	   if (CLEAR_COOKIES){ 
 	    	 		   m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
 	    	 		   CLEAR_COOKIES = false;
-	     	 	   }     	
-	     	 	   
-	     	 	   CookieSyncManager.createInstance(getApplicationContext());
-				   CookieManager cookieManager = CookieManager.getInstance();
-				   cookieManager.removeAllCookie();
-				   cookieManager.removeSessionCookie(); 
+	     	 	   }     	  
      	  	 }
         });
 		
@@ -95,7 +90,7 @@ public class PresetedPage extends Activity {
     	 
     	 		   if (!SUPPRESS){
     	 			  m_suppressButton.setBackgroundResource(R.drawable.check_mark);
-	    	 		  SUPPRESS = true;
+	    	 		  SUPPRESS = true; 
     	 		   }
     	 		   else {
     	 			   m_suppressButton.setBackgroundColor(Color.LTGRAY);
@@ -106,6 +101,8 @@ public class PresetedPage extends Activity {
     	 		     m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
     	 		     CLEAR_COOKIES = false;
     	 		  }
+    	 		  
+    	 		  
     	 		}
        });
 		
@@ -126,17 +123,14 @@ public class PresetedPage extends Activity {
 		   		    m_refreshToken.setText("");
 		   		    m_suppressButton.setBackgroundColor(Color.LTGRAY);
 			   	    m_forceOffNetButton.setBackgroundColor(Color.LTGRAY);
+			   	       
   	 		   }
   	 		   else {
   	 			    m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
   	 			    CLEAR_COOKIES = false;
+  	 			    
   	 		   }
 		   		
-		   	   CookieSyncManager.createInstance(getApplicationContext());
-			   CookieManager cookieManager = CookieManager.getInstance();
-			   cookieManager.removeAllCookie();
-			   cookieManager.removeSessionCookie(); 
-		   	  
 	   	 	}	 
 	   });
 	   
@@ -158,6 +152,10 @@ public class PresetedPage extends Activity {
 	   	 	 public void onClick(View v) {
 	   
 	   	 	 if (CLEAR_COOKIES){
+	   	 	    CookieSyncManager.createInstance(getApplicationContext());
+		        CookieManager cookieManager = CookieManager.getInstance();
+		        cookieManager.removeAllCookie();
+		        cookieManager.removeSessionCookie(); 
 	   	 	    pref.setString("PRESET",Sdk_Config.none);  
 	   	 	    pref.setLong("AccessTokenExpiry", 0L);
   	 		    pref.setString("Token", Sdk_Config.none);
@@ -168,14 +166,14 @@ public class PresetedPage extends Activity {
 	   	 	 }
 	   	 	 else {
 			   	 if (OFF_NET && SUPPRESS){
-			   	 		pref.setString("PRESET",Sdk_Config.byPassOnNetANDsuppressLandingPage );
+			   	 		pref.setString("PRESET",Sdk_Config.byPassOnNetANDsuppressLandingStr );
 			   	 }
 			   	 else
-			   	   if (!OFF_NET && SUPPRESS){
+			   	   if ((!OFF_NET) && SUPPRESS){
 			   		  pref.setString("PRESET", Sdk_Config.suppressLndgPageStr);
 			   	 }
 			   	 else
-				   if (OFF_NET && !SUPPRESS){
+				   if (OFF_NET && (!SUPPRESS)){
 					   pref.setString("PRESET", Sdk_Config.byPassOnNetStr);	 		 
 				 }
 				 else{

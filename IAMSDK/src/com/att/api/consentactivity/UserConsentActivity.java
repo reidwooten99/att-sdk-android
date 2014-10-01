@@ -64,12 +64,11 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		 webView.clearFormData();
 		 webView.clearCache(true);
 		 webView.clearHistory();
-		 webView.clearView();
+		 webView.loadUrl("about:blank");
 		 webView.clearSslPreferences();
 		 webView.getSettings().setJavaScriptEnabled(true);
 		 webView.getSettings().setAppCacheEnabled(false);
 		 webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		 Log.i("--- DEBUG ---", "byPass_Suppress: " + byPass_Suppress );
 		 Log.i("--- DEBUG ---", fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPass_Suppress);
 		 webView.loadUrl(fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPass_Suppress);
 		 webView.setWebViewClient(new myWebViewClient()); 	
