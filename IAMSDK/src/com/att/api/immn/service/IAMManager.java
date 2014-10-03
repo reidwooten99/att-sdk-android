@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
@@ -35,10 +36,7 @@ public class IAMManager {
 	Preferences m_pref = null;
 	public Context context = null;
 	public static boolean must_wait = false;
-	private OAuthToken m_authToken = null;
-
 	
-
 	/**
 	 * The IAMManager method creates an IAMManager object.
 	 * 
@@ -50,7 +48,7 @@ public class IAMManager {
 	 * @param iamListener
 	 *            - Specifies the Listener for callbacks.
 	 */
-	public IAMManager(String fqdn, OAuthToken token, Context m_context,
+	public  IAMManager(String fqdn, OAuthToken token, Context m_context,
 			ATTIAMListener iamListener) {
 		
 			must_wait = false;
@@ -60,46 +58,11 @@ public class IAMManager {
 			this.iamListener = iamListener;
 			
 			if (m_token.isAccessTokenExpired()) {
+				// request a new access token by providing a refresh token
 				must_wait = true;
 				m_pref = new Preferences(context);
-				final String clientId = m_pref.getString("clientID", Sdk_Config.none);
-				final String clientSecretKey = m_pref.getString("secretKey", Sdk_Config.none);
-			//    final String oAuthCode =  m_pref.getString("oAuthCodeStr", Sdk_Config.none);
-			    
-			    new Thread(new Runnable() {
-			    
-		            @Override
-		            public void run() {
-		                // DO YOUR STUFFS HERE
-		            	
-		            	Looper.prepare();
-		            	OAuthService m_osrvc = new OAuthService(m_fqdn, clientId, clientSecretKey);
-		            	
-						try {
-							while ((m_authToken = m_osrvc.refreshToken(m_token.getRefreshToken())) == null);
-						} catch (RESTException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (java.text.ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					
-		    			Log.d("----DB ----------", "--- Out Of the Loop --- ");
-		    			m_token.setAccessToken(m_authToken.getAccessToken());
-		    			m_token.setAccessTokenExpiry(m_authToken.getAccessTokenExpiry());
-		    			m_token.setRefreshToken(m_authToken.getRefreshToken());	
-		    			m_pref.setString("Token", m_token.getAccessToken());
-		    			m_pref.setString("RefreshToken", m_token.getRefreshToken());
-		    			m_pref.setLong("AccessTokenExpiry", m_token.getAccessTokenExpiry());
-		    			Log.d("----DB ----------", "New ACToken: " +  m_authToken.getAccessToken());
-		    			immnSrvc = new IMMNService(m_fqdn, m_token);
-		    			must_wait = false;
-		            }
-		        }).start();
+				GetTokenUsingRefreshToken m_getToken = new GetTokenUsingRefreshToken();
+				m_getToken.execute(m_token.getRefreshToken());
 			}
 			else {
 				  immnSrvc = new IMMNService(m_fqdn, m_token);
@@ -379,5 +342,67 @@ public class IAMManager {
 		updateMessage.set(params, immnSrvc, iamListener);
 		updateMessage.UpdateMessage();
 	}
+	
+	 /**
+     * Background task to get the access token
+     * 
+     * @param code code to use when requesting access token
+     * @return OAuthToken object if successful
+     *
+     */
+    public class GetTokenUsingRefreshToken extends AsyncTask<String, Void, OAuthToken> {
 
+		@Override
+		protected OAuthToken  doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			
+			OAuthToken m_authToken = null;
+			final String clientId = m_pref.getString("clientID", Sdk_Config.none);
+			final String clientSecretKey = m_pref.getString("secretKey", Sdk_Config.none);
+			
+			Looper.prepare();
+			OAuthService m_osrvc = new OAuthService(m_fqdn, clientId, clientSecretKey);
+			InAppMessagingError errorObj = new InAppMessagingError();
+
+			try {
+					m_authToken = m_osrvc.refreshToken(params[0]);
+			} catch (RESTException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			} catch (java.text.ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+				
+			while (m_authToken == null);  // Testing only 
+			Log.d("----DB ----------", "--- Accress token:  " + m_authToken.getAccessToken() );
+
+		    m_token.setAccessToken(m_authToken.getAccessToken());
+		    m_token.setAccessTokenExpiry(m_authToken.getAccessTokenExpiry());
+	        m_token.setRefreshToken(m_authToken.getRefreshToken());	
+	    	m_pref.setString("Token", m_token.getAccessToken());
+	    	m_pref.setString("RefreshToken", m_token.getRefreshToken());
+	    	m_pref.setLong("AccessTokenExpiry", m_token.getAccessTokenExpiry());
+	    			
+	        immnSrvc = new IMMNService(m_fqdn, m_token);
+	    	must_wait = false;
+    		return m_authToken ;
+    		
+		}
+
+		@Override
+		protected void onPostExecute(OAuthToken ret) {
+			// TODO Auto-generated method stub
+			if (ret != null){
+			        Log.d("----DB ----------", " I am in onPostExecute - PASSED");
+			}
+			else {
+				    Log.d("----DB ----------", " I am in onPostExecute - FAILED");
+			}
+		}
+    	
+    }			
 }

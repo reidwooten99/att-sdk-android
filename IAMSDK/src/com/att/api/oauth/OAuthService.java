@@ -269,7 +269,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * @throws JSONException 
      * @see OAuthToken#getRefreshToken()
      */
-     public OAuthToken refreshToken(String refreshToken) throws RESTException, JSONException, ParseException {
+     public synchronized OAuthToken refreshToken(String refreshToken) throws RESTException, JSONException, ParseException {
         RESTClient client =
             new RESTClient(this.fqdn + API_URL)
             .addParameter("client_id", clientId)
