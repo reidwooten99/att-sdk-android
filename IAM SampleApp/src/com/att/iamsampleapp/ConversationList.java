@@ -57,7 +57,7 @@ public class ConversationList extends Activity {
 	private String deleteMessageID;
 	private int prevIndex;
 	private ProgressDialog pDialog;
-	private Preferences pref = null;
+	Preferences pref = null;
 	private String oAuthCode = null;
 	String byPassANDsuppress = "";
 	Context m_context;
@@ -128,7 +128,7 @@ public class ConversationList extends Activity {
 				   Log.i(" --- mainActivity ---", " NO OFF_NET NOR SUPPRESS");
 	
 				   Long tokenExpiredTime = pref.getLong("AccessTokenExpiry", Sdk_Config.tokenExpiredTime);
-				   String refreshToken = pref.getString("RefreshToken", Sdk_Config.none );
+				   String refreshToken = pref.getString("RefreshToken", Sdk_Config.none );			  
 				   authToken = new OAuthToken(tokenStr, tokenExpiredTime - OAuthToken.xtimestamp(), refreshToken);
 				   getMessageIndexInfo();
 			}
@@ -273,7 +273,7 @@ public class ConversationList extends Activity {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
 			 Log.i("getTokenListener",
-						"onSuccess Message  222 : " + error.getHttpResponseCode());
+						"onError Message  222 : " + error.getHttpResponseCode());
 			
 		}
 	}
@@ -322,7 +322,7 @@ public class ConversationList extends Activity {
 
 			 Utils.toastOnError(getApplicationContext(), error);
 			 Log.i("getTokenListener",
-						"onSuccess Message : " + error.getHttpResponseCode());
+						"onError Message : " + error.getHttpResponseCode());
 			 Log.i("getTokenListener",
 						"Sdk_Config.fqdn: " +Sdk_Config.fqdn );
 			 
@@ -335,9 +335,12 @@ public class ConversationList extends Activity {
 			 Log.i("getTokenListener",
 						"Refresh Token  : " + pref.getString("RefreshToken", Sdk_Config.none));
 			 
-			 if ( error.getHttpResponseCode() == 401){
-
-				GetRefreshToken mGet = new GetRefreshToken();
+			 if ( error.getHttpResponseCode() == 403){
+				 finish();
+			 }
+			 
+			if ( error.getHttpResponseCode() == 401){
+				GetNewTokenViaRefreshToken mGet = new GetNewTokenViaRefreshToken();
 				try {
 					
 					authToken = mGet.execute(Sdk_Config.fqdn, Config.clientID, Config.secretKey, pref.getString("RefreshToken", Sdk_Config.none)).get();
@@ -954,7 +957,7 @@ public class ConversationList extends Activity {
 		System.exit(0);
 	}
 	
-	public class GetRefreshToken extends AsyncTask<String, Void , OAuthToken> {
+	public class GetNewTokenViaRefreshToken extends AsyncTask<String, Void , OAuthToken> {
 		
 	     OAuthToken m_authToken;
 		 

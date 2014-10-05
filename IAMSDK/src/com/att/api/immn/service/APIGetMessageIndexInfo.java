@@ -53,7 +53,8 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 				onError(errorObj);		
 			} catch (Exception e){
 				Log.d("GD", "Exception - " + e.getMessage() + " , " + e.getLocalizedMessage() + " , " + e.getCause());
-				System.exit(0);
+				//System.exit(0);
+				return null;
 			}
 			return messageIndexInfo;
 		}

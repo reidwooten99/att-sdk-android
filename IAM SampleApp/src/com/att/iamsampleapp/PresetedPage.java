@@ -184,7 +184,6 @@ public class PresetedPage extends Activity {
 	   	 		 pref.setString("Token", ACToken);
 	   	 		 String freshTokenEdt = m_refreshToken.getText().toString().trim();
 				 pref.setString("RefreshToken", freshTokenEdt );
-				 pref.setLong("AccessTokenExpiry", Sdk_Config.tokenExpiredTime);
 				 Sdk_Config.token = ACToken;
 				 Sdk_Config.refreshToken = freshTokenEdt;  
 			   	 

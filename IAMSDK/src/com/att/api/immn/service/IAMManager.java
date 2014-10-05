@@ -59,6 +59,7 @@ public class IAMManager {
 			
 			if (m_token.isAccessTokenExpired()) {
 				// request a new access token by providing a refresh token
+				Log.d("----DB ---", "--- Accress token expired" );
 				must_wait = true;
 				m_pref = new Preferences(context);
 				GetTokenUsingRefreshToken m_getToken = new GetTokenUsingRefreshToken();
@@ -377,7 +378,10 @@ public class IAMManager {
 					e.printStackTrace();
 			}
 				
-			while (m_authToken == null);  // Testing only 
+			if (m_authToken == null){
+				Log.d("--DB -", "Can not get a new Access Token");
+				return m_authToken;
+			}
 			Log.d("----DB ----------", "--- Accress token:  " + m_authToken.getAccessToken() );
 
 		    m_token.setAccessToken(m_authToken.getAccessToken());
