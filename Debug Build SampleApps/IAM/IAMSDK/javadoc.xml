@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="false" classpath="libs/httpcore-4.3.jar:libs/commons-lang3-3.2.1-sources.jar:libs/commons-lang3-3.2.1-javadoc.jar:libs/httpclient-cache-4.3.1.jar:libs/httpmime-4.3.1.jar:libs/httpclient-4.3.1.jar:libs/commons-lang3-3.2.1.jar:libs/java-json.jar:libs/fluent-hc-4.3.1.jar:libs/commons-logging-1.1.3.jar:libs/commons-codec-1.6.jar" destdir="doc" nodeprecated="true" nodeprecatedlist="true" noindex="false" nonavbar="false" notree="false" source="1.6" sourcefiles="src/com/att/api/immn/service/IAMManager.java" sourcepath="src:gen" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
