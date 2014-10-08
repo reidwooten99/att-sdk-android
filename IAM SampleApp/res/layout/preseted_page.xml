@@ -13,6 +13,7 @@
 	         android:layout_marginLeft="20dp"
 	         android:layout_marginRight="20dp"
 	         android:orientation="vertical"
+	         android:visibility="gone"
 	         android:layout_centerHorizontal="true">
 	         
       <TextView
@@ -89,7 +90,7 @@
          android:layout_height="40dp"
          android:layout_width="wrap_content"
          android:orientation="horizontal"
-         android:layout_marginTop="20dp"
+         android:layout_marginTop="60dp"
          android:layout_below="@+id/GetCurrentAccessToken"
          android:layout_centerHorizontal="true">
         
@@ -145,7 +146,8 @@
       android:layout_marginTop="10dp"
       android:layout_below="@+id/forceSuppressSection"
       android:orientation="horizontal"
-      android:layout_centerHorizontal="true">
+      android:layout_centerHorizontal="true"
+      android:visibility="gone">
         
 	    <Button 
 	         android:id="@+id/forceCheckBox"
@@ -187,8 +189,7 @@
 	         android:layout_marginLeft="10dp"
 	         android:gravity="left|center_vertical"
 	         android:text="Clear cookies"
-	         android:textSize="16sp"
-	         />
+	         android:textSize="16sp"/>
 	     
     </LinearLayout>
     
