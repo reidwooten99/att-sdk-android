@@ -28,7 +28,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	private String clientSecret;
 	private String appScope;
 	private String redirectUri;
-	private String byPass_Suppress = "";
+	private String byPassAndSuppress = "";
 	
 	OAuthService osrvc;
 	WebView webView ;
@@ -57,7 +57,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		 clientSecret =  i.getStringExtra("clientSecret");
 		 appScope = i.getStringExtra("appScope");
 		 redirectUri = i.getStringExtra("redirectUri");
-		 byPass_Suppress = i.getStringExtra("byPassAndsuppress");
+		 byPassAndSuppress = i.getStringExtra("byPassAndsuppress");
 		 
 		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
@@ -69,8 +69,8 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		 webView.getSettings().setJavaScriptEnabled(true);
 		 webView.getSettings().setAppCacheEnabled(false);
 		 webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		 Log.i("--- DEBUG ---", fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPass_Suppress);
-		 webView.loadUrl(fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPass_Suppress);
+		 Log.i("--- DEBUG ---", fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPassAndSuppress);
+		 webView.loadUrl(fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPassAndSuppress);
 		 webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
