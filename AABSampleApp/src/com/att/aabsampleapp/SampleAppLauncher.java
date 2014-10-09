@@ -1,5 +1,7 @@
 package com.att.aabsampleapp;
 
+import com.att.api.util.Preferences;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,51 +56,10 @@ public class SampleAppLauncher extends TabActivity {
 		getMenuInflater().inflate(R.menu.contact_list, menu);
 		return true;
 	}
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		// Contact c = getContactFromFields();
+	
+	private void ProcessMenuCommand(int menuItemId) {
 		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.action_update:
-			// UpdateMyInfo or UpdateContact API
-			intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
-			intent.putExtra("contactId", "MY_INFO");
-			intent.putExtra("isUpdateMyInfo", true);
-			startActivity(intent);
-			break;
-
-		case R.id.action_new:
-			// Create new contact based on the values in the fields
-			// Toast.makeText(getApplicationContext(), "List New clicked",
-			// Toast.LENGTH_LONG).show();
-			intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
-			intent.putExtra("contactId", "NEW_CONTACT");
-			startActivity(intent);
-			break;
-
-		case R.id.action_logout:
-			CookieSyncManager.createInstance(this);
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeExpiredCookie();
-			cookieManager.removeSessionCookie();
-			finish();
-			break;
-
-		case R.id.action_debug_settings:
-			intent = new Intent(SampleAppLauncher.this, DebugSettingsPage.class);
-	   	 	startActivity(intent);
-			break;
-		
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
+		switch (menuItemId) {
 		case R.id.action_update:
 			// UpdateMyInfo or UpdateContact API
 			// Toast.makeText(getApplicationContext(), "List Save clicked",
@@ -119,6 +80,8 @@ public class SampleAppLauncher extends TabActivity {
 			break;
 
 		case R.id.action_logout:
+			Preferences prefs = new Preferences(getApplicationContext());		
+			prefs.setString(Config.accessTokenSettingName,"");  
 			CookieSyncManager.createInstance(this);
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
@@ -132,7 +95,18 @@ public class SampleAppLauncher extends TabActivity {
 	   	 	startActivity(intent);
 			break;
 
-		}
+		}		
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		ProcessMenuCommand(item.getItemId());
+		return super.onMenuItemSelected(featureId, item);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		ProcessMenuCommand(item.getItemId());
 		return super.onOptionsItemSelected(item);
 	}
 

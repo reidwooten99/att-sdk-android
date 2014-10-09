@@ -96,6 +96,34 @@ public class AabManager {
 		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
 	}
 	
+	public Boolean CheckAndRefreshExpiredToken1(final AttSdkListener listener) {			    
+		try {
+			synchronized (lockRefreshToken) {
+				if (isCurrentTokenExpired()) {
+					String refreshTokenValue = currentToken.getRefreshToken();
+					currentToken = null;
+					AttSdkError errorObj = new AttSdkError();
+					try {
+						// TODO: Add code to check osrvc is initialized
+						currentToken = osrvc.refreshToken(refreshTokenValue);
+					} catch (RESTException e) {
+						currentToken = null;
+						errorObj = Utils.CreateErrorObjectFromException( e );
+						if (null != aabListener) {
+							aabListener.onError(errorObj);
+						}
+					}		
+				} else {
+					checkTokenExpirySignal.countDown();					
+				}
+				checkTokenExpirySignal.await(60, TimeUnit.SECONDS); // Allow 60 seconds for token refresh
+			}
+		} catch (Exception /*InterruptedException*/ e) {
+			currentToken = null;
+		}	
+		return (currentToken != null);
+	}
+	
 	public Boolean CheckAndRefreshExpiredToken(final AttSdkListener listener) {
 		class getRefreshTokenListener implements AttSdkListener {
 			@Override

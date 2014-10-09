@@ -34,5 +34,6 @@
     <string name="title_activity_contact_group_list">ContactGroupList</string>
     <string name="title_activity_group_contact_list">GroupContactList</string>
     <string name="title_close_application">"Closing the Application"</string>
+    <string name="title_debug_settings">"Debug Settings"</string>   
     <string name="action_debug_settings">"Debug Settings"</string>   
 </resources>
