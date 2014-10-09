@@ -1,7 +1,6 @@
 package com.att.iamsampleapp;
 import com.att.api.util.Preferences;
 import com.att.api.util.Sdk_Config;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,10 +9,16 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class PresetedPage extends Activity {
+/************************************************
+ * This Activity is for debugging only
+ * 
+ * @author am017p
+ *
+ */
+
+public class DebugSettings extends Activity {
 	
 	private Button m_forceOffNetButton = null;
 	private Button m_suppressButton = null;
@@ -21,30 +26,52 @@ public class PresetedPage extends Activity {
 	private Button m_applyButton = null;
 	private Button m_forceCheckBox = null;
 	private EditText m_curAC = null;
-	private EditText m_refreshToken = null;
+	private TextView m_refreshToken = null;
 	private TextView m_curACTime = null;
 	private boolean OFF_NET = false;
 	private boolean SUPPRESS = false;
 	private boolean CLEAR_COOKIES = false;
 	private boolean FORCE_AC_EXPIRE = false;
+	private boolean tokenStr_masked = false;
 	Preferences pref = null;
+	private String tokenStr = "";
+	private String refreshStr = "";
+	private String masked_tokenStr = "";
+	private String masked_refreshStr = "";
+	private String ACExpiredTime = "";
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preseted_page);
+		setContentView(R.layout.preset_for_debug_page);
 		
 		boolean suppressed = false;
 		boolean bypass = false;
+		tokenStr_masked = false;
 		
 		pref = new Preferences(getApplicationContext());
 		
 		m_curAC = (EditText)findViewById(R.id.curAC);
-		m_curAC.setText(pref.getString("Token", Sdk_Config.none));
-		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
-		m_refreshToken.setText(pref.getString("RefreshToken", Sdk_Config.none));
+		tokenStr = pref.getString("Token", Sdk_Config.none);
+		
+		if (!tokenStr.contentEquals(Sdk_Config.none)){
+			masked_tokenStr = middleMaskedStr(tokenStr);
+			tokenStr_masked = true;
+			m_curAC.setText(masked_tokenStr);
+		}
+		
+		m_refreshToken = (TextView)findViewById(R.id.refreshToken);
+        refreshStr = pref.getString("RefreshToken", Sdk_Config.none);
+		
+		if (!refreshStr.contentEquals(Sdk_Config.none)){
+			masked_refreshStr = middleMaskedStr(refreshStr);
+			m_refreshToken.setText(masked_refreshStr);
+		}
+		
 		m_curACTime = (TextView)findViewById(R.id.curACTime);
-		m_curACTime.setText(String.valueOf(pref.getLong("AccessTokenExpiry", 0L)));
+		ACExpiredTime = String.valueOf(pref.getLong("AccessTokenExpiry", 0L));
+		m_curACTime.setText(ACExpiredTime);
 		
 		String presetedStr = pref.getString(Sdk_Config.preset, Sdk_Config.none);
 		
@@ -100,10 +127,8 @@ public class PresetedPage extends Activity {
     	 		  if (CLEAR_COOKIES){ 
     	 		     m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
     	 		     CLEAR_COOKIES = false;
-    	 		  }
-    	 		  
-    	 		  
-    	 		}
+    	 		  }  
+    	 	}
        });
 		
 		
@@ -138,10 +163,16 @@ public class PresetedPage extends Activity {
 	   m_forceCheckBox = (Button) findViewById(R.id.forceCheckBox);
 	   m_forceCheckBox.setOnClickListener(new Button.OnClickListener(){
 	   	     public void onClick(View v) {
-	   	    	 
-	   		     FORCE_AC_EXPIRE = true;
-	   		     m_forceCheckBox.setBackgroundResource(R.drawable.check_mark);
-	   		     m_curACTime.setText("0");
+	   	    	if (!FORCE_AC_EXPIRE){
+	   		       FORCE_AC_EXPIRE = true;
+	   		       m_forceCheckBox.setBackgroundResource(R.drawable.check_mark);
+	   		       m_curACTime.setText("0");
+	   	    	}
+	   	    	else {
+	   	    	     FORCE_AC_EXPIRE = false;
+	   		         m_forceCheckBox.setBackgroundColor(Color.LTGRAY);
+	   		         m_curACTime.setText(ACExpiredTime);	
+	   	    	}
 	   		    
 	   	 	 }
 	   });
@@ -181,8 +212,16 @@ public class PresetedPage extends Activity {
 				 }
 			   	 
 			     String ACToken = m_curAC.getText().toString().trim();
+			     if (tokenStr_masked){
+			    	  if (ACToken.contentEquals(masked_tokenStr)){
+			    		  ACToken = tokenStr;
+			    		  tokenStr_masked = false;
+			    	  } 
+			     }
+			     
 	   	 		 pref.setString("Token", ACToken);
-	   	 		 String freshTokenEdt = m_refreshToken.getText().toString().trim();
+	   	 		 
+	   	 		 String freshTokenEdt = refreshStr;
 				 pref.setString("RefreshToken", freshTokenEdt );
 				 Sdk_Config.token = ACToken;
 				 Sdk_Config.refreshToken = freshTokenEdt;  
@@ -208,4 +247,13 @@ public class PresetedPage extends Activity {
 		FORCE_AC_EXPIRE = false;
 		m_forceCheckBox.setBackgroundColor(Color.LTGRAY);
 	}
+	
+	public String middleMaskedStr( String unmaskedStr){
+		
+		int midPos = unmaskedStr.length()/2;
+		String maskedStr = unmaskedStr.substring(0, midPos) + "*****" + unmaskedStr.substring(midPos + 5);
+		
+		return maskedStr;
+	}	
+	
 }

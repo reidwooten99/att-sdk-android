@@ -126,6 +126,14 @@ OnSuccess call back of the SendMessage Listener, you can add your code
 		//Your code for error
 		}
 
+## File download:
+----------------
+#### Need access to ATT developer site  and download the sdk zip
+     files". You could also get it from github.
+
+     https://developer.att.com/sdks-plugins/att-api-platform-sdk-for-android
+
+
 
 	
 

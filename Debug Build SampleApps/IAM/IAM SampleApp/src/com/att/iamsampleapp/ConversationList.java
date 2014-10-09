@@ -244,13 +244,8 @@ public class ConversationList extends Activity {
 		@Override
 		public void onSuccess(Object response) {
 			authToken = (OAuthToken) response;
+			
 			if (null != authToken) {
-			   
-				Log.i(" ----getTokenListener ---",
-						"authToken.getRefreshToken() : " + authToken.getRefreshToken() );
-				Log.i("getTokenListener",
-						"onSuccess Message : " + authToken.getAccessToken());
-				
 				pref.setString("Token", authToken.getAccessToken());
 				pref.setString("RefreshToken", authToken.getRefreshToken() );
 				pref.setLong("AccessTokenExpiry", authToken.getAccessTokenExpiry());
@@ -272,7 +267,7 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-			 Log.i("getTokenListener",
+			Log.i("getTokenListener",
 						"onError Message  222 : " + error.getHttpResponseCode());
 			
 		}
@@ -321,20 +316,7 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 
 			 Utils.toastOnError(getApplicationContext(), error);
-			 Log.i("getTokenListener",
-						"onError Message : " + error.getHttpResponseCode());
-			 Log.i("getTokenListener",
-						"Sdk_Config.fqdn: " +Sdk_Config.fqdn );
-			 
-			 Log.i("getTokenListener",
-						"Client : " + Config.clientID );
-			 
-			 Log.i("getTokenListener",
-						"Secret Key  : " + Config.secretKey );
-			 
-			 Log.i("getTokenListener",
-						"Refresh Token  : " + pref.getString("RefreshToken", Sdk_Config.none));
-			 
+		
 			 if ( error.getHttpResponseCode() == 403){
 				 finish();
 			 }
@@ -844,7 +826,7 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_preset: {
-			 Intent presetedIntent = new Intent(getApplicationContext(), PresetedPage.class);
+			 Intent presetedIntent = new Intent(getApplicationContext(), DebugSettings.class);
 	   	 	 startActivity(presetedIntent);
 			break;
 		}
@@ -991,8 +973,6 @@ public class ConversationList extends Activity {
 		
 	private void onSuccess(OAuthToken ret_Token) {	
 		
-			Log.i("getTokenListener",
-					"onSuccess Message : " + ret_Token.getAccessToken());
 			pref.setString("Token", ret_Token.getAccessToken());
 			pref.setString("RefreshToken", ret_Token.getRefreshToken());
 			pref.setLong("AccessTokenExpiry", ret_Token.getAccessTokenExpiry());	
