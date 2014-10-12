@@ -8,23 +8,24 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 /************************************************
- * This Activity is for debugging only
+ * This Activity is intended for debugging propose only
  * 
  * @author am017p
  *
  */
 
-public class DebugSettings extends Activity {
+public class DebugSettingsPage extends Activity {
 	
-	private Button m_forceOffNetButton = null;
-	private Button m_suppressButton = null;
-	private Button m_clearCookiesButton = null;
+	private CheckBox m_forceOffNetCheckBox = null;
+	private CheckBox m_suppressCheckBox = null;
+	private CheckBox m_clearCookiesCheckBox = null;
 	private Button m_applyButton = null;
-	private Button m_forceCheckBox = null;
+	private CheckBox m_forceACExpiresCheckBox = null;
 	private EditText m_curAC = null;
 	private TextView m_refreshToken = null;
 	private TextView m_curACTime = null;
@@ -44,7 +45,7 @@ public class DebugSettings extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preset_for_debug_page);
+		setContentView(R.layout.debug_settings_page);
 		
 		boolean suppressed = false;
 		boolean bypass = false;
@@ -80,103 +81,21 @@ public class DebugSettings extends Activity {
 			bypass  =    presetedStr.contains(Sdk_Config.byPassOnNetStr);
 		}
 		
-		m_forceOffNetButton = (Button) findViewById(R.id.forceOffNetCheckBox);
+		m_forceOffNetCheckBox = (CheckBox) findViewById(R.id.forceOffNetCheckBox);
 		if (bypass){
-			m_forceOffNetButton.setBackgroundResource(R.drawable.check_mark);
+			m_forceOffNetCheckBox.setChecked(true);
 			OFF_NET = true;
 		}
 		
-		m_suppressButton = (Button) findViewById(R.id.forceSuppressCheckBox);
+		m_suppressCheckBox = (CheckBox) findViewById(R.id.forceSuppressCheckBox);
 		if (suppressed){
-			m_suppressButton.setBackgroundResource(R.drawable.check_mark);
+			m_suppressCheckBox.setChecked(true);
 			SUPPRESS = true;
 		}
 		
-		m_forceOffNetButton.setOnClickListener(new Button.OnClickListener(){
-     	 	 public void onClick(View v) {
-     	 		 
-	     	 		if (!OFF_NET){
-		     	 		OFF_NET = true;
-		     	 		m_forceOffNetButton.setBackgroundResource(R.drawable.check_mark);
-	     	 		}
-	     	 		else{
-	     	 			OFF_NET = false;
-		     	 		m_forceOffNetButton.setBackgroundColor(Color.LTGRAY);
-	     	 		}
-	     	 		
-	     	 	   if (CLEAR_COOKIES){ 
-	    	 		   m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
-	    	 		   CLEAR_COOKIES = false;
-	     	 	   }     	  
-     	  	 }
-        });
-		
-		
-		m_suppressButton.setOnClickListener(new Button.OnClickListener(){
-    	 	 public void onClick(View v) {
-    	 
-    	 		   if (!SUPPRESS){
-    	 			  m_suppressButton.setBackgroundResource(R.drawable.check_mark);
-	    	 		  SUPPRESS = true; 
-    	 		   }
-    	 		   else {
-    	 			   m_suppressButton.setBackgroundColor(Color.LTGRAY);
-	    	 		   SUPPRESS = false;
-    	 		   }
-    	 		   
-    	 		  if (CLEAR_COOKIES){ 
-    	 		     m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
-    	 		     CLEAR_COOKIES = false;
-    	 		  }  
-    	 	}
-       });
-		
-		
-	   m_clearCookiesButton = (Button) findViewById(R.id.clearCookiesCheckBox);
-	   m_clearCookiesButton.setOnClickListener(new Button.OnClickListener(){
-		   	 public void onClick(View v) {
-		   		 
-		   		if (!CLEAR_COOKIES){
-		   			m_clearCookiesButton.setBackgroundResource(R.drawable.check_mark);  
-		   			CLEAR_COOKIES = true;
-		   		    FORCE_AC_EXPIRE = false;
-		   		    OFF_NET = false;
-		   		    SUPPRESS = false;
-		   		    m_forceCheckBox.setBackgroundColor(Color.LTGRAY);
-		   		    m_curACTime.setText("0");
-		   		    m_curAC.setText("");
-		   		    m_refreshToken.setText("");
-		   		    m_suppressButton.setBackgroundColor(Color.LTGRAY);
-			   	    m_forceOffNetButton.setBackgroundColor(Color.LTGRAY);
-			   	       
-  	 		   }
-  	 		   else {
-  	 			    m_clearCookiesButton.setBackgroundColor(Color.LTGRAY);
-  	 			    CLEAR_COOKIES = false;
-  	 			    
-  	 		   }
-		   		
-	   	 	}	 
-	   });
-	   
-	   
-	   m_forceCheckBox = (Button) findViewById(R.id.forceCheckBox);
-	   m_forceCheckBox.setOnClickListener(new Button.OnClickListener(){
-	   	     public void onClick(View v) {
-	   	    	if (!FORCE_AC_EXPIRE){
-	   		       FORCE_AC_EXPIRE = true;
-	   		       m_forceCheckBox.setBackgroundResource(R.drawable.check_mark);
-	   		       m_curACTime.setText("0");
-	   	    	}
-	   	    	else {
-	   	    	     FORCE_AC_EXPIRE = false;
-	   		         m_forceCheckBox.setBackgroundColor(Color.LTGRAY);
-	   		         m_curACTime.setText(ACExpiredTime);	
-	   	    	}
-	   		    
-	   	 	 }
-	   });
-		
+	   m_clearCookiesCheckBox = (CheckBox) findViewById(R.id.clearCookiesCheckBox);
+	 
+	   m_forceACExpiresCheckBox = (CheckBox) findViewById(R.id.forceACExpiresCheckBox);
 	   
 	   m_applyButton = (Button) findViewById(R.id.applyButton);
 	   m_applyButton.setOnClickListener(new Button.OnClickListener(){
@@ -245,15 +164,85 @@ public class DebugSettings extends Activity {
 		super.onResume();
 		
 		FORCE_AC_EXPIRE = false;
-		m_forceCheckBox.setBackgroundColor(Color.LTGRAY);
+		m_forceACExpiresCheckBox.setChecked(false);
 	}
 	
+	
 	public String middleMaskedStr( String unmaskedStr){
-		
+		// Mask middle five characters
 		int midPos = unmaskedStr.length()/2;
 		String maskedStr = unmaskedStr.substring(0, midPos) + "*****" + unmaskedStr.substring(midPos + 5);
 		
 		return maskedStr;
 	}	
 	
+	public void onCheckboxClicked(View view) {
+	    // Is the view now checked?
+	    boolean checked = ((CheckBox) view).isChecked();
+	    
+	    // Check which checkbox was clicked
+	    switch(view.getId()) {
+	        case R.id.forceOffNetCheckBox:
+	            if (checked){
+		     	 	OFF_NET = true;  
+		     	    if (CLEAR_COOKIES){ 
+	     	 		   m_clearCookiesCheckBox.setChecked(false);
+	    	 		   CLEAR_COOKIES = false;
+	     	 	    }     
+	            }
+	            else {
+	            	OFF_NET = false;	
+	            }
+	            break;
+	            
+	        case R.id.forceSuppressCheckBox:
+	        	
+	            if (checked){
+		    	 	SUPPRESS = true; 
+		    	 	if (CLEAR_COOKIES){ 
+		 	    	 		m_clearCookiesCheckBox.setChecked(false);
+		 	    	 		CLEAR_COOKIES = false;
+		 	       }  
+	    	    }
+	    	    else {
+		    	 		   SUPPRESS = false;
+	    	 	 }
+	    	 		   
+	            break;
+	            
+	        case R.id.forceACExpiresCheckBox:
+	        	if (checked){
+	 	   		       FORCE_AC_EXPIRE = true;
+	 	   		       m_curACTime.setText("0");
+	 	   	    }
+	 	   	    else {
+	 	   	    	     FORCE_AC_EXPIRE = false;
+	 	   		         m_curACTime.setText(ACExpiredTime);	
+	 	   	    	}
+	        		
+	        	break;
+	        	
+	        case R.id.clearCookiesCheckBox:
+	        	if (checked){
+			   			CLEAR_COOKIES = true;
+			   		    FORCE_AC_EXPIRE = false;
+			   		    OFF_NET = false;
+			   		    SUPPRESS = false;
+			   		    m_forceACExpiresCheckBox.setChecked(false);
+			   		    m_curACTime.setText("0");
+			   		    m_curAC.setText("");
+			   		    m_refreshToken.setText("");
+			   		    m_suppressCheckBox.setChecked(false);
+			   		    m_forceOffNetCheckBox.setChecked(false);
+	  	 		   
+	        	}
+	        	else {
+	        		 m_curAC.setText(masked_tokenStr);
+	        		 m_curACTime.setText(ACExpiredTime);
+	        		 m_refreshToken.setText(masked_refreshStr);
+	        		
+	        	}
+	        	break;
+	    }
+	}
 }
