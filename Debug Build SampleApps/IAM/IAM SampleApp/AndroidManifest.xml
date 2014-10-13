@@ -34,8 +34,8 @@
             </intent-filter>
         </activity>
         
-        <activity  android:name="com.att.iamsampleapp.DebugSettings"
-            android:label="Debug settings "> 
+        <activity  android:name="com.att.iamsampleapp.DebugSettingsPage"
+            android:label="Debug settings page "> 
         </activity>
         
         <activity

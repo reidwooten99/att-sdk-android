@@ -28,6 +28,8 @@
     <string name="title_force_ac_expires">"Force Access Token expires"</string>
     <string name="title_clear_cookies">"Clear cookies"</string>
     <string name="title_apply">"Apply"</string>
+    <string name="title_bypass_on_net">"By pass on-network"</string>
+    <string name="title_suppress_landing_page">"Suppress landing page"</string>
     
 
 </resources>

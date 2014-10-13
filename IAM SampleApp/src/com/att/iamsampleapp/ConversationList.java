@@ -826,7 +826,7 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_preset: {
-			 Intent presetedIntent = new Intent(getApplicationContext(), DebugSettings.class);
+			 Intent presetedIntent = new Intent(getApplicationContext(), DebugSettingsPage.class);
 	   	 	 startActivity(presetedIntent);
 			break;
 		}
