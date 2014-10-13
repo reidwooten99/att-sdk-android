@@ -41,12 +41,13 @@ public class AddressBookLaunch extends Activity {
 		
 		Preferences prefs = new Preferences(getApplicationContext());
 		if (prefs != null && token != null) {
-			prefs.setString(Config.accessTokenSettingName, 
-					String.format("%s,%d,%s", token.getAccessToken(),token.getAccessTokenExpiry(),token.getRefreshToken()));
-			
-			Log.i("updateSavedToken", "Saved Token: " + token.getAccessToken() + " " + tokenDisplayString(token.getAccessToken()));
+			prefs.setString(Config.accessTokenSettingName, token.getAccessToken());
+			prefs.setString(Config.refreshTokenSettingName, token.getRefreshToken());
+			prefs.setLong(Config.tokenExpirySettingName, token.getAccessTokenExpiry());
+
+			Log.i("updateSavedToken", "Saved Token: " + tokenDisplayString(token.getAccessToken()));
 			Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
-			Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
+			Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - AabManager.GetReduceTokenExpiryInSeconds_Debug())*1000).toString());
 		}		
 	}
 	
@@ -54,6 +55,8 @@ public class AddressBookLaunch extends Activity {
 		Preferences prefs = new Preferences(getApplicationContext());
 		if (prefs != null) {
 			prefs.setString(Config.accessTokenSettingName, "");
+			prefs.setString(Config.refreshTokenSettingName, "");
+			prefs.setLong(Config.tokenExpirySettingName, 0);
 			Log.i("deleteSavedToken", "Deleted Saved Token.");
 		}	
 		// Logout from the application and restart.
@@ -67,7 +70,7 @@ public class AddressBookLaunch extends Activity {
 		Preferences prefs = new Preferences(getApplicationContext());
 		if (prefs != null) {
 			strStoredCustomParam = prefs.getString(Config.customParamSettingName, "");
-			if (strStoredCustomParam.length() > 0) {
+			if (strStoredCustomParam.length() <= 0) {
 				strStoredCustomParam = Config.customParam;
 				prefs.setString(Config.customParamSettingName, strStoredCustomParam);
 			}
@@ -88,9 +91,6 @@ public class AddressBookLaunch extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		OAuthToken savedToken = null;
 		String strStoredToken = null;
-		String[] tokenParts  = null;
-		int len = 0;
-		String tokenDisplay = "";
 
 		super.onCreate(savedInstanceState);
 				
@@ -101,10 +101,9 @@ public class AddressBookLaunch extends Activity {
 		if (prefs != null) {
 			strStoredToken = prefs.getString(Config.accessTokenSettingName, "");
 			if (strStoredToken.length() > 0) {
-				tokenParts = strStoredToken.split(",");
-				if (tokenParts.length == 3) {
-					savedToken = new OAuthToken(tokenParts[0], Long.parseLong(tokenParts[1]), tokenParts[2], 0);
-				}
+				savedToken = new OAuthToken(strStoredToken, 
+						prefs.getLong(Config.tokenExpirySettingName, 0), 
+						prefs.getString(Config.refreshTokenSettingName, ""), 0);
 			}
 		}
 		
@@ -121,14 +120,7 @@ public class AddressBookLaunch extends Activity {
 			GetUserConsentAuthCode();
 		} else {
 			AabManager.SetCurrentToken(savedToken);	
-			len = savedToken.getAccessToken().length();
-			if (len > 10) {
-				tokenDisplay = savedToken.getAccessToken().substring(0,10) + "********";
-			}
-			if (len > tokenDisplay.length()) {
-				tokenDisplay += savedToken.getAccessToken().substring(tokenDisplay.length());
-			}
-			Log.i("gotSavedToken", "Saved Token: " + tokenDisplay);
+			Log.i("gotSavedToken", "Saved Token: " + tokenDisplayString(savedToken.getAccessToken()));
 			getAddressBookContacts();			
 		}
 	}
@@ -171,8 +163,6 @@ public class AddressBookLaunch extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			String tokenDisplay = "";
-			int len = 0;
 			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
 				Config.authToken = null; // authToken;
@@ -181,16 +171,7 @@ public class AddressBookLaunch extends Activity {
 				//Config.accessTokenExpiry = authToken.getAccessTokenExpiry();
 				AabManager.SetCurrentToken(authToken);
 				UpdateSavedToken(authToken); // Store the token in preferences
-				
-				len = authToken.getAccessToken().length();
-				if (len > 10) {
-					tokenDisplay = authToken.getAccessToken().substring(0,10) + "********";
-				}
-				if (len > tokenDisplay.length()) {
-					tokenDisplay += authToken.getAccessToken().substring(tokenDisplay.length());
-				}
-				
-				Log.i("getTokenListener", "onSuccess Message : " + tokenDisplay);
+				Log.i("getTokenListener", "onSuccess Message : " + tokenDisplayString(authToken.getAccessToken()));
 				getAddressBookContacts();
 			}
 		}

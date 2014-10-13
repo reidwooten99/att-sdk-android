@@ -1,10 +1,14 @@
 package com.att.aabsampleapp;
+import java.util.Date;
+
+import com.att.api.aab.manager.AabManager;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -25,12 +29,8 @@ public class DebugSettingsPage extends Activity {
 	private boolean OFF_NET = false;
 	private boolean SUPPRESS = false;
 	private boolean CLEAR_COOKIES = false;
-	private boolean FORCE_AC_EXPIRE = false;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.debug_settings_page);
+	
+	protected void InitializeStateFromPreferences() {
 
 		m_curAC = (EditText)findViewById(R.id.curAC);
 		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
@@ -40,19 +40,11 @@ public class DebugSettingsPage extends Activity {
 
 		Preferences prefs = new Preferences(getApplicationContext());		
 		if (prefs != null) {
-			String strStoredToken = prefs.getString(Config.accessTokenSettingName, "");
-			if (strStoredToken.length() > 0) {
-				String [] tokenParts = strStoredToken.split(",");
-				if (tokenParts.length == 3) {
-					//savedToken = new OAuthToken(tokenParts[0], Long.parseLong(tokenParts[1]), tokenParts[2], 0);
-					m_curAC.setText(AddressBookLaunch.tokenDisplayString(tokenParts[0]));
-					m_refreshToken.setText(tokenParts[2]);
-					m_curACTime.setText(String.valueOf(Long.parseLong(tokenParts[1]) - Config.reduceTokenExpiryInSeconds_Debug));
-					m_curAC.setEnabled(false);
-					m_refreshToken.setEnabled(false);
-					m_curACTime.setEnabled(false);
-				}
-			}
+			m_curAC.setText(prefs.getString(Config.accessTokenSettingName, ""));
+			m_refreshToken.setText(prefs.getString(Config.refreshTokenSettingName, ""));
+			m_curACTime.setText(String.valueOf(prefs.getLong(Config.tokenExpirySettingName, 0) - 
+					AabManager.GetReduceTokenExpiryInSeconds_Debug()));
+
 			String savedCustomParam = prefs.getString(Config.customParamSettingName, "");
 			if (savedCustomParam.contains("bypass_onnetwork_auth")) {
 				m_forceOffNetButton.setBackgroundResource(R.drawable.check_mark);
@@ -63,7 +55,15 @@ public class DebugSettingsPage extends Activity {
 				m_suppressButton.setBackgroundResource(R.drawable.check_mark);
 				SUPPRESS = true;
 			}
-		}
+		}		
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.debug_settings_page);
+		
+		InitializeStateFromPreferences();
 
 		m_forceOffNetButton.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {    	 		 
@@ -108,22 +108,22 @@ public class DebugSettingsPage extends Activity {
 		m_forceCheckBox = (Button) findViewById(R.id.forceCheckBox);
 		m_forceCheckBox.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {
-				FORCE_AC_EXPIRE = true;
 				m_forceCheckBox.setBackgroundResource(R.drawable.check_mark);
 				m_curACTime.setText("0");
 			}
 		});
-		m_forceCheckBox.setEnabled(false);
-		m_forceCheckBox.setVisibility(View.GONE);
 
 		m_applyButton = (Button) findViewById(R.id.applyButton);
 		m_applyButton.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {
 				String customParamValue = "";
+				OAuthToken token = null;
 
 				Preferences prefs = new Preferences(getApplicationContext());		
 				if (CLEAR_COOKIES){
-					prefs.setString(Config.accessTokenSettingName,"");  
+					prefs.setString(Config.accessTokenSettingName, "");
+					prefs.setString(Config.refreshTokenSettingName, "");
+					prefs.setLong(Config.tokenExpirySettingName, 0);
 					prefs.setString(Config.customParamSettingName, "");
 					CookieSyncManager.createInstance(getApplicationContext());
 					CookieManager cookieManager = CookieManager.getInstance();
@@ -139,22 +139,30 @@ public class DebugSettingsPage extends Activity {
 					}
 					prefs.setString(Config.customParamSettingName, customParamValue);
 
-					/*
-			     String ACToken = m_curAC.getText().toString().trim();
-	   	 		 prefs.setString("Token", ACToken);
-	   	 		 String freshTokenEdt = m_refreshToken.getText().toString().trim();
-				 prefs.setString("RefreshToken", freshTokenEdt );
-				 prefs.setLong("AccessTokenExpiry", Config.tokenExpiredTime);
-				 Config.token = ACToken;
-				 Config.refreshToken = freshTokenEdt;  
-		   	 	 if (FORCE_AC_EXPIRE){
-			   	 		prefs.setLong("AccessTokenExpiry", 0L);
-			   	 		Config.tokenExpiredTime = 0L;
-			   	 	 }
-					 */
+					token = new OAuthToken(m_curAC.getText().toString().trim(), 
+							Long.parseLong(m_curACTime.getText().toString().trim()), 
+							m_refreshToken.getText().toString().trim(), 0);
+					if (token != null) {
+						prefs.setString(Config.accessTokenSettingName, token.getAccessToken());
+						prefs.setString(Config.refreshTokenSettingName, token.getRefreshToken());
+						prefs.setLong(Config.tokenExpirySettingName, token.getAccessTokenExpiry());
+
+						Log.i("updateSavedToken", "Saved Token: " + AddressBookLaunch.tokenDisplayString(token.getAccessToken()));
+						Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
+						Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
+						
+						AabManager.SetCurrentToken(token);
+					}		
 				}
 
 				finish();	 
+			}
+		});
+		
+		Button cancelButton = (Button) findViewById(R.id.cancelButton);
+		cancelButton.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				finish();
 			}
 		});
 	}	
@@ -162,5 +170,6 @@ public class DebugSettingsPage extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		InitializeStateFromPreferences();
 	}
 }

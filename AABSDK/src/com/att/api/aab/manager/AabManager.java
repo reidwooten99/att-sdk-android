@@ -78,6 +78,10 @@ public class AabManager {
 		reduceTokenExpiryInSeconds_Debug = value;
 	}
 	
+	public static long GetReduceTokenExpiryInSeconds_Debug () {
+		return reduceTokenExpiryInSeconds_Debug;
+	}
+	
 	public static void SetAppendToRefreshToken_Debug (String value) {
 		appendToRefreshToken_Debug = value;
 	}

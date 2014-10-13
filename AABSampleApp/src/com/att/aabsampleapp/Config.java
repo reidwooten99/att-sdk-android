@@ -15,7 +15,7 @@ public class Config {
 	// http://developer.att.com
 	public static final String clientID = API_KEY;
 	public static final String secretKey = API_SECRET;
-	public static final String redirectUri = REDIRECT_URI;
+	public static final String redirectUri = "https://localhost";
 	// Testers can test the customParam functionality by setting this config value to following combinations
 	// "" - default behavior - do not send any custom_param
 	// "bypass_onnetwork_auth"
@@ -28,6 +28,9 @@ public class Config {
 	public static final String appendToRefreshToken_Debug = "";
 	
 	// Static names of setting stored in Preferences
-	public static final String accessTokenSettingName = "CommaSeparatedAccessToken";
+	public static final String accessTokenSettingName = "AccessToken";
+	public static final String refreshTokenSettingName = "RefreshToken";
+	public static final String tokenExpirySettingName = "AccessTokenExpiry";
 	public static final String customParamSettingName = "CustomParam";
+	public static final String reduceExpiryBySettingName = "ReduceExpiryBy";
 }

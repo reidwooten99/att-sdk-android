@@ -186,7 +186,7 @@
 	         android:layout_width="220dp"
 	         android:layout_marginLeft="10dp"
 	         android:gravity="left|center_vertical"
-	         android:text="Clear cookies"
+	         android:text="Clear cookies and prefs"
 	         android:textSize="16sp"
 	         />
 	     
@@ -196,7 +196,7 @@
            android:id="@+id/applyButton"
            android:layout_width="120dp"
            android:layout_height="50dp"
-           android:layout_centerHorizontal="true"
+           android:layout_alignParentRight="true"
            android:layout_alignParentBottom="true"
            android:background="@drawable/btn_blue_2"
            android:layout_marginBottom="5dp"
@@ -204,6 +204,17 @@
            android:text="Apply"
            android:textColor="#FFFFFF"
            android:textSize="16sp" />
-       
+
+       <Button
+           android:id="@+id/cancelButton"
+           android:layout_width="120dp"
+           android:layout_height="50dp"
+           android:layout_alignParentBottom="true"
+           android:layout_alignParentLeft="true"
+           android:background="@drawable/btn_blue_2"
+           android:gravity="center"
+           android:text="Cancel"
+           android:textColor="#FFFFFF"
+           android:textSize="16sp" />
     
 </RelativeLayout>
