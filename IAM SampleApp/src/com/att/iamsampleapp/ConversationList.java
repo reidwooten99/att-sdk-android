@@ -723,6 +723,8 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_logout: {
+			Preferences prefs = new Preferences(getApplicationContext());		
+			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
 			CookieSyncManager.createInstance(this);
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();
