@@ -8,7 +8,7 @@ package com.att.api.rest;
  */
 public class Constants {
 
-	public static final String SDK_VERSION = "1.0";
+	public static final String SDK_VERSION = "1.03";
 	public static final String XARG = "X-Arg";
 
 	// set connection timeout
