@@ -16,13 +16,13 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 	
 	String queues = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 	public APIGetNotificationConnectionDetails(String queues, IMMNService immnService, ATTIAMListener iamListener) {
 		
 		this.queues = queues;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 		this.iamListener = iamListener;
 	}
 	
@@ -42,7 +42,8 @@ public class APIGetNotificationConnectionDetails implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				notificationDetails = immnSrvc.getNotificationConnectionDetails(params[0]);
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				notificationDetails = IAMManager.immnSrvc.getNotificationConnectionDetails(params[0]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );

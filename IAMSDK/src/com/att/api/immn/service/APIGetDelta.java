@@ -16,12 +16,12 @@ public class APIGetDelta implements ATTIAMListener {
 	
 	String state = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 	public APIGetDelta(String state, IMMNService immnService, ATTIAMListener iamListener) {
 		this.state = state;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 		this.iamListener = iamListener;
 	}
 
@@ -38,7 +38,8 @@ public class APIGetDelta implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				deltaResponseInternal = immnSrvc.getDelta(params[0]);
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				deltaResponseInternal = IAMManager.immnSrvc.getDelta(params[0]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );

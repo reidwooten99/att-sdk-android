@@ -89,7 +89,7 @@ import org.json.JSONObject;
 public class OAuthService extends Activity implements ATTIAMListener {
 
     /* Added to fqdn to use for sending OAuth requests. */
-    public static final String API_URL = "/oauth/token";
+    public static final String API_URL = "/oauth/v4/token";
 
     /*Fully qualified domain name. */
     private final String fqdn;

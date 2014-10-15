@@ -17,14 +17,14 @@ public class APIGetMessage implements ATTIAMListener {
 
 	String msgId = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 	public APIGetMessage(String msgId, IMMNService immnService, ATTIAMListener iamListener) {
 		
 		this.msgId = msgId;		
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 	}
 
 	public void GetMessage(String msgId) {
@@ -42,7 +42,8 @@ public class APIGetMessage implements ATTIAMListener {
 
 			try {
 				Log.d("IAMSDK", "Async Task : " +  msgId[0]);
-				message = immnSrvc.getMessage(msgId[0]);
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				message = IAMManager.immnSrvc.getMessage(msgId[0]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );

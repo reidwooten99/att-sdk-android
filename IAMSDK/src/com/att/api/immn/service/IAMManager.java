@@ -1,7 +1,14 @@
 package com.att.api.immn.service;
 
+import android.util.Log;
+
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.listener.AttSdkTokenUpdater;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
 /**
  * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
  * 
@@ -11,8 +18,13 @@ import com.att.api.oauth.OAuthToken;
  */
 public class IAMManager {
 
-	public static IMMNService immnSrvc;
+	public static IMMNService immnSrvc = null;
+	public static OAuthService osrvc = null;
 	private ATTIAMListener iamListener;
+	private static AttSdkTokenUpdater tokenListener = null;
+	private static OAuthToken currentToken = null;
+	private static long reduceTokenExpiryInSeconds_Debug = 0;
+	private final static Object lockRefreshToken = new Object();
 	
 	/**
 	 * The IAMManager method creates an IAMManager object.
@@ -245,5 +257,67 @@ public class IAMManager {
 
 		updateMessage.set(params, immnSrvc, iamListener);
 		updateMessage.UpdateMessage();
+	}
+	
+	public static void SetCurrentToken(OAuthToken token) {
+		currentToken = token;
+	}
+	
+	public static void SetReduceTokenExpiryInSeconds_Debug (long value) {
+		reduceTokenExpiryInSeconds_Debug = value;
+	}
+	
+	public static long GetReduceTokenExpiryInSeconds_Debug () {
+		return reduceTokenExpiryInSeconds_Debug;
+	}
+	
+	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
+		tokenListener = listener;
+	}
+	
+	public static Boolean isCurrentTokenExpired() {
+		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
+	}
+	
+	public static Boolean CheckAndRefreshExpiredTokenAsync() {
+		try {
+			synchronized (lockRefreshToken) {
+				if (isCurrentTokenExpired()) {
+					String refreshTokenValue = currentToken.getRefreshToken();
+					currentToken = null;
+					InAppMessagingError errorObj = new InAppMessagingError();
+					try {
+						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
+						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
+						if (authToken != null) {
+							currentToken = authToken;
+							Log.i("getRefreshTokenListener",
+									"onSuccess Message : " + authToken.getAccessToken());
+							if (tokenListener != null) {
+								tokenListener.onTokenUpdate(authToken);
+							}
+						} else {
+							throw new Exception("Failed during token refresh.");
+						}
+					} catch (RESTException e) {
+						Log.i("getRefreshTokenListener", "REST Error:" + e.getMessage());
+						errorObj = Utils.CreateErrorObjectFromException( e );
+					} catch (Exception e) {
+						Log.i("getRefreshTokenListener", "Error:" + e.getMessage());
+					}
+					if (currentToken == null) {
+						//if (iamListener != null) {
+							//iamListener.onError(errorObj);
+						//}						
+						if (tokenListener != null) {
+							tokenListener.onTokenDelete();
+						}			
+					}
+				}
+			}
+		} catch (Exception /*InterruptedException*/ e) {
+			currentToken = null;
+		}	
+		return (currentToken != null);
 	}
 }

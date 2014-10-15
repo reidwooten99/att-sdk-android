@@ -13,12 +13,12 @@ public class APICreateMessageIndex implements ATTIAMListener {
 	
 	Boolean isSuccessful = false;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 	
 	public APICreateMessageIndex(IMMNService immnService, ATTIAMListener iamListener) {
 		
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 		this.iamListener = iamListener;
 	}
 	
@@ -37,7 +37,8 @@ public class APICreateMessageIndex implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				immnSrvc.createMessageIndex();
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return false;
+				IAMManager.immnSrvc.createMessageIndex();
 				isSuccesful = true;
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );

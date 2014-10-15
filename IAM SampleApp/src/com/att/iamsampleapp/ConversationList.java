@@ -38,6 +38,9 @@ import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 
+import com.att.api.util.Preferences;
+import com.att.api.util.TokenUpdatedListener;
+
 public class ConversationList extends Activity {
 
 	private static final String TAG = "Conversation List";
@@ -45,7 +48,7 @@ public class ConversationList extends Activity {
 	private ListView messageListView;
 	private MessageListAdapter adapter;
 	private IAMManager iamManager;
-	private OAuthService osrvc;
+	//private OAuthService osrvc;
 	private final int NEW_MESSAGE = 2;
 	private final int OAUTH_CODE = 1;
 	private OAuthToken authToken;
@@ -58,20 +61,17 @@ public class ConversationList extends Activity {
 	private int prevIndex;
 	private ProgressDialog pDialog;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_conversation_list);
-		showProgressDialog("Loading Messages .. ");
-		messageListView = (ListView) findViewById(R.id.messageListViewItem);
-
-		// Create service for requesting an OAuth token
-		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-		
-		/*
-		 * Get the oAuthCode from the Authentication page
-		 */
+	private void GetUserConsentAuthCode() {
+		// Read custom_param from Preferences
+		String strStoredCustomParam = Config.customParam;
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredCustomParam = prefs.getString(TokenUpdatedListener.customParamSettingName, "");
+			if (strStoredCustomParam.length() <= 0) {
+				strStoredCustomParam = Config.customParam;
+				prefs.setString(TokenUpdatedListener.customParamSettingName, strStoredCustomParam);
+			}
+		}
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
@@ -79,8 +79,48 @@ public class ConversationList extends Activity {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", strStoredCustomParam);
 
-		startActivityForResult(i, OAUTH_CODE);
+		startActivityForResult(i, OAUTH_CODE);		
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		OAuthToken savedToken = null;
+		String strStoredToken = null;
+
+		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.activity_conversation_list);
+		showProgressDialog("Loading Messages .. ");
+		messageListView = (ListView) findViewById(R.id.messageListViewItem);
+
+		// Create service for requesting an OAuth token
+		IAMManager.osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
+		
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredToken = ""; //prefs.getString(TokenUpdatedListener.accessTokenSettingName, "");
+			if (strStoredToken.length() > 0) {
+				savedToken = new OAuthToken(strStoredToken, 
+						prefs.getLong(TokenUpdatedListener.tokenExpirySettingName, 0), 
+						prefs.getString(TokenUpdatedListener.refreshTokenSettingName, ""), 0);
+			}
+		}
+		
+		// Initialize the AabManager also:
+		//IAMManager.SetApiFqdn(Config.fqdn);
+		IAMManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
+		IAMManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
+		
+		//savedToken = null; // Set it to null due to some UI issue.
+		
+		if (savedToken == null) {	
+			GetUserConsentAuthCode();
+		} else {
+			IAMManager.SetCurrentToken(savedToken);	
+			Log.i("gotSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(savedToken.getAccessToken()));
+		}
 		setupMessageListListener();
 	}
 
@@ -104,7 +144,7 @@ public class ConversationList extends Activity {
 					 * Authentication page The Success/failure will be handled
 					 * by the listener : getTokenListener()
 					 */
-					osrvc.getOAuthToken(oAuthCode, new getTokenListener());
+					IAMManager.osrvc.getOAuthToken(oAuthCode, new getTokenListener());
 				} else {
 					Log.i("mainActivity", "oAuthCode: is null");
 
@@ -149,8 +189,9 @@ public class ConversationList extends Activity {
 			if (null != authToken) {
 				Config.token = authToken.getAccessToken();
 				Config.refreshToken = authToken.getRefreshToken();
-				Log.i("getTokenListener",
-						"onSuccess Message : " + authToken.getAccessToken());
+				IAMManager.SetCurrentToken(authToken);
+				TokenUpdatedListener.UpdateSavedToken(authToken); // Store the token in preferences
+				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(authToken.getAccessToken()));
 				/*
 				 * STEP 2: Getting the MessageIndexInfo
 				 * 
@@ -168,12 +209,16 @@ public class ConversationList extends Activity {
 		public void onError(InAppMessagingError error) {
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
+			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
+			if (error.getHttpResponse().contains("invalid_grant")) {
+				TokenUpdatedListener.DeleteSavedToken();
+			}
 		}
 	}
 
 	/*
 	 * This operation allows the developer to get the state, status and message
-	 * count of the index cache for the subscriber’s inbox. authToken will be
+	 * count of the index cache for the subscriber's inbox. authToken will be
 	 * used to get access to GetMessageIndexInfo of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :
@@ -219,7 +264,7 @@ public class ConversationList extends Activity {
 
 	/*
 	 * This operation allows the developer to create an index cache for the
-	 * subscriber’s inbox. authToken will be used to get access to
+	 * subscriber's inbox. authToken will be used to get access to
 	 * CreateMessageIndex of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :

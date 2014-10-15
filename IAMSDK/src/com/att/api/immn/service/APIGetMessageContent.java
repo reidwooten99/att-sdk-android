@@ -13,14 +13,14 @@ public class APIGetMessageContent implements ATTIAMListener {
 	String messageId = null;
 	String partNumber = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 	public APIGetMessageContent (String msgId, String partNumber, IMMNService immnService, 
 								 ATTIAMListener iamListener) {
 		this.messageId = msgId;
 		this.partNumber = partNumber;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 		this.iamListener = iamListener;		
 	}
 	
@@ -38,7 +38,8 @@ public class APIGetMessageContent implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				msgContent = immnSrvc.getMessageContent(params[0], params[1]);
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				msgContent = IAMManager.immnSrvc.getMessageContent(params[0], params[1]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );

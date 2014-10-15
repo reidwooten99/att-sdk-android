@@ -19,7 +19,7 @@ public class APISendMessage implements ATTIAMListener {
 	String[] addresses = null;
 	String message = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 
@@ -29,7 +29,7 @@ public class APISendMessage implements ATTIAMListener {
 		this.address = address;
 		this.message = message;
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 	}
 	
 	public APISendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments,
@@ -37,7 +37,7 @@ public class APISendMessage implements ATTIAMListener {
 		
 		sendMessageParams = new SendMessageParams(addresses, message, group, attachments, subject);
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 	}
 	
 	public void SendMessage() {
@@ -57,7 +57,8 @@ public class APISendMessage implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				sendMessageResponse = immnSrvc.sendMessage(params[0].getAddresses(),
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				sendMessageResponse = IAMManager.immnSrvc.sendMessage(params[0].getAddresses(),
 														   params[0].getMessage(),
 														   params[0].getSubject(),
 														   params[0].getGroup(),

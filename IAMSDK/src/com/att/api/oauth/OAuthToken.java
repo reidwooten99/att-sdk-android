@@ -154,6 +154,15 @@ public class OAuthToken {
         return refreshToken;
     }
 
+    /**
+     * Gets Access Token Expiry.
+     *
+     * @return refresh token
+     */
+    public long getAccessTokenExpiry() {
+        return accessTokenExpiry;
+    }
+
     /*
      * Saves this token to a file in an asynchronous-safe manner.
      *

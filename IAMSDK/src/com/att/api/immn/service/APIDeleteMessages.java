@@ -13,14 +13,14 @@ public class APIDeleteMessages implements ATTIAMListener{
 	String[] msgIds = null;
 	Boolean isSuccesful = false;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	//IMMNService immnSrvc;
 	protected Handler handler = new Handler();
 
 
 	public APIDeleteMessages(String msgIds[], IMMNService immnService, ATTIAMListener iamListener) {
 		
 		this.msgIds = msgIds;
-		this.immnSrvc = immnService;
+		//this.immnSrvc = immnService;
 		this.iamListener = iamListener;			
 	}
 	
@@ -38,7 +38,8 @@ public class APIDeleteMessages implements ATTIAMListener{
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				immnSrvc.deleteMessages(msgIds[0]);
+				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return false;
+				IAMManager.immnSrvc.deleteMessages(msgIds[0]);
 				isSuccesful = true;
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
