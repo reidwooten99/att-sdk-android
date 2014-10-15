@@ -22,7 +22,7 @@ public class IAMManager {
 	public static OAuthService osrvc = null;
 	private ATTIAMListener iamListener;
 	private static AttSdkTokenUpdater tokenListener = null;
-	private static OAuthToken currentToken = null;
+	private static OAuthToken currentToken = null; // NOTE: This variable may not be required. Just immnSrvc can be used.
 	private static long reduceTokenExpiryInSeconds_Debug = 0;
 	private final static Object lockRefreshToken = new Object();
 	private static String apiFqdn = "https://api.att.com";
@@ -265,6 +265,7 @@ public class IAMManager {
 	
 	public static void SetCurrentToken(OAuthToken token) {
 		currentToken = token;
+		immnSrvc = new IMMNService(apiFqdn, token);
 	}
 	
 	public static void SetReduceTokenExpiryInSeconds_Debug (long value) {
@@ -298,8 +299,7 @@ public class IAMManager {
 						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
 						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
 						if (authToken != null) {
-							currentToken = authToken;
-							immnSrvc = new IMMNService(apiFqdn, authToken);
+							SetCurrentToken(authToken);
 							Log.i("getRefreshTokenListener",
 									"onSuccess Message : " + authToken.getAccessToken());
 							if (tokenListener != null) {

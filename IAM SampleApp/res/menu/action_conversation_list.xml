@@ -10,6 +10,13 @@
         android:icon="@drawable/ic_compose_message"
         android:showAsAction="always"
         android:title="@string/lbl_action_new_message"/>
+    
+    <item
+        android:id="@+id/action_debug_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_debug_settings"/>
+    
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logout"

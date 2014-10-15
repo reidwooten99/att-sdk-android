@@ -722,10 +722,9 @@ public class ConversationList extends Activity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	private boolean ProcessMenuCommand(int menuItemId) {
 		// Take appropriate action for each action item click
-		switch (item.getItemId()) {
+		switch (menuItemId) {
 
 		case R.id.action_new_message: {
 			/*
@@ -752,10 +751,32 @@ public class ConversationList extends Activity {
 			updateDelta();
 			break;
 		}
+		
+		case R.id.action_debug_settings:
+	   	 	startActivity(new Intent(ConversationList.this, 
+	   	 			DebugSettingsPage.class));
+			break;
+
 		default:
-			return super.onOptionsItemSelected(item);
+			return false;
 		}
-		return true;
+		return true;		
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	// Progress Dialog
