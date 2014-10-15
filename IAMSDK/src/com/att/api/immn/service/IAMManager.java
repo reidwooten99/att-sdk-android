@@ -25,6 +25,7 @@ public class IAMManager {
 	private static OAuthToken currentToken = null;
 	private static long reduceTokenExpiryInSeconds_Debug = 0;
 	private final static Object lockRefreshToken = new Object();
+	private static String apiFqdn = "https://api.att.com";
 	
 	/**
 	 * The IAMManager method creates an IAMManager object.
@@ -34,7 +35,10 @@ public class IAMManager {
 	 */
 	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
 		
-		immnSrvc = new IMMNService(fqdn, token);
+		// TODO: Update currentToken, if token is not null
+		if (immnSrvc == null) {
+			immnSrvc = new IMMNService(fqdn, token);
+		}
 		this.iamListener = iamListener;
 	}
 
@@ -48,7 +52,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessage(String msgId) {
-		APIGetMessage getMessage = new APIGetMessage(msgId, immnSrvc, iamListener);
+		APIGetMessage getMessage = new APIGetMessage(msgId, this, iamListener);
 		getMessage.GetMessage(msgId);
 	}
 	
@@ -104,7 +108,7 @@ public class IAMManager {
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
 		APISendMessage sendMessage = new APISendMessage(addresses, message, subject, group, attachments, 
-														immnSrvc, iamListener);
+														this, iamListener);
 		sendMessage.SendMessage();
 	}
 
@@ -120,7 +124,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
-		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, immnSrvc, iamListener);
+		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, this, iamListener);
 		getMessageContent.GetMessageContent();	
 	}
 	
@@ -136,7 +140,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageList(int limit, int offset) {
-		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, immnSrvc, iamListener);
+		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, this, iamListener);
 		getMessageList.GetMessageList();
 	}
 	
@@ -151,7 +155,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetDelta(String state) {
-		APIGetDelta getDelta = new APIGetDelta(state, immnSrvc,iamListener);
+		APIGetDelta getDelta = new APIGetDelta(state, this,iamListener);
 		getDelta.GetDelta();
 	}
 	
@@ -163,7 +167,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageIndexInfo() {
-		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
+		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(this, iamListener);
 		getMessageIndexInfo.GetMessageIndexInfo();
 	}
 	
@@ -184,7 +188,7 @@ public class IAMManager {
 	 */
 	public  void GetNotificationConnectionDetails(String queues) {
 		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
-						new APIGetNotificationConnectionDetails(queues,immnSrvc,iamListener); 
+						new APIGetNotificationConnectionDetails(queues,this,iamListener); 
 		getNotificationConnectionDetails.GetNotificationConnectionDetails();
 	}
 	
@@ -197,7 +201,7 @@ public class IAMManager {
 	 * @return Returns True for success or False for failure to the listener.
 	 */
 	public void CreateMessageIndex() {		
-		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
+		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(this, iamListener);
 		createMessageIndex.CreateMessageIndex();	
 	}
 	
@@ -210,7 +214,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void DeleteMessage(String msgId) {		
-		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, immnSrvc, iamListener);
+		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, this, iamListener);
 		deleteMessage.DeleteMessage();		
 	}
 	/**
@@ -223,7 +227,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void DeleteMessages(String[] msgIds) {
-		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, immnSrvc, iamListener);
+		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, this, iamListener);
 		deleteMessages.DeleteMessages();
 	}
 	
@@ -237,7 +241,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void UpdateMessages(DeltaChange[] messages) {
-		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, immnSrvc, iamListener);
+		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, this, iamListener);
 		updateMessages.UpdateMessages();
 	}
 	/**
@@ -255,7 +259,7 @@ public class IAMManager {
 		APIUpdateMessage.APIUpdateMessageParams params = 
 					updateMessage.new APIUpdateMessageParams(msgId, isUnread, isFavorite );
 
-		updateMessage.set(params, immnSrvc, iamListener);
+		updateMessage.set(params, this, iamListener);
 		updateMessage.UpdateMessage();
 	}
 	
@@ -279,7 +283,11 @@ public class IAMManager {
 		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
 	}
 	
-	public static Boolean CheckAndRefreshExpiredTokenAsync() {
+	public static void SetApiFqdn(String fqdn) {
+		apiFqdn = fqdn;
+	}
+	
+	public Boolean CheckAndRefreshExpiredTokenAsync() {
 		try {
 			synchronized (lockRefreshToken) {
 				if (isCurrentTokenExpired()) {
@@ -291,6 +299,7 @@ public class IAMManager {
 						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
 						if (authToken != null) {
 							currentToken = authToken;
+							immnSrvc = new IMMNService(apiFqdn, authToken);
 							Log.i("getRefreshTokenListener",
 									"onSuccess Message : " + authToken.getAccessToken());
 							if (tokenListener != null) {
@@ -306,9 +315,9 @@ public class IAMManager {
 						Log.i("getRefreshTokenListener", "Error:" + e.getMessage());
 					}
 					if (currentToken == null) {
-						//if (iamListener != null) {
-							//iamListener.onError(errorObj);
-						//}						
+						if (iamListener != null) {
+							iamListener.onError(errorObj);
+						}						
 						if (tokenListener != null) {
 							tokenListener.onTokenDelete();
 						}			

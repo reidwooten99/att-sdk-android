@@ -15,11 +15,11 @@ import com.att.api.rest.RESTException;
 public class APIGetMessageIndexInfo implements ATTIAMListener {
 	
 	private ATTIAMListener iamListener;
-	//IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 
-	public APIGetMessageIndexInfo(IMMNService immnService, ATTIAMListener attiamListener) {
-		//this.immnSrvc = immnService;
+	public APIGetMessageIndexInfo(IAMManager iamMgr, ATTIAMListener attiamListener) {
+		this.iamManager = iamMgr;
 		this.iamListener = attiamListener;
 	}
 	
@@ -37,7 +37,7 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
 				messageIndexInfo = IAMManager.immnSrvc.getMessageIndexInfo();
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );

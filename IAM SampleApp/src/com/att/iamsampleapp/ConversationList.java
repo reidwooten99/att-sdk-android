@@ -109,7 +109,7 @@ public class ConversationList extends Activity {
 		}
 		
 		// Initialize the AabManager also:
-		//IAMManager.SetApiFqdn(Config.fqdn);
+		IAMManager.SetApiFqdn(Config.fqdn);
 		IAMManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
 		IAMManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
 		

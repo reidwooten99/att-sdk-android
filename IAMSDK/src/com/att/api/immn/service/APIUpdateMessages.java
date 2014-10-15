@@ -15,12 +15,12 @@ public class APIUpdateMessages implements ATTIAMListener {
 	DeltaChange[] messages = null;
 	Boolean isSuccesful = false;
 	private ATTIAMListener iamListener;
-	//IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 	
-	public APIUpdateMessages(DeltaChange[] messages, IMMNService immnSrvc, ATTIAMListener iamListener) {
+	public APIUpdateMessages(DeltaChange[] messages, IAMManager iamMgr, ATTIAMListener iamListener) {
 		this.messages = messages;
-		//this.immnSrvc = immnSrvc;
+		this.iamManager = iamMgr;
 		this.iamListener = iamListener;	
 	}
 	
@@ -37,7 +37,7 @@ public class APIUpdateMessages implements ATTIAMListener {
 
 			// TODO Auto-generated method stub
 			try {
-				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return false;
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return false;
 				IAMManager.immnSrvc.updateMessages(messages);
 				isSuccesful = true;
 			} catch (RESTException e) {

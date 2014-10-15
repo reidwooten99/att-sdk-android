@@ -17,16 +17,16 @@ public class APIGetMessageList implements ATTIAMListener {
 	int limit = 0;
 	int offset = 0;
 	private ATTIAMListener iamListener;
-	//IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 	
 	public APIGetMessageList(int limit, int offset,
-			IMMNService immnService, ATTIAMListener iamListener) {
+			IAMManager iamMgr, ATTIAMListener iamListener) {
 
 		this.limit = limit;
 		this.offset = offset;
 		this.iamListener = iamListener;
-		//this.immnSrvc = immnService;
+		this.iamManager = iamMgr;
 	}
 	
 	public void GetMessageList() {
@@ -43,7 +43,7 @@ public class APIGetMessageList implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				if (!IAMManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
 				messageList = IAMManager.immnSrvc.getMessageList(params[0],params[1]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
