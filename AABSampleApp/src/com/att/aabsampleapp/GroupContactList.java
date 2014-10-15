@@ -42,7 +42,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 		groupId = intent.getStringExtra("groupId");
 
 		pageParams = new PageParams("ASC", "firstName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
+		aabManager = new AabManager(Config.fqdn, null,
 				new getGroupContactListener());
 		aabManager.GetGroupContacts(groupId, pageParams);
 
@@ -85,8 +85,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 	}
 
 	public void removeContact(Contact contact, String groupId) {
-
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
+		aabManager = new AabManager(Config.fqdn, null,
 				new removeContactFromGroupListener());
 		aabManager.RemoveContactsFromGroup(groupId, contact.getContactId());
 	}
@@ -102,8 +101,8 @@ public class GroupContactList extends Activity implements OnClickListener {
 				for (int i = 0; i < result.length; i++) {
 					String contactId = result[i];
 					strText = "\n" + contactId;
-					AabManager aabManager = new AabManager(Config.fqdn,
-							Config.authToken, new getContactListener());
+					AabManager aabManager = new AabManager(Config.fqdn, null,
+							new getContactListener());
 					aabManager.GetContact(contactId, " ");
 					Log.i("getGroupContactListener on success", "onSuccess"
 							+ strText);

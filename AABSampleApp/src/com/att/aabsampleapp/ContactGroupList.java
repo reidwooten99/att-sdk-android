@@ -35,7 +35,7 @@ public class ContactGroupList extends Activity implements OnClickListener {
 		contactId = intent.getStringExtra("contactId");
 
 		pageParams = new PageParams("ASC", "groupName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
+		aabManager = new AabManager(Config.fqdn, null,
 				new getContactGroupsListener());
 		aabManager.GetContactGroups(contactId, pageParams);
 	}

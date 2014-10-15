@@ -1,6 +1,7 @@
 package com.att.aabsampleapp;
 
 import com.att.api.util.Preferences;
+import com.att.api.util.TokenUpdatedListener;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class SampleAppLauncher extends TabActivity {
 
 		case R.id.action_logout:
 			Preferences prefs = new Preferences(getApplicationContext());		
-			prefs.setString(Config.accessTokenSettingName,"");  
+			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
 			CookieSyncManager.createInstance(this);
 			CookieManager cookieManager = CookieManager.getInstance();
 			cookieManager.removeAllCookie();

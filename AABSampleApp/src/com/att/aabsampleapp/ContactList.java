@@ -48,11 +48,11 @@ public class ContactList extends Activity implements OnClickListener {
 
 		String groupId = getIntent().getStringExtra("groupId");
 		if (groupId.equalsIgnoreCase("-1")) {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
+			aabManager = new AabManager(Config.fqdn, null,
 					new getContactsListener());
 			aabManager.GetContacts("", pageParams, searchParams);
 		} else {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
+			aabManager = new AabManager(Config.fqdn, null,
 					new getGroupContactListener());
 			aabManager.GetGroupContacts(groupId, pageParams);
 		}
@@ -156,7 +156,7 @@ public class ContactList extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
 				String deleteContactID;
 				deleteContactID = delcontact.getContactId();
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
+				aabManager = new AabManager(Config.fqdn, null,
 						new deleteContactListener());
 				aabManager.DeleteContact(deleteContactID);
 			}
@@ -184,7 +184,7 @@ public class ContactList extends Activity implements OnClickListener {
 					"Contact was succesfully deleted.", Toast.LENGTH_LONG)
 					.show();
 
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
+			aabManager = new AabManager(Config.fqdn, null,
 					new getContactsListener());
 			pageParams = new PageParams("ASC", "firstName", "30", "0");
 			aabManager.GetContacts("", pageParams, searchParams);
@@ -262,7 +262,7 @@ public class ContactList extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
+		aabManager = new AabManager(Config.fqdn, null,
 				new getContactsListener());
 		pageParams = new PageParams("ASC", "firstName", "55", "0");
 		aabManager.GetContacts("", pageParams, searchParams);
@@ -341,8 +341,8 @@ public class ContactList extends Activity implements OnClickListener {
 				for (int i = 0; i < result.length; i++) {
 					String contactId = result[i];
 					strText = "\n" + contactId;
-					AabManager aabManager = new AabManager(Config.fqdn,
-							Config.authToken, new getContactListener());
+					AabManager aabManager = new AabManager(Config.fqdn, null,
+							new getContactListener());
 					aabManager.GetContact(contactId, " ");
 					Log.i("getGroupContactListener on success", "onSuccess"
 							+ strText);

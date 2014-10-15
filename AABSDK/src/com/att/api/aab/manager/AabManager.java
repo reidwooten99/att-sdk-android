@@ -1,11 +1,7 @@
 package com.att.api.aab.manager;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
@@ -37,9 +33,8 @@ public class AabManager {
 	private static OAuthToken currentToken = null;
 	private static String apiFqdn = "https://api.att.com";
 	private static long reduceTokenExpiryInSeconds_Debug = 0;
-	private static String appendToRefreshToken_Debug = "";
 	
-	private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
+	//private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
 	private final static Object lockRefreshToken = new Object();
 	
 	/**
@@ -82,10 +77,6 @@ public class AabManager {
 		return reduceTokenExpiryInSeconds_Debug;
 	}
 	
-	public static void SetAppendToRefreshToken_Debug (String value) {
-		appendToRefreshToken_Debug = value;
-	}
-	
 	public static void SetApiFqdn(String fqdn) {
 		apiFqdn = fqdn;
 	}
@@ -95,12 +86,10 @@ public class AabManager {
 	}
 	
 	public static Boolean isCurrentTokenExpired() {
-		// Replace to simple expiry check after testing
-		//return currentToken.isAccessTokenExpired();
 		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
 	}
 	
-	public Boolean CheckAndRefreshExpiredToken1(final AttSdkListener listener) {			    
+	public Boolean CheckAndRefreshExpiredTokenAsync() {			    
 		try {
 			synchronized (lockRefreshToken) {
 				if (isCurrentTokenExpired()) {
@@ -108,63 +97,33 @@ public class AabManager {
 					currentToken = null;
 					AttSdkError errorObj = new AttSdkError();
 					try {
-						// TODO: Add code to check osrvc is initialized
-						currentToken = osrvc.refreshToken(refreshTokenValue);
-					} catch (RESTException e) {
-						currentToken = null;
-						errorObj = Utils.CreateErrorObjectFromException( e );
-						if (null != aabListener) {
-							aabListener.onError(errorObj);
+						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
+						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
+						if (authToken != null) {
+							currentToken = authToken;
+							Log.i("getRefreshTokenListener",
+									"onSuccess Message : " + authToken.getAccessToken());
+							if (tokenListener != null) {
+								tokenListener.onTokenUpdate(authToken);
+							}
+						} else {
+							throw new Exception("Failed during token refresh.");
 						}
-					}		
-				} else {
-					checkTokenExpirySignal.countDown();					
-				}
-				checkTokenExpirySignal.await(60, TimeUnit.SECONDS); // Allow 60 seconds for token refresh
-			}
-		} catch (Exception /*InterruptedException*/ e) {
-			currentToken = null;
-		}	
-		return (currentToken != null);
-	}
-	
-	public Boolean CheckAndRefreshExpiredToken(final AttSdkListener listener) {
-		class getRefreshTokenListener implements AttSdkListener {
-			@Override
-			public void onSuccess(Object response) {
-				OAuthToken authToken = (OAuthToken) response;
-				if (null != authToken) {
-					currentToken = authToken;
-					Log.i("getRefreshTokenListener",
-							"onSuccess Message : " + authToken.getAccessToken());
-					if (tokenListener != null) {
-						tokenListener.onTokenUpdate(authToken);
+					} catch (RESTException e) {
+						Log.i("getRefreshTokenListener", "REST Error:" + e.getMessage());
+						errorObj = Utils.CreateErrorObjectFromException( e );
+					} catch (Exception e) {
+						Log.i("getRefreshTokenListener", "Error:" + e.getMessage());
 					}
-					checkTokenExpirySignal.countDown();
+					if (currentToken == null) {
+						if (aabListener != null) {
+							aabListener.onError(errorObj);
+						}						
+						if (tokenListener != null) {
+							tokenListener.onTokenDelete();
+						}			
+					}
 				}
-			}
-
-			@Override
-			public void onError(AttSdkError error) {
-				Log.i("getRefreshTokenListener", "Error:" + error.getHttpResponse());
-				currentToken = null;
-				if (tokenListener != null) {
-					tokenListener.onTokenDelete();
-				}
-				checkTokenExpirySignal.countDown();
-				listener.onError(error); // send the error back to calling function also.						
-			}
-		} 
-		try {
-			synchronized (lockRefreshToken) {
-				if (isCurrentTokenExpired()) {
-					AabManager refreshManager = new AabManager(new getRefreshTokenListener());
-					// Following line just appends another string to test RefreshToken expiry case for debugging only
-					refreshManager.getRefreshToken(currentToken.getRefreshToken() + appendToRefreshToken_Debug);
-				} else {
-					checkTokenExpirySignal.countDown();					
-				}
-				checkTokenExpirySignal.await(60, TimeUnit.SECONDS); // Allow 60 seconds for token refresh
 			}
 		} catch (Exception /*InterruptedException*/ e) {
 			currentToken = null;
@@ -221,7 +180,6 @@ public class AabManager {
      */
 	
 	public void CreateContact(Contact contact) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		CreateContactTask createContactTask = new CreateContactTask();
 		createContactTask.execute(contact);
 	}
@@ -236,7 +194,6 @@ public class AabManager {
 	 * @return ContactResultSet Object if successful
 	 */
 	public void GetContacts(String xFields, PageParams pParams, String sParams) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetContactParams contactParams;
 		contactParams = new GetContactParams(xFields, pParams, sParams);
 		GetContactsTask task = new GetContactsTask();
@@ -257,7 +214,6 @@ public class AabManager {
 	 */
 	
 	public void GetContact(String contactId, String xFields) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetContactTask task = new GetContactTask();
 		task.execute(contactId, xFields);
 	}
@@ -272,7 +228,6 @@ public class AabManager {
 	 * <li> list of group data models with pagination parameters.
 	 */
 	public void GetContactGroups(String contactId, PageParams params) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetContactGroupsTask getContactGroupsTask = new GetContactGroupsTask();
 		getContactGroupsTask.execute(contactId, params.getOrder(), params.getOrderBy(),
 				params.getLimit(), params.getOffset());
@@ -288,7 +243,6 @@ public class AabManager {
 	 */
 
 	public void UpdateContact(Contact contact) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		UpdateContactTask task = new UpdateContactTask();
 		task.execute(contact);
 	}
@@ -301,7 +255,6 @@ public class AabManager {
 	 * @return result  string if successful
 	 */
 	public void DeleteContact(String contactId) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		DeleteContactTask task = new DeleteContactTask();
 		task.execute(contactId);
 	}
@@ -315,7 +268,6 @@ public class AabManager {
 	 * @return result  string if successful
 	 */
 	public void CreateGroup(Group group) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		CreateGroupTask task = new CreateGroupTask();
 		task.execute(group);
 	}
@@ -329,7 +281,6 @@ public class AabManager {
 	 * @return GroupResultSet Object if successful
 	 */
 	public void GetGroups(PageParams params, String groupName) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetGroupsTask task = new GetGroupsTask();
 		task.execute(groupName, params.getOrder(), params.getOrderBy(),
 				params.getLimit(), params.getOffset());
@@ -344,7 +295,6 @@ public class AabManager {
 	 */
 
 	public void DeleteGroup(String groupId) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		DeleteGroupTask task = new DeleteGroupTask();
 		task.execute(groupId);
 	}
@@ -362,7 +312,6 @@ public class AabManager {
 	 */
 	
 	public void UpdateGroup(Group group) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		UpdateGroupTask task = new UpdateGroupTask();
 		task.execute(group);
 	}
@@ -376,7 +325,6 @@ public class AabManager {
 	 * @return result String if successful
 	 */
 	public void AddContactsToGroup(String groupId, String contactIds) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		AddContactsToGroupTask task = new AddContactsToGroupTask();
 		task.execute(groupId, contactIds);
 	}
@@ -389,7 +337,6 @@ public class AabManager {
 	 * Note: Max 20 contact ids are allowed to delete.
 	 */
 	public void RemoveContactsFromGroup(String groupId, String contactIds) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		RemoveContactsFromGroupTask task = new RemoveContactsFromGroupTask();
 		task.execute(groupId, contactIds);
 	}
@@ -404,7 +351,6 @@ public class AabManager {
 	 * @return result  returns the list of the contactId identifying the contacts present in the group if call is successful
 	 */
 	public void GetGroupContacts(String groupId, PageParams params) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetGroupContactsTask task = new GetGroupContactsTask();
 		task.execute(groupId, params.getOrder(), params.getOrderBy(),
 				params.getLimit(), params.getOffset());
@@ -418,7 +364,6 @@ public class AabManager {
 	 * Returns a myInfo data structure containing all the contact details.
 	 */
 	public void GetMyInfo() {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		GetMyInfoTask task = new GetMyInfoTask();
 		task.execute();
 	}
@@ -431,7 +376,6 @@ public class AabManager {
 	 * @return result String if successful
 	 */
 	public void UpdateMyInfo(Contact contact) {
-		if (!CheckAndRefreshExpiredToken(aabListener)) return;
 		UpdateMyInfoTask task = new UpdateMyInfoTask();
 		task.execute(contact);
 	}
@@ -501,6 +445,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createContact(
 								params[0] //contact
@@ -533,6 +478,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				contactResultSet = aabService.getContacts(
 								params[0].getxFields(), //xFields
@@ -567,6 +513,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContact(
 								params[0], //contactId
@@ -601,6 +548,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContactGroups(
 								params[0], //contactId
@@ -634,6 +582,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateContact(
 								params[0], //contact
@@ -667,6 +616,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteContact(
 								params[0] //contactId
@@ -699,6 +649,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createGroup(
 								params[0] //group
@@ -732,6 +683,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroups(
 								pageParams, //pageParams 
@@ -765,6 +717,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteGroup(
 								params[0] //groupId
@@ -797,6 +750,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateGroup(
 								params[0], //group
@@ -830,6 +784,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.addContactsToGroup(
 								params[0], //groupId
@@ -863,6 +818,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.removeContactsFromGroup(
 								params[0], //groupId
@@ -897,6 +853,7 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroupContacts(
 								params[0], //groupId
@@ -930,6 +887,7 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getMyInfo();
 			} catch (RESTException e) {
@@ -960,6 +918,7 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
 				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateMyInfo(
 								params[0] //contact

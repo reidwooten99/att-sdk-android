@@ -4,7 +4,7 @@ import java.util.Date;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
-
+import com.att.api.util.TokenUpdatedListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +21,11 @@ public class DebugSettingsPage extends Activity {
 	private CheckBox m_forceOffNetCheckBox = null;
 	private CheckBox m_suppressCheckBox = null;
 	private CheckBox m_clearCookiesCheckBox = null;
-	private Button m_applyButton = null;
 	private CheckBox m_forceACExpiresCheckBox = null;
 	private EditText m_curAC = null;
 	private EditText m_refreshToken = null;
 	private TextView m_curACTime = null;
+	// private static Preferences prefs = null;
 	
 	protected void InitializeStateFromPreferences() {
 
@@ -39,12 +39,12 @@ public class DebugSettingsPage extends Activity {
 
 		Preferences prefs = new Preferences(getApplicationContext());		
 		if (prefs != null) {
-			m_curAC.setText(prefs.getString(Config.accessTokenSettingName, ""));
-			m_refreshToken.setText(prefs.getString(Config.refreshTokenSettingName, ""));
-			m_curACTime.setText(String.valueOf(prefs.getLong(Config.tokenExpirySettingName, 0) - 
+			m_curAC.setText(prefs.getString(TokenUpdatedListener.accessTokenSettingName, ""));
+			m_refreshToken.setText(prefs.getString(TokenUpdatedListener.refreshTokenSettingName, ""));
+			m_curACTime.setText(String.valueOf(prefs.getLong(TokenUpdatedListener.tokenExpirySettingName, 0) - 
 					AabManager.GetReduceTokenExpiryInSeconds_Debug()));
 
-			String savedCustomParam = prefs.getString(Config.customParamSettingName, "");
+			String savedCustomParam = prefs.getString(TokenUpdatedListener.customParamSettingName, "");
 			m_forceOffNetCheckBox.setChecked(savedCustomParam.contains("bypass_onnetwork_auth"));
 			m_suppressCheckBox.setChecked(savedCustomParam.contains("suppress_landing_page"));
 		}		
@@ -61,21 +61,22 @@ public class DebugSettingsPage extends Activity {
 			public void onClick(View v) {
 				// set the expiry time to current Unix Epoch time
 				m_curACTime.setText(String.format("%d", (new Date().getTime())/1000));
+				m_forceACExpiresCheckBox.setChecked(true); // once true, always true
 			}
 		});
 		
-		m_applyButton = (Button) findViewById(R.id.applyButton);
-		m_applyButton.setOnClickListener(new Button.OnClickListener(){
+		Button applyButton = (Button) findViewById(R.id.applyButton);
+		applyButton.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				String customParamValue = "";
 				OAuthToken token = null;
 
 				Preferences prefs = new Preferences(getApplicationContext());		
 				if (m_clearCookiesCheckBox.isChecked()){
-					prefs.setString(Config.accessTokenSettingName, "");
-					prefs.setString(Config.refreshTokenSettingName, "");
-					prefs.setLong(Config.tokenExpirySettingName, 0);
-					prefs.setString(Config.customParamSettingName, "");
+					prefs.setString(TokenUpdatedListener.accessTokenSettingName, "");
+					prefs.setString(TokenUpdatedListener.refreshTokenSettingName, "");
+					prefs.setLong(TokenUpdatedListener.tokenExpirySettingName, 0);
+					prefs.setString(TokenUpdatedListener.customParamSettingName, "");
 					CookieSyncManager.createInstance(getApplicationContext());
 					CookieManager cookieManager = CookieManager.getInstance();
 					cookieManager.removeAllCookie();
@@ -88,17 +89,18 @@ public class DebugSettingsPage extends Activity {
 					if (m_suppressCheckBox.isChecked()) {
 						customParamValue = customParamValue.isEmpty() ? "suppress_landing_page" : customParamValue + "," + "suppress_landing_page";
 					}
-					prefs.setString(Config.customParamSettingName, customParamValue);
+					prefs.setString(TokenUpdatedListener.customParamSettingName, customParamValue);
 
 					token = new OAuthToken(m_curAC.getText().toString().trim(), 
-							Long.parseLong(m_curACTime.getText().toString().trim()), 
+							(Long.parseLong(m_curACTime.getText().toString().trim()) +  
+								AabManager.GetReduceTokenExpiryInSeconds_Debug()), 
 							m_refreshToken.getText().toString().trim(), 0);
 					if (token != null) {
-						prefs.setString(Config.accessTokenSettingName, token.getAccessToken());
-						prefs.setString(Config.refreshTokenSettingName, token.getRefreshToken());
-						prefs.setLong(Config.tokenExpirySettingName, token.getAccessTokenExpiry());
+						prefs.setString(TokenUpdatedListener.accessTokenSettingName, token.getAccessToken());
+						prefs.setString(TokenUpdatedListener.refreshTokenSettingName, token.getRefreshToken());
+						prefs.setLong(TokenUpdatedListener.tokenExpirySettingName, token.getAccessTokenExpiry());
 
-						Log.i("updateSavedToken", "Saved Token: " + AddressBookLaunch.tokenDisplayString(token.getAccessToken()));
+						Log.i("updateSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(token.getAccessToken()));
 						Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
 						Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
 						
