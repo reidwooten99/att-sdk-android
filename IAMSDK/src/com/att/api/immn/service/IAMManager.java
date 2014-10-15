@@ -29,17 +29,26 @@ public class IAMManager {
 	
 	/**
 	 * The IAMManager method creates an IAMManager object.
-	 * @param fqdn - Specifies the fully qualified domain name that is used to send requests.
-	 * @param token - Specifies the OAuth token that is used for authorization.
+	 * @param token (optional) - Can be passed as null. Overrides currentToken.
 	 * @param iamListener - Specifies the Listener for callbacks.
 	 */
-	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
-		
-		// TODO: Update currentToken, if token is not null
-		if (immnSrvc == null) {
-			immnSrvc = new IMMNService(fqdn, token);
+	public IAMManager(OAuthToken token, ATTIAMListener iamListener) {
+		if (token != null) {
+			currentToken = token;
+		}
+		if (immnSrvc == null && currentToken != null) {
+			immnSrvc = new IMMNService(apiFqdn, currentToken);
 		}
 		this.iamListener = iamListener;
+	}
+
+	
+	/**
+	 * The IAMManager method creates an IAMManager object.
+	 * @param iamListener - Specifies the Listener for callbacks.
+	 */
+	public IAMManager(ATTIAMListener iamListener) {
+		this(null, iamListener);
 	}
 
 	/**

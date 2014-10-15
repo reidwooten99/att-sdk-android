@@ -42,7 +42,6 @@ public class ConversationList extends Activity {
 	private ListView messageListView;
 	private MessageListAdapter adapter;
 	private IAMManager iamManager;
-	//private OAuthService osrvc;
 	private final int NEW_MESSAGE = 2;
 	private final int OAUTH_CODE = 1;
 	private OAuthToken authToken;
@@ -182,8 +181,6 @@ public class ConversationList extends Activity {
 		public void onSuccess(Object response) {
 			authToken = (OAuthToken) response;
 			if (null != authToken) {
-				Config.token = authToken.getAccessToken();
-				Config.refreshToken = authToken.getRefreshToken();
 				IAMManager.SetCurrentToken(authToken);
 				TokenUpdatedListener.UpdateSavedToken(authToken); // Store the token in preferences
 				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(authToken.getAccessToken()));
@@ -221,8 +218,7 @@ public class ConversationList extends Activity {
 	 */
 	public void getMessageIndexInfo() {
 
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageIndexInfoListener());
+		iamManager = new IAMManager(new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
 
 	}
@@ -267,8 +263,7 @@ public class ConversationList extends Activity {
 	 */
 
 	public void createMessageIndex() {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new createMessageIndexListener());
+		iamManager = new IAMManager(new createMessageIndexListener());
 		iamManager.CreateMessageIndex();
 	}
 
@@ -309,8 +304,7 @@ public class ConversationList extends Activity {
 	 * The response will be handled by the listener : getMessageListListener()
 	 */
 	public void getMessageList() {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageListListener());
+		iamManager = new IAMManager(new getMessageListListener());
 		iamManager.GetMessageList(Config.messageLimit, Config.messageOffset);
 	}
 
@@ -362,8 +356,7 @@ public class ConversationList extends Activity {
 	public void updateDelta() {
 
 		if (msgList != null && msgList.getState() != null) {
-			iamManager = new IAMManager(Config.fqdn, authToken,
-					new getDeltaListener());
+			iamManager = new IAMManager(new getDeltaListener());
 			iamManager.GetDelta(prevMailboxState);
 		}
 	}
@@ -410,8 +403,7 @@ public class ConversationList extends Activity {
 	 */
 
 	public void updateMessageStatus(DeltaChange[] statusChange) {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new updateMessageStatusListener());
+		iamManager = new IAMManager(new updateMessageStatusListener());
 		iamManager.UpdateMessages(statusChange);
 
 	}
@@ -434,8 +426,7 @@ public class ConversationList extends Activity {
 			Boolean msg = (Boolean) response;
 			if (msg) {
 				deleteMessageFromList(deleteMessageID);
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(deleteMessageID);
 				deleteMessageID = null;
 			}
@@ -456,8 +447,7 @@ public class ConversationList extends Activity {
 	 * The response will be handled by the listener : getMessageListener()
 	 */
 	public void getMessage(String messageID) {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageListener());
+		iamManager = new IAMManager(new getMessageListener());
 		iamManager.GetMessage(messageID);
 	}
 
@@ -510,8 +500,7 @@ public class ConversationList extends Activity {
 	public void deleteMessage(Message msg) {
 
 		deleteMessageID = msg.getMessageId();
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new deleteMessagesListener());
+		iamManager = new IAMManager(new deleteMessagesListener());
 		iamManager.DeleteMessage(deleteMessageID);
 	}
 
@@ -817,8 +806,7 @@ public class ConversationList extends Activity {
 
 			switch (chType) {
 			case ADD: {
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;
@@ -834,8 +822,7 @@ public class ConversationList extends Activity {
 				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
 						.getMessageId());
 				adapter.notifyDataSetChanged();
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;

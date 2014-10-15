@@ -190,11 +190,7 @@ public class NewMessage extends Utils {
 			return;
 		}
 
-		OAuthToken token = new OAuthToken(Config.token,
-				OAuthToken.NO_EXPIRATION, Config.refreshToken);
-
-		IAMManager iamManager = new IAMManager(Config.fqdn, token,
-				new sendMessageListener());
+		IAMManager iamManager = new IAMManager(new sendMessageListener());
 
 		Boolean isGroup = false;
 
