@@ -57,7 +57,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.att.aabsampleapp.DebugSettingsPage"
+            android:name="com.att.iamsampleapp.DebugSettingsPage"
             android:label="@string/title_debug_settings"
             android:screenOrientation="portrait" >
         </activity>

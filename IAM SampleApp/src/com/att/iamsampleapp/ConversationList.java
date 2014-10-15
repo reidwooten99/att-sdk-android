@@ -1,12 +1,6 @@
 package com.att.iamsampleapp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -100,7 +94,7 @@ public class ConversationList extends Activity {
 		
 		Preferences prefs = new Preferences(getApplicationContext());
 		if (prefs != null) {
-			strStoredToken = ""; //prefs.getString(TokenUpdatedListener.accessTokenSettingName, "");
+			strStoredToken = prefs.getString(TokenUpdatedListener.accessTokenSettingName, "");
 			if (strStoredToken.length() > 0) {
 				savedToken = new OAuthToken(strStoredToken, 
 						prefs.getLong(TokenUpdatedListener.tokenExpirySettingName, 0), 
@@ -120,6 +114,7 @@ public class ConversationList extends Activity {
 		} else {
 			IAMManager.SetCurrentToken(savedToken);	
 			Log.i("gotSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(savedToken.getAccessToken()));
+			getMessageIndexInfo();	
 		}
 		setupMessageListListener();
 	}
@@ -753,7 +748,7 @@ public class ConversationList extends Activity {
 		}
 		
 		case R.id.action_debug_settings:
-	   	 	startActivity(new Intent(ConversationList.this, 
+	   	 	startActivity(new Intent(getApplicationContext(), 
 	   	 			DebugSettingsPage.class));
 			break;
 
