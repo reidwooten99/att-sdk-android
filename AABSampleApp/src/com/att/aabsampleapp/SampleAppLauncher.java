@@ -83,11 +83,11 @@ public class SampleAppLauncher extends TabActivity {
 		case R.id.action_logout:
 			Preferences prefs = new Preferences(getApplicationContext());		
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
-			CookieSyncManager.createInstance(this);
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeExpiredCookie();
-			cookieManager.removeSessionCookie();
+//			CookieSyncManager.createInstance(this);
+//			CookieManager cookieManager = CookieManager.getInstance();
+//			cookieManager.removeAllCookie();
+//			cookieManager.removeExpiredCookie();
+//			cookieManager.removeSessionCookie();
 			finish();
 			break;
 

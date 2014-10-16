@@ -72,40 +72,34 @@ public class DebugSettingsPage extends Activity {
 				OAuthToken token = null;
 
 				Preferences prefs = new Preferences(getApplicationContext());		
+				if (m_forceOffNetCheckBox.isChecked()) {
+					customParamValue = "bypass_onnetwork_auth";
+				} 
+				if (m_suppressCheckBox.isChecked()) {
+					customParamValue = customParamValue.length() > 0 ? customParamValue + "," + "suppress_landing_page" : "suppress_landing_page";
+				}
+				prefs.setString(TokenUpdatedListener.customParamSettingName, customParamValue);
+
+				token = new OAuthToken(m_curAC.getText().toString().trim(), 
+						(Long.parseLong(m_curACTime.getText().toString().trim()) +  
+							AabManager.GetReduceTokenExpiryInSeconds_Debug()), 
+						m_refreshToken.getText().toString().trim(), 0);
+				if (token != null) {
+					prefs.setString(TokenUpdatedListener.accessTokenSettingName, token.getAccessToken());
+					prefs.setString(TokenUpdatedListener.refreshTokenSettingName, token.getRefreshToken());
+					prefs.setLong(TokenUpdatedListener.tokenExpirySettingName, token.getAccessTokenExpiry());
+
+					Log.i("updateSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(token.getAccessToken()));
+					Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
+					Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
+					
+					AabManager.SetCurrentToken(token);
+				}		
 				if (m_clearCookiesCheckBox.isChecked()){
-					prefs.setString(TokenUpdatedListener.accessTokenSettingName, "");
-					prefs.setString(TokenUpdatedListener.refreshTokenSettingName, "");
-					prefs.setLong(TokenUpdatedListener.tokenExpirySettingName, 0);
-					prefs.setString(TokenUpdatedListener.customParamSettingName, "");
 					CookieSyncManager.createInstance(getApplicationContext());
 					CookieManager cookieManager = CookieManager.getInstance();
 					cookieManager.removeAllCookie();
 					cookieManager.removeSessionCookie(); 
-				}
-				else {
-					if (m_forceOffNetCheckBox.isChecked()) {
-						customParamValue = "bypass_onnetwork_auth";
-					} 
-					if (m_suppressCheckBox.isChecked()) {
-						customParamValue = customParamValue.isEmpty() ? "suppress_landing_page" : customParamValue + "," + "suppress_landing_page";
-					}
-					prefs.setString(TokenUpdatedListener.customParamSettingName, customParamValue);
-
-					token = new OAuthToken(m_curAC.getText().toString().trim(), 
-							(Long.parseLong(m_curACTime.getText().toString().trim()) +  
-								AabManager.GetReduceTokenExpiryInSeconds_Debug()), 
-							m_refreshToken.getText().toString().trim(), 0);
-					if (token != null) {
-						prefs.setString(TokenUpdatedListener.accessTokenSettingName, token.getAccessToken());
-						prefs.setString(TokenUpdatedListener.refreshTokenSettingName, token.getRefreshToken());
-						prefs.setLong(TokenUpdatedListener.tokenExpirySettingName, token.getAccessTokenExpiry());
-
-						Log.i("updateSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(token.getAccessToken()));
-						Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
-						Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - Config.reduceTokenExpiryInSeconds_Debug)*1000).toString());
-						
-						AabManager.SetCurrentToken(token);
-					}		
 				}
 
 				finish();	 
