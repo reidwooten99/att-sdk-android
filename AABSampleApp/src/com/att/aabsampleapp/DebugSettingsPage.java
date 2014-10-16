@@ -30,6 +30,7 @@ public class DebugSettingsPage extends Activity {
 	protected void InitializeStateFromPreferences() {
 
 		m_curAC = (EditText)findViewById(R.id.curAC);
+		m_curAC.setEnabled(false);
 		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
 		m_curACTime = (TextView)findViewById(R.id.curACTime);
 		m_forceOffNetCheckBox = (CheckBox) findViewById(R.id.forceOffNetCheckBox);
