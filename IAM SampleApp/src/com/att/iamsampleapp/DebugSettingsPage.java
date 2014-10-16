@@ -1,9 +1,10 @@
 package com.att.iamsampleapp;
 import com.att.api.util.Preferences;
-import com.att.api.util.Sdk_Config;
+import com.att.api.util.SdkConfig;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -27,13 +28,14 @@ public class DebugSettingsPage extends Activity {
 	private Button m_applyButton = null;
 	private CheckBox m_forceACExpiresCheckBox = null;
 	private EditText m_curAC = null;
-	private TextView m_refreshToken = null;
+	private EditText m_refreshToken = null;
 	private TextView m_curACTime = null;
 	private boolean OFF_NET = false;
 	private boolean SUPPRESS = false;
 	private boolean CLEAR_COOKIES = false;
 	private boolean FORCE_AC_EXPIRE = false;
 	private boolean tokenStr_masked = false;
+	private boolean freshTokenStr_masked = false;
 	Preferences pref = null;
 	private String tokenStr = "";
 	private String refreshStr = "";
@@ -54,19 +56,20 @@ public class DebugSettingsPage extends Activity {
 		pref = new Preferences(getApplicationContext());
 		
 		m_curAC = (EditText)findViewById(R.id.curAC);
-		tokenStr = pref.getString("Token", Sdk_Config.none);
+		tokenStr = pref.getString("Token", SdkConfig.none);
 		
-		if (!tokenStr.contentEquals(Sdk_Config.none)){
+		if (!tokenStr.contentEquals(SdkConfig.none)){
 			masked_tokenStr = middleMaskedStr(tokenStr);
 			tokenStr_masked = true;
 			m_curAC.setText(masked_tokenStr);
 		}
 		
-		m_refreshToken = (TextView)findViewById(R.id.refreshToken);
-        refreshStr = pref.getString("RefreshToken", Sdk_Config.none);
+		m_refreshToken = (EditText)findViewById(R.id.refreshToken);
+        refreshStr = pref.getString("RefreshToken", SdkConfig.none);
 		
-		if (!refreshStr.contentEquals(Sdk_Config.none)){
+		if (!refreshStr.contentEquals(SdkConfig.none)){
 			masked_refreshStr = middleMaskedStr(refreshStr);
+			freshTokenStr_masked = true;
 			m_refreshToken.setText(masked_refreshStr);
 		}
 		
@@ -74,11 +77,11 @@ public class DebugSettingsPage extends Activity {
 		ACExpiredTime = String.valueOf(pref.getLong("AccessTokenExpiry", 0L));
 		m_curACTime.setText(ACExpiredTime);
 		
-		String presetedStr = pref.getString(Sdk_Config.preset, Sdk_Config.none);
+		String presetedStr = pref.getString(SdkConfig.preset, SdkConfig.none);
 		
-		if (!presetedStr.contains(Sdk_Config.none)){
-			suppressed = presetedStr.contains(Sdk_Config.suppressLndgPageStr);
-			bypass  =    presetedStr.contains(Sdk_Config.byPassOnNetStr);
+		if (!presetedStr.contains(SdkConfig.none)){
+			suppressed = presetedStr.contains(SdkConfig.suppressLndgPageStr);
+			bypass  =    presetedStr.contains(SdkConfig.byPassOnNetStr);
 		}
 		
 		m_forceOffNetCheckBox = (CheckBox) findViewById(R.id.forceOffNetCheckBox);
@@ -106,28 +109,28 @@ public class DebugSettingsPage extends Activity {
 		        CookieManager cookieManager = CookieManager.getInstance();
 		        cookieManager.removeAllCookie();
 		        cookieManager.removeSessionCookie(); 
-	   	 	    pref.setString("PRESET",Sdk_Config.none);  
+	   	 	    pref.setString("PRESET",SdkConfig.none);  
 	   	 	    pref.setLong("AccessTokenExpiry", 0L);
-  	 		    pref.setString("Token", Sdk_Config.none);
-			    pref.setString("RefreshToken", Sdk_Config.none);
-			    Sdk_Config.tokenExpiredTime = 0L;
-			    Sdk_Config.refreshToken = "";
-			    Sdk_Config.token = ""; 
+  	 		    pref.setString("Token", SdkConfig.none);
+			    pref.setString("RefreshToken", SdkConfig.none);
+			    SdkConfig.tokenExpiredTime = 0L;
+			    SdkConfig.refreshToken = "";
+			    SdkConfig.token = ""; 
 	   	 	 }
 	   	 	 else {
 			   	 if (OFF_NET && SUPPRESS){
-			   	 		pref.setString("PRESET",Sdk_Config.byPassOnNetANDsuppressLandingStr );
+			   	 		pref.setString("PRESET",SdkConfig.byPassOnNetANDsuppressLandingStr );
 			   	 }
 			   	 else
 			   	   if ((!OFF_NET) && SUPPRESS){
-			   		  pref.setString("PRESET", Sdk_Config.suppressLndgPageStr);
+			   		  pref.setString("PRESET", SdkConfig.suppressLndgPageStr);
 			   	 }
 			   	 else
 				   if (OFF_NET && (!SUPPRESS)){
-					   pref.setString("PRESET", Sdk_Config.byPassOnNetStr);	 		 
+					   pref.setString("PRESET", SdkConfig.byPassOnNetStr);	 		 
 				 }
 				 else{
-					   pref.setString("PRESET", Sdk_Config.none);
+					   pref.setString("PRESET", SdkConfig.none);
 				 }
 			   	 
 			     String ACToken = m_curAC.getText().toString().trim();
@@ -137,19 +140,25 @@ public class DebugSettingsPage extends Activity {
 			    		  tokenStr_masked = false;
 			    	  } 
 			     }
-			     
 	   	 		 pref.setString("Token", ACToken);
 	   	 		 
-	   	 		 String freshTokenEdt = refreshStr;
-				 pref.setString("RefreshToken", freshTokenEdt );
-				 Sdk_Config.token = ACToken;
-				 Sdk_Config.refreshToken = freshTokenEdt;  
+	   	 	     String freshTokenEdt = m_curAC.getText().toString().trim();
+	   	 	     if (freshTokenStr_masked){
+		    	    if (freshTokenEdt.contentEquals(masked_tokenStr)){
+		    	    	freshTokenEdt = refreshStr;
+		    		    freshTokenStr_masked = false;
+		    	   } 
+		        }
+				pref.setString("RefreshToken", freshTokenEdt );
+				 
+				SdkConfig.token = ACToken;
+				SdkConfig.refreshToken = freshTokenEdt;  
 			   	 
 	   	 	 }
 	   	 	 
 	   	 	 if (FORCE_AC_EXPIRE){
 	   	 		pref.setLong("AccessTokenExpiry", 0L);
-	   	 		Sdk_Config.tokenExpiredTime = 0L;
+	   	 		SdkConfig.tokenExpiredTime = 0L;
 	   	 	 }
 
 		     finish();	 
@@ -169,10 +178,11 @@ public class DebugSettingsPage extends Activity {
 	
 	
 	public String middleMaskedStr( String unmaskedStr){
+		Log.i("DebugSettingsPage", "Unmasked str: " + unmaskedStr );
 		// Mask middle five characters
 		int midPos = unmaskedStr.length()/2;
 		String maskedStr = unmaskedStr.substring(0, midPos) + "*****" + unmaskedStr.substring(midPos + 5);
-		
+		Log.i("DebugSettingsPage", "Masked str: " + maskedStr );
 		return maskedStr;
 	}	
 	
@@ -180,7 +190,7 @@ public class DebugSettingsPage extends Activity {
 	    // Is the view now checked?
 	    boolean checked = ((CheckBox) view).isChecked();
 	    
-	    // Check which checkbox was clicked
+	    // Check which check box was clicked
 	    switch(view.getId()) {
 	        case R.id.forceOffNetCheckBox:
 	            if (checked){
@@ -206,7 +216,7 @@ public class DebugSettingsPage extends Activity {
 	    	    }
 	    	    else {
 		    	 		   SUPPRESS = false;
-	    	 	 }
+	    	 	}
 	    	 		   
 	            break;
 	            

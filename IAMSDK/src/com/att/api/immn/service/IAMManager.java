@@ -18,7 +18,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
-import com.att.api.util.Sdk_Config;
+import com.att.api.util.SdkConfig;
 
 /**
  * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
@@ -358,8 +358,8 @@ public class IAMManager {
 			// TODO Auto-generated method stub
 			
 			OAuthToken m_authToken = null;
-			final String clientId = m_pref.getString("clientID", Sdk_Config.none);
-			final String clientSecretKey = m_pref.getString("secretKey", Sdk_Config.none);
+			final String clientId = m_pref.getString("clientID", SdkConfig.none);
+			final String clientSecretKey = m_pref.getString("secretKey", SdkConfig.none);
 			
 			Looper.prepare();
 			OAuthService m_osrvc = new OAuthService(m_fqdn, clientId, clientSecretKey);

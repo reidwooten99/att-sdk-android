@@ -41,7 +41,7 @@ public class APIGetMessage implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				Log.d("IAMSDK", "Async Task : " +  msgId[0]);
+				Log.d("APIGetMessage", "Async Task : " +  msgId[0]);
 				message = immnSrvc.getMessage(msgId[0]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
@@ -54,9 +54,9 @@ public class APIGetMessage implements ATTIAMListener {
 				onError(errorObj);		
 			}
 			if(null != message)
-				Log.d("IAMSDK", "M not null");
+				Log.d("APIGetMessage", "Message is not null");
 			else
-				Log.d("IAMSDK", "M is null");
+				Log.d("APIGetMessage", "Message is null");
 			return message;
 		}
 

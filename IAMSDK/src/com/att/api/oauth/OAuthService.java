@@ -28,6 +28,7 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
+import com.att.api.util.SdkConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,18 +122,18 @@ public class OAuthService extends Activity implements ATTIAMListener {
     private OAuthToken parseResponse(APIResponse response)
             throws RESTException, JSONException, ParseException {
 
-        JSONObject rpcObj = new JSONObject(response.getResponseBody());
-
-		final String accessToken = rpcObj.getString("access_token");
-		final String refreshToken = rpcObj.getString("refresh_token");
-		long expiresIn = rpcObj.getLong("expires_in");
-
-		// 0 indicates no expiry
-		if (expiresIn == 0) {
-		    expiresIn = OAuthToken.NO_EXPIRATION;
-		}
-        
-		return new OAuthToken(accessToken, expiresIn, refreshToken);
+	        JSONObject rpcObj = new JSONObject(response.getResponseBody());
+	      
+			final String accessToken = rpcObj.getString("access_token");
+			final String refreshToken = rpcObj.getString("refresh_token");
+			long expiresIn = rpcObj.getLong("expires_in");
+	
+			// 0 indicates no expiry
+			if (expiresIn == 0) {
+			    expiresIn = OAuthToken.NO_EXPIRATION;
+			}
+			return new OAuthToken(accessToken, expiresIn, refreshToken);
+		
     }
     
     
@@ -362,4 +363,5 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		});
 		
 	}
+	
 }

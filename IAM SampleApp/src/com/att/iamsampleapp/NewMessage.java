@@ -31,7 +31,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
-import com.att.api.util.Sdk_Config;
+import com.att.api.util.SdkConfig;
 
 public class NewMessage extends Utils {
 
@@ -201,8 +201,8 @@ public class NewMessage extends Utils {
 			return;
 		}
 		
-		token = new OAuthToken(Sdk_Config.token, Sdk_Config.tokenExpiredTime - OAuthToken.xtimestamp(), Sdk_Config.refreshToken);
-		IAMManager iamManager = new IAMManager(Sdk_Config.fqdn, token, getApplicationContext(),
+		token = new OAuthToken(SdkConfig.token, SdkConfig.tokenExpiredTime - OAuthToken.xtimestamp(), SdkConfig.refreshToken);
+		IAMManager iamManager = new IAMManager(SdkConfig.fqdn, token, getApplicationContext(),
 				new sendMessageListener());
 
 		Boolean isGroup = false;

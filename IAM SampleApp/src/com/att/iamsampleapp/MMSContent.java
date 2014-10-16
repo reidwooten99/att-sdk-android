@@ -39,7 +39,7 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.MessageContent;
 import com.att.api.oauth.OAuthToken;
-import com.att.api.util.Sdk_Config;
+import com.att.api.util.SdkConfig;
 
 public class MMSContent extends Activity {
 
@@ -70,13 +70,13 @@ public class MMSContent extends Activity {
 		mmsContentType = (String[]) ext.get("MMSContentName");
 		mmsContentUrl = (String[]) ext.get("MMSContentUrl");
 		
-		token = new OAuthToken(Sdk_Config.token, Sdk_Config.tokenExpiredTime - OAuthToken.xtimestamp(), Sdk_Config.refreshToken);
+		token = new OAuthToken(SdkConfig.token, SdkConfig.tokenExpiredTime - OAuthToken.xtimestamp(), SdkConfig.refreshToken);
 
 		for (int n = 0; n < mmsContentName.length; n++) {
 			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
-			iamManager = new IAMManager(Sdk_Config.fqdn, token, getApplicationContext(),
+			iamManager = new IAMManager(SdkConfig.fqdn, token, getApplicationContext(),
 					new getMessageContentListener());
 			String mmsContentDetails[] = mmsContentUrl[n].split("/");
 			iamManager.GetMessageContent(

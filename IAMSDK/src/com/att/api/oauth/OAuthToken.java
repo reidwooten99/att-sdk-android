@@ -14,22 +14,6 @@
 
 package com.att.api.oauth;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileLock;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Properties;
-import org.json.JSONException;
-import android.content.Context;
-import android.util.Log;
-
-import com.att.api.rest.RESTException;
-import com.att.api.util.Preferences;
-
 /**
  * An immutable OAuthToken object that encapsulates an OAuth 2.0 token, which
  * can be used for accessing protected resources.
@@ -67,10 +51,10 @@ import com.att.api.util.Preferences;
 public class OAuthToken {
 
     /* Static synchronization object. */
-    private final static Object LOCK_OBJECT = new Object();
+   // private final static Object LOCK_OBJECT = new Object();
 
     /* Cache tokens loaded from file to speed up load times. */
-    private static HashMap<String, OAuthToken> cachedTokens = null;
+   // private static HashMap<String, OAuthToken> cachedTokens = null;
 
     /* Access token. */
     private String accessToken;

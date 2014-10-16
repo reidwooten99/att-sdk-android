@@ -59,7 +59,10 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.att.api.consentactivity.UserConsentActivity;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.util.Preferences;
+import com.att.api.util.SdkConfig;
 
 /*
  * Client used to send RESTFul requests.
@@ -137,6 +140,16 @@ public class RESTClient {
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
 			RESTException restExce = new RESTException(statusCode, apir.getResponseBody());
+			//if ((statusCode == 401) && (SdkConfig.recent_error_code == 400)){
+			if (statusCode == 401) {
+				//Preferences pref = new Preferences(UserConsentActivity.m_context);
+				 //   pref.setString("PRESET",SdkConfig.none);  
+		   	 	 //   pref.setLong("AccessTokenExpiry", 0L);
+	  	 		 //   pref.setString("Token", SdkConfig.none);
+				 //   pref.setString("RefreshToken", SdkConfig.none);
+				Log.i("RESTClient","Refresh Token failed");
+				System.exit(1);
+			}
 			throw restExce;
 		}
 
