@@ -42,8 +42,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 		groupId = intent.getStringExtra("groupId");
 
 		pageParams = new PageParams("ASC", "firstName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
-				new getGroupContactListener());
+		aabManager = new AabManager(new getGroupContactListener());
 		aabManager.GetGroupContacts(groupId, pageParams);
 
 		groupContactListView
@@ -85,9 +84,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 	}
 
 	public void removeContact(Contact contact, String groupId) {
-
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
-				new removeContactFromGroupListener());
+		aabManager = new AabManager(new removeContactFromGroupListener());
 		aabManager.RemoveContactsFromGroup(groupId, contact.getContactId());
 	}
 
@@ -102,8 +99,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 				for (int i = 0; i < result.length; i++) {
 					String contactId = result[i];
 					strText = "\n" + contactId;
-					AabManager aabManager = new AabManager(Config.fqdn,
-							Config.authToken, new getContactListener());
+					AabManager aabManager = new AabManager(new getContactListener());
 					aabManager.GetContact(contactId, " ");
 					Log.i("getGroupContactListener on success", "onSuccess"
 							+ strText);
@@ -115,7 +111,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupContactAPI on error", "onError");
+			Log.i("getGroupContactAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -135,7 +131,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("removeContactFromGroupAPI on error", "onError");
+			Log.i("removeContactFromGroupAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}
@@ -169,7 +165,7 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
+			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
 
 		}
 	}

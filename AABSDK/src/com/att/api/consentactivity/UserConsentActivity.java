@@ -27,6 +27,7 @@ public class UserConsentActivity extends Activity {
 	private String clientSecret;
 	private String appScope;
 	private String redirectUri;
+	private String customParam = ""; // Default to Blank
 	OAuthService osrvc;
 	WebView webView ;
 	protected Handler handler = new Handler();
@@ -52,6 +53,11 @@ public class UserConsentActivity extends Activity {
 		 clientSecret =  i.getStringExtra("clientSecret");
 		 appScope = i.getStringExtra("appScope");
 		 redirectUri = i.getStringExtra("redirectUri");
+		 customParam = "";
+		 String customParamValue = i.getStringExtra("customParam");
+		 if (customParamValue != null && customParamValue.length() > 0) {
+			 customParam = "&custom_param=" + customParamValue;
+		 }
 		
 		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
@@ -64,7 +70,7 @@ public class UserConsentActivity extends Activity {
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setAppCacheEnabled(false);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		webView.loadUrl(fqdn +"/oauth/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri);
+		webView.loadUrl(fqdn +"/oauth/v4/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + customParam);
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
