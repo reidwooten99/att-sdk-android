@@ -3,6 +3,7 @@ package com.att.api.util;
 import java.util.Date;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.att.api.aab.manager.AabManager;
@@ -67,6 +68,7 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 	}
 	
 	public static void DeleteSavedToken() {		
+		// Logout from the application and restart.
 		Preferences prefs = new Preferences(m_applicationContext);
 		if (prefs != null) {
 			prefs.setString(accessTokenSettingName, "");
@@ -74,9 +76,11 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 			prefs.setLong(tokenExpirySettingName, 0);
 			Log.i("deleteSavedToken", "Deleted Saved Token.");
 		}	
-		// Logout from the application and restart.
 		Log.e("Invalid Token", "Restarting the application");
 		
-		System.exit(0);
-	}	
+	    Intent intentHome = m_applicationContext.getPackageManager()
+	            .getLaunchIntentForPackage(m_applicationContext.getPackageName());
+	    intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    m_applicationContext.startActivity(intentHome);
+    }	
 }

@@ -47,8 +47,7 @@ public class GroupList extends Activity implements OnClickListener {
 		contactId = intent.getStringExtra("contactId");
 		isFromContactList = intent.getBooleanExtra("isFromContactList", false);
 
-		aabManager = new AabManager(Config.fqdn, null,
-				new getGroupsListener());
+		aabManager = new AabManager(new getGroupsListener());
 		pageParams = new PageParams("ASC", "groupName", "10", "0");
 
 		aabManager.GetGroups(pageParams, null);
@@ -171,8 +170,7 @@ public class GroupList extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
 				String deleteGroupID;
 				deleteGroupID = grp.getGroupId();
-				aabManager = new AabManager(Config.fqdn, null,
-						new deleteGroupListener());
+				aabManager = new AabManager(new deleteGroupListener());
 				aabManager.DeleteGroup(deleteGroupID);
 			}
 
@@ -201,8 +199,7 @@ public class GroupList extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
 
 				selectedGroupId = group.getGroupId();
-				aabManager = new AabManager(Config.fqdn, null,
-						new addContactsToGroupListener());
+				aabManager = new AabManager(new addContactsToGroupListener());
 				aabManager.AddContactsToGroup(selectedGroupId, contactId);
 			}
 
@@ -236,14 +233,12 @@ public class GroupList extends Activity implements OnClickListener {
 				String editGroupName = input.getEditableText().toString();
 				if (!isNewGroup) {
 					Group group = new Group(grpId, editGroupName, "USER");
-					aabManager = new AabManager(Config.fqdn, null,
-							new updateGroupListener());
+					aabManager = new AabManager(new updateGroupListener());
 					aabManager.UpdateGroup(group);
 				} else {
 
 					Group group = new Group("", editGroupName, "USER");
-					aabManager = new AabManager(Config.fqdn, null,
-							new createGroupListener());
+					aabManager = new AabManager(new createGroupListener());
 					aabManager.CreateGroup(group);
 				}
 			}
@@ -264,8 +259,7 @@ public class GroupList extends Activity implements OnClickListener {
 		public void onSuccess(Object response) {
 			String result = (String) response;
 
-			aabManager = new AabManager(Config.fqdn, null,
-					new getGroupsListener());
+			aabManager = new AabManager(new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
 
@@ -288,8 +282,7 @@ public class GroupList extends Activity implements OnClickListener {
 			String[] locationUrl = result.split("com/");
 			newGroupId = locationUrl[1];
 
-			aabManager = new AabManager(Config.fqdn, null,
-					new getGroupsListener());
+			aabManager = new AabManager(new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
 
@@ -310,8 +303,7 @@ public class GroupList extends Activity implements OnClickListener {
 		public void onSuccess(Object response) {
 			String result = (String) response;
 
-			aabManager = new AabManager(Config.fqdn, null,
-					new getGroupsListener());
+			aabManager = new AabManager(new getGroupsListener());
 			pageParams = new PageParams("ASC", "groupName", "10", "0");
 			aabManager.GetGroups(pageParams, null);
 

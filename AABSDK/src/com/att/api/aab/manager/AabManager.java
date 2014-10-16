@@ -39,11 +39,10 @@ public class AabManager {
 	
 	/**
 	 * The AabManager method creates an AabManager object.
-	 * @param paramNotUsed - This param is not used anymore.
 	 * @param token - Overrides the default OAuth token used for authorization.
 	 * @param aabListener - Specifies the Listener for callbacks.
 	 */	
-	public AabManager(String paramNotUsed, OAuthToken token, final AttSdkListener listener) {
+	public AabManager(OAuthToken token, final AttSdkListener listener) {
 		if (token != null) {
 			currentToken = token;
 		}
@@ -53,15 +52,13 @@ public class AabManager {
 		aabListener = listener;
 	}
 	
+	public AabManager(final AttSdkListener listener) {
+		this(null, listener);
+	}
+	
 	// Note: This constructor is used to obtain the auth code 
 	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
-		aabListener = listener;
-	}
-	
-	// Note: This constructor is used for RefreshToken 
-	public AabManager(AttSdkListener listener) {
-		assert(osrvc != null);
 		aabListener = listener;
 	}
 	

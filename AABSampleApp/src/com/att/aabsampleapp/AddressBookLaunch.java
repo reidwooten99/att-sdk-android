@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
 import com.att.sdk.listener.AttSdkListener;
@@ -69,8 +70,6 @@ public class AddressBookLaunch extends Activity {
 		AabManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
 		AabManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
 		aabManager = new AabManager(Config.fqdn, Config.clientID, Config.secretKey, new getTokenListener());
-		
-		//savedToken = null; // Set it to null due to some UI issue.
 		
 		if (savedToken == null) {	
 			GetUserConsentAuthCode();
