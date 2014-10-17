@@ -23,9 +23,10 @@ public class IAMManager {
 	private ATTIAMListener iamListener;
 	private static AttSdkTokenUpdater tokenListener = null;
 	private static OAuthToken currentToken = null; // NOTE: This variable may not be required. Just immnSrvc can be used.
-	private static long reduceTokenExpiryInSeconds_Debug = 0;
 	private final static Object lockRefreshToken = new Object();
 	private static String apiFqdn = "https://api.att.com";
+	// if lowerTokenExpiryTimeTo >= 0, over rides token expiry to this value
+	private static long lowerTokenExpiryTimeTo = -1; 
 	
 	/**
 	 * The IAMManager method creates an IAMManager object.
@@ -277,12 +278,12 @@ public class IAMManager {
 		immnSrvc = new IMMNService(apiFqdn, token);
 	}
 	
-	public static void SetReduceTokenExpiryInSeconds_Debug (long value) {
-		reduceTokenExpiryInSeconds_Debug = value;
+	public static void SetLowerTokenExpiryTimeTo (long value) {
+		lowerTokenExpiryTimeTo = value;
 	}
 	
-	public static long GetReduceTokenExpiryInSeconds_Debug () {
-		return reduceTokenExpiryInSeconds_Debug;
+	public static long GetLowerTokenExpiryTimeTo () {
+		return lowerTokenExpiryTimeTo;
 	}
 	
 	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
@@ -290,7 +291,7 @@ public class IAMManager {
 	}
 	
 	public static Boolean isCurrentTokenExpired() {
-		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
+		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
 	public static void SetApiFqdn(String fqdn) {
@@ -299,6 +300,8 @@ public class IAMManager {
 	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {
 		try {
+			OAuthToken authToken = null;
+			OAuthToken adjustedAuthToken = null;
 			synchronized (lockRefreshToken) {
 				if (isCurrentTokenExpired()) {
 					String refreshTokenValue = currentToken.getRefreshToken();
@@ -306,9 +309,15 @@ public class IAMManager {
 					InAppMessagingError errorObj = new InAppMessagingError();
 					try {
 						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
-						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
+						authToken = osrvc.refreshToken(refreshTokenValue);
 						if (authToken != null) {
-							SetCurrentToken(authToken);
+							if (lowerTokenExpiryTimeTo >= 0) {
+								adjustedAuthToken = new OAuthToken(authToken.getAccessToken(), lowerTokenExpiryTimeTo,
+										authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+							} else {
+								adjustedAuthToken = authToken;
+							}
+							SetCurrentToken(adjustedAuthToken);
 							Log.i("getRefreshTokenListener",
 									"onSuccess Message : " + authToken.getAccessToken());
 							if (tokenListener != null) {

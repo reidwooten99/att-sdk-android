@@ -104,7 +104,7 @@ public class ConversationList extends Activity {
 		// Initialize the AabManager also:
 		IAMManager.SetApiFqdn(Config.fqdn);
 		IAMManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
-		IAMManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
+		IAMManager.SetLowerTokenExpiryTimeTo(Config.lowerTokenExpiryTimeTo); // This step is optional.;
 		
 		//savedToken = null; // Set it to null due to some UI issue.
 		
@@ -725,11 +725,12 @@ public class ConversationList extends Activity {
 		case R.id.action_logout: {
 			Preferences prefs = new Preferences(getApplicationContext());		
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
-			CookieSyncManager.createInstance(this);
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeExpiredCookie();
-			cookieManager.removeSessionCookie();
+			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
+//			CookieSyncManager.createInstance(this);
+//			CookieManager cookieManager = CookieManager.getInstance();
+//			cookieManager.removeAllCookie();
+//			cookieManager.removeExpiredCookie();
+//			cookieManager.removeSessionCookie();
 			finish();
 			break;
 		}

@@ -20,7 +20,6 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 	public static final String refreshTokenSettingName = "RefreshToken";
 	public static final String tokenExpirySettingName = "AccessTokenExpiry";
 	public static final String customParamSettingName = "CustomParam";
-	public static final String reduceExpiryBySettingName = "ReduceExpiryBy";
 	
 	public static String tokenDisplayString (final String tokenString) {
 		int len = 0;
@@ -61,8 +60,7 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 			prefs.setLong(tokenExpirySettingName, token.getAccessTokenExpiry());
 
 			Log.i("updateSavedToken", "Saved Token: " + tokenDisplayString(token.getAccessToken()));
-			Log.i("ActualTokenExpiry", new Date(token.getAccessTokenExpiry()*1000).toString());
-			Log.i("AdjustedTokenExpiry", new Date((token.getAccessTokenExpiry() - IAMManager.GetReduceTokenExpiryInSeconds_Debug())*1000).toString());
+			Log.i("TokenExpiryTime", new Date(token.getAccessTokenExpiry()*1000).toString());
 		}		
 	}
 	
