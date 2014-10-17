@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.TabHost;
 
 @SuppressWarnings("deprecation")
@@ -83,11 +81,7 @@ public class SampleAppLauncher extends TabActivity {
 		case R.id.action_logout:
 			Preferences prefs = new Preferences(getApplicationContext());		
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
-//			CookieSyncManager.createInstance(this);
-//			CookieManager cookieManager = CookieManager.getInstance();
-//			cookieManager.removeAllCookie();
-//			cookieManager.removeExpiredCookie();
-//			cookieManager.removeSessionCookie();
+			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
 			finish();
 			break;
 

@@ -2,6 +2,7 @@ package com.att.api.aab.manager;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
 import com.att.api.aab.service.ContactResultSet;
@@ -32,7 +33,8 @@ public class AabManager {
 	private static OAuthService osrvc = null;
 	private static OAuthToken currentToken = null;
 	private static String apiFqdn = "https://api.att.com";
-	private static long reduceTokenExpiryInSeconds_Debug = 0;
+	// if lowerTokenExpiryTimeTo >= 0, over rides token expiry to this value
+	private static long lowerTokenExpiryTimeTo = -1; 
 	
 	//private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
 	private final static Object lockRefreshToken = new Object();
@@ -66,12 +68,12 @@ public class AabManager {
 		currentToken = token;
 	}
 	
-	public static void SetReduceTokenExpiryInSeconds_Debug (long value) {
-		reduceTokenExpiryInSeconds_Debug = value;
+	public static void SetLowerTokenExpiryTimeTo (long value) {
+		lowerTokenExpiryTimeTo = value;
 	}
 	
-	public static long GetReduceTokenExpiryInSeconds_Debug () {
-		return reduceTokenExpiryInSeconds_Debug;
+	public static long GetLowerTokenExpiryTimeTo () {
+		return lowerTokenExpiryTimeTo;
 	}
 	
 	public static void SetApiFqdn(String fqdn) {
@@ -83,11 +85,13 @@ public class AabManager {
 	}
 	
 	public static Boolean isCurrentTokenExpired() {
-		return (currentToken.getAccessTokenExpiry() - (System.currentTimeMillis() / 1000) < reduceTokenExpiryInSeconds_Debug);		
+		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {			    
 		try {
+			OAuthToken authToken = null;
+			OAuthToken adjustedAuthToken = null;
 			synchronized (lockRefreshToken) {
 				if (isCurrentTokenExpired()) {
 					String refreshTokenValue = currentToken.getRefreshToken();
@@ -95,13 +99,19 @@ public class AabManager {
 					AttSdkError errorObj = new AttSdkError();
 					try {
 						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
-						OAuthToken authToken = osrvc.refreshToken(refreshTokenValue);
+						authToken = osrvc.refreshToken(refreshTokenValue);
 						if (authToken != null) {
-							currentToken = authToken;
+							if (lowerTokenExpiryTimeTo >= 0) {
+								adjustedAuthToken = new OAuthToken(authToken.getAccessToken(), lowerTokenExpiryTimeTo,
+										authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+							} else {
+								adjustedAuthToken = authToken;
+							}
+							currentToken = adjustedAuthToken;
 							Log.i("getRefreshTokenListener",
-									"onSuccess Message : " + authToken.getAccessToken());
+									"onSuccess Message : " + adjustedAuthToken.getAccessToken());
 							if (tokenListener != null) {
-								tokenListener.onTokenUpdate(authToken);
+								tokenListener.onTokenUpdate(adjustedAuthToken);
 							}
 						} else {
 							throw new Exception("Failed during token refresh.");

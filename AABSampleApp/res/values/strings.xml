@@ -39,8 +39,8 @@
     <string name="title_access_token">"Access Token:"</string>
     <string name="title_refresh_token">"Refresh Token:"</string>
     <string name="title_access_token_expiry">"Adjusted Expiry Time:"</string>
-    <string name="title_force_ac_expires">"Expire Access Token Now"</string>
-    <string name="title_clear_cookies">"Clear cookies"</string>
+    <string name="title_clear_preferences">"Clear Preferences"</string>
+    <string name="title_clear_cookies">"Clear Cookies"</string>
     <string name="title_apply">"Apply"</string>
     <string name="title_cancel">"Cancel"</string>
     <string name="title_bypass_on_net">"By pass on-network"</string>

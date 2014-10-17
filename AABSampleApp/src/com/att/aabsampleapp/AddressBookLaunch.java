@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
-import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
 import com.att.sdk.listener.AttSdkListener;
@@ -68,7 +67,7 @@ public class AddressBookLaunch extends Activity {
 		// Initialize the AabManager also:
 		AabManager.SetApiFqdn(Config.fqdn);
 		AabManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
-		AabManager.SetReduceTokenExpiryInSeconds_Debug(Config.reduceTokenExpiryInSeconds_Debug);
+		AabManager.SetLowerTokenExpiryTimeTo(Config.lowerTokenExpiryTimeTo); // This step is optional.
 		aabManager = new AabManager(Config.fqdn, Config.clientID, Config.secretKey, new getTokenListener());
 		
 		if (savedToken == null) {	
@@ -119,10 +118,18 @@ public class AddressBookLaunch extends Activity {
 		@Override
 		public void onSuccess(Object response) {
 			OAuthToken authToken = (OAuthToken) response;
+			OAuthToken adjustedAuthToken = null;
 			if (null != authToken) {
-				AabManager.SetCurrentToken(authToken);
-				TokenUpdatedListener.UpdateSavedToken(authToken); // Store the token in preferences
-				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(authToken.getAccessToken()));
+				if (AabManager.GetLowerTokenExpiryTimeTo() >= 0) {
+					adjustedAuthToken = new OAuthToken(authToken.getAccessToken(),
+							AabManager.GetLowerTokenExpiryTimeTo(),
+							authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+				} else {
+					adjustedAuthToken = authToken;
+				}
+				AabManager.SetCurrentToken(adjustedAuthToken);
+				TokenUpdatedListener.UpdateSavedToken(adjustedAuthToken); // Store the token in preferences
+				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
 				getAddressBookContacts();
 			}
 		}
