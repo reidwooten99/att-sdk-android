@@ -140,15 +140,15 @@ public class RESTClient {
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
 			RESTException restExce = new RESTException(statusCode, apir.getResponseBody());
-			//if ((statusCode == 401) && (SdkConfig.recent_error_code == 400)){
-			if (statusCode == 401) {
-				//Preferences pref = new Preferences(UserConsentActivity.m_context);
-				 //   pref.setString("PRESET",SdkConfig.none);  
-		   	 	 //   pref.setLong("AccessTokenExpiry", 0L);
-	  	 		 //   pref.setString("Token", SdkConfig.none);
-				 //   pref.setString("RefreshToken", SdkConfig.none);
+			
+			if (statusCode == 400) {
+				// The refresh token failed. We clear all data in Preference, exit the app.
+				// The user  have to start the app and a new access token, new refresh token
+				// and new time expiry will be request
+				
 				Log.i("RESTClient","Refresh Token failed");
-				System.exit(1);
+				Preferences pref = new Preferences(null);
+				System.exit(0);
 			}
 			throw restExce;
 		}
@@ -569,7 +569,6 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -599,7 +598,6 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -672,7 +670,6 @@ public class RESTClient {
             throw new RESTException(e);
         } catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         } finally {
             if (response != null) {
                 this.releaseConnection(response);
@@ -1005,7 +1002,6 @@ public class RESTClient {
 			throw new RESTException(e);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1035,7 +1031,6 @@ public class RESTClient {
 			throw new RESTException(e);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1067,7 +1062,6 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         } finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1094,7 +1088,6 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
-	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);

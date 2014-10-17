@@ -142,9 +142,9 @@ public class DebugSettingsPage extends Activity {
 			     }
 	   	 		 pref.setString("Token", ACToken);
 	   	 		 
-	   	 	     String freshTokenEdt = m_curAC.getText().toString().trim();
+	   	 	     String freshTokenEdt = m_refreshToken.getText().toString().trim();
 	   	 	     if (freshTokenStr_masked){
-		    	    if (freshTokenEdt.contentEquals(masked_tokenStr)){
+		    	    if (freshTokenEdt.contentEquals(masked_refreshStr)){
 		    	    	freshTokenEdt = refreshStr;
 		    		    freshTokenStr_masked = false;
 		    	   } 

@@ -36,7 +36,7 @@ public class IAMManager {
 	Preferences m_pref = null;
 	public Context context = null;
 	public static boolean must_wait = false;
-	
+	final String TAG = "IAMManager";
 	/**
 	 * The IAMManager method creates an IAMManager object.
 	 * 
@@ -59,7 +59,7 @@ public class IAMManager {
 			
 			if (m_token.isAccessTokenExpired()) {
 				// request a new access token by providing a refresh token
-				Log.d("----DB ---", "--- Accress token expired" );
+				Log.d(TAG, "--- Access token expired" );
 				must_wait = true;
 				m_pref = new Preferences(context);
 				GetTokenUsingRefreshToken m_getToken = new GetTokenUsingRefreshToken();
@@ -379,10 +379,10 @@ public class IAMManager {
 			}
 				
 			if (m_authToken == null){
-				Log.d("--DB -", "Can not get a new Access Token");
+				Log.d(TAG, "Can not get a new Access Token via Refresh token");
 				return m_authToken;
 			}
-			Log.d("----DB ----------", "--- Accress token:  " + m_authToken.getAccessToken() );
+			Log.d(TAG, "--- Access token:  " + m_authToken.getAccessToken() );
 
 		    m_token.setAccessToken(m_authToken.getAccessToken());
 		    m_token.setAccessTokenExpiry(m_authToken.getAccessTokenExpiry());
@@ -390,7 +390,9 @@ public class IAMManager {
 	    	m_pref.setString("Token", m_token.getAccessToken());
 	    	m_pref.setString("RefreshToken", m_token.getRefreshToken());
 	    	m_pref.setLong("AccessTokenExpiry", m_token.getAccessTokenExpiry());
-	    			
+	    	SdkConfig.tokenExpiredTime = m_token.getAccessTokenExpiry();  
+			SdkConfig.refreshToken = m_token.getRefreshToken();
+			SdkConfig.token = m_token.getAccessToken();	
 	        immnSrvc = new IMMNService(m_fqdn, m_token);
 	    	must_wait = false;
     		return m_authToken ;
@@ -401,10 +403,12 @@ public class IAMManager {
 		protected void onPostExecute(OAuthToken ret) {
 			// TODO Auto-generated method stub
 			if (ret != null){
-			        Log.d("----DB ----------", " I am in onPostExecute - PASSED");
+			        Log.d(TAG, " I am in onPostExecute - PASSED");
 			}
 			else {
-				    Log.d("----DB ----------", " I am in onPostExecute - FAILED");
+				    Log.d(TAG, " I am in onPostExecute - FAILED");
+				    Preferences pref = new Preferences(null);
+					System.exit(0);
 			}
 		}
     	

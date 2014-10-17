@@ -53,10 +53,7 @@ public class APIGetMessage implements ATTIAMListener {
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			}
-			if(null != message)
-				Log.d("APIGetMessage", "Message is not null");
-			else
-				Log.d("APIGetMessage", "Message is null");
+			
 			return message;
 		}
 

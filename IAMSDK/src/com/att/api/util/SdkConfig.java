@@ -3,8 +3,7 @@ package com.att.api.util;
 import android.content.Context;
 
 public class SdkConfig {
-	public static Context m_context = null;
-	public static int recent_error_code = 0;
+
 	public static String token;
 	public static String refreshToken;
 	public static String oAuthCode;

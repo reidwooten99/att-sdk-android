@@ -52,8 +52,8 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			} catch (Exception e){
-				Log.d("APIGetMessageIndexInfo", "Exception - " + e.getMessage() + " , " + e.getLocalizedMessage() + " , " + e.getCause());
-				//System.exit(0);
+				errorObj = new InAppMessagingError(e.getMessage());
+				onError(errorObj);	
 				return null;
 			}
 			return messageIndexInfo;

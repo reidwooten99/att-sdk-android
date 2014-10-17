@@ -244,7 +244,9 @@ public class ConversationList extends Activity {
 				pref.setString("Token", authToken.getAccessToken());
 				pref.setString("RefreshToken", authToken.getRefreshToken() );
 				pref.setLong("AccessTokenExpiry", authToken.getAccessTokenExpiry());
-				
+				SdkConfig.tokenExpiredTime = authToken.getAccessTokenExpiry();  
+				SdkConfig.refreshToken = authToken.getRefreshToken();
+				SdkConfig.token = authToken.getAccessToken();
 				/*
 				 * STEP 2: Getting the MessageIndexInfo
 				 * 
@@ -320,7 +322,6 @@ public class ConversationList extends Activity {
 			 }
 			 else
 			   if ( error.getHttpResponseCode() == 401){
-				  SdkConfig.recent_error_code = 401;
 				  GetNewTokenViaRefreshToken mGet = new GetNewTokenViaRefreshToken();
 				  try {
 					
@@ -975,6 +976,9 @@ public class ConversationList extends Activity {
 			pref.setString("Token", ret_Token.getAccessToken());
 			pref.setString("RefreshToken", ret_Token.getRefreshToken());
 			pref.setLong("AccessTokenExpiry", ret_Token.getAccessTokenExpiry());	
+			SdkConfig.tokenExpiredTime = ret_Token.getAccessTokenExpiry();  
+			SdkConfig.refreshToken = ret_Token.getRefreshToken();
+			SdkConfig.token = ret_Token.getAccessToken();
 			authToken = ret_Token;
 			getMessageIndexInfo();
 			Log.i(TAG , "onSuccess");
