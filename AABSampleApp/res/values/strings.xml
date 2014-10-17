@@ -12,7 +12,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_contact_list">Address Book Sample</string>
     <string name="title_activity_user_consent">UserConsentActivity</string>
-    <string name="action_logout">Logout</string>
     <string name="title_activity_all_contacts">AllContacts</string>
     <string name="title_activity_all_groups">Groups</string>
     <string name="title_activity_contact_details">ContactDetails</string>
@@ -29,11 +28,21 @@
     <string name="Address2">Address2</string>
     <string name="City">City</string>
     <string name="state">State</string>
-     <string name="country">Country</string>
+    <string name="country">Country</string>
     <string name="zipCode">ZipCode</string>
     <string name="showGroups">Show Groups</string>
     <string name="title_activity_contact_group_list">ContactGroupList</string>
     <string name="title_activity_group_contact_list">GroupContactList</string>
     <string name="title_close_application">"Closing the Application"</string>
-
+    <string name="title_debug_settings">"Debug Settings"</string>   
+    <string name="action_debug_settings">"Debug Settings"</string>   
+    <string name="title_access_token">"Access Token:"</string>
+    <string name="title_refresh_token">"Refresh Token:"</string>
+    <string name="title_access_token_expiry">"Adjusted Expiry Time:"</string>
+    <string name="title_clear_preferences">"Clear Preferences"</string>
+    <string name="title_clear_cookies">"Clear Cookies"</string>
+    <string name="title_apply">"Apply"</string>
+    <string name="title_cancel">"Cancel"</string>
+    <string name="title_bypass_on_net">"By pass on-network"</string>
+    <string name="title_suppress_landing_page">"Suppress landing page"</string>
 </resources>

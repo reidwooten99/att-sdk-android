@@ -11,20 +11,27 @@ import android.util.Log;
 import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.util.Preferences;
 import com.att.sdk.listener.AttSdkListener;
+import com.att.api.util.TokenUpdatedListener;
 
 public class AddressBookLaunch extends Activity {
 
 	private final int OAUTH_CODE = 1;
-	private AabManager aabManager;
+	private AabManager aabManager = null;
 	private ProgressDialog pDialog;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		showProgressDialog("Opening  AddressBook .. ");
-		setContentView(R.layout.activity_address_book_launch);
-
+	private void GetUserConsentAuthCode() {
+		// Read custom_param from Preferences
+		String strStoredCustomParam = Config.customParam;
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredCustomParam = prefs.getString(TokenUpdatedListener.customParamSettingName, "");
+			if (strStoredCustomParam.length() <= 0) {
+				strStoredCustomParam = Config.customParam;
+				prefs.setString(TokenUpdatedListener.customParamSettingName, strStoredCustomParam);
+			}
+		}
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
@@ -32,8 +39,44 @@ public class AddressBookLaunch extends Activity {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", strStoredCustomParam);
 
-		startActivityForResult(i, OAUTH_CODE);
+		startActivityForResult(i, OAUTH_CODE);		
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		OAuthToken savedToken = null;
+		String strStoredToken = null;
+
+		super.onCreate(savedInstanceState);
+				
+		showProgressDialog("Opening  AddressBook .. ");
+		setContentView(R.layout.activity_address_book_launch);
+		
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredToken = prefs.getString(TokenUpdatedListener.accessTokenSettingName, "");
+			if (strStoredToken.length() > 0) {
+				savedToken = new OAuthToken(strStoredToken, 
+						prefs.getLong(TokenUpdatedListener.tokenExpirySettingName, 0), 
+						prefs.getString(TokenUpdatedListener.refreshTokenSettingName, ""), 0);
+			}
+		}
+		
+		// Initialize the AabManager also:
+		AabManager.SetApiFqdn(Config.fqdn);
+		AabManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
+		AabManager.SetLowerTokenExpiryTimeTo(Config.lowerTokenExpiryTimeTo); // This step is optional.
+		aabManager = new AabManager(Config.fqdn, Config.clientID, Config.secretKey, new getTokenListener());
+		
+		if (savedToken == null) {	
+			GetUserConsentAuthCode();
+		} else {
+			AabManager.SetCurrentToken(savedToken);	
+			Log.i("gotSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(savedToken.getAccessToken()));
+			getAddressBookContacts();			
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -44,11 +87,8 @@ public class AddressBookLaunch extends Activity {
 			if (resultCode == RESULT_OK) {
 				oAuthCode = data.getStringExtra("oAuthCode");
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
-				if (null != oAuthCode) {
-					aabManager = new AabManager(Config.fqdn, Config.clientID,
-							Config.secretKey, new getTokenListener());
+				if (null != oAuthCode && null != aabManager) {
 					aabManager.getOAuthToken(oAuthCode);
-
 				} else if (resultCode == RESULT_CANCELED) {
 					String errorMessage = null;
 					if (null != data) {
@@ -78,19 +118,28 @@ public class AddressBookLaunch extends Activity {
 		@Override
 		public void onSuccess(Object response) {
 			OAuthToken authToken = (OAuthToken) response;
+			OAuthToken adjustedAuthToken = null;
 			if (null != authToken) {
-				Config.authToken = authToken;
-				Config.token = authToken.getAccessToken();
-				Config.refreshToken = authToken.getRefreshToken();
-				Log.i("getTokenListener",
-						"onSuccess Message : " + authToken.getAccessToken());
+				if (AabManager.GetLowerTokenExpiryTimeTo() >= 0) {
+					adjustedAuthToken = new OAuthToken(authToken.getAccessToken(),
+							AabManager.GetLowerTokenExpiryTimeTo(),
+							authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+				} else {
+					adjustedAuthToken = authToken;
+				}
+				AabManager.SetCurrentToken(adjustedAuthToken);
+				TokenUpdatedListener.UpdateSavedToken(adjustedAuthToken); // Store the token in preferences
+				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
 				getAddressBookContacts();
 			}
 		}
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getTokenListener", "onError Message : ");
+			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
+			if (error.getHttpResponse().contains("invalid_grant")) {
+				TokenUpdatedListener.DeleteSavedToken();
+			}
 		}
 	}
 
