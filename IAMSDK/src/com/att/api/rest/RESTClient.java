@@ -121,6 +121,7 @@ public class RESTClient {
 	/* Http parameters to send. */
 	private final Map<String, List<String>> parameters;
 
+	final String TAG = "RESTClient";
 	/*
 	 * Internal method used to build an APIResponse using the specified
 	 * HttpResponse object.
@@ -146,7 +147,8 @@ public class RESTClient {
 				// The user  have to start the app and a new access token, new refresh token
 				// and new time expiry will be request
 				
-				Log.i("RESTClient","Refresh Token failed");
+				Log.i(TAG,"Refresh Token failed");
+				
 				Preferences pref = new Preferences(null);
 				System.exit(0);
 			}
@@ -250,6 +252,8 @@ public class RESTClient {
 			// UTF-8 is a Java supported encoding.
 			// This should not occur unless the Java VM is not functioning
 			// properly.
+			Log.i(TAG, "UnsupportedEncodingException");
+			e.printStackTrace();
 			throw new IllegalStateException();
 		}
 
@@ -547,7 +551,7 @@ public class RESTClient {
 	 * @throws RESTException
 	 *             if request was unsuccessful
 	 */
-	public APIResponse httpGet() throws RESTException {
+	public synchronized APIResponse httpGet() throws RESTException {
 		HttpClient httpClient = null;
 		HttpResponse response = null;
 

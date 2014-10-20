@@ -14,6 +14,8 @@
 
 package com.att.api.oauth;
 
+import android.util.Log;
+
 /**
  * An immutable OAuthToken object that encapsulates an OAuth 2.0 token, which
  * can be used for accessing protected resources.
@@ -50,12 +52,6 @@ package com.att.api.oauth;
  */
 public class OAuthToken {
 
-    /* Static synchronization object. */
-   // private final static Object LOCK_OBJECT = new Object();
-
-    /* Cache tokens loaded from file to speed up load times. */
-   // private static HashMap<String, OAuthToken> cachedTokens = null;
-
     /* Access token. */
     private String accessToken;
 
@@ -67,6 +63,8 @@ public class OAuthToken {
 
     /* Used to indicate access token does not expire. */
     public static final long NO_EXPIRATION = -1;
+    
+    final String TAG = "OAuthToken";
    
     /**
      * Gets the current time as a Unix timestamp.
@@ -128,6 +126,9 @@ public class OAuthToken {
      *         otherwise
      */
     public boolean isAccessTokenExpired() {
+    	
+    	Log.i(TAG, "accessTokenExpiry: " + String.valueOf(accessTokenExpiry));
+    	Log.i(TAG, "xtimestamp(): " + String.valueOf(xtimestamp()));
         return accessTokenExpiry != NO_EXPIRATION
             && xtimestamp() >= accessTokenExpiry;
     }

@@ -29,12 +29,11 @@ public final class Preferences {
 	public Preferences(Context context) {
 		
 		if (null == context) {
-			Log.d("GD", "Null");
-			// This will clear all data in prefs
-			    prefs.edit().clear();
+			Log.d("Preferences", "Null");
+			prefs.edit().clear();
 		}
 		else {
-			Log.d("GD", "Not Null");
+			Log.d("Preferences", "Not Null");
 		    prefs = context.getSharedPreferences("IAM_API", Context.MODE_PRIVATE);
 		}
 	}

@@ -4,11 +4,7 @@ import android.content.Context;
 
 public class SdkConfig {
 
-	public static String token;
-	public static String refreshToken;
 	public static String oAuthCode;
-
-	public static long tokenExpiredTime             =   0;
 	public static final long noTokenExpiredTime     =   -1;
     public static final String fqdn                 =   "https://api.att.com";
 	public static final String fqdn_extend          =   "/oauth/v4/authorize";

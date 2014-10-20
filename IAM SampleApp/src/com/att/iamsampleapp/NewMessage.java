@@ -30,6 +30,7 @@ import com.att.api.immn.service.SendResponse;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
+import com.att.api.util.PreferencesOperator;
 import com.att.api.util.Preferences;
 import com.att.api.util.SdkConfig;
 
@@ -44,7 +45,6 @@ public class NewMessage extends Utils {
 	ProgressDialog pDialog;
 	OAuthService osrvc;
 	OAuthToken token;
-	Preferences pref;
 
 
 	@Override
@@ -201,7 +201,13 @@ public class NewMessage extends Utils {
 			return;
 		}
 		
-		token = new OAuthToken(SdkConfig.token, SdkConfig.tokenExpiredTime - OAuthToken.xtimestamp(), SdkConfig.refreshToken);
+		PreferencesOperator m_pref = null;
+		m_pref = new PreferencesOperator(getApplicationContext());
+
+		token = new OAuthToken(m_pref.singleStrRetrieve("Token"), 
+				m_pref.singleLongRetrieve("AccessTokenExpiry")- OAuthToken.xtimestamp(),
+				m_pref.singleStrRetrieve("RefreshToken"));
+		
 		IAMManager iamManager = new IAMManager(SdkConfig.fqdn, token, getApplicationContext(),
 				new sendMessageListener());
 
@@ -253,7 +259,7 @@ public class NewMessage extends Utils {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Message Sent", Toast.LENGTH_SHORT);
 				toast.show();
-
+            
 				sendMessageResponsetoParentActivity(msg.getId());
 			}
 		}
@@ -263,8 +269,7 @@ public class NewMessage extends Utils {
 			dismissProgressDialog();
 			infoDialog("Message send failed !!"+ "\n" + error.getHttpResponse() , false );
 			Utils.toastOnError(getApplicationContext(), error);
-			Log.i("Message: sendMessageListener Error Callback ", error.getHttpResponse());
-
+			Log.i("NewMessage: sendMessageListener Error Callback ", error.getHttpResponse());
 		}
 	}
 

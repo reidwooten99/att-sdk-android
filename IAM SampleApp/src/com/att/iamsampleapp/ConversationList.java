@@ -35,6 +35,7 @@ import com.att.api.immn.service.MessageList;
 import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.util.PreferencesOperator;
 import com.att.api.util.Preferences;
 import com.att.api.util.SdkConfig;
 
@@ -57,10 +58,10 @@ public class ConversationList extends Activity {
 	private String deleteMessageID;
 	private int prevIndex;
 	private ProgressDialog pDialog;
-	Preferences pref = null;
 	private String oAuthCode = null;
-	String byPassANDsuppress = "";
-	Context m_context;
+	private String byPassANDsuppress = "";
+	Context m_context = null;
+	private PreferencesOperator m_Prefs= null;
 	
 	
 	@Override
@@ -70,19 +71,17 @@ public class ConversationList extends Activity {
 		setContentView(R.layout.activity_conversation_list);
 		
 		m_context = getApplicationContext();
+		m_Prefs = new PreferencesOperator(m_context);
 		showProgressDialog("Loading Messages .. ");
 		
 		messageListView = (ListView) findViewById(R.id.messageListViewItem);
-		pref = new Preferences(m_context);
-	
-		String presetedStr = pref.getString(SdkConfig.preset, SdkConfig.none);
-		String tokenStr = pref.getString("Token", SdkConfig.none);
+		String presetedStr =  m_Prefs.singleStrRetrieve(SdkConfig.preset);    
+		String tokenStr = m_Prefs.singleStrRetrieve("Token");
 		
 		// Create service for requesting an OAuth token
 		osrvc = new OAuthService(SdkConfig.fqdn, Config.clientID, Config.secretKey);
 		
-		if (!tokenStr.contains(SdkConfig.none))
-		{
+		if (!tokenStr.contains(SdkConfig.none)){
 			boolean suppressed = presetedStr.contains(SdkConfig.suppressLndgPageStr);
 			boolean bypass  =    presetedStr.contains(SdkConfig.byPassOnNetStr);
 			
@@ -114,17 +113,14 @@ public class ConversationList extends Activity {
 								   byPassANDsuppress = SdkConfig.byPassOnNetANDsuppressLandingPage;
 								   Log.i(TAG, "OFF_NET and SUPPRESS");
 								   i.putExtra("byPassAndsuppress", byPassANDsuppress);
-								  
 				}
 				startActivityForResult(i, OAUTH_CODE);
-				setupMessageListListener();
-					
+				setupMessageListListener();	
 			}
 			else {
-				   Log.i(" --- mainActivity ---", " NO OFF_NET NOR SUPPRESS");
-	
-				   Long tokenExpiredTime = pref.getLong("AccessTokenExpiry", SdkConfig.tokenExpiredTime);
-				   String refreshToken = pref.getString("RefreshToken", SdkConfig.none );			  
+				   Log.i(TAG, "NO OFF_NET NOR SUPPRESS");
+				   Long tokenExpiredTime = m_Prefs.singleLongRetrieve("AccessTokenExpiry");
+				   String refreshToken = m_Prefs.singleStrRetrieve("RefreshToken");	
 				   authToken = new OAuthToken(tokenStr, tokenExpiredTime - OAuthToken.xtimestamp(), refreshToken);
 				   getMessageIndexInfo();
 			}
@@ -132,10 +128,7 @@ public class ConversationList extends Activity {
 		else {
 			
 			Log.i(TAG, " FIRST TIME");
-			pref.setString("FQDN", SdkConfig.fqdn);
-			pref.setString("clientID", Config.clientID);
-			pref.setString("secretKey", Config.secretKey);
-			
+			m_Prefs.groupAccountUpdate(SdkConfig.fqdn, Config.clientID, Config.secretKey);
 			Intent i = new Intent(this,
 					com.att.api.consentactivity.UserConsentActivity.class);
 			i.putExtra("fqdn", SdkConfig.fqdn);
@@ -164,14 +157,13 @@ public class ConversationList extends Activity {
 		} 
 		else 
 		  if (requestCode == OAUTH_CODE) {
-			oAuthCode = null;
-			if (resultCode == RESULT_OK) {
+			 oAuthCode = null;
+			 if (resultCode == RESULT_OK) {
 				oAuthCode = data.getStringExtra("oAuthCode");
-				Log.i("mainActivity", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode) {
 					SdkConfig.oAuthCode = oAuthCode;
-					pref.setString(SdkConfig.oAuthCodeStr, SdkConfig.oAuthCode );
-					
+					m_Prefs.singleStrUpdate(SdkConfig.oAuthCodeStr, SdkConfig.oAuthCode);
+				
 					/*
 					 * STEP 1: Getting the oAuthToken
 					 * 
@@ -184,7 +176,7 @@ public class ConversationList extends Activity {
 				}
 				else {
 						Log.i(TAG, "oAuthCode is null");
-						pref.setString(SdkConfig.preset, SdkConfig.none);
+						m_Prefs.clearPresets();
 						Intent i = new Intent(this,
 								com.att.api.consentactivity.UserConsentActivity.class);
 						i.putExtra("fqdn", SdkConfig.fqdn);
@@ -196,7 +188,6 @@ public class ConversationList extends Activity {
 						
 						byPassANDsuppress = "";
 						i.putExtra("byPassAndsuppress", byPassANDsuppress);
-	
 						startActivityForResult(i, OAUTH_CODE);
 						setupMessageListListener();
 				}
@@ -241,12 +232,9 @@ public class ConversationList extends Activity {
 			authToken = (OAuthToken) response;
 			
 			if (null != authToken) {
-				pref.setString("Token", authToken.getAccessToken());
-				pref.setString("RefreshToken", authToken.getRefreshToken() );
-				pref.setLong("AccessTokenExpiry", authToken.getAccessTokenExpiry());
-				SdkConfig.tokenExpiredTime = authToken.getAccessTokenExpiry();  
-				SdkConfig.refreshToken = authToken.getRefreshToken();
-				SdkConfig.token = authToken.getAccessToken();
+				m_Prefs.groupTokenUpdate(authToken.getAccessToken(), authToken.getRefreshToken(),
+						authToken.getAccessTokenExpiry());
+			
 				/*
 				 * STEP 2: Getting the MessageIndexInfo
 				 * 
@@ -256,7 +244,6 @@ public class ConversationList extends Activity {
 				 * 
 				 */
 				getMessageIndexInfo();	
-			
 			}
 		}
 
@@ -282,7 +269,6 @@ public class ConversationList extends Activity {
 		iamManager = new IAMManager(SdkConfig.fqdn, authToken, m_context,
 				new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
-
 	}
 
 	/*
@@ -313,29 +299,16 @@ public class ConversationList extends Activity {
 
 			 Utils.toastOnError(getApplicationContext(), error);
 			 
-			 if ( error.getHttpResponseCode() == 400){
-				 Log.i(TAG,  "Both AC token and Fresh Token are invalid");
+			 if (error.getHttpResponseCode() == 403){
+				 Log.i(TAG , "Exit with error code 403");
+				 finish();
 			 }
 			 else
-			   if (error.getHttpResponseCode() == 403){
-				    finish();
-			 }
-			 else
-			   if ( error.getHttpResponseCode() == 401){
+			   if (error.getHttpResponseCode() == 401){
+				   // Access token is invalid
 				  GetNewTokenViaRefreshToken mGet = new GetNewTokenViaRefreshToken();
-				  try {
-					
-					authToken = mGet.execute(SdkConfig.fqdn, Config.clientID, Config.secretKey, pref.getString("RefreshToken", SdkConfig.none)).get();
-				 } 
-				 catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
-				catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+				  mGet.execute(SdkConfig.fqdn, Config.clientID, Config.secretKey, m_Prefs.singleStrRetrieve("RefreshToken"));
+			 }
 		}
 	}
 
@@ -966,19 +939,16 @@ public class ConversationList extends Activity {
 				onSuccess(ret_authToken);
 			}
 			else {
-				pref.setString("Token", SdkConfig.none);
+				Log.i(TAG, "Refresh Token fails");
+				m_Prefs.clearEntirePreferences();
 				finish();
 		   }
 		}
 		
 	private void onSuccess(OAuthToken ret_Token) {	
 		
-			pref.setString("Token", ret_Token.getAccessToken());
-			pref.setString("RefreshToken", ret_Token.getRefreshToken());
-			pref.setLong("AccessTokenExpiry", ret_Token.getAccessTokenExpiry());	
-			SdkConfig.tokenExpiredTime = ret_Token.getAccessTokenExpiry();  
-			SdkConfig.refreshToken = ret_Token.getRefreshToken();
-			SdkConfig.token = ret_Token.getAccessToken();
+		    m_Prefs.groupTokenUpdate(ret_Token.getAccessToken(), ret_Token.getRefreshToken(), 
+		    		ret_Token.getAccessTokenExpiry());
 			authToken = ret_Token;
 			getMessageIndexInfo();
 			Log.i(TAG , "onSuccess");

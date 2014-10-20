@@ -1,5 +1,7 @@
 package com.att.api.immn.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
@@ -11,6 +13,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.att.api.consentactivity.UserConsentActivity;
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
@@ -18,6 +21,7 @@ import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.Preferences;
+import com.att.api.util.PreferencesOperator;
 import com.att.api.util.SdkConfig;
 
 /**
@@ -33,7 +37,7 @@ public class IAMManager {
 	private ATTIAMListener iamListener;
 	private String m_fqdn = "";
 	private OAuthToken m_token = null;
-	Preferences m_pref = null;
+	PreferencesOperator m_pref = null;
 	public Context context = null;
 	public static boolean must_wait = false;
 	final String TAG = "IAMManager";
@@ -58,12 +62,12 @@ public class IAMManager {
 			this.iamListener = iamListener;
 			
 			if (m_token.isAccessTokenExpired()) {
-				// request a new access token by providing a refresh token
-				Log.d(TAG, "--- Access token expired" );
 				must_wait = true;
-				m_pref = new Preferences(context);
-				GetTokenUsingRefreshToken m_getToken = new GetTokenUsingRefreshToken();
-				m_getToken.execute(m_token.getRefreshToken());
+				// request a new access token by providing a refresh token
+				toastHere(context, "Access token is expired at: ");
+				Log.d(TAG, "--- Access token expired" );
+				m_pref = new PreferencesOperator(context);
+				synchGetTokenUsingRefreshToken();
 			}
 			else {
 				  immnSrvc = new IMMNService(m_fqdn, m_token);
@@ -148,6 +152,8 @@ public class IAMManager {
 
 	public void SendMessage(String[] addresses, String message, String subject,
 			boolean group, String[] attachments) {
+		
+		while (must_wait);
 		APISendMessage sendMessage = new APISendMessage(addresses, message,
 				subject, group, attachments, immnSrvc, iamListener);
 		sendMessage.SendMessage();
@@ -358,8 +364,8 @@ public class IAMManager {
 			// TODO Auto-generated method stub
 			
 			OAuthToken m_authToken = null;
-			final String clientId = m_pref.getString("clientID", SdkConfig.none);
-			final String clientSecretKey = m_pref.getString("secretKey", SdkConfig.none);
+			final String clientId = m_pref.singleStrRetrieve("clientID");
+			final String clientSecretKey = m_pref.singleStrRetrieve("secretKey");
 			
 			Looper.prepare();
 			OAuthService m_osrvc = new OAuthService(m_fqdn, clientId, clientSecretKey);
@@ -382,18 +388,14 @@ public class IAMManager {
 				Log.d(TAG, "Can not get a new Access Token via Refresh token");
 				return m_authToken;
 			}
-			Log.d(TAG, "--- Access token:  " + m_authToken.getAccessToken() );
-
+			Log.d(TAG, "--- New Access token:  " + m_authToken.getAccessToken() );
+			Log.d(TAG, "--- New Refresh token:  " + m_authToken.getRefreshToken() );
+			
 		    m_token.setAccessToken(m_authToken.getAccessToken());
 		    m_token.setAccessTokenExpiry(m_authToken.getAccessTokenExpiry());
 	        m_token.setRefreshToken(m_authToken.getRefreshToken());	
-	    	m_pref.setString("Token", m_token.getAccessToken());
-	    	m_pref.setString("RefreshToken", m_token.getRefreshToken());
-	    	m_pref.setLong("AccessTokenExpiry", m_token.getAccessTokenExpiry());
-	    	SdkConfig.tokenExpiredTime = m_token.getAccessTokenExpiry();  
-			SdkConfig.refreshToken = m_token.getRefreshToken();
-			SdkConfig.token = m_token.getAccessToken();	
 	        immnSrvc = new IMMNService(m_fqdn, m_token);
+	        m_pref.groupTokenUpdate(m_token.getAccessToken(), m_token.getRefreshToken(), m_token.getAccessTokenExpiry());
 	    	must_wait = false;
     		return m_authToken ;
     		
@@ -402,15 +404,26 @@ public class IAMManager {
 		@Override
 		protected void onPostExecute(OAuthToken ret) {
 			// TODO Auto-generated method stub
+			
 			if (ret != null){
 			        Log.d(TAG, " I am in onPostExecute - PASSED");
 			}
 			else {
 				    Log.d(TAG, " I am in onPostExecute - FAILED");
-				    Preferences pref = new Preferences(null);
+				    m_pref.clearEntirePreferences();
 					System.exit(0);
 			}
-		}
-    	
-    }			
+		}	
+    }	
+    
+	public void toastHere(Context ctx, String message) {
+		String timeStamp = new SimpleDateFormat("MM:dd:yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
+		Toast toast = Toast.makeText(ctx, message + timeStamp, 10);
+		toast.show();
+	}
+	
+	public synchronized void synchGetTokenUsingRefreshToken(){
+		GetTokenUsingRefreshToken m_getToken = new GetTokenUsingRefreshToken();
+		m_getToken.execute(m_token.getRefreshToken());
+	}
 }
