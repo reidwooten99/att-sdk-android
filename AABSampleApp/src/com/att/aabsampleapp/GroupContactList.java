@@ -88,7 +88,11 @@ public class GroupContactList extends Activity implements OnClickListener {
 		aabManager.RemoveContactsFromGroup(groupId, contact.getContactId());
 	}
 
-	private class getGroupContactListener implements AttSdkListener {
+	private class getGroupContactListener extends AttSdkSampleListener {
+
+		public getGroupContactListener() {
+			super("getGroupContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -111,12 +115,15 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupContactAPI on error", "Error:" + error.getHttpResponse());
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class removeContactFromGroupListener implements AttSdkListener {
+	private class removeContactFromGroupListener extends AttSdkSampleListener {
+
+		public removeContactFromGroupListener() {
+			super("removeContactFromGroupAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -131,12 +138,15 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("removeContactFromGroupAPI on error", "Error:" + error.getHttpResponse());
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class getContactListener implements AttSdkListener {
+	private class getContactListener extends AttSdkSampleListener {
+
+		public getContactListener() {
+			super("getContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -165,9 +175,8 @@ public class GroupContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	@Override

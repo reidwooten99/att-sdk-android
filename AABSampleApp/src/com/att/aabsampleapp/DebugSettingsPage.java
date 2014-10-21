@@ -2,9 +2,11 @@ package com.att.aabsampleapp;
 import java.util.Date;
 
 import com.att.api.aab.manager.AabManager;
+import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
 import com.att.api.util.TokenUpdatedListener;
+import com.att.sdk.listener.AttSdkListener;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class DebugSettingsPage extends Activity {
 
@@ -22,6 +25,8 @@ public class DebugSettingsPage extends Activity {
 	private CheckBox m_suppressCheckBox = null;
 	private CheckBox m_clearCookiesCheckBox = null;
 	private CheckBox m_clearPreferencesCheckBox = null;
+	private CheckBox m_revokeAccessTokenCheckBox = null;
+	private CheckBox m_revokeRefreshTokenCheckBox = null;
 	private EditText m_accessToken = null;
 	private EditText m_refreshToken = null;
 	private EditText m_tokenExpiresIn = null;
@@ -36,6 +41,8 @@ public class DebugSettingsPage extends Activity {
 		m_suppressCheckBox = (CheckBox) findViewById(R.id.forceSuppressCheckBox);		
 		m_clearCookiesCheckBox = (CheckBox) findViewById(R.id.clearCookiesCheckBox);		
 		m_clearPreferencesCheckBox = (CheckBox) findViewById(R.id.clearPreferencesCheckBox);
+		m_revokeAccessTokenCheckBox = (CheckBox) findViewById(R.id.revokeAccessTokenCheckBox);
+		m_revokeRefreshTokenCheckBox = (CheckBox) findViewById(R.id.revokeRefreshTokenCheckBox);
 
 		Preferences prefs = new Preferences(getApplicationContext());		
 		if (prefs != null) {
@@ -101,6 +108,12 @@ public class DebugSettingsPage extends Activity {
 					cookieManager.removeSessionCookie(); 
 				}
 
+				if (m_revokeAccessTokenCheckBox.isChecked()){
+					RevokeToken("access_token");
+				} else if (m_revokeRefreshTokenCheckBox.isChecked()) {
+					RevokeToken("refresh_token");					
+				}
+
 				finish();	 
 			}
 		});
@@ -112,6 +125,35 @@ public class DebugSettingsPage extends Activity {
 			}
 		});
 	}	
+	
+	private void RevokeToken(final String hint) {
+		class revokeTokenListener implements AttSdkListener {
+			@Override
+			public void onSuccess(Object response) {
+				Log.i("revokeTokenListener", "onSuccess Message : ");
+				//TokenUpdatedListener.DeleteSavedToken();
+				Toast.makeText(getApplicationContext(),
+						hint + " was successfully revoked.", Toast.LENGTH_LONG)
+						.show();
+			}
+
+			@Override
+			public void onError(AttSdkError error) {
+				Log.i("revokeTokenListener", "Error:" + error.getHttpResponse());
+				//TokenUpdatedListener.DeleteSavedToken();
+				Toast.makeText(getApplicationContext(),
+						hint + " revocation failed.", Toast.LENGTH_LONG)
+						.show();
+			}
+		}
+		
+		AabManager aabManager = new AabManager(new revokeTokenListener());
+		if (hint.equalsIgnoreCase("access_token")) {
+			aabManager.RevokeAccessToken();
+		} else {
+			aabManager.RevokeToken(hint);		
+		}
+	}
 
 	@Override
 	public void onResume() {

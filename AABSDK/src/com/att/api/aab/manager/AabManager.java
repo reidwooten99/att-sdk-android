@@ -178,7 +178,7 @@ public class AabManager {
     }
     
     // Overloaded method to revoke current access token
-    public void RevokeAccessToken(String accessToken) {
+    public void RevokeAccessToken() {
     	this.RevokeToken("access_token");    	
     }
     

@@ -113,7 +113,11 @@ public class AddressBookLaunch extends Activity {
 		}
 	}
 
-	public class getTokenListener implements AttSdkListener {
+	public class getTokenListener extends AttSdkSampleListener {
+		
+		public getTokenListener() {
+			super("getTokenListener");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
