@@ -158,26 +158,30 @@ public class AabManager {
 		getTokenUsingCodetask.execute(code);
     }
 	
-	/**
-     * Gets an access token using the specified code.
-     *
-     * <p>
-     * The parameters set during object creation will be used when requesting
-     * the access token.
-     * </p>
-     * <p>
-     * The token request is done using the 'authorization_code' grant type.
-     * </p>
-     *
-     * @param code code to use when requesting access token
-     * @return OAuthToken object if successful
+    /**
+     * Revokes the current token.
+     * 
+     * @param hint a hint for the type of token to revoke
      *
      */
-	public void getRefreshToken(String refreshToken){
-		RefreshExpiredTokenTask refreshExpiredTokenTask  = new RefreshExpiredTokenTask();
-		refreshExpiredTokenTask.execute(refreshToken);
+    public void RevokeToken(String hint) {
+		RevokeTokenTask task = new RevokeTokenTask();
+		if (hint.equalsIgnoreCase("access_token")) {
+			task.execute(currentToken.getAccessToken(), hint);
+		} else if (hint.equalsIgnoreCase("refresh_token")) {
+			task.execute(currentToken.getRefreshToken(), hint);			
+		} else {
+			if (null != aabListener) {
+				aabListener.onError(new AttSdkError("Invalid token hint passed to the RevokeToken method."));
+			}			
+		}
     }
-	
+    
+    // Overloaded method to revoke current access token
+    public void RevokeAccessToken(String accessToken) {
+    	this.RevokeToken("access_token");    	
+    }
+    
 	/**
      * Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.
      *
@@ -415,7 +419,7 @@ public class AabManager {
 		}
     	
     }
-	
+/*	
 	public class RefreshExpiredTokenTask extends AsyncTask<String, Void, OAuthToken> {
 
 		@Override
@@ -439,6 +443,36 @@ public class AabManager {
 			if(null != accestoken) {
 				if (null != aabListener) {
 					aabListener.onSuccess(accestoken);
+				}
+			}
+		}
+    	
+    }
+*/	
+	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			AttSdkError errorObj = new AttSdkError();
+			try {
+				osrvc.revokeToken(params[0], params[1]);
+				result = "Success";
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}		
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if(null != result) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
 				}
 			}
 		}
