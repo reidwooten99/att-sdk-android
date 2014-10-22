@@ -14,7 +14,13 @@
 
 package com.att.api.oauth;
 
-import android.util.Log;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileLock;
+import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * An immutable OAuthToken object that encapsulates an OAuth 2.0 token, which
@@ -52,26 +58,30 @@ import android.util.Log;
  */
 public class OAuthToken {
 
+    /* Static synchronization object. */
+    private final static Object LOCK_OBJECT = new Object();
+
+    /* Cache tokens loaded from file to speed up load times. */
+    private static HashMap<String, OAuthToken> cachedTokens = null;
+
     /* Access token. */
-    private String accessToken;
+    private final String accessToken;
 
     /* Unix timestamp, in seconds, to denote access token expiry. */
-    private  long accessTokenExpiry;
+    private final long accessTokenExpiry;
 
     /* Refresh token. */
-    private String refreshToken;
+    private final String refreshToken;
 
     /* Used to indicate access token does not expire. */
     public static final long NO_EXPIRATION = -1;
-    
-    final String TAG = "OAuthToken";
-   
+
     /**
      * Gets the current time as a Unix timestamp.
      *
      * @return seconds since Unix epoch
      */
-    public static long xtimestamp() {
+    private static long xtimestamp() {
         return System.currentTimeMillis() / 1000;
     }
 
@@ -89,23 +99,19 @@ public class OAuthToken {
      * @param refreshToken refresh token
      * @param creationTime access token creation time as a Unix timestamp
      */
-    
-    
     public OAuthToken(String accessToken, long expiresIn, String refreshToken,
             long creationTime) {
 
         if (expiresIn == OAuthToken.NO_EXPIRATION) {
             this.accessTokenExpiry = OAuthToken.NO_EXPIRATION;
-        } 
-        else {
-             this.accessTokenExpiry = expiresIn + creationTime;
+        } else {
+            this.accessTokenExpiry = expiresIn + creationTime;
         }
-        
+
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-    
     }
-    
+
     /**
      * Creates an OAuthToken object with the <code>creationTime</code> set to
      * the current time.
@@ -119,29 +125,17 @@ public class OAuthToken {
         this(accessToken, expiresIn, refreshToken, xtimestamp());
     }
 
-	/**
+    /**
      * Gets whether the access token is expired.
      *
      * @return <tt>true</tt> if access token is expired, <tt>false</tt>
      *         otherwise
      */
     public boolean isAccessTokenExpired() {
-    	
-    	Log.i(TAG, "accessTokenExpiry: " + String.valueOf(accessTokenExpiry));
-    	Log.i(TAG, "xtimestamp(): " + String.valueOf(xtimestamp()));
         return accessTokenExpiry != NO_EXPIRATION
             && xtimestamp() >= accessTokenExpiry;
     }
-    
-    /**
-     * Gets access token expiry.
-     *
-     * @return access token
-     */
-    public long getAccessTokenExpiry() {
-        return accessTokenExpiry;
-    }
-    
+
     /**
      * Gets access token.
      *
@@ -159,30 +153,105 @@ public class OAuthToken {
     public String getRefreshToken() {
         return refreshToken;
     }
-    
+
     /**
-     * Sets refresh token.
+     * Gets Access Token Expiry.
      *
+     * @return refresh token
      */
-    public void setRefreshToken(String AC_freshToken) {
-        refreshToken = AC_freshToken;
+    public long getAccessTokenExpiry() {
+        return accessTokenExpiry;
     }
-    
-    /**
-     * Sets access token.
+
+    /*
+     * Saves this token to a file in an asynchronous-safe manner.
      *
+     * @param fpath file path
+     * @throws IOException if unable to save token
      */
-    
-    public void setAccessToken(String AC_token) {
-        accessToken = AC_token;
+    public void saveToken(String fpath) throws IOException {
+        FileOutputStream fOutputStream = null;
+        FileLock fLock = null;
+
+        // save to cached tokens
+        synchronized (LOCK_OBJECT) {
+            // lazy init
+            if (cachedTokens == null) {
+                cachedTokens = new HashMap<String, OAuthToken>();
+            }
+            OAuthToken.cachedTokens.put(fpath, this);
+        }
+
+        try {
+            fOutputStream = new FileOutputStream(fpath);
+            fLock = fOutputStream.getChannel().lock();
+            Properties props = new Properties();
+            props.setProperty("accessToken", accessToken);
+            props.setProperty("accessTokenExpiry", String.valueOf(accessTokenExpiry));
+            props.setProperty("refreshToken", refreshToken);
+            props.store(fOutputStream, "Token Information");
+        } catch (IOException e) {
+            throw e; // pass along exception
+        } finally {
+            if (fLock != null) { fLock.release(); }
+            if (fOutputStream != null) { fOutputStream.close(); }
+        }
     }
-    
-    /**
-     * Sets access token expired time.
+
+    /*
+     * Attempts to load an OAuthToken from a file in an asynchronous-safe
+     * manner.
      *
+     * <p>
+     * If <code>fpath</code> does not exist, null is returned.
+     * </p>
+     *
+     * <p>
+     * <strong>WARNING</strong>: Because caching may be used, manually modifying
+     * the saved token properties file may yield unexpected results unless
+     * caching is disabled.
+     * </p>
+     *
+     * @param fpath file path from which to load token
+     * @return OAuthToken an OAuthToken object if successful, null otherwise
+     * @throws IOException if there was an error loading the token
+     * @see #useTokenCaching(boolean)
      */
-    public void setAccessTokenExpiry(long AC_expiry) {
-        accessTokenExpiry = AC_expiry;
+    public static OAuthToken loadToken(String fpath) throws IOException {
+        FileInputStream fInputStream = null;
+        FileLock fLock = null;
+
+        // attempt to load from cached tokens, thereby saving file I/O
+        synchronized (LOCK_OBJECT) {
+            if (cachedTokens != null && cachedTokens.get(fpath) != null) {
+                return cachedTokens.get(fpath);
+            }
+        }
+
+        if (!new File(fpath).exists()) {
+            return null;
+        }
+
+        try {
+            fInputStream = new FileInputStream(fpath);
+            // acquire shared lock
+            fLock = fInputStream.getChannel().lock(0L, Long.MAX_VALUE, true);
+            Properties props = new Properties();
+            props.load(fInputStream);
+            String accessToken = props.getProperty("accessToken");
+            if (accessToken == null || accessToken.equals("")) {
+                return null;
+            }
+            String sExpiry = props.getProperty("accessTokenExpiry", "0");
+            long expiry = new Long(sExpiry).longValue();
+            String refreshToken = props.getProperty("refreshToken");
+            return new OAuthToken(accessToken, expiry, refreshToken);
+        } catch (IOException e) {
+            throw e; // pass along exception
+        } finally {
+            if (fLock != null) { fLock.release(); }
+            if (fInputStream != null) { fInputStream.close(); }
+        }
     }
 
     /*

@@ -1,9 +1,5 @@
 package com.att.iamsampleapp;
 
-import java.text.ParseException;
-
-import org.json.JSONException;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -27,12 +23,7 @@ import com.att.api.error.InAppMessagingError;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.SendResponse;
-import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-import com.att.api.rest.RESTException;
-import com.att.api.util.PreferencesOperator;
-import com.att.api.util.Preferences;
-import com.att.api.util.SdkConfig;
 
 public class NewMessage extends Utils {
 
@@ -43,8 +34,6 @@ public class NewMessage extends Utils {
 	String attachments[] = new String[Config.maxAttachments];
 	String attMimeType[] = new String[Config.maxAttachments];
 	ProgressDialog pDialog;
-	OAuthService osrvc;
-	OAuthToken token;
 
 
 	@Override
@@ -200,16 +189,8 @@ public class NewMessage extends Utils {
 			infoDialog("No Message Content !!", false);
 			return;
 		}
-		
-		PreferencesOperator m_pref = null;
-		m_pref = new PreferencesOperator(getApplicationContext());
 
-		token = new OAuthToken(m_pref.singleStrRetrieve("Token"), 
-				m_pref.singleLongRetrieve("AccessTokenExpiry")- OAuthToken.xtimestamp(),
-				m_pref.singleStrRetrieve("RefreshToken"));
-		
-		IAMManager iamManager = new IAMManager(SdkConfig.fqdn, token, getApplicationContext(),
-				new sendMessageListener());
+		IAMManager iamManager = new IAMManager(new sendMessageListener());
 
 		Boolean isGroup = false;
 
@@ -259,7 +240,7 @@ public class NewMessage extends Utils {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Message Sent", Toast.LENGTH_SHORT);
 				toast.show();
-            
+
 				sendMessageResponsetoParentActivity(msg.getId());
 			}
 		}
@@ -269,7 +250,8 @@ public class NewMessage extends Utils {
 			dismissProgressDialog();
 			infoDialog("Message send failed !!"+ "\n" + error.getHttpResponse() , false );
 			Utils.toastOnError(getApplicationContext(), error);
-			Log.i("NewMessage: sendMessageListener Error Callback ", error.getHttpResponse());
+			Log.i("Message: sendMessageListener Error Callback ", error.getHttpResponse());
+
 		}
 	}
 
@@ -348,6 +330,5 @@ public class NewMessage extends Utils {
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-	}	
-	
+	}
 }

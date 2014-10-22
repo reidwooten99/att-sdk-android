@@ -1,29 +1,25 @@
 package com.att.api.immn.service;
 
 import java.text.ParseException;
-import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.RESTException;
-import com.att.api.util.Preferences;
-//import com.att.iamsampleapp.ConversationList.getTokenListener;
 
 public class APIGetMessageIndexInfo implements ATTIAMListener {
 	
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 
-	public APIGetMessageIndexInfo(IMMNService immnService, ATTIAMListener attiamListener) {
-		this.immnSrvc = immnService;
+	public APIGetMessageIndexInfo(IAMManager iamMgr, ATTIAMListener attiamListener) {
+		this.iamManager = iamMgr;
 		this.iamListener = attiamListener;
 	}
 	
@@ -41,7 +37,8 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				messageIndexInfo = immnSrvc.getMessageIndexInfo();
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				messageIndexInfo = IAMManager.immnSrvc.getMessageIndexInfo();
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
@@ -51,10 +48,6 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			} catch (ParseException e) {
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
-			} catch (Exception e){
-				errorObj = new InAppMessagingError(e.getMessage());
-				onError(errorObj);	
-				return null;
 			}
 			return messageIndexInfo;
 		}
@@ -96,7 +89,6 @@ public class APIGetMessageIndexInfo implements ATTIAMListener {
 			public void run() {
 				if (null != iamListener) {
 					iamListener.onError(error);
-					return;
 				}
 			}
 		});

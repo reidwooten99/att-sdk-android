@@ -8,12 +8,11 @@ package com.att.api.rest;
  */
 public class Constants {
 
-	public static final String SDK_VERSION = "1.0";
+	public static final String SDK_VERSION = "1.0.3";
 	public static final String XARG = "X-Arg";
 
 	// set connection timeout
-	//public static final int CONNECTION_TIMEOUT = 60000;
-	public static final int CONNECTION_TIMEOUT = 3000;
+	public static final int CONNECTION_TIMEOUT = 60000;
 	// set socket connection timeout
 	public static final int SOCKET_TIMEOUT = 60000;
 }

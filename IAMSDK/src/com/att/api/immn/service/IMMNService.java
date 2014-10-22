@@ -25,15 +25,14 @@ import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
 import com.att.api.service.APIService;
 //import com.att.api.error.InAppMessagingError;
-import com.att.api.util.SdkConfig;
 
 public class IMMNService extends APIService {
 
 	public IMMNService(String fqdn, OAuthToken token) {
-       super(fqdn, token);
-   
+        super(fqdn, token);
     }
 
+    
     public SendResponse sendMessage(String address, String msg) throws RESTException, JSONException, ParseException {
         String[] addrs = {address};
         return this.sendMessage(addrs, msg);
@@ -290,7 +289,7 @@ public class IMMNService extends APIService {
 		}
     }
 
-    public synchronized DeltaResponseInternal getDelta(final String state) throws RESTException, JSONException, ParseException {
+    public DeltaResponseInternal getDelta(final String state) throws RESTException, JSONException, ParseException {
         final String endpoint = getFQDN() + "/myMessages/v2/delta";
 
         final APIResponse response = new RESTClient(endpoint)

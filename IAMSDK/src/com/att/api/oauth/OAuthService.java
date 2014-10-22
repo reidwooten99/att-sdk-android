@@ -15,12 +15,10 @@
 package com.att.api.oauth;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 import android.app.Activity;
-import android.content.Context;
+
 
 import com.att.api.error.InAppMessagingError;
 import com.att.api.error.Utils;
@@ -28,7 +26,6 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.rest.APIResponse;
 import com.att.api.rest.RESTClient;
 import com.att.api.rest.RESTException;
-import com.att.api.util.SdkConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,7 +89,7 @@ import org.json.JSONObject;
 public class OAuthService extends Activity implements ATTIAMListener {
 
     /* Added to fqdn to use for sending OAuth requests. */
-	public static final String API_URL = "/oauth/v4/token";
+    public static final String API_URL = "/oauth/v4/token";
 
     /*Fully qualified domain name. */
     private final String fqdn;
@@ -122,21 +119,20 @@ public class OAuthService extends Activity implements ATTIAMListener {
     private OAuthToken parseResponse(APIResponse response)
             throws RESTException, JSONException, ParseException {
 
-	        JSONObject rpcObj = new JSONObject(response.getResponseBody());
-	      
-			final String accessToken = rpcObj.getString("access_token");
-			final String refreshToken = rpcObj.getString("refresh_token");
-			long expiresIn = rpcObj.getLong("expires_in");
-	
-			// 0 indicates no expiry
-			if (expiresIn == 0) {
-			    expiresIn = OAuthToken.NO_EXPIRATION;
-			}
-			return new OAuthToken(accessToken, expiresIn, refreshToken);
-		
+        JSONObject rpcObj = new JSONObject(response.getResponseBody());
+
+		final String accessToken = rpcObj.getString("access_token");
+		final String refreshToken = rpcObj.getString("refresh_token");
+		long expiresIn = rpcObj.getLong("expires_in");
+
+		// 0 indicates no expiry
+		if (expiresIn == 0) {
+		    expiresIn = OAuthToken.NO_EXPIRATION;
+		}
+
+		return new OAuthToken(accessToken, expiresIn, refreshToken);
     }
-    
-    
+
     /**
      * Sends an HTTP POST request using the specified REST client with the
      * content type set to 'application/x-www-form/urlencoded'.
@@ -190,8 +186,9 @@ public class OAuthService extends Activity implements ATTIAMListener {
             .addParameter("client_secret", clientSecret)
             .addParameter("code", code)
             .addParameter("grant_type", "authorization_code");
-       
+
         APIResponse response = sendRequest(client);
+
         return parseResponse(response);
     }
 
@@ -270,7 +267,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * @throws JSONException 
      * @see OAuthToken#getRefreshToken()
      */
-     public synchronized OAuthToken refreshToken(String refreshToken) throws RESTException, JSONException, ParseException {
+    public OAuthToken refreshToken(String refreshToken) throws RESTException, JSONException, ParseException {
         RESTClient client =
             new RESTClient(this.fqdn + API_URL)
             .addParameter("client_id", clientId)
@@ -283,6 +280,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
         return parseResponse(response);
     }
     
+   
     /**
      * Background task to get the access token
      * 
@@ -316,7 +314,7 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		/**
 		 * @param accestoken OAuthToken object returned from the background task
 		 * <p>
-		 * if the  access token is not null calls the onSuccess callback else calls onError callback
+		 * if the  accestoken is not null calls the onSuccess callback else calls onError callback
 		 */
 		@Override
 		protected void onPostExecute(OAuthToken accestoken) {
@@ -363,5 +361,4 @@ public class OAuthService extends Activity implements ATTIAMListener {
 		});
 		
 	}
-	
 }

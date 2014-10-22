@@ -23,13 +23,11 @@ import com.att.api.rest.RESTException;
 public class UserConsentActivity extends Activity implements ATTIAMListener{
 
 	private String fqdn;
-	private String fqdn_extend;
 	private String clientId;
 	private String clientSecret;
 	private String appScope;
 	private String redirectUri;
-	private String byPassAndSuppress = "";
-	
+	private String customParam = ""; // Default to Blank
 	OAuthService osrvc;
 	WebView webView ;
 	private ATTIAMListener iamListener;
@@ -38,40 +36,43 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		 super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		
-		 LinearLayout linearLayout = new LinearLayout(this);
-		 linearLayout.setOrientation(LinearLayout.VERTICAL);
-		 LayoutParams llParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		 linearLayout.setLayoutParams(llParams);
-		 setContentView(linearLayout);
+		LinearLayout linearLayout = new LinearLayout(this);
+		linearLayout.setOrientation(LinearLayout.VERTICAL);
+		LayoutParams llParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		linearLayout.setLayoutParams(llParams);
+		setContentView(linearLayout);
 		
-		 WebView webView = new WebView(this);
-		 webView.setLayoutParams(llParams);
-		 linearLayout.addView(webView);
+		WebView webView = new WebView(this);
+		webView.setLayoutParams(llParams);
+		linearLayout.addView(webView);
 				
 		 Intent i = getIntent();
 		 fqdn = i.getStringExtra("fqdn");
-		 fqdn_extend = i.getStringExtra("fqdn_extend");
 		 clientId = i.getStringExtra("clientId");
 		 clientSecret =  i.getStringExtra("clientSecret");
 		 appScope = i.getStringExtra("appScope");
 		 redirectUri = i.getStringExtra("redirectUri");
-		 byPassAndSuppress = i.getStringExtra("byPassAndsuppress");
-		 
+		 customParam = "";
+		 String customParamValue = i.getStringExtra("customParam");
+		 if (customParamValue != null && customParamValue.length() > 0) {
+			 customParam = "&custom_param=" + customParamValue;
+		 }
+		
 		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
-		 webView.clearFormData();
-		 webView.clearCache(true);
-		 webView.clearHistory();
-		 webView.loadUrl("about:blank");
-		 webView.clearSslPreferences();
-		 webView.getSettings().setJavaScriptEnabled(true);
-		 webView.getSettings().setAppCacheEnabled(false);
-		 webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		 Log.i("--- DEBUG ---", fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPassAndSuppress);
-		 webView.loadUrl(fqdn + fqdn_extend + "?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + byPassAndSuppress);
-		 webView.setWebViewClient(new myWebViewClient()); 	
+		
+		webView.clearFormData();
+		webView.clearCache(true);
+		webView.clearHistory();
+		webView.clearView();
+		webView.clearSslPreferences();
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings().setAppCacheEnabled(false);
+		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		webView.loadUrl(fqdn +"/oauth/v4/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + customParam);
+		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {
 		
