@@ -1,6 +1,7 @@
 package com.att.iamsampleapp;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -31,7 +32,6 @@ import com.att.api.immn.service.MessageList;
 import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
-
 import com.att.api.util.Preferences;
 import com.att.api.util.TokenUpdatedListener;
 
@@ -44,7 +44,6 @@ public class ConversationList extends Activity {
 	private IAMManager iamManager;
 	private final int NEW_MESSAGE = 2;
 	private final int OAUTH_CODE = 1;
-	private OAuthToken authToken;
 	private MessageIndexInfo msgIndexInfo;
 	private DeltaResponse delta;
 	private MessageList msgList;
@@ -179,10 +178,18 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onSuccess(Object response) {
-			authToken = (OAuthToken) response;
+			OAuthToken adjustedAuthToken = null;
+			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
-				IAMManager.SetCurrentToken(authToken);
-				TokenUpdatedListener.UpdateSavedToken(authToken); // Store the token in preferences
+				if (IAMManager.GetLowerTokenExpiryTimeTo() >= 0) {
+					adjustedAuthToken = new OAuthToken(authToken.getAccessToken(),
+							IAMManager.GetLowerTokenExpiryTimeTo(),
+							authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+				} else {
+					adjustedAuthToken = authToken;
+				}
+				IAMManager.SetCurrentToken(adjustedAuthToken);
+				TokenUpdatedListener.UpdateSavedToken(adjustedAuthToken); // Store the token in preferences
 				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(authToken.getAccessToken()));
 				/*
 				 * STEP 2: Getting the MessageIndexInfo

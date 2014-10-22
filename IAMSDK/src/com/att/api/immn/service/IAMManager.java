@@ -319,9 +319,9 @@ public class IAMManager {
 							}
 							SetCurrentToken(adjustedAuthToken);
 							Log.i("getRefreshTokenListener",
-									"onSuccess Message : " + authToken.getAccessToken());
+									"onSuccess Message : " + adjustedAuthToken.getAccessToken());
 							if (tokenListener != null) {
-								tokenListener.onTokenUpdate(authToken);
+								tokenListener.onTokenUpdate(adjustedAuthToken);
 							}
 						} else {
 							throw new Exception("Failed during token refresh.");
