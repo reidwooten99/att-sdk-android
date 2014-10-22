@@ -251,6 +251,7 @@ public class TestAab extends Activity implements OnClickListener {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", "");
 		startActivityForResult(i, OAUTH_CODE);
 		
 	}
