@@ -33,7 +33,6 @@
     <string name="title_cancel">"Cancel"</string>
     <string name="title_bypass_on_net">"By pass on-network"</string>
     <string name="title_suppress_landing_page">"Suppress landing page"</string>
-    
-    
-
+    <string name="title_revoke_access_token">"Revoke access token"</string>
+    <string name="title_revoke_refresh_token">"Revoke refresh token"</string>
 </resources>

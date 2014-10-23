@@ -21,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.att.api.error.InAppMessagingError;
-import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.ChangeType;
 import com.att.api.immn.service.DeltaChange;
 import com.att.api.immn.service.DeltaResponse;
@@ -892,4 +891,29 @@ public class ConversationList extends Activity {
 		}
 		dismissProgressDialog();
 	}		
+	
+	public static void RevokeToken(final String hint) {
+		class revokeTokenListener extends AttSdkSampleListener {		
+			public revokeTokenListener() {
+				super("revokeToken");
+			}
+			@Override
+			public void onSuccess(Object response) {
+				Log.i("revokeTokenListener", hint + " was successfully revoked.");
+			}
+
+			@Override
+			public void onError(InAppMessagingError error) {
+				super.onError(error);
+				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
+			}
+		}
+		
+		IAMManager iamManager = new IAMManager(new revokeTokenListener());
+		if (hint.equalsIgnoreCase("access_token")) {
+			iamManager.RevokeAccessToken();
+		} else {
+			iamManager.RevokeToken(hint);		
+		}
+	}
 }
