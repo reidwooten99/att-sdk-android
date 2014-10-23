@@ -1,5 +1,6 @@
 package com.att.api.immn.service;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.att.api.error.InAppMessagingError;
@@ -347,4 +348,58 @@ public class IAMManager {
 		}	
 		return (currentToken != null);
 	}
+	
+    /**
+     * Revokes the current token.
+     * 
+     * @param hint a hint for the type of token to revoke
+     *
+     */
+    public void RevokeToken(String hint) {
+		RevokeTokenTask task = new RevokeTokenTask();
+		if (hint.equalsIgnoreCase("access_token")) {
+			task.execute(currentToken.getAccessToken(), hint);
+		} else if (hint.equalsIgnoreCase("refresh_token")) {
+			task.execute(currentToken.getRefreshToken(), hint);			
+		} else {
+			if (null != iamListener) {
+				iamListener.onError(new InAppMessagingError("Invalid token hint passed to the RevokeToken method."));
+			}			
+		}
+    }
+    
+    // Overloaded method to revoke current access token
+    public void RevokeAccessToken() {
+    	this.RevokeToken("access_token");    	
+    }
+
+	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			InAppMessagingError errorObj = new InAppMessagingError("RevokeToken error.");
+			try {
+				osrvc.revokeToken(params[0], params[1]);
+				result = "Success";
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}		
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if(null != result) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}
+		}
+    	
+    }
 }
