@@ -763,14 +763,10 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_logout: {
+			ConversationList.RevokeToken("refresh_token");					
 			Preferences prefs = new Preferences(getApplicationContext());		
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
 			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
-//			CookieSyncManager.createInstance(this);
-//			CookieManager cookieManager = CookieManager.getInstance();
-//			cookieManager.removeAllCookie();
-//			cookieManager.removeExpiredCookie();
-//			cookieManager.removeSessionCookie();
 			finish();
 			break;
 		}
