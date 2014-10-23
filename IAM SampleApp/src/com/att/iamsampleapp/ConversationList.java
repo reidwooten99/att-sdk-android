@@ -174,7 +174,11 @@ public class ConversationList extends Activity {
 	 * APP_KEY/ APP_SECRET /APP_SCOPE / REDIRECT_URI The Error along with the
 	 * error code is displayed to the user
 	 */
-	private class getTokenListener implements ATTIAMListener {
+	private class getTokenListener extends AttSdkSampleListener {
+
+		public getTokenListener() {
+			super("getTokenListener");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -206,12 +210,9 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
-			if (error.getHttpResponse().contains("invalid_grant")) {
-				TokenUpdatedListener.DeleteSavedToken();
-			}
 		}
 	}
 
@@ -242,7 +243,11 @@ public class ConversationList extends Activity {
 	 * along with the error code is displayed to the user
 	 */
 
-	private class getMessageIndexInfoListener implements ATTIAMListener {
+	private class getMessageIndexInfoListener extends AttSdkSampleListener {
+
+		public getMessageIndexInfoListener() {
+			super("getMessageIndexInfo");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -255,6 +260,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			createMessageIndex();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
@@ -286,7 +292,11 @@ public class ConversationList extends Activity {
 	 * The Error along with the error code is displayed to the user
 	 */
 
-	private class createMessageIndexListener implements ATTIAMListener {
+	private class createMessageIndexListener extends AttSdkSampleListener {
+
+		public createMessageIndexListener() {
+			super("createMessageIndex");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -298,6 +308,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 			dismissProgressDialog();
 		}
@@ -326,7 +337,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getMessageListListener implements ATTIAMListener {
+	private class getMessageListListener extends AttSdkSampleListener {
+
+		public getMessageListListener() {
+			super("getMessageList");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -346,9 +361,9 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-
 		}
 
 	}
@@ -378,7 +393,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getDeltaListener implements ATTIAMListener {
+	private class getDeltaListener extends AttSdkSampleListener {
+
+		public getDeltaListener() {
+			super("getDelta");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -395,6 +414,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
@@ -425,7 +445,11 @@ public class ConversationList extends Activity {
 	 * the error code is displayed to the user
 	 */
 
-	private class updateMessageStatusListener implements ATTIAMListener {
+	private class updateMessageStatusListener extends AttSdkSampleListener {
+
+		public updateMessageStatusListener() {
+			super("updateMessageStatus");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -442,6 +466,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
@@ -469,7 +494,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getMessageListener implements ATTIAMListener {
+	private class getMessageListener extends AttSdkSampleListener {
+
+		public getMessageListener() {
+			super("getMessage");
+		}
 
 		@Override
 		public void onSuccess(Object arg0) {
@@ -490,9 +519,10 @@ public class ConversationList extends Activity {
 		}
 
 		@Override
-		public void onError(InAppMessagingError arg0) {
+		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(), arg0);
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 
 	}
@@ -521,7 +551,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class deleteMessagesListener implements ATTIAMListener {
+	private class deleteMessagesListener extends AttSdkSampleListener {
+
+		public deleteMessagesListener() {
+			super("deleteMessages");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -536,7 +570,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 			dismissProgressDialog();
 		}

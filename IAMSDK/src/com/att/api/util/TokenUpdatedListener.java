@@ -3,6 +3,7 @@ package com.att.api.util;
 import java.util.Date;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.att.api.immn.service.IAMManager;
@@ -76,5 +77,11 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 		Log.e("Invalid Token", "Restarting the application");
 		
 		System.exit(0);
+		// TODO: Make the following code work to re launch the app like AAB sample
+//		Intent intentHome = m_applicationContext.getPackageManager()
+//				.getLaunchIntentForPackage(
+//						m_applicationContext.getPackageName());
+//		intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		m_applicationContext.startActivity(intentHome);
 	}	
 }

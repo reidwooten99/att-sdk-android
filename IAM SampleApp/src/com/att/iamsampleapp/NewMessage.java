@@ -231,8 +231,12 @@ public class NewMessage extends Utils {
 	 *  The Error along with the error code is displayed to the user
 	 */
 	
-	protected class sendMessageListener implements ATTIAMListener {
+	protected class sendMessageListener extends AttSdkSampleListener {
 	
+		public sendMessageListener() {
+			super("sendMessage");
+		}
+
 		@Override
 		public void onSuccess(Object arg0) {
 			SendResponse msg = (SendResponse) arg0;
@@ -250,8 +254,7 @@ public class NewMessage extends Utils {
 			dismissProgressDialog();
 			infoDialog("Message send failed !!"+ "\n" + error.getHttpResponse() , false );
 			Utils.toastOnError(getApplicationContext(), error);
-			Log.i("Message: sendMessageListener Error Callback ", error.getHttpResponse());
-
+			super.onError(error); // in the end so that error messages can be displayed.
 		}
 	}
 

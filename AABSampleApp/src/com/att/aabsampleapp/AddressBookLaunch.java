@@ -140,10 +140,7 @@ public class AddressBookLaunch extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
-			if (error.getHttpResponse().contains("invalid_grant")) {
-				TokenUpdatedListener.DeleteSavedToken();
-			}
+			super.onError(error);
 		}
 	}
 

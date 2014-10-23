@@ -185,7 +185,11 @@ public class MMSContent extends Activity {
 	 */
 
 
-	private class getMessageContentListener implements ATTIAMListener {
+	private class getMessageContentListener extends AttSdkSampleListener {
+
+		public getMessageContentListener() {
+			super("getMessageContent");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -199,9 +203,9 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(),error);
-			
+			Utils.toastOnError(getApplicationContext(),error);			
 		}
 		
 	}
