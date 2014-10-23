@@ -12,7 +12,6 @@ import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
-import com.att.sdk.listener.AttSdkListener;
 import com.att.api.util.TokenUpdatedListener;
 
 public class AddressBookLaunch extends Activity {
@@ -167,5 +166,29 @@ public class AddressBookLaunch extends Activity {
 			pDialog.dismiss();
 		}
 	}
+	
+	public static void RevokeToken(final String hint) {
+		class revokeTokenListener extends AttSdkSampleListener {		
+			public revokeTokenListener() {
+				super("revokeToken");
+			}
+			@Override
+			public void onSuccess(Object response) {
+				Log.i("revokeTokenListener", hint + " was successfully revoked.");
+			}
 
+			@Override
+			public void onError(AttSdkError error) {
+				super.onError(error);
+				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
+			}
+		}
+		
+		AabManager aabManager = new AabManager(new revokeTokenListener());
+		if (hint.equalsIgnoreCase("access_token")) {
+			aabManager.RevokeAccessToken();
+		} else {
+			aabManager.RevokeToken(hint);		
+		}
+	}
 }

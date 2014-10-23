@@ -60,9 +60,6 @@ public class SampleAppLauncher extends TabActivity {
 		Intent intent;
 		switch (menuItemId) {
 		case R.id.action_update:
-			// UpdateMyInfo or UpdateContact API
-			// Toast.makeText(getApplicationContext(), "List Save clicked",
-			// Toast.LENGTH_LONG).show();
 			intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
 			intent.putExtra("contactId", "MY_INFO");
 			intent.putExtra("isUpdateMyInfo", true);
@@ -70,15 +67,13 @@ public class SampleAppLauncher extends TabActivity {
 			break;
 
 		case R.id.action_new:
-			// Create new contact based on the values in the fields
-			// Toast.makeText(getApplicationContext(), "List New clicked",
-			// Toast.LENGTH_LONG).show();
 			intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
 			intent.putExtra("contactId", "NEW_CONTACT");
 			startActivity(intent);
 			break;
 
 		case R.id.action_logout:
+			AddressBookLaunch.RevokeToken("refresh_token");					
 			Preferences prefs = new Preferences(getApplicationContext());		
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
 			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
