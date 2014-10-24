@@ -419,36 +419,7 @@ public class AabManager {
 		}
     	
     }
-/*	
-	public class RefreshExpiredTokenTask extends AsyncTask<String, Void, OAuthToken> {
 
-		@Override
-		protected OAuthToken doInBackground(String... params) {
-			OAuthToken accestoken = null;
-			AttSdkError errorObj = new AttSdkError();
-			try {
-				accestoken = osrvc.refreshToken(params[0]);
-			} catch (RESTException e) {
-				errorObj = Utils.CreateErrorObjectFromException( e );
-				if (null != aabListener) {
-					aabListener.onError(errorObj);
-				}
-			}		
-			return accestoken;
-		}
-
-		@Override
-		protected void onPostExecute(OAuthToken accestoken) {
-			super.onPostExecute(accestoken);
-			if(null != accestoken) {
-				if (null != aabListener) {
-					aabListener.onSuccess(accestoken);
-				}
-			}
-		}
-    	
-    }
-*/	
 	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
 
 		@Override

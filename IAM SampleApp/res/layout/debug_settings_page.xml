@@ -31,6 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/rounded_edit_text_layout"
             android:gravity="left|center_vertical"
+            android:inputType="text"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="#000000"
@@ -54,6 +55,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/rounded_edit_text_layout"
             android:gravity="left|center_vertical"
+            android:inputType="text"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="#000000"
@@ -125,7 +127,29 @@
         android:layout_marginTop="10dp"
         android:text="@string/title_clear_cookies"
         android:textSize="16sp" />
-
+    
+    <CheckBox
+        android:id="@+id/revokeAccessTokenCheckBox"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearCookiesCheckBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/title_revoke_access_token"
+        android:textSize="16sp" />
+    
+    <CheckBox
+        android:id="@+id/revokeRefreshTokenCheckBox"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/revokeAccessTokenCheckBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/title_revoke_refresh_token"
+        android:textSize="16sp" />
+    
     <Button
         android:id="@+id/applyButton"
         android:layout_width="120dp"
