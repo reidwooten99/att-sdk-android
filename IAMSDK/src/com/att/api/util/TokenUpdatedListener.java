@@ -74,14 +74,12 @@ public class TokenUpdatedListener implements AttSdkTokenUpdater {
 			Log.i("deleteSavedToken", "Deleted Saved Token.");
 		}	
 		// Logout from the application and restart.
-		Log.e("Invalid Token", "Restarting the application");
+		Log.e("TokenUpdatedListener", "Invalid token. Restarting the application");
 		
-		System.exit(0);
-		// TODO: Make the following code work to re launch the app like AAB sample
-//		Intent intentHome = m_applicationContext.getPackageManager()
-//				.getLaunchIntentForPackage(
-//						m_applicationContext.getPackageName());
-//		intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//		m_applicationContext.startActivity(intentHome);
+		Intent intentHome = m_applicationContext.getPackageManager()
+				.getLaunchIntentForPackage(
+						m_applicationContext.getPackageName());
+		intentHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		m_applicationContext.startActivity(intentHome);
 	}	
 }
