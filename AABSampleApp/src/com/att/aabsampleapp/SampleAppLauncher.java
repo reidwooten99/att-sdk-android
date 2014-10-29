@@ -57,7 +57,7 @@ public class SampleAppLauncher extends TabActivity {
 		return true;
 	}
 	
-	private void ProcessMenuCommand(int menuItemId) {
+	private boolean ProcessMenuCommand(int menuItemId) {
 		Intent intent;
 		switch (menuItemId) {
 		case R.id.action_update:
@@ -65,13 +65,13 @@ public class SampleAppLauncher extends TabActivity {
 			intent.putExtra("contactId", "MY_INFO");
 			intent.putExtra("isUpdateMyInfo", true);
 			startActivity(intent);
-			break;
+			return true;
 
 		case R.id.action_new:
 			intent = new Intent(SampleAppLauncher.this, ContactDetails.class);
 			intent.putExtra("contactId", "NEW_CONTACT");
 			startActivity(intent);
-			break;
+			return true;
 
 		case R.id.action_logout:
 			AddressBookLaunch.RevokeToken("refresh_token");					
@@ -79,34 +79,30 @@ public class SampleAppLauncher extends TabActivity {
 			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
 			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
 			finish();
-			break;
+			return true;
 
 		case R.id.action_debug_settings:
 			intent = new Intent(SampleAppLauncher.this, DebugSettingsPage.class);
 	   	 	startActivity(intent);
-			break;
+			return true;
 
-		}		
+		}	
+		return false;
 	}
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-	    switch (featureId) {
-	    case Window.FEATURE_OPTIONS_PANEL:
-	    	// This is already handled in the sample app. Just return.
-	    	break;
-	    case Window.FEATURE_CONTEXT_MENU:
-			ProcessMenuCommand(item.getItemId());
-			break;
-	    default:
-	    	return false;
-	    }
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
 		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		ProcessMenuCommand(item.getItemId());
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
