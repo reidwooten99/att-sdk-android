@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TabHost;
 
 @SuppressWarnings("deprecation")
@@ -90,7 +91,16 @@ public class SampleAppLauncher extends TabActivity {
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		ProcessMenuCommand(item.getItemId());
+	    switch (featureId) {
+	    case Window.FEATURE_OPTIONS_PANEL:
+	    	// This is already handled in the sample app. Just return.
+	    	break;
+	    case Window.FEATURE_CONTEXT_MENU:
+			ProcessMenuCommand(item.getItemId());
+			break;
+	    default:
+	    	return false;
+	    }
 		return super.onMenuItemSelected(featureId, item);
 	}
 
