@@ -179,7 +179,6 @@ public class AddressBookLaunch extends Activity {
 
 			@Override
 			public void onError(AttSdkError error) {
-				super.onError(error);
 				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
 			}
 		}

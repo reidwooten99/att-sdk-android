@@ -900,7 +900,6 @@ public class ConversationList extends Activity {
 
 			@Override
 			public void onError(InAppMessagingError error) {
-				super.onError(error);
 				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
 			}
 		}
