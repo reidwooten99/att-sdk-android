@@ -12,5 +12,6 @@
         android:layout_margin="10dp"
         android:gravity="left"
         android:textColor="#000000"
+        android:textIsSelectable="true"
         android:textSize="18sp" />
 </ScrollView>
