@@ -44,6 +44,11 @@
             android:name="com.att.ads.sample.ResponseActivity"
             android:label="@string/app_name" >
         </activity>
-    </application>
+        <activity
+            android:name="com.att.ads.sample.DebugSettingsPage"
+            android:label="@string/title_debug_settings"
+            android:screenOrientation="portrait" >
+        </activity>
+        </application>
 
 </manifest>

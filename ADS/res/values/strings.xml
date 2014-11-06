@@ -11,5 +11,17 @@
     <string name="secret">b3fd2555259b664e35f445243cb1fd24a228ace99b8cd6d3e264618e549c6000</string>
     <string name="udid">012266005922565000000000000000</string>
     
-
+    <string name="title_debug_settings">"Debug Settings"</string>   
+    <string name="action_debug_settings">"Debug Settings"</string>   
+    <string name="title_access_token">"Access Token:"</string>
+    <string name="title_refresh_token">"Refresh Token:"</string>
+    <string name="title_access_token_expiry">"Token Expires in:"</string>
+    <string name="title_clear_preferences">"Clear Preferences"</string>
+    <string name="title_clear_cookies">"Clear Cookies"</string>
+    <string name="title_apply">"Apply"</string>
+    <string name="title_cancel">"Cancel"</string>
+    <string name="title_bypass_on_net">"By pass on-network"</string>
+    <string name="title_suppress_landing_page">"Suppress landing page"</string>
+    <string name="title_revoke_access_token">"Revoke access token"</string>
+    <string name="title_revoke_refresh_token">"Revoke refresh token"</string>
 </resources>
