@@ -1,14 +1,11 @@
 package com.att.ads.sample;
 
-import java.util.Date;
-
 import com.att.ads.AuthService;
 import com.att.ads.util.EncryptDecrypt;
 import com.att.ads.util.Preferences;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -48,7 +45,6 @@ public class DebugSettingsPage extends Activity {
 						refreshTokenEnc,
 						EncryptDecrypt.getSecretKeySpec("refresh_token"));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -71,9 +67,6 @@ public class DebugSettingsPage extends Activity {
 		applyButton.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				Preferences prefs = new Preferences(getApplicationContext());		
-				// This section sets the new expiry time for the current token
-				long newExpiresInValue = Long.parseLong(m_tokenExpiresIn.getText().toString().trim());
-
 				try {
 					prefs.setString("access_token", EncryptDecrypt
 							.getEncryptedValue(m_accessToken.getText().toString().trim(), EncryptDecrypt
@@ -86,7 +79,6 @@ public class DebugSettingsPage extends Activity {
 					prefs.setString("expires_in", m_tokenExpiresIn.getText().toString().trim());
 					
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (m_clearPreferencesCheckBox.isChecked()){
@@ -102,8 +94,20 @@ public class DebugSettingsPage extends Activity {
 				}
 
 				if (m_revokeRefreshTokenCheckBox.isChecked()) {
-					AuthService as = new AuthService(getApplicationContext());
-					as.revokeToken();
+					// Invoke network operation is a separate thread
+					Thread threadRevoke = new Thread(new Runnable(){
+					    @Override
+					    public void run() {
+					        try {
+								AuthService as = new AuthService(getApplicationContext());
+								as.revokeToken();
+					        } catch (Exception e) {
+					            e.printStackTrace();
+					        }
+					    }
+					});
+
+					threadRevoke.start(); 
 				}
 
 				finish();	 

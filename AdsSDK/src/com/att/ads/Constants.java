@@ -22,6 +22,7 @@ public class Constants {
 	//public static final String OAUTH_URL = "https://api-uat.bf.pacer.sl.attcompute.com/oauth/access_token";
 	//public static final String OAUTH_URL = "https://api-uat.pacer.bf.sl.attcompute.com/oauth/access_token";
 	public static final String OAUTH_URL = "https://api.att.com/oauth/v4/token";
+	public static final String REVOKE_URL = "https://api.att.com/oauth/v4/revoke";
 	//public static final String ADS_URL = "https://api-uat.bf.pacer.sl.attcompute.com/rest/1/ads";
 	//public static final String ADS_URL = "https://api-uat.pacer.bf.sl.attcompute.com/rest/1/ads";
 	public static final String ADS_URL = "https://api.att.com/rest/1/ads";

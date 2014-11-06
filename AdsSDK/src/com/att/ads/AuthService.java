@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -309,7 +310,7 @@ public class AuthService {
 	public boolean revokeToken() {
 		String appKey = null;
 		String secret = null;
-		StringBuffer oath_url = null;
+		StringBuffer revokeBody = null;
 		Preferences pref = new Preferences(context);
 		String refreshToken = null;
 		HttpPost post = null;
@@ -338,8 +339,7 @@ public class AuthService {
 				return false;
 			}
 
-			oath_url = new StringBuffer(Constants.OAUTH_URL)
-					.append("?client_id=").append(appKey)
+			revokeBody = new StringBuffer("client_id=").append(appKey)
 					.append("&client_secret=").append(secret);
 		} catch (Exception e) {
 			Log.e(TAG, "Exception in decrypt keys :" + e.getStackTrace());
@@ -351,7 +351,7 @@ public class AuthService {
 			refreshToken = EncryptDecrypt.getDecryptedValue(
 					refreshTokenEnc,
 					EncryptDecrypt.getSecretKeySpec("refresh_token"));
-			oath_url.append("&token=").append(refreshToken)
+			revokeBody.append("&token=").append(refreshToken)
 					.append("&token_type_hint=refresh_token");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -359,9 +359,10 @@ public class AuthService {
 		}
 
 		try {
-			Log.d(TAG, "Revoke Token Request: " + oath_url);
-			post = new HttpPost(oath_url.toString());
+			Log.d(TAG, "Revoke Token Request: " + revokeBody.toString());
+			post = new HttpPost(Constants.REVOKE_URL);
 			post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			post.setEntity(new StringEntity(revokeBody.toString()));
 			response = client.execute(post);
 			httpEntity = response.getEntity();
 			StringBuffer tempBuffer = new StringBuffer();

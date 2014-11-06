@@ -98,8 +98,8 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 		} catch (Exception e) {
 			Log.e(TAG, "Eror :" + e.fillInStackTrace());
 		}*/
-		appKey = UPDATE_APP_KEY_HERE;
-		secret = UPDATE_SECRET_KEY_HERE;
+		appKey = "7vcbpgntyzhiihvbe1gacdkdye47aw8a";
+		secret = "yye37yciyqckzxso9reud4ge9zf0yv4d";
 		
 		// Category always in lower case
 		if(null == appKey || null == secret){
