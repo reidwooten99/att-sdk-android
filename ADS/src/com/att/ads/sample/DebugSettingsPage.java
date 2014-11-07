@@ -94,20 +94,9 @@ public class DebugSettingsPage extends Activity {
 				}
 
 				if (m_revokeRefreshTokenCheckBox.isChecked()) {
-					// Invoke network operation is a separate thread
-					Thread threadRevoke = new Thread(new Runnable(){
-					    @Override
-					    public void run() {
-					        try {
-								AuthService as = new AuthService(getApplicationContext());
-								as.revokeToken();
-					        } catch (Exception e) {
-					            e.printStackTrace();
-					        }
-					    }
-					});
-
-					threadRevoke.start(); 
+					// Invokes revokeToken network operation a separate thread
+					AuthService as = new AuthService(getApplicationContext());
+					as.revokeToken();
 				}
 
 				finish();	 

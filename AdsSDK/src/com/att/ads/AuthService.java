@@ -307,7 +307,22 @@ public class AuthService {
 	 * 
 	 * @return true or false
 	 */
-	public boolean revokeToken() {
+	public void revokeToken() {
+		// Invoke network operation is a separate thread
+		Thread threadRevoke = new Thread(new Runnable(){
+		    @Override
+		    public void run() {
+		        try {
+		        	revokeTokenOperation();
+		        } catch (Exception e) {
+					Log.e(TAG, "Exception in revoke token :" + e.getStackTrace());
+		        }
+		    }
+		});
+
+		threadRevoke.start();		
+	}
+	private boolean revokeTokenOperation() {
 		String appKey = null;
 		String secret = null;
 		StringBuffer revokeBody = null;
@@ -354,7 +369,7 @@ public class AuthService {
 			revokeBody.append("&token=").append(refreshToken)
 					.append("&token_type_hint=refresh_token");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception in revoke token :" + e.getStackTrace());
 			return false;
 		}
 
