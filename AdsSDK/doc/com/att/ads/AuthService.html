@@ -199,14 +199,6 @@ Authorization operation performed and access tokens are stored in shared
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../com/att/ads/AuthService.html#revokeToken()">revokeToken</A></B>()</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes the current access token and refresh token stored in preferences.</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../com/att/ads/AuthService.html#setAuthSuccess(boolean)">setAuthSuccess</A></B>(boolean&nbsp;isAuthSuccess)</CODE>
 
 <BR>
@@ -352,23 +344,6 @@ public JSONObject <B>oauthService</B>(<A HREF="file:/C:/Program Files/Android/an
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>oath_url</CODE> - <DD><CODE>adView</CODE> - 
 <DT><B>Returns:</B><DD>JSONObject</DL>
-</DD>
-</DL>
-<HR>
-
-<A NAME="revokeToken()"><!-- --></A><H3>
-revokeToken</H3>
-<PRE>
-public void <B>revokeToken</B>()</PRE>
-<DL>
-<DD>Revokes the current access token and refresh token stored in preferences.
- The app key, secret key and refresh token are retrieved from preferences, and 
- passed to the oauthService method which makes the revoke refresh token call.
- The access token, refresh token and expires_in values are cleaned from the
- shared preference.
-<P>
-<DD><DL>
-<DT><B>Parameters:</B><DD><CODE>none</CODE> - </DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
