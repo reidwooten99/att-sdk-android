@@ -27,3 +27,21 @@ proguard/
 .settings/
 IAMSDK/.settings/
 IAM\ Sample\ Apps/.settings
+AdsSDK/doc/com/att/ads/BuildConfig.html
+AdsSDK/doc/com/att/ads/R.attr.html
+AdsSDK/doc/com/att/ads/R.drawable.html
+AdsSDK/doc/com/att/ads/R.html
+AdsSDK/doc/com/att/ads/R.id.html
+AdsSDK/doc/com/att/ads/R.layout.html
+AdsSDK/doc/com/att/ads/R.menu.html
+AdsSDK/doc/com/att/ads/R.string.html
+AdsSDK/doc/com/att/ads/R.style.html
+AdsSDK/doc/com/att/ads/class-use/BuildConfig.html
+AdsSDK/doc/com/att/ads/class-use/R.attr.html
+AdsSDK/doc/com/att/ads/class-use/R.drawable.html
+AdsSDK/doc/com/att/ads/class-use/R.html
+AdsSDK/doc/com/att/ads/class-use/R.id.html
+AdsSDK/doc/com/att/ads/class-use/R.layout.html
+AdsSDK/doc/com/att/ads/class-use/R.menu.html
+AdsSDK/doc/com/att/ads/class-use/R.string.html
+AdsSDK/doc/com/att/ads/class-use/R.style.html
