@@ -76,7 +76,9 @@ public class DebugSettingsPage extends Activity {
 							.getEncryptedValue(m_refreshToken.getText().toString().trim(), EncryptDecrypt
 									.getSecretKeySpec("refresh_token")));
 					
-					prefs.setString("expires_in", m_tokenExpiresIn.getText().toString().trim());
+					String expiresIn = m_tokenExpiresIn.getText().toString().trim();
+					if (expiresIn.isEmpty()) expiresIn = "-1";
+					prefs.setString("expires_in", expiresIn);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

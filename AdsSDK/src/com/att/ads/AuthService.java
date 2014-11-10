@@ -165,9 +165,7 @@ public class AuthService {
 					// get expires_in in seconds.
 					int expiresIn = object.getInt("expires_in");
 					long expiresInSeconds = 0;
-					if (expiresIn != 0) {
-						expiresInSeconds = Utils.getExpiresTimeInSeconds(expiresIn);
-					}
+					expiresInSeconds = Utils.getExpiresTimeInSeconds(expiresIn);
 					// Stores in milliseconds of respective time
 					pref.setString("expires_in", String.valueOf(expiresInSeconds));
 				} catch (JSONException e) {
