@@ -10,6 +10,7 @@ import com.att.api.immn.listener.AttSdkTokenUpdater;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
+import com.att.api.util.TokenUpdatedListener;
 /**
  * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
  * 
@@ -320,7 +321,8 @@ public class IAMManager {
 							}
 							SetCurrentToken(adjustedAuthToken);
 							Log.i("getRefreshTokenListener",
-									"onSuccess Message : " + adjustedAuthToken.getAccessToken());
+									"onSuccess Message : " + 
+									TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
 							if (tokenListener != null) {
 								tokenListener.onTokenUpdate(adjustedAuthToken);
 							}
