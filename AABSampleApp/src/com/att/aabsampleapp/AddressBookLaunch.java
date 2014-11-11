@@ -40,7 +40,11 @@ public class AddressBookLaunch extends Activity {
 		i.putExtra("appScope", Config.appScope);
 		i.putExtra("customParam", strStoredCustomParam);
 
-		startActivityForResult(i, OAUTH_CODE);		
+		try {
+			startActivityForResult(i, OAUTH_CODE);	
+		} catch (Exception ex) {
+			Log.e("UserConsentActivity", "Error: " + ex.getMessage());
+		}
 	}
 
 	@Override
@@ -88,26 +92,26 @@ public class AddressBookLaunch extends Activity {
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode && null != aabManager) {
 					aabManager.getOAuthToken(oAuthCode);
-				} else if (resultCode == RESULT_CANCELED) {
-					String errorMessage = null;
-					if (null != data) {
-						errorMessage = data.getStringExtra("ErrorMessage");
-					} else {
-						errorMessage = getResources().getString(
-								R.string.title_close_application);
-					}
-					new AlertDialog.Builder(AddressBookLaunch.this)
-							.setTitle("Error")
-							.setMessage(errorMessage)
-							.setPositiveButton("OK",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog, int id) {
-											dialog.cancel();
-											finish();
-										}
-									}).show();
 				}
+			} else if (resultCode == RESULT_CANCELED) {
+				String errorMessage = null;
+				if (null != data) {
+					errorMessage = data.getStringExtra("ErrorMessage");
+				} else {
+					errorMessage = getResources().getString(
+							R.string.title_close_application);
+				}
+				new AlertDialog.Builder(AddressBookLaunch.this)
+						.setTitle("Error")
+						.setMessage(errorMessage)
+						.setPositiveButton("OK",
+								new DialogInterface.OnClickListener() {
+									public void onClick(
+											DialogInterface dialog, int id) {
+										dialog.cancel();
+										finish();
+									}
+								}).show();
 			}
 		}
 	}
