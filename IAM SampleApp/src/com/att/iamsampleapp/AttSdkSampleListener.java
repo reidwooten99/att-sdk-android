@@ -28,7 +28,6 @@ public class AttSdkSampleListener implements ATTIAMListener {
 		switch (error.getHttpResponseCode()) {
 		case 400: // invalid_grant
 		case 401: // UnAuthorized Request
-		case 403: // bad app key/secret ??
 			TokenUpdatedListener.DeleteSavedToken();
 			break;
 		}
