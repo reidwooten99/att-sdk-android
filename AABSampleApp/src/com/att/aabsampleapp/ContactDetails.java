@@ -165,7 +165,11 @@ public class ContactDetails extends Activity {
 	 * getMenuInflater().inflate(R.menu.contact_details, menu); return true; }
 	 */
 
-	private class getMyInfoListener implements AttSdkListener {
+	private class getMyInfoListener extends AttSdkSampleListener {
+
+		public getMyInfoListener() {
+			super("getMyInfoAPI");
+		}
 
 		private String strText;
 
@@ -203,11 +207,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getMyInfoAPI on error", "onError");
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class getContactListener implements AttSdkListener {
+	private class getContactListener extends AttSdkSampleListener {
+
+		public getContactListener() {
+			super("getContactAPI");
+		}
 
 		private String strText;
 
@@ -230,8 +238,8 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
-		}
+			super.onError(error);
+		}		
 	}
 
 	public void createContactDetailsFromContact(Contact contact) {
@@ -406,7 +414,11 @@ public class ContactDetails extends Activity {
 		aabManager.UpdateContact(contact);
 	}
 
-	private class createContactListener implements AttSdkListener {
+	private class createContactListener extends AttSdkSampleListener {
+
+		public createContactListener() {
+			super("createContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -427,12 +439,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("createContactAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class updateContactListener implements AttSdkListener {
+	private class updateContactListener extends AttSdkSampleListener {
+
+		public updateContactListener() {
+			super("updateContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -449,12 +464,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateContactAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class updateMyInfoListener implements AttSdkListener {
+	private class updateMyInfoListener extends AttSdkSampleListener {
+
+		public updateMyInfoListener() {
+			super("updateMyInfoAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -473,9 +491,8 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateMyInfoAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	@Override

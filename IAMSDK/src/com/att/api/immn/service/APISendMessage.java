@@ -19,25 +19,25 @@ public class APISendMessage implements ATTIAMListener {
 	String[] addresses = null;
 	String message = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 
 
 	public APISendMessage(String address, String message,
-			IMMNService immnService, ATTIAMListener iamListener) {
+			IAMManager iamMgr, ATTIAMListener iamListener) {
 
 		this.address = address;
 		this.message = message;
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		this.iamManager = iamMgr;
 	}
 	
 	public APISendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments,
-						  IMMNService immnService, ATTIAMListener iamListener) {
+						  IAMManager iamMgr, ATTIAMListener iamListener) {
 		
 		sendMessageParams = new SendMessageParams(addresses, message, group, attachments, subject);
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		this.iamManager = iamMgr;
 	}
 	
 	public void SendMessage() {
@@ -57,18 +57,22 @@ public class APISendMessage implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				sendMessageResponse = immnSrvc.sendMessage(params[0].getAddresses(),
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				sendMessageResponse = IAMManager.immnSrvc.sendMessage(params[0].getAddresses(),
 														   params[0].getMessage(),
 														   params[0].getSubject(),
 														   params[0].getGroup(),
 														   params[0].getAttachments());
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
+				//Log.i("APISendMessage", e.getErrorMessage());
 				onError( errorObj );
 			} catch (JSONException e) {
+				//errorObj.setErrorMessage(e.getMessage());
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);			
 			} catch (ParseException e) {
+				//errorObj.setErrorMessage(e.getMessage());
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			}

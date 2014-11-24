@@ -99,12 +99,12 @@ public class UserConsentActivity extends Activity {
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			Log.i("onPageStarted", "Start : " + url);
 			super.onPageStarted(view, url, favicon);
-			if(url.contains("code=")) {				
-				String encodedURL;
-				try {
-					encodedURL = URLEncoder.encode(url, "UTF-8");
-					Log.i("onPageStarted", "encodedURL: " + encodedURL);
-
+			String encodedURL;
+			try {
+				encodedURL = URLEncoder.encode(url, "UTF-8");
+				Log.i("onPageStarted", "encodedURL: " + encodedURL);
+	
+				if(url.contains("code=")) {				
 					String encodedURLSplits[] = encodedURL.split("code%3D");
 					if(encodedURLSplits.length > 1) {
 						String oAuthCode = encodedURLSplits[1];
@@ -116,20 +116,22 @@ public class UserConsentActivity extends Activity {
 						setResult(RESULT_OK,returnIntent);
 						finish();
 					}
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
+				} else if(url.contains("error=")) {
+					String encodedURLSplits[] = encodedURL.split("error%3D");
+					if(encodedURLSplits.length > 1) {
+						String errorMessage = encodedURLSplits[1];
+	
+						Log.i("onPageStarted", "Error: " + errorMessage);
+						
+						Intent returnIntent = new Intent();
+						returnIntent.putExtra("ErrorMessage", errorMessage);
+						setResult(RESULT_CANCELED,returnIntent);
+						finish();
+					}
 				}
-			} else if(url.contains("error=")) {
-				try {
-					throw new RESTException("Incorrect Url! Unable to open the Authorization page." +
-											"Check the APP_KEY,APP_SECRET,APP_SCOPE and REDIRECT_URI");
-				} catch (RESTException e) {
-					errorObj = new AttSdkError(e.getMessage());
-				}																			
-			
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			}
     	}	
     }
-
-	
 }

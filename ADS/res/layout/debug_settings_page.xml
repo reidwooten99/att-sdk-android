@@ -85,32 +85,10 @@
     </LinearLayout>
 
     <CheckBox
-        android:id="@+id/forceOffNetCheckBox"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/GetCurrentAccessToken"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/title_bypass_on_net"
-        android:textSize="16sp" />
-
-    <CheckBox
-        android:id="@+id/forceSuppressCheckBox"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/forceOffNetCheckBox"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/title_suppress_landing_page"
-        android:textSize="16sp" />
-
-    <CheckBox
         android:id="@+id/clearPreferencesCheckBox"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/forceSuppressCheckBox"
+        android:layout_below="@+id/GetCurrentAccessToken"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -129,26 +107,16 @@
         android:textSize="16sp" />
     
     <CheckBox
-        android:id="@+id/revokeAccessTokenCheckBox"
+        android:id="@+id/revokeRefreshTokenCheckBox"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/clearCookiesCheckBox"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/title_revoke_access_token"
-        android:textSize="16sp" />
-    
-    <CheckBox
-        android:id="@+id/revokeRefreshTokenCheckBox"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/revokeAccessTokenCheckBox"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:text="@string/title_revoke_refresh_token"
         android:textSize="16sp" />
+    
     
     <Button
         android:id="@+id/applyButton"

@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -216,6 +217,13 @@ public class SettingsViewActivity extends Activity {
 					}
 				});
 
+		Button debugSettingsButton = (Button) findViewById(R.id.debugSettings);
+		debugSettingsButton.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsViewActivity.this, DebugSettingsPage.class);
+		   	 	startActivity(intent);
+			}
+		});
 	}
 
 	/**

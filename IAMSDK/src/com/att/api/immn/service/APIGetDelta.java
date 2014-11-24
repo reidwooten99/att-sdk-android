@@ -16,12 +16,12 @@ public class APIGetDelta implements ATTIAMListener {
 	
 	String state = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 
-	public APIGetDelta(String state, IMMNService immnService, ATTIAMListener iamListener) {
+	public APIGetDelta(String state, IAMManager iamMgr, ATTIAMListener iamListener) {
 		this.state = state;
-		this.immnSrvc = immnService;
+		this.iamManager = iamMgr;
 		this.iamListener = iamListener;
 	}
 
@@ -38,7 +38,8 @@ public class APIGetDelta implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				deltaResponseInternal = immnSrvc.getDelta(params[0]);
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				deltaResponseInternal = IAMManager.immnSrvc.getDelta(params[0]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
@@ -51,6 +52,10 @@ public class APIGetDelta implements ATTIAMListener {
 				errorObj = new InAppMessagingError(e.getMessage());
 				onError(errorObj);		
 			}
+			
+			// SM: Fixed the bug to handle null value of Delta Response
+			if (deltaResponseInternal == null) return null;
+			
 			String state = deltaResponseInternal.getState();
 			int numChanges = 0;
 			for(int i = 0; i < deltaResponseInternal.getDeltas().length; ++i ) {

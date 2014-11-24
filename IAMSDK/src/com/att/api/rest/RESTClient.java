@@ -59,10 +59,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.att.api.consentactivity.UserConsentActivity;
 import com.att.api.oauth.OAuthToken;
-import com.att.api.util.Preferences;
-import com.att.api.util.SdkConfig;
 
 /*
  * Client used to send RESTFul requests.
@@ -121,7 +118,6 @@ public class RESTClient {
 	/* Http parameters to send. */
 	private final Map<String, List<String>> parameters;
 
-	final String TAG = "RESTClient";
 	/*
 	 * Internal method used to build an APIResponse using the specified
 	 * HttpResponse object.
@@ -141,17 +137,6 @@ public class RESTClient {
 		if (statusCode != 200 && statusCode != 201 && statusCode != 202
 				&& statusCode != 204) {
 			RESTException restExce = new RESTException(statusCode, apir.getResponseBody());
-			
-			if (statusCode == 400) {
-				// The refresh token failed. We clear all data in Preference, exit the app.
-				// The user  have to start the app and a new access token, new refresh token
-				// and new time expiry will be request
-				
-				Log.i(TAG,"Refresh Token failed");
-				
-				Preferences pref = new Preferences(null);
-				System.exit(0);
-			}
 			throw restExce;
 		}
 
@@ -252,8 +237,6 @@ public class RESTClient {
 			// UTF-8 is a Java supported encoding.
 			// This should not occur unless the Java VM is not functioning
 			// properly.
-			Log.i(TAG, "UnsupportedEncodingException");
-			e.printStackTrace();
 			throw new IllegalStateException();
 		}
 
@@ -551,7 +534,7 @@ public class RESTClient {
 	 * @throws RESTException
 	 *             if request was unsuccessful
 	 */
-	public synchronized APIResponse httpGet() throws RESTException {
+	public APIResponse httpGet() throws RESTException {
 		HttpClient httpClient = null;
 		HttpResponse response = null;
 
@@ -573,6 +556,7 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -602,6 +586,7 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -674,6 +659,7 @@ public class RESTClient {
             throw new RESTException(e);
         } catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         } finally {
             if (response != null) {
                 this.releaseConnection(response);
@@ -1006,6 +992,7 @@ public class RESTClient {
 			throw new RESTException(e);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1035,6 +1022,7 @@ public class RESTClient {
 			throw new RESTException(e);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1066,6 +1054,7 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         } finally {
 			if (response != null) {
 				this.releaseConnection(response);
@@ -1092,6 +1081,7 @@ public class RESTClient {
 			throw new RESTException(ioe);
 		} catch(RESTException  exception) {
 			throw exception;
+	    	//Log.i("TAG", exception.getLocalizedMessage());
         }finally {
 			if (response != null) {
 				this.releaseConnection(response);

@@ -12,7 +12,6 @@ import com.att.api.aab.manager.AabManager;
 import com.att.api.error.AttSdkError;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.util.Preferences;
-import com.att.sdk.listener.AttSdkListener;
 import com.att.api.util.TokenUpdatedListener;
 
 public class AddressBookLaunch extends Activity {
@@ -41,7 +40,11 @@ public class AddressBookLaunch extends Activity {
 		i.putExtra("appScope", Config.appScope);
 		i.putExtra("customParam", strStoredCustomParam);
 
-		startActivityForResult(i, OAUTH_CODE);		
+		try {
+			startActivityForResult(i, OAUTH_CODE);	
+		} catch (Exception ex) {
+			Log.e("UserConsentActivity", "Error: " + ex.getMessage());
+		}
 	}
 
 	@Override
@@ -89,31 +92,35 @@ public class AddressBookLaunch extends Activity {
 				Log.i("ContactList", "oAuthCode:" + oAuthCode);
 				if (null != oAuthCode && null != aabManager) {
 					aabManager.getOAuthToken(oAuthCode);
-				} else if (resultCode == RESULT_CANCELED) {
-					String errorMessage = null;
-					if (null != data) {
-						errorMessage = data.getStringExtra("ErrorMessage");
-					} else {
-						errorMessage = getResources().getString(
-								R.string.title_close_application);
-					}
-					new AlertDialog.Builder(AddressBookLaunch.this)
-							.setTitle("Error")
-							.setMessage(errorMessage)
-							.setPositiveButton("OK",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog, int id) {
-											dialog.cancel();
-											finish();
-										}
-									}).show();
 				}
+			} else if (resultCode == RESULT_CANCELED) {
+				String errorMessage = null;
+				if (null != data) {
+					errorMessage = data.getStringExtra("ErrorMessage");
+				} else {
+					errorMessage = getResources().getString(
+							R.string.title_close_application);
+				}
+				new AlertDialog.Builder(AddressBookLaunch.this)
+						.setTitle("Error")
+						.setMessage(errorMessage)
+						.setPositiveButton("OK",
+								new DialogInterface.OnClickListener() {
+									public void onClick(
+											DialogInterface dialog, int id) {
+										dialog.cancel();
+										finish();
+									}
+								}).show();
 			}
 		}
 	}
 
-	public class getTokenListener implements AttSdkListener {
+	public class getTokenListener extends AttSdkSampleListener {
+		
+		public getTokenListener() {
+			super("getTokenListener");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -136,10 +143,7 @@ public class AddressBookLaunch extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getTokenListener", "Error:" + error.getHttpResponse());
-			if (error.getHttpResponse().contains("invalid_grant")) {
-				TokenUpdatedListener.DeleteSavedToken();
-			}
+			super.onError(error);
 		}
 	}
 
@@ -166,5 +170,28 @@ public class AddressBookLaunch extends Activity {
 			pDialog.dismiss();
 		}
 	}
+	
+	public static void RevokeToken(final String hint) {
+		class revokeTokenListener extends AttSdkSampleListener {		
+			public revokeTokenListener() {
+				super("revokeToken");
+			}
+			@Override
+			public void onSuccess(Object response) {
+				Log.i("revokeTokenListener", hint + " was successfully revoked.");
+			}
 
+			@Override
+			public void onError(AttSdkError error) {
+				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
+			}
+		}
+		
+		AabManager aabManager = new AabManager(new revokeTokenListener());
+		if (hint.equalsIgnoreCase("access_token")) {
+			aabManager.RevokeAccessToken();
+		} else {
+			aabManager.RevokeToken(hint);		
+		}
+	}
 }

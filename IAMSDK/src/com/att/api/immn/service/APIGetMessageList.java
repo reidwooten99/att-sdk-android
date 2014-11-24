@@ -17,16 +17,16 @@ public class APIGetMessageList implements ATTIAMListener {
 	int limit = 0;
 	int offset = 0;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 	
 	public APIGetMessageList(int limit, int offset,
-			IMMNService immnService, ATTIAMListener iamListener) {
+			IAMManager iamMgr, ATTIAMListener iamListener) {
 
 		this.limit = limit;
 		this.offset = offset;
 		this.iamListener = iamListener;
-		this.immnSrvc = immnService;
+		this.iamManager = iamMgr;
 	}
 	
 	public void GetMessageList() {
@@ -43,7 +43,8 @@ public class APIGetMessageList implements ATTIAMListener {
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				messageList = immnSrvc.getMessageList(params[0],params[1]);
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return null;
+				messageList = IAMManager.immnSrvc.getMessageList(params[0],params[1]);
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				onError( errorObj );
@@ -99,10 +100,10 @@ public class APIGetMessageList implements ATTIAMListener {
 					JSONObject jobj2 = jobj1.getJSONObject("ServiceException");
 					serviceExceptionId = jobj2.getString("MessageId");
 					if (serviceExceptionId.equalsIgnoreCase("SVC0001") ) {
-						messageIndexInfo = immnSrvc.getMessageIndexInfo();
+						messageIndexInfo = IAMManager.immnSrvc.getMessageIndexInfo();
 						if(messageIndexInfo.getStatus().toString().equalsIgnoreCase("NOT_INITIALIZED") || 
 						   messageIndexInfo.getStatus().toString().equalsIgnoreCase("ERROR")) {
-							immnSrvc.createMessageIndex();
+							IAMManager.immnSrvc.createMessageIndex();
 							GetMessageList();
 						}
 					}

@@ -15,6 +15,7 @@ import com.att.api.error.Utils;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
+import com.att.api.util.TokenUpdatedListener;
 import com.att.sdk.listener.AttSdkListener;
 import com.att.sdk.listener.AttSdkTokenUpdater;
 
@@ -109,7 +110,8 @@ public class AabManager {
 							}
 							currentToken = adjustedAuthToken;
 							Log.i("getRefreshTokenListener",
-									"onSuccess Message : " + adjustedAuthToken.getAccessToken());
+									"onSuccess Message : " + 
+									TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
 							if (tokenListener != null) {
 								tokenListener.onTokenUpdate(adjustedAuthToken);
 							}
@@ -158,26 +160,30 @@ public class AabManager {
 		getTokenUsingCodetask.execute(code);
     }
 	
-	/**
-     * Gets an access token using the specified code.
-     *
-     * <p>
-     * The parameters set during object creation will be used when requesting
-     * the access token.
-     * </p>
-     * <p>
-     * The token request is done using the 'authorization_code' grant type.
-     * </p>
-     *
-     * @param code code to use when requesting access token
-     * @return OAuthToken object if successful
+    /**
+     * Revokes the current token.
+     * 
+     * @param hint a hint for the type of token to revoke
      *
      */
-	public void getRefreshToken(String refreshToken){
-		RefreshExpiredTokenTask refreshExpiredTokenTask  = new RefreshExpiredTokenTask();
-		refreshExpiredTokenTask.execute(refreshToken);
+    public void RevokeToken(String hint) {
+		RevokeTokenTask task = new RevokeTokenTask();
+		if (hint.equalsIgnoreCase("access_token")) {
+			task.execute(currentToken.getAccessToken(), hint);
+		} else if (hint.equalsIgnoreCase("refresh_token")) {
+			task.execute(currentToken.getRefreshToken(), hint);			
+		} else {
+			if (null != aabListener) {
+				aabListener.onError(new AttSdkError("Invalid token hint passed to the RevokeToken method."));
+			}			
+		}
     }
-	
+    
+    // Overloaded method to revoke current access token
+    public void RevokeAccessToken() {
+    	this.RevokeToken("access_token");    	
+    }
+    
 	/**
      * Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.
      *
@@ -415,30 +421,31 @@ public class AabManager {
 		}
     	
     }
-	
-	public class RefreshExpiredTokenTask extends AsyncTask<String, Void, OAuthToken> {
+
+	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected OAuthToken doInBackground(String... params) {
-			OAuthToken accestoken = null;
+		protected String doInBackground(String... params) {
+			String result = null;
 			AttSdkError errorObj = new AttSdkError();
 			try {
-				accestoken = osrvc.refreshToken(params[0]);
+				osrvc.revokeToken(params[0], params[1]);
+				result = "Success";
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
 				if (null != aabListener) {
 					aabListener.onError(errorObj);
 				}
 			}		
-			return accestoken;
+			return result;
 		}
 
 		@Override
-		protected void onPostExecute(OAuthToken accestoken) {
-			super.onPostExecute(accestoken);
-			if(null != accestoken) {
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if(null != result) {
 				if (null != aabListener) {
-					aabListener.onSuccess(accestoken);
+					aabListener.onSuccess(result);
 				}
 			}
 		}

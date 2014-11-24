@@ -23,7 +23,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -39,8 +38,6 @@ import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.IAMManager;
 import com.att.api.immn.service.MessageContent;
 import com.att.api.oauth.OAuthToken;
-import com.att.api.util.PreferencesOperator;
-import com.att.api.util.SdkConfig;
 
 public class MMSContent extends Activity {
 
@@ -52,7 +49,7 @@ public class MMSContent extends Activity {
 	ListView MessageContentListView;
 	ArrayList<String> listItems = new ArrayList<String>();
 	ArrayAdapter<String> adapter;
-    PreferencesOperator m_pref = null;
+
 	
 	/*
 	 * The messageId and the part number must be passed to get the message content associated with that ID
@@ -70,17 +67,13 @@ public class MMSContent extends Activity {
 		mmsContentName = (String[]) ext.get("MMSContentName");
 		mmsContentType = (String[]) ext.get("MMSContentName");
 		mmsContentUrl = (String[]) ext.get("MMSContentUrl");
-		
-		m_pref = new PreferencesOperator(getApplicationContext());
-	    token = new OAuthToken(m_pref.singleStrRetrieve("AccessToken"), m_pref.singleLongRetrieve("AccessTokenExpiry") 
-	    		                    - OAuthToken.xtimestamp(), m_pref.singleStrRetrieve("RefreshToken"));
 
 		for (int n = 0; n < mmsContentName.length; n++) {
+
 			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
-			iamManager = new IAMManager(SdkConfig.fqdn, token, getApplicationContext(),
-					new getMessageContentListener());
+			iamManager = new IAMManager(new getMessageContentListener());
 			String mmsContentDetails[] = mmsContentUrl[n].split("/");
 			iamManager.GetMessageContent(
 					mmsContentDetails[mmsContentDetails.length - 3],
@@ -192,7 +185,11 @@ public class MMSContent extends Activity {
 	 */
 
 
-	private class getMessageContentListener implements ATTIAMListener {
+	private class getMessageContentListener extends AttSdkSampleListener {
+
+		public getMessageContentListener() {
+			super("getMessageContent");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -206,8 +203,9 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(),error);
+			Utils.toastOnError(getApplicationContext(),error);			
 		}
 		
 	}

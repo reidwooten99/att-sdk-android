@@ -3,7 +3,6 @@ package com.att.api.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
 /**
  * This Class used to maintain the shared preferences usages in single place.
@@ -27,15 +26,7 @@ public final class Preferences {
 	 * @param context
 	 */
 	public Preferences(Context context) {
-		
-		if (null == context) {
-			Log.d("Preferences", "Null");
-			prefs.edit().clear();
-		}
-		else {
-			Log.d("Preferences", "Not Null");
-		    prefs = context.getSharedPreferences("IAM_API", Context.MODE_PRIVATE);
-		}
+		prefs = context.getSharedPreferences("ADS_API", Context.MODE_PRIVATE);
 	}
 
 	/**

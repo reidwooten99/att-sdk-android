@@ -171,7 +171,11 @@ public class ContactList extends Activity implements OnClickListener {
 
 	}
 
-	private class deleteContactListener implements AttSdkListener {
+	private class deleteContactListener extends AttSdkSampleListener {
+		
+		public deleteContactListener() {
+			super("deleteContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -190,9 +194,8 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("deleteContactAPI on error", "Error:" + error.getHttpResponse());
+			super.onError(error);;
 		}
-
 	}
 
 	public void refreshContactList(ListView ContactsListView) {
@@ -210,7 +213,11 @@ public class ContactList extends Activity implements OnClickListener {
 
 	}
 
-	private class getContactsListener implements AttSdkListener {
+	private class getContactsListener extends AttSdkSampleListener {
+		
+		public getContactsListener() {
+			super("getContactsAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -231,9 +238,8 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "Error:" + error.getHttpResponse());
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	public void setupContactListListener() {
@@ -264,8 +270,12 @@ public class ContactList extends Activity implements OnClickListener {
 
 	}
 
-	private class getGroupsListener implements AttSdkListener {
+	private class getGroupsListener extends AttSdkSampleListener {
 		public GroupResultSet groupResultSet;
+		
+		public getGroupsListener() {
+			super("getGroupsAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -320,13 +330,16 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupsAPI on error", "Error:" + error.getHttpResponse());
-
+			super.onError(error);
 		}
 	}
 
-	private class getGroupContactListener implements AttSdkListener {
+	private class getGroupContactListener extends AttSdkSampleListener {
 
+		public getGroupContactListener() {
+			super("getGroupContactAPI");
+		}
+		
 		@Override
 		public void onSuccess(Object response) {
 			String strText;
@@ -352,12 +365,15 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "Error:" + error.getHttpResponse());
-
+			super.onError(error);
 		}
 	}
 
-	private class getContactListener implements AttSdkListener {
+	private class getContactListener extends AttSdkSampleListener {
+		
+		public getContactListener() {
+			super("getContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -379,8 +395,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "Error:" + error.getHttpResponse());
-
+			super.onError(error);
 		}
 	}
 }

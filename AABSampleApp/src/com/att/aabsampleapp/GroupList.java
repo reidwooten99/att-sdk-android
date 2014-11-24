@@ -253,7 +253,11 @@ public class GroupList extends Activity implements OnClickListener {
 		builder.show();
 	}
 
-	private class deleteGroupListener implements AttSdkListener {
+	private class deleteGroupListener extends AttSdkSampleListener {
+
+		public deleteGroupListener() {
+			super("deleteGroupAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -268,12 +272,15 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("deleteGroupAPI on error", "Error:" + error.getHttpResponse());
-		}
-
+			super.onError(error);
+		}		
 	}
 
-	private class createGroupListener implements AttSdkListener {
+	private class createGroupListener extends AttSdkSampleListener {
+
+		public createGroupListener() {
+			super("createGroupAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -291,13 +298,15 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("createGroupAPI on error", "Error:" + error.getHttpResponse());
-
-		}
-
+			super.onError(error);
+		}		
 	}
 
-	private class updateGroupListener implements AttSdkListener {
+	private class updateGroupListener extends AttSdkSampleListener {
+
+		public updateGroupListener() {
+			super("updateGroupAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -312,13 +321,16 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateGroupAPI on error", "Error:" + error.getHttpResponse());
-
-		}
-
+			super.onError(error);
+		}		
 	}
 
-	private class getGroupsListener implements AttSdkListener {
+	private class getGroupsListener extends AttSdkSampleListener {
+
+		public getGroupsListener() {
+			super("getGroupsAPI");
+		}
+
 		public GroupResultSet groupResultSet;
 		Group[] groupList;
 
@@ -348,12 +360,16 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupsAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class addContactsToGroupListener implements AttSdkListener {
+	private class addContactsToGroupListener extends AttSdkSampleListener {
+		
+		public addContactsToGroupListener() {
+			super("addContactsToGroupAPI");
+		}
+
 		String contactId;
 
 		@Override
@@ -373,9 +389,8 @@ public class GroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("addContactsToGroupAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	@Override
