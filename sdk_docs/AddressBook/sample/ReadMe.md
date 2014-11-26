@@ -18,7 +18,7 @@ The SDK abstracts away all the networking tasks using the AsyncTasks in a wrappe
 
 There are two main components to the library 
 
-1.A manager --HTTP client-- to handle all the Addres Book requests
+1.A manager --HTTP client-- to handle all the Address Book requests
 
 2.A set of request wrappers for the HTTP requests to access the API's resources.
 
@@ -74,29 +74,17 @@ The networking layer is abstracted away by providing the manager—AabManager-- 
  
 ##### AABSampleApp project 
  
-Enter the OAuth credentials -
+Enter the OAuth 2.0 related value -
  
  * APP_KEY 
  * APP_SECRET 
  * APP_SCOPE
  * REDIRECT_URI
+ * CUSTOM_PARAM
+
+ 
  
 Run the AabSampleApp project which demonstrates the basic functionalities of all the Address Book APIs
-
-##### TestAAB project
-
-Enter the OAuth credentials -
- 
- * APP_KEY 
- * APP_SECRET 
- * APP_SCOPE
- * REDIRECT_URI
-
- 
-Run the TestAab project which can be used to test the functionality of the individual Address Book APIs by entering the test case numbers.[1:GetContacts ; 2:GetContact etc]
-
-Note : User can also add their own test cases 
- 
  
 ## Using the Address Book SDK in your App
 
@@ -142,7 +130,8 @@ Add the UserConsent Activity in the ManifestFile
 	i.putExtra("clientSecret", Config.secretKey);
 	i.putExtra("redirectUri", Config.redirectUri);
 	i.putExtra("appScope", Config.appScope);
-           
+ 	i.putExtra("customParam", strStoredCustomParam);
+          
 	startActivityForResult(i, OAUTH_CODE);
 	
 
@@ -156,19 +145,18 @@ OnSuccess call back of the token listener, you can call other APIs
 Example :
 
 	public class getTokenListener implements AttSdkListener {
-	@Override
-	public void onSuccess(Object response) {
-	OAuthToken authToken = (OAuthToken) response;
-	if (null != authToken) {
- 
-	getAddressBookContacts();
-      }
-	}
- 
-	@Override
-	public void onError(AttSdkError error) {
-      //Your code for error        
-      }
+            @Override
+            public void onSuccess(Object response) {
+            OAuthToken authToken = (OAuthToken) response;
+            if (null != authToken) {
+                getAddressBookContacts();
+            }
+            }
+     
+            @Override
+            public void onError(AttSdkError error) {
+              //Your code for error        
+            }
 	}    
 	
 Note : AccessToken can be cached so that the developer need not authorize everytime the app is launched.      

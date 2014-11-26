@@ -20,7 +20,7 @@ import com.att.sdk.listener.AttSdkListener;
 import com.att.sdk.listener.AttSdkTokenUpdater;
 
 /**
-* This class encapsulates the AT&T RESTfull APIs for AddressBook.
+* This class encapsulates the AT&T RESTful APIs for AddressBook.
 * 
 * @author sm095n
 * @author ps350r
@@ -42,8 +42,16 @@ public class AabManager {
 	
 	/**
 	 * The AabManager method creates an AabManager object.
+	 * @param listener - Specifies the Listener for callbacks.
+	 */	
+	public AabManager(final AttSdkListener listener) {
+		this(null, listener);
+	}
+	
+	/**
+	 * The AabManager method creates an AabManager object.
 	 * @param token - Overrides the default OAuth token used for authorization.
-	 * @param aabListener - Specifies the Listener for callbacks.
+	 * @param listener - Specifies the Listener for callbacks.
 	 */	
 	public AabManager(OAuthToken token, final AttSdkListener listener) {
 		if (token != null) {
@@ -55,40 +63,65 @@ public class AabManager {
 		aabListener = listener;
 	}
 	
-	public AabManager(final AttSdkListener listener) {
-		this(null, listener);
-	}
-	
-	// Note: This constructor is used to obtain the auth code 
+	/**
+	 * The AabManager method creates an AabManager object which is used to obtain AuthCode.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 * @param listener - Specifies the Listener for callbacks.
+	 */	
 	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
 		aabListener = listener;
 	}
 	
+	/**
+	 * The AabManager method updates the current access token used for the subsequent API calls..
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 */	
 	public static void SetCurrentToken(OAuthToken token) {
 		currentToken = token;
 	}
 	
+	/**
+	 * The AabManager method updates the current value for the token expiry override time.
+	 * @param value - Override expiry time in seconds.
+	 */	
 	public static void SetLowerTokenExpiryTimeTo (long value) {
 		lowerTokenExpiryTimeTo = value;
 	}
 	
+	/**
+	 * The AabManager method returns the current expiry time override value.
+	 */	
 	public static long GetLowerTokenExpiryTimeTo () {
 		return lowerTokenExpiryTimeTo;
 	}
 	
+	/**
+	 * The AabManager method updates the FQDN of the AT&T API end point.
+	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
+	 */	
 	public static void SetApiFqdn(String fqdn) {
 		apiFqdn = fqdn;
 	}
 	
+	/**
+	 * The AabManager method updates the listener to call back when the access token is updated.
+	 * @param listener - AttSdkTokenUpdater object.
+	 */	
 	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
 		tokenListener = listener;
 	}
 	
+	/**
+	 * The AabManager internal method checks if the current access token is expired.
+	 */	
 	public static Boolean isCurrentTokenExpired() {
 		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
+	/**
+	 * The AabManager internal method automatically updates the current token using the RefreshToken.
+	 */	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {			    
 		try {
 			OAuthToken authToken = null;
@@ -179,7 +212,10 @@ public class AabManager {
 		}
     }
     
-    // Overloaded method to revoke current access token
+    /**
+     * Revokes the access token.
+     *
+     */
     public void RevokeAccessToken() {
     	this.RevokeToken("access_token");    	
     }

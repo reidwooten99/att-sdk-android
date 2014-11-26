@@ -87,12 +87,13 @@ Using the SampleApp
  
 AABSampleApp project 
  
-Enter the OAuth credentials -
+Enter the OAuth related values -
  
  * APP_KEY 
  * APP_SECRET 
  * APP_SCOPE
  * REDIRECT_URI
+ * CUSTOM_PARAM
  
 Run the AabSampleApp project which demonstrates the basic functionalities of all the Address Book APIs
 
@@ -102,3 +103,7 @@ ChangeLog
 Release 1.0 - July 3rd 2014
 
 Initial release of AAB SDK.
+
+Release 1.1 - December 1st, 2014
+
+Added the support for OAuth 2.0 Version 4 to support RememberMe, RefreshToken and RevokeToken functionality.
