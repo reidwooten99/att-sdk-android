@@ -16,6 +16,7 @@ import com.att.api.util.TokenUpdatedListener;
  * 
  * @author dg185p
  * @author ps350r
+ * @author sm095n
  * 
  */
 public class IAMManager {
@@ -29,9 +30,18 @@ public class IAMManager {
 	private static String apiFqdn = "https://api.att.com";
 	// if lowerTokenExpiryTimeTo >= 0, over rides token expiry to this value
 	private static long lowerTokenExpiryTimeTo = -1; 
+
 	
 	/**
-	 * The IAMManager method creates an IAMManager object.
+	 * Creates an IAMManager object.
+	 * @param iamListener - Specifies the Listener for callbacks.
+	 */
+	public IAMManager(ATTIAMListener iamListener) {
+		this(null, iamListener);
+	}
+	
+	/**
+	 * Creates an IAMManager object and initializes the saved access token.
 	 * @param token (optional) - Can be passed as null. Overrides currentToken.
 	 * @param iamListener - Specifies the Listener for callbacks.
 	 */
@@ -43,15 +53,6 @@ public class IAMManager {
 			immnSrvc = new IMMNService(apiFqdn, currentToken);
 		}
 		this.iamListener = iamListener;
-	}
-
-	
-	/**
-	 * The IAMManager method creates an IAMManager object.
-	 * @param iamListener - Specifies the Listener for callbacks.
-	 */
-	public IAMManager(ATTIAMListener iamListener) {
-		this(null, iamListener);
 	}
 
 	/**
@@ -275,31 +276,56 @@ public class IAMManager {
 		updateMessage.UpdateMessage();
 	}
 	
+	/**
+	 * The SetCurrentToken method updates the current access token used for the subsequent API calls.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 */	
 	public static void SetCurrentToken(OAuthToken token) {
 		currentToken = token;
 		immnSrvc = new IMMNService(apiFqdn, token);
 	}
 	
+	/**
+	 * The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
+	 * @param value - Override expiry time in seconds.
+	 */	
 	public static void SetLowerTokenExpiryTimeTo (long value) {
 		lowerTokenExpiryTimeTo = value;
 	}
 	
+	/**
+	 * The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
+	 */	
 	public static long GetLowerTokenExpiryTimeTo () {
 		return lowerTokenExpiryTimeTo;
 	}
 	
+	/**
+	 * The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
+	 * @param listener - AttSdkTokenUpdater object.
+	 */	
 	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
 		tokenListener = listener;
 	}
 	
+	/**
+	 * The isCurrentTokenExpired method checks if the current access token is expired.
+	 */	
 	public static Boolean isCurrentTokenExpired() {
 		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
+	/**
+	 * The SetApiFqdn method updates the FQDN of the AT&T API end point.
+	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
+	 */	
 	public static void SetApiFqdn(String fqdn) {
 		apiFqdn = fqdn;
 	}
 	
+	/**
+	 * The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
+	 */	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {
 		try {
 			OAuthToken authToken = null;
@@ -352,7 +378,7 @@ public class IAMManager {
 	}
 	
     /**
-     * Revokes the current token.
+     * The RevokeToken method revokes the current token.
      * 
      * @param hint a hint for the type of token to revoke
      *
@@ -370,7 +396,10 @@ public class IAMManager {
 		}
     }
     
-    // Overloaded method to revoke current access token
+    /**
+     * The RevokeAccessToken method revokes the access token.
+     *
+     */
     public void RevokeAccessToken() {
     	this.RevokeToken("access_token");    	
     }

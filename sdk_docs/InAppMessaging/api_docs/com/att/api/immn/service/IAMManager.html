@@ -107,7 +107,7 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 <P>
 <DL>
 <DT><B>Author:</B></DT>
-  <DD>dg185p, ps350r</DD>
+  <DD>dg185p, ps350r, sm095n</DD>
 </DL>
 <HR>
 
@@ -128,6 +128,14 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
 </TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;com.att.api.oauth.OAuthService</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#osrvc">osrvc</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
 </TABLE>
 &nbsp;
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -139,12 +147,19 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 <B>Constructor Summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#IAMManager(java.lang.String, com.att.api.oauth.OAuthToken, com.att.api.immn.listener.ATTIAMListener)">IAMManager</A></B>(java.lang.String&nbsp;fqdn,
-           <A HREF="../../../../../com/att/api/oauth/OAuthToken.html" title="class in com.att.api.oauth">OAuthToken</A>&nbsp;token,
-           com.att.api.immn.listener.ATTIAMListener&nbsp;iamListener)</CODE>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#IAMManager(com.att.api.immn.listener.ATTIAMListener)">IAMManager</A></B>(
+        com.att.api.immn.listener.ATTIAMListener&nbsp;iamListener)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an IAMManager object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#IAMManager(com.att.api.oauth.OAuthToken, com.att.api.immn.listener.ATTIAMListener)">IAMManager</A></B>(
+        <A HREF="../../../../../com/att/api/oauth/OAuthToken.html" title="class in com.att.api.oauth">OAuthToken</A>&nbsp;token,
+        com.att.api.immn.listener.ATTIAMListener&nbsp;iamListener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an IAMManager object and initializes the saved access token.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -155,6 +170,14 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
 <TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
 <B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#CheckAndRefreshExpiredTokenAsync()">CheckAndRefreshExpiredTokenAsync</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -187,6 +210,14 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This provides capability to check for updates by passing in a client state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#GetLowerTokenExpiryTimeTo()">GetLowerTokenExpiryTimeTo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -236,6 +267,30 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#isCurrentTokenExpired()">isCurrentTokenExpired</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The isCurrentTokenExpired method checks if the current access token is expired.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#RevokeAccessToken()">RevokeAccessToken</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The RevokeAccessToken method revokes the access token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#RevokeToken(java.lang.String)">RevokeToken</A></B>(java.lang.String&nbsp;hint)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The RevokeToken method revokes the current token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#SendMessage(java.lang.String[], java.lang.String, java.lang.String, boolean, java.lang.String[])">SendMessage</A></B>(java.lang.String[]&nbsp;addresses,
             java.lang.String&nbsp;message,
@@ -245,6 +300,38 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The background task returns the response of the type  SendResponse to the listener</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#SetApiFqdn(java.lang.String)">SetApiFqdn</A></B>(java.lang.String&nbsp;fqdn)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetApiFqdn method updates the FQDN of the AT&T API end point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#SetCurrentToken(com.att.api.oauth.OAuthToken)">SetCurrentToken</A></B>(com.att.api.oauth.OAuthToken&nbsp;token)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetCurrentToken method updates the current access token used for the subsequent API calls.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#SetLowerTokenExpiryTimeTo(long)">SetLowerTokenExpiryTimeTo</A></B>(long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#SetTokenUpdatedListener(com.att.api.immn.listener.AttSdkTokenUpdater)">SetTokenUpdatedListener</A></B>(com.att.api.immn.listener.AttSdkTokenUpdater&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -549,6 +636,123 @@ public void <B>UpdateMessage</B>(java.lang.String&nbsp;msgId,
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>msgId</CODE> - -               Id of the message that is intended to get updated<DD><CODE>isUnread</CODE> - -       optional - This flag provides capability to set a message unread or read status<DD><CODE>isFavorite</CODE> - -  optional - Sets the message to favorite or to unset the favorite.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="SetCurrentToken(com.att.api.oauth.OAuthToken)"><!-- --></A><H3>
+SetCurrentToken</H3>
+<PRE>
+public static void <B>SetCurrentToken</B>(com.att.api.oauth.OAuthToken&nbsp;token)</PRE>
+<DL>
+<DD>The SetCurrentToken method updates the current access token used for the subsequent API calls.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>token</CODE> - - Overrides the default OAuth token used for authorization.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="SetLowerTokenExpiryTimeTo(long)"><!-- --></A><H3>
+SetLowerTokenExpiryTimeTo</H3>
+<PRE>
+public static void <B>SetLowerTokenExpiryTimeTo</B>(long&nbsp;value)</PRE>
+<DL>
+<DD>The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - - Override expiry time in seconds.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="GetLowerTokenExpiryTimeTo()"><!-- --></A><H3>
+GetLowerTokenExpiryTimeTo</H3>
+<PRE>
+public static long <B>GetLowerTokenExpiryTimeTo</B>()</PRE>
+<DL>
+<DD>The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="SetTokenUpdatedListener(com.att.api.immn.listener.AttSdkTokenUpdater)"><!-- --></A><H3>
+SetTokenUpdatedListener</H3>
+<PRE>
+public static void <B>SetTokenUpdatedListener</B>(com.att.api.immn.listener.AttSdkTokenUpdater&nbsp;listener)</PRE>
+<DL>
+<DD>The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - - AttSdkTokenUpdater object.</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCurrentTokenExpired()"><!-- --></A><H3>
+isCurrentTokenExpired</H3>
+<PRE>
+public static java.lang.Boolean <B>isCurrentTokenExpired</B>()</PRE>
+<DL>
+<DD>The isCurrentTokenExpired method checks if the current access token is expired.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="SetApiFqdn(java.lang.String)"><!-- --></A><H3>
+SetApiFqdn</H3>
+<PRE>
+public static void <B>SetApiFqdn</B>(java.lang.String&nbsp;fqdn)</PRE>
+<DL>
+<DD>The SetApiFqdn method updates the FQDN of the AT&T API end point.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fqdn</CODE> - - fully qualified domain name e.g. https://api.att.com</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="CheckAndRefreshExpiredTokenAsync()"><!-- --></A><H3>
+CheckAndRefreshExpiredTokenAsync</H3>
+<PRE>
+public java.lang.Boolean <B>CheckAndRefreshExpiredTokenAsync</B>()</PRE>
+<DL>
+<DD>The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="RevokeToken(java.lang.String)"><!-- --></A><H3>
+RevokeToken</H3>
+<PRE>
+public void <B>RevokeToken</B>(java.lang.String&nbsp;hint)</PRE>
+<DL>
+<DD>The RevokeToken method revokes the current token.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hint</CODE> - a hint for the type of token to revoke</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="RevokeAccessToken()"><!-- --></A><H3>
+RevokeAccessToken</H3>
+<PRE>
+public void <B>RevokeAccessToken</B>()</PRE>
+<DL>
+<DD>The RevokeAccessToken method revokes the access token.
+<P>
+<DD><DL>
+</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->
