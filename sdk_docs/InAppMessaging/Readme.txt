@@ -119,13 +119,21 @@ Start the UserconsentActivity for result by passing the domainName, appId and ap
 	i.putExtra("domainName", domainName);
 	i.putExtra("appId", appId);
 	i.putExtra("appSecret", appSecret);
+	i.putExtra("appScope", appScope);
+	i.putExtra("customParam", customParam);
 	startActivityForResult(i, REQUEST_CODE);
+
+Initialize the static variables in IAMManager:
+	IAMManager.SetApiFqdn(Config.fqdn);
+	IAMManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
 	
 Obtain the token by passing the oAuthCode in onActivityResult
 						 
 	osrvc.getOAuthToken(oAuthCode,new listener());				  
-OnSuccess call back of the token listener, you can Send the Message 
 
+OnSuccess call back of the token listener, you can set the access token and (optionally) send message as follows:
+
+	IAMManager.SetCurrentToken(adjustedAuthToken);		
 	IAMManager iamManager = new IAMManager(domainName, token, new listener());
 	iamManager.SendMessage(addresses, "This is a test message",null, false, null);
 
@@ -159,3 +167,7 @@ ChangeLog
 Release 1.1.1 - Mar 27 2014
 
 Initial release of IAM SDK.
+
+Relase 1.2.1 - Dec 2 2014
+
+Added support for AT&T's OAuth 2.0 version 4 impementation for RememberMe, Refresh Token and Revoke Token functionality.
