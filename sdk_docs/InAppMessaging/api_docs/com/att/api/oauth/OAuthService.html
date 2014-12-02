@@ -160,7 +160,7 @@ Implements the OAuth 2.0 Authorization Framework for requesting access
 <P>
 <DL>
 <DT><B>Author:</B></DT>
-  <DD>dg185p,ps350r</DD>
+  <DD>dg185p,ps350r,sm095n</DD>
 </DL>
 <HR>
 
@@ -197,6 +197,14 @@ Implements the OAuth 2.0 Authorization Framework for requesting access
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/att/api/oauth/OAuthService.html#REVOKE_URL">REVOKE_URL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added to the fqdn to use for revoking tokens.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -276,6 +284,23 @@ Implements the OAuth 2.0 Authorization Framework for requesting access
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets an access token.</TD>
 </TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/att/api/oauth/OAuthService.html#revokeToken(java.lang.String)">revokeToken</A></B>(java.lang.String&nbsp;token)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes a token, where the token hint set to "access_token"</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../com/att/api/oauth/OAuthService.html#revokeToken(java.lang.String, java.lang.String)">revokeToken</A></B>(java.lang.String&nbsp;token,
+            java.lang.String&nbsp;hint)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes a token.</TD>
+</TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
 <TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
@@ -306,6 +331,18 @@ public static final java.lang.String <B>API_URL</B></PRE>
 <DL>
 <DL>
 <DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.att.api.oauth.OAuthService.API_URL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REVOKE_URL"><!-- --></A><H3>
+REVOKE_URL</H3>
+<PRE>
+public static final java.lang.String <B>REVOKE_URL</B></PRE>
+<DL>
+<DD>Added to the fqdn to use for revoking tokens.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#com.att.api.oauth.OAuthService.REVOKE_URL">Constant Field Values</A></DL>
 </DL>
 
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
@@ -460,6 +497,45 @@ public <A HREF="../../../../com/att/api/oauth/OAuthToken.html" title="class in c
 <DD><CODE>com.att.api.rest.RESTException</CODE> - if request was unsuccessful
 <DD><CODE>java.text.ParseException</CODE>
 <DD><CODE>org.json.JSONException</CODE><DT><B>See Also:</B><DD><A HREF="../../../../com/att/api/oauth/OAuthToken.html#getRefreshToken()"><CODE>OAuthToken.getRefreshToken()</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="revokeToken(java.lang.String, java.lang.String)"><!-- --></A><H3>
+revokeToken</H3>
+<PRE>
+public void <B>revokeToken</B>(java.lang.String&nbsp;token,
+                        java.lang.String&nbsp;hint)
+                 throws <A HREF="../../../../com/att/api/rest/RESTException.html" title="class in com.att.api.rest">RESTException</A></PRE>
+<DL>
+<DD>Revokes a token.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>token</CODE> - token to revoke<DD><CODE>hint</CODE> - a hint for the type of token to revoke
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../com/att/api/rest/RESTException.html" title="class in com.att.api.rest">RESTException</A></CODE> - if request was unsuccessful</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="revokeToken(java.lang.String)"><!-- --></A><H3>
+revokeToken</H3>
+<PRE>
+public void <B>revokeToken</B>(java.lang.String&nbsp;token)
+                 throws <A HREF="../../../../com/att/api/rest/RESTException.html" title="class in com.att.api.rest">RESTException</A></PRE>
+<DL>
+<DD>Revokes a token, where the token hint set to "access_token"
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>token</CODE> - token to revoke<DD><CODE>hint</CODE> - a hint for the type of token to revoke
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../com/att/api/rest/RESTException.html" title="class in com.att.api.rest">RESTException</A></CODE> - if request was unsuccessful<DT><B>See Also:</B><DD><CODE>OAuthToken#revokeToken(String, String)</CODE></DL>
 </DD>
 </DL>
 <HR>
