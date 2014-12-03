@@ -41,7 +41,7 @@ public class AabManager {
 	private final static Object lockRefreshToken = new Object();
 	
 	/**
-	 * The AabManager method creates an AabManager object.
+	 * This AabManager method creates an AabManager object.
 	 * @param listener - Specifies the Listener for callbacks.
 	 */	
 	public AabManager(final AttSdkListener listener) {
@@ -49,7 +49,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method creates an AabManager object.
+	 * This AabManager method creates an AabManager object and sets the access token.
 	 * @param token - Overrides the default OAuth token used for authorization.
 	 * @param listener - Specifies the Listener for callbacks.
 	 */	
@@ -64,7 +64,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method creates an AabManager object which is used to obtain AuthCode.
+	 * This AabManager method creates an AabManager object which is used to obtain AuthCode.
 	 * @param token - Overrides the default OAuth token used for authorization.
 	 * @param listener - Specifies the Listener for callbacks.
 	 */	
@@ -74,7 +74,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method updates the current access token used for the subsequent API calls..
+	 * The SetCurrentToken method updates the current access token used for the subsequent API calls.
 	 * @param token - Overrides the default OAuth token used for authorization.
 	 */	
 	public static void SetCurrentToken(OAuthToken token) {
@@ -82,7 +82,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method updates the current value for the token expiry override time.
+	 * The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
 	 * @param value - Override expiry time in seconds.
 	 */	
 	public static void SetLowerTokenExpiryTimeTo (long value) {
@@ -90,14 +90,14 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method returns the current expiry time override value.
+	 * The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
 	 */	
 	public static long GetLowerTokenExpiryTimeTo () {
 		return lowerTokenExpiryTimeTo;
 	}
 	
 	/**
-	 * The AabManager method updates the FQDN of the AT&T API end point.
+	 * The SetApiFqdn method updates the FQDN of the AT&T API end point.
 	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
 	 */	
 	public static void SetApiFqdn(String fqdn) {
@@ -105,7 +105,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager method updates the listener to call back when the access token is updated.
+	 * The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
 	 * @param listener - AttSdkTokenUpdater object.
 	 */	
 	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
@@ -113,14 +113,14 @@ public class AabManager {
 	}
 	
 	/**
-	 * The AabManager internal method checks if the current access token is expired.
+	 * The isCurrentTokenExpired method checks if the current access token is expired.
 	 */	
 	public static Boolean isCurrentTokenExpired() {
 		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
 	/**
-	 * The AabManager internal method automatically updates the current token using the RefreshToken.
+	 * The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
 	 */	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {			    
 		try {
@@ -174,7 +174,7 @@ public class AabManager {
 	}
 	
 	/**
-     * Gets an access token using the specified code.
+     * The getOAuthToken method gets an access token using the specified code.
      *
      * <p>
      * The parameters set during object creation will be used when requesting
@@ -194,7 +194,7 @@ public class AabManager {
     }
 	
     /**
-     * Revokes the current token.
+     * The RevokeToken method revokes the current token.
      * 
      * @param hint a hint for the type of token to revoke
      *
@@ -213,7 +213,7 @@ public class AabManager {
     }
     
     /**
-     * Revokes the access token.
+     * The RevokeAccessToken method revokes the access token.
      *
      */
     public void RevokeAccessToken() {
@@ -221,7 +221,7 @@ public class AabManager {
     }
     
 	/**
-     * Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.
+     * The CreateContact method creates a new contact.
      *
      * @param contact a new contact to be created
      * @return result a string if successful
@@ -234,7 +234,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Get Contact method enables retrieving all the contact information with some order and pagination criteria
+	 * The GetContacts method retrieves the contact information with some search and pagination parameters.
 	 * 
 	 * @param xFields Specifies field names that are expected on the response. 
 	 * @param pParams Pagination Parameters
@@ -250,7 +250,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Contact Id method enables retrieving the contact data structure via a contactId.
+	 * The GetContact method retrieves the contact data structure for the given contactId.
 	 * 
 	 * @param contactId Specifies subscriber contact ID.
 	 * @param xFields Specifies field names that are expected on the response. 
@@ -268,7 +268,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Contact Groups enables retrieving the list of groups a contact is belonging to.
+	 * The GetContactGroups method enables retrieving the list of groups a contact belongs to.
 	 * 
 	 * @param contactId Specifies subscriber contact ID
 	 * @param params Pagination Parameters 
@@ -283,8 +283,8 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Update Contact method updates a contact based on the provided contact data structure.
-	 * The contact&#8217;s Id is a mandatory field in the request
+	 * The UpdateContact method updates a contact based on the provided contact data structure.
+	 * The contact&#8217;s Id is a mandatory field in the request.
 	 * 
 	 * @param contact  Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.
 	 * 
@@ -297,7 +297,7 @@ public class AabManager {
 	}
 
 	/**
-	 * Contact identified by the contactId are moved to the trash.
+	 * The DeleteContact method deletes the contact identified by the contactId.
 	 * 
 	 * @param contactId Specifies contact id to delete
 	 * 
@@ -309,7 +309,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Create Group method enables creating a USER group, if the subscriber&#8217;s address book did not reach its configurable 
+	 * The CreateGroup method creates a new group if the subscriber&#8217;s address book did not reach its configured 
 	 * maximum number of groups (configurable at the system level, 200 by default). 
 	 * 
 	 * @param group Specifies ATT&#8217;s subscriber group data model
@@ -322,7 +322,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Groups method enables retrieving the list of the subscriber&#8217;s groups
+	 * The GetGroups method retrieves the list of the subscriber&#8217;s groups.
 	 * 
 	 * @param params Pagination Parameters
 	 * @param groupName Specifies group name.
@@ -336,7 +336,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Delete Group method enables deleting a list of groups.
+	 * The DeleteGroup method deletes the group identified by the groupId.
 	 * 
 	 * @param groupId Specifies group id to delete.
 	 * 
@@ -349,7 +349,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Update Group method enables updating an existing USER group identified by its Group ID.
+	 * The UpdateGroup method updates an existing group identified by its Group ID.
 	 *  group ID is mandatory in a group
 	 *  
 	 * @param group Specifies the subscriber&#8217;s contact group object
@@ -366,7 +366,7 @@ public class AabManager {
 	}
 
 	/**
-	 * This method associates a list of contacts to a group
+	 * The AddContactsToGroup method associates a list of contacts to a group.
 	 * 
 	 * @param groupId Specifies the group identifier
 	 * @param contactIds Specifies  contact id&#8217;s to add. Note: Max 20 group ids are allowed to add.
@@ -379,7 +379,7 @@ public class AabManager {
 	}
 
 	/**
-	 * This method will remove the association between the specified group and list of contacts.
+	 * The RemoveContactsFromGroup method removes the association between the specified group and list of contacts.
 	 * 
 	 * @param groupId Specifies the group identifiers
 	 * @param contactIds Specifies list of  contact id&#8217;s to delete.
@@ -391,7 +391,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Get Groups Contact method enables retrieving the list of contacts owned by a group. 
+	 * The GetGroupContacts method retrieves the list of contacts owned by a group. 
 	 * It takes a group identifier as an argument and returns a list of contacts. 
 	 * 
 	 * @param groupId Specifies subscriber group ID.
@@ -406,7 +406,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The "myInfo" URI enables retrieving the subscriber&#8217;s personal contact card. 
+	 * The GetMyInfo method retrieves the subscriber&#8217;s personal contact card. 
 	 * This personal contact card is called myInfo or my user profile and follows the contact data model.
 	 * 
 	 * @return result string if successful
@@ -418,7 +418,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Update MyInfo method updates a subscriber personal profile MyInfo based on the provided contact data structure.
+	 * The UpdateMyInfo method updates a subscriber personal profile.
 	 * 
 	 * @param contact myInfo -- Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.
 	 * 

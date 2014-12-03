@@ -269,14 +269,14 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#AabManager(com.att.sdk.listener.AttSdkListener)">AabManager</A></B>(com.att.sdk.listener.AttSdkListener&nbsp;listener)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method creates an AabManager object.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This AabManager method creates an AabManager object.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#AabManager(com.att.api.oauth.OAuthToken, com.att.sdk.listener.AttSdkListener)">AabManager</A></B>(com.att.api.oauth.OAuthToken&nbsp;token,
            com.att.sdk.listener.AttSdkListener&nbsp;listener)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method creates an AabManager object.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This AabManager method creates an AabManager object and sets the access token.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#AabManager(java.lang.String, java.lang.String, java.lang.String, com.att.sdk.listener.AttSdkListener)">AabManager</A></B>(java.lang.String&nbsp;fqdn,
@@ -285,7 +285,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
            com.att.sdk.listener.AttSdkListener&nbsp;listener)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method creates an AabManager object which is used to obtain AuthCode.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This AabManager method creates an AabManager object which is used to obtain AuthCode.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -304,7 +304,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
                    java.lang.String&nbsp;contactIds)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method associates a list of contacts to a group</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AddContactsToGroup method associates a list of contacts to a group.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -312,7 +312,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#CheckAndRefreshExpiredTokenAsync()">CheckAndRefreshExpiredTokenAsync</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager internal method automatically updates the current token using the RefreshToken.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -320,7 +320,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#CreateContact(com.att.api.aab.service.Contact)">CreateContact</A></B>(com.att.api.aab.service.Contact&nbsp;contact)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The CreateContact method creates a new contact.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -328,8 +328,8 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#CreateGroup(com.att.api.aab.service.Group)">CreateGroup</A></B>(com.att.api.aab.service.Group&nbsp;group)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Create Group method enables creating a USER group, if the subscriber&#8217;s address book did not reach its configurable 
- maximum number of groups (configurable at the system level, 200 by default).</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The CreateGroup method creates a new group if the subscriber&#8217;s address book did not reach its
+configured maximum number of groups (configurable at the system level, 200 by default). </TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -337,7 +337,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#DeleteContact(java.lang.String)">DeleteContact</A></B>(java.lang.String&nbsp;contactId)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact identified by the contactId are moved to the trash.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The DeleteContact method deletes the contact identified by the contactId.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -345,7 +345,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#DeleteGroup(java.lang.String)">DeleteGroup</A></B>(java.lang.String&nbsp;groupId)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Delete Group method enables deleting a list of groups.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The DeleteGroup method deletes the group identified by the groupId.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -354,7 +354,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
            java.lang.String&nbsp;xFields)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Get Contact Id method enables retrieving the contact data structure via a contactId.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetContact method retrieves the contact data structure for the given contactId.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -363,7 +363,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
                  com.att.api.aab.service.PageParams&nbsp;params)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Get Contact Groups enables retrieving the list of groups a contact is belonging to.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetContactGroups method enables retrieving the list of groups a contact belongs to.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -373,7 +373,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
             java.lang.String&nbsp;sParams)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Get Contact method enables retrieving all the contact information with some order and pagination criteria</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetContacts method retrieves the contact information with some search and pagination parameters.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -382,7 +382,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
                  com.att.api.aab.service.PageParams&nbsp;params)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Get Groups Contact method enables retrieving the list of contacts owned by a group.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetGroupContacts method retrieves the list of contacts owned by a group.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -391,7 +391,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
           java.lang.String&nbsp;groupName)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Get Groups method enables retrieving the list of the subscriber&#8217;s groups</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetGroups method retrieves the list of the subscriber&#8217;s groups.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -399,7 +399,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#GetLowerTokenExpiryTimeTo()">GetLowerTokenExpiryTimeTo</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method returns the current expiry time override value.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -407,7 +407,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#GetMyInfo()">GetMyInfo</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The "myInfo" URI enables retrieving the subscriber&#8217;s personal contact card.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The GetMyInfo method retrieves the subscriber&#8217;s personal contact card.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -415,7 +415,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#getOAuthToken(java.lang.String)">getOAuthToken</A></B>(java.lang.String&nbsp;code)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gets an access token using the specified code.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The getOAuthToken gets an access token using the specified code.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -423,7 +423,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#isCurrentTokenExpired()">isCurrentTokenExpired</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager internal method checks if the current access token is expired.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The isCurrentTokenExpired method checks if the current access token is expired.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -432,7 +432,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
                         java.lang.String&nbsp;contactIds)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This method will remove the association between the specified group and list of contacts.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The RemoveContactsFromGroup method removes the association between the specified group and list of contacts.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -440,7 +440,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#RevokeAccessToken()">RevokeAccessToken</A></B>()</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes the access token.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The RevokeAccessToken method revokes the access token.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -448,7 +448,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#RevokeToken(java.lang.String)">RevokeToken</A></B>(java.lang.String&nbsp;hint)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes the current token.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The RevokeToken method revokes the current token.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -456,7 +456,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#SetApiFqdn(java.lang.String)">SetApiFqdn</A></B>(java.lang.String&nbsp;fqdn)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method updates the FQDN of the AT&T API end point.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetApiFqdn method updates the FQDN of the AT&T API end point.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -464,7 +464,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#SetCurrentToken(com.att.api.oauth.OAuthToken)">SetCurrentToken</A></B>(com.att.api.oauth.OAuthToken&nbsp;token)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method updates the current access token used for the subsequent API calls..</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetCurrentToken method updates the current access token used for the subsequent API calls..</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -472,7 +472,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#SetLowerTokenExpiryTimeTo(long)">SetLowerTokenExpiryTimeTo</A></B>(long&nbsp;value)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method updates the current value for the token expiry override time.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -480,7 +480,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#SetTokenUpdatedListener(com.att.sdk.listener.AttSdkTokenUpdater)">SetTokenUpdatedListener</A></B>(com.att.sdk.listener.AttSdkTokenUpdater&nbsp;listener)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The AabManager method updates the listener to call back when the access token is updated.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -488,7 +488,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#UpdateContact(com.att.api.aab.service.Contact)">UpdateContact</A></B>(com.att.api.aab.service.Contact&nbsp;contact)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Update Contact method updates a contact based on the provided contact data structure.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The UpdateContact method updates a contact based on the provided contact data structure.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -496,7 +496,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#UpdateGroup(com.att.api.aab.service.Group)">UpdateGroup</A></B>(com.att.api.aab.service.Group&nbsp;group)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Update Group method enables updating an existing USER group identified by its Group ID.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The UpdateGroup method updates an existing group identified by its Group ID.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -504,7 +504,7 @@ This class encapsulates the AT&T RESTful APIs for AddressBook.
 <TD><CODE><B><A HREF="../../../../../com/att/api/aab/manager/AabManager.html#UpdateMyInfo(com.att.api.aab.service.Contact)">UpdateMyInfo</A></B>(com.att.api.aab.service.Contact&nbsp;contact)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Update MyInfo method updates a subscriber personal profile MyInfo based on the provided contact data structure.</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The UpdateMyInfo method updates a subscriber personal profile.</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
@@ -583,7 +583,7 @@ SetCurrentToken</H3>
 <PRE>
 public static void <B>SetCurrentToken</B>(com.att.api.oauth.OAuthToken&nbsp;token)</PRE>
 <DL>
-<DD>The AabManager method updates the current access token used for the subsequent API calls..
+<DD>The SetCurrentToken method updates the current access token used for the subsequent API calls..
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>token</CODE> - - Overrides the default OAuth token used for authorization.</DL>
@@ -596,7 +596,7 @@ SetLowerTokenExpiryTimeTo</H3>
 <PRE>
 public static void <B>SetLowerTokenExpiryTimeTo</B>(long&nbsp;value)</PRE>
 <DL>
-<DD>The AabManager method updates the current value for the token expiry override time.
+<DD>The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>value</CODE> - - Override expiry time in seconds.</DL>
@@ -609,7 +609,7 @@ GetLowerTokenExpiryTimeTo</H3>
 <PRE>
 public static long <B>GetLowerTokenExpiryTimeTo</B>()</PRE>
 <DL>
-<DD>The AabManager method returns the current expiry time override value.
+<DD>The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
 <P>
 <DD><DL>
 </DL>
@@ -622,7 +622,7 @@ SetApiFqdn</H3>
 <PRE>
 public static void <B>SetApiFqdn</B>(java.lang.String&nbsp;fqdn)</PRE>
 <DL>
-<DD>The AabManager method updates the FQDN of the AT&T API end point.
+<DD>The SetApiFqdn method updates the FQDN of the AT&T API end point.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>fqdn</CODE> - - fully qualified domain name e.g. https://api.att.com</DL>
@@ -635,7 +635,7 @@ SetTokenUpdatedListener</H3>
 <PRE>
 public static void <B>SetTokenUpdatedListener</B>(com.att.sdk.listener.AttSdkTokenUpdater&nbsp;listener)</PRE>
 <DL>
-<DD>The AabManager method updates the listener to call back when the access token is updated.
+<DD>The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>listener</CODE> - - AttSdkTokenUpdater object.</DL>
@@ -648,7 +648,7 @@ isCurrentTokenExpired</H3>
 <PRE>
 public static java.lang.Boolean <B>isCurrentTokenExpired</B>()</PRE>
 <DL>
-<DD>The AabManager internal method checks if the current access token is expired.
+<DD>The isCurrentTokenExpired method checks if the current access token is expired.
 <P>
 <DD><DL>
 </DL>
@@ -661,7 +661,7 @@ CheckAndRefreshExpiredTokenAsync</H3>
 <PRE>
 public java.lang.Boolean <B>CheckAndRefreshExpiredTokenAsync</B>()</PRE>
 <DL>
-<DD>The AabManager internal method automatically updates the current token using the RefreshToken.
+<DD>The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
 <P>
 <DD><DL>
 </DL>
@@ -674,7 +674,7 @@ getOAuthToken</H3>
 <PRE>
 public void <B>getOAuthToken</B>(java.lang.String&nbsp;code)</PRE>
 <DL>
-<DD>Gets an access token using the specified code.
+<DD>The getOAuthToken method gets an access token using the specified code.
 
  <p>
  The parameters set during object creation will be used when requesting
@@ -695,7 +695,7 @@ RevokeToken</H3>
 <PRE>
 public void <B>RevokeToken</B>(java.lang.String&nbsp;hint)</PRE>
 <DL>
-<DD>Revokes the current token.
+<DD>The RevokeToken method revokes the current token.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>hint</CODE> - a hint for the type of token to revoke</DL>
@@ -708,7 +708,7 @@ RevokeAccessToken</H3>
 <PRE>
 public void <B>RevokeAccessToken</B>()</PRE>
 <DL>
-<DD>Revokes the access token.
+<DD>The RevokeAccessToken method revokes the access token.
 <P>
 <DD><DL>
 </DL>
@@ -721,7 +721,7 @@ CreateContact</H3>
 <PRE>
 public void <B>CreateContact</B>(com.att.api.aab.service.Contact&nbsp;contact)</PRE>
 <DL>
-<DD>Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.
+<DD>The CreateContact method creates a new contact.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contact</CODE> - a new contact to be created</DL>
@@ -736,7 +736,7 @@ public void <B>GetContacts</B>(java.lang.String&nbsp;xFields,
                         com.att.api.aab.service.PageParams&nbsp;pParams,
                         java.lang.String&nbsp;sParams)</PRE>
 <DL>
-<DD>The Get Contact method enables retrieving all the contact information with some order and pagination criteria
+<DD>The GetContacts method retrieves the contact information with some search and pagination parameters.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>xFields</CODE> - Specifies field names that are expected on the response.<DD><CODE>pParams</CODE> - Pagination Parameters<DD><CODE>sParams</CODE> - Search Parameters</DL>
@@ -750,7 +750,7 @@ GetContact</H3>
 public void <B>GetContact</B>(java.lang.String&nbsp;contactId,
                        java.lang.String&nbsp;xFields)</PRE>
 <DL>
-<DD>The Get Contact Id method enables retrieving the contact data structure via a contactId.
+<DD>The GetContact method retrieves the contact data structure for the given contactId.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contactId</CODE> - Specifies subscriber contact ID.<DD><CODE>xFields</CODE> - Specifies field names that are expected on the response.</DL>
@@ -764,7 +764,7 @@ GetContactGroups</H3>
 public void <B>GetContactGroups</B>(java.lang.String&nbsp;contactId,
                              com.att.api.aab.service.PageParams&nbsp;params)</PRE>
 <DL>
-<DD>The Get Contact Groups enables retrieving the list of groups a contact is belonging to.
+<DD>The GetContactGroups method retrieves the list of groups a contact belongs to.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contactId</CODE> - Specifies subscriber contact ID<DD><CODE>params</CODE> - Pagination Parameters</DL>
@@ -777,8 +777,8 @@ UpdateContact</H3>
 <PRE>
 public void <B>UpdateContact</B>(com.att.api.aab.service.Contact&nbsp;contact)</PRE>
 <DL>
-<DD>The Update Contact method updates a contact based on the provided contact data structure.
- The contact&#8217;s Id is a mandatory field in the request
+<DD>The UpdateContact method updates a contact based on the provided contact data structure.
+ The contact&#8217;s Id is a mandatory field in the request.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contact</CODE> - Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.</DL>
@@ -791,7 +791,7 @@ DeleteContact</H3>
 <PRE>
 public void <B>DeleteContact</B>(java.lang.String&nbsp;contactId)</PRE>
 <DL>
-<DD>Contact identified by the contactId are moved to the trash.
+<DD>The DeleteContact method deletes the contact identified by the contactId.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contactId</CODE> - Specifies contact id to delete</DL>
@@ -804,8 +804,7 @@ CreateGroup</H3>
 <PRE>
 public void <B>CreateGroup</B>(com.att.api.aab.service.Group&nbsp;group)</PRE>
 <DL>
-<DD>The Create Group method enables creating a USER group, if the subscriber&#8217;s address book did not reach its configurable 
- maximum number of groups (configurable at the system level, 200 by default).
+<DD>The CreateGroup method creates a new group if the subscriber&#8217;s address book did not reach its configured maximum number of groups (configurable at the system level, 200 by default). 
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>group</CODE> - Specifies ATT&#8217;s subscriber group data model</DL>
@@ -819,7 +818,7 @@ GetGroups</H3>
 public void <B>GetGroups</B>(com.att.api.aab.service.PageParams&nbsp;params,
                       java.lang.String&nbsp;groupName)</PRE>
 <DL>
-<DD>The Get Groups method enables retrieving the list of the subscriber&#8217;s groups
+<DD>The GetGroups method retrieves the list of the subscriber&#8217;s groups.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>params</CODE> - Pagination Parameters<DD><CODE>groupName</CODE> - Specifies group name.</DL>
@@ -832,7 +831,7 @@ DeleteGroup</H3>
 <PRE>
 public void <B>DeleteGroup</B>(java.lang.String&nbsp;groupId)</PRE>
 <DL>
-<DD>The Delete Group method enables deleting a list of groups.
+<DD>The DeleteGroup method deletes the group identified by the groupId.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>groupId</CODE> - Specifies group id to delete.</DL>
@@ -845,7 +844,7 @@ UpdateGroup</H3>
 <PRE>
 public void <B>UpdateGroup</B>(com.att.api.aab.service.Group&nbsp;group)</PRE>
 <DL>
-<DD>The Update Group method enables updating an existing USER group identified by its Group ID.
+<DD>The UpdateGroup method updates an existing group identified by its Group ID.
   group ID is mandatory in a group
 <P>
 <DD><DL>
@@ -863,7 +862,7 @@ AddContactsToGroup</H3>
 public void <B>AddContactsToGroup</B>(java.lang.String&nbsp;groupId,
                                java.lang.String&nbsp;contactIds)</PRE>
 <DL>
-<DD>This method associates a list of contacts to a group
+<DD>The AddContactsToGroup method associates a list of contacts to a group.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>groupId</CODE> - Specifies the group identifier<DD><CODE>contactIds</CODE> - Specifies  contact id&#8217;s to add. Note: Max 20 group ids are allowed to add.</DL>
@@ -877,7 +876,7 @@ RemoveContactsFromGroup</H3>
 public void <B>RemoveContactsFromGroup</B>(java.lang.String&nbsp;groupId,
                                     java.lang.String&nbsp;contactIds)</PRE>
 <DL>
-<DD>This method will remove the association between the specified group and list of contacts.
+<DD>This method removes the association between the specified group and list of contacts.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>groupId</CODE> - Specifies the group identifiers<DD><CODE>contactIds</CODE> - Specifies list of  contact id&#8217;s to delete.
@@ -892,7 +891,7 @@ GetGroupContacts</H3>
 public void <B>GetGroupContacts</B>(java.lang.String&nbsp;groupId,
                              com.att.api.aab.service.PageParams&nbsp;params)</PRE>
 <DL>
-<DD>The Get Groups Contact method enables retrieving the list of contacts owned by a group. 
+<DD>The GetGroupContacts method retrieves the list of contacts owned by a group.
  It takes a group identifier as an argument and returns a list of contacts.
 <P>
 <DD><DL>
@@ -906,7 +905,7 @@ GetMyInfo</H3>
 <PRE>
 public void <B>GetMyInfo</B>()</PRE>
 <DL>
-<DD>The "myInfo" URI enables retrieving the subscriber&#8217;s personal contact card. 
+<DD>The GetMyInfo method retrieves the subscriber&#8217;s personal contact card. 
  This personal contact card is called myInfo or my user profile and follows the contact data model.
 <P>
 <DD><DL>
@@ -920,7 +919,7 @@ UpdateMyInfo</H3>
 <PRE>
 public void <B>UpdateMyInfo</B>(com.att.api.aab.service.Contact&nbsp;contact)</PRE>
 <DL>
-<DD>The Update MyInfo method updates a subscriber personal profile MyInfo based on the provided contact data structure.
+<DD>The UpdateMyInfo method updates a subscriber personal profile.
 <P>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>contact</CODE> - myInfo -- Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.</DL>
