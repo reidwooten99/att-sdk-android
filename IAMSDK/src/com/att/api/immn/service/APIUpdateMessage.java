@@ -35,20 +35,20 @@ public class APIUpdateMessage  implements ATTIAMListener{
 	}
 	APIUpdateMessageParams params = null;
 	private ATTIAMListener iamListener;
-	IMMNService immnSrvc;
+	IAMManager iamManager;
 	protected Handler handler = new Handler();
 
 	public APIUpdateMessage() {
 		
 		this.params = null;
-		this.immnSrvc = null;
+		//this.immnSrvc = null;
 		this.iamListener = null;
 		
 	}
-	public void set(APIUpdateMessageParams params, IMMNService immnSrvc, ATTIAMListener iamListener ) {
+	public void set(APIUpdateMessageParams params, IAMManager iamMgr, ATTIAMListener iamListener ) {
 		
 		this.params = params;
-		this.immnSrvc = immnSrvc;
+		this.iamManager = iamMgr;
 		this.iamListener = iamListener;
 	}
 	
@@ -67,7 +67,8 @@ public class APIUpdateMessage  implements ATTIAMListener{
 			InAppMessagingError errorObj = new InAppMessagingError();
 
 			try {
-				immnSrvc.updateMessage(params[0].msgId,
+				if (!iamManager.CheckAndRefreshExpiredTokenAsync()) return false;
+				IAMManager.immnSrvc.updateMessage(params[0].msgId,
 									   params[0].isFavorite,
 									   params[0].isUnread );
 				isSuccesful = true;

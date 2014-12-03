@@ -27,6 +27,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 	private String clientSecret;
 	private String appScope;
 	private String redirectUri;
+	private String customParam = ""; // Default to Blank
 	OAuthService osrvc;
 	WebView webView ;
 	private ATTIAMListener iamListener;
@@ -53,6 +54,11 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		 clientSecret =  i.getStringExtra("clientSecret");
 		 appScope = i.getStringExtra("appScope");
 		 redirectUri = i.getStringExtra("redirectUri");
+		 customParam = "";
+		 String customParamValue = i.getStringExtra("customParam");
+		 if (customParamValue != null && customParamValue.length() > 0) {
+			 customParam = "&custom_param=" + customParamValue;
+		 }
 		
 		 osrvc = new OAuthService(fqdn, clientId, clientSecret);
 
@@ -65,7 +71,7 @@ public class UserConsentActivity extends Activity implements ATTIAMListener{
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setAppCacheEnabled(false);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-		webView.loadUrl(fqdn +"/oauth/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri);
+		webView.loadUrl(fqdn +"/oauth/v4/authorize?client_id=" + clientId + "&scope=" + appScope + "&redirect_uri=" + redirectUri + customParam);
 		webView.setWebViewClient(new myWebViewClient()); 	
 	}
 	private class myWebViewClient extends WebViewClient {

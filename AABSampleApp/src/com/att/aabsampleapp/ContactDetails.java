@@ -76,15 +76,13 @@ public class ContactDetails extends Activity {
 
 			if (isUpdateMyInfo) {
 				btnCreateContact.setEnabled(false);
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new getMyInfoListener());
+				aabManager = new AabManager(new getMyInfoListener());
 				aabManager.GetMyInfo();
 				btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						aabManager = new AabManager(Config.fqdn,
-								Config.authToken, new updateMyInfoListener());
+						aabManager = new AabManager(new updateMyInfoListener());
 						aabManager
 								.UpdateMyInfo(getUpdatedContactFromContactDetails());
 					}
@@ -115,22 +113,19 @@ public class ContactDetails extends Activity {
 				btnCreateContact.setEnabled(false);
 				btnUpdateContactInfo.setEnabled(false);
 
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new getMyInfoListener());
+				aabManager = new AabManager(new getMyInfoListener());
 				aabManager.GetMyInfo();
 			}
 
 		} else {
 			btnCreateContact.setEnabled(false);
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new getContactListener());
+			aabManager = new AabManager(new getContactListener());
 			aabManager.GetContact(contactId, " ");
 			btnUpdateContactInfo.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					aabManager = new AabManager(Config.fqdn, Config.authToken,
-							new updateContactListener());
+					aabManager = new AabManager(new updateContactListener());
 					aabManager
 							.UpdateContact(getUpdatedContactFromContactDetails());
 				}
@@ -157,8 +152,7 @@ public class ContactDetails extends Activity {
 		btnCreateContact.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new createContactListener());
+				aabManager = new AabManager(new createContactListener());
 				aabManager.CreateContact(createContactFromContactDetails());
 			}
 
@@ -171,7 +165,11 @@ public class ContactDetails extends Activity {
 	 * getMenuInflater().inflate(R.menu.contact_details, menu); return true; }
 	 */
 
-	private class getMyInfoListener implements AttSdkListener {
+	private class getMyInfoListener extends AttSdkSampleListener {
+
+		public getMyInfoListener() {
+			super("getMyInfoAPI");
+		}
 
 		private String strText;
 
@@ -209,11 +207,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getMyInfoAPI on error", "onError");
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class getContactListener implements AttSdkListener {
+	private class getContactListener extends AttSdkSampleListener {
+
+		public getContactListener() {
+			super("getContactAPI");
+		}
 
 		private String strText;
 
@@ -236,9 +238,8 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	public void createContactDetailsFromContact(Contact contact) {
@@ -404,9 +405,7 @@ public class ContactDetails extends Activity {
 	 * } return super.onMenuItemSelected(featureId, item); }
 	 */
 	public void updateContact(String firstName, String contactId) {
-
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
-				new updateContactListener());
+		aabManager = new AabManager(new updateContactListener());
 
 		Contact.Builder builder = new Contact.Builder();
 		builder.setFirstName(firstName);
@@ -415,7 +414,11 @@ public class ContactDetails extends Activity {
 		aabManager.UpdateContact(contact);
 	}
 
-	private class createContactListener implements AttSdkListener {
+	private class createContactListener extends AttSdkSampleListener {
+
+		public createContactListener() {
+			super("createContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -436,12 +439,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("createContactAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class updateContactListener implements AttSdkListener {
+	private class updateContactListener extends AttSdkSampleListener {
+
+		public updateContactListener() {
+			super("updateContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -458,12 +464,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateContactAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
-	private class updateMyInfoListener implements AttSdkListener {
+	private class updateMyInfoListener extends AttSdkSampleListener {
+
+		public updateMyInfoListener() {
+			super("updateMyInfoAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -482,17 +491,15 @@ public class ContactDetails extends Activity {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("updateMyInfoAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		if (contactId.equalsIgnoreCase("MY_INFO")) {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new getMyInfoListener());
+			aabManager = new AabManager(new getMyInfoListener());
 			aabManager.GetMyInfo();
 		}
 

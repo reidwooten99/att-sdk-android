@@ -74,6 +74,11 @@
             android:label="@string/title_activity_group_contact_list"
             android:screenOrientation="portrait" >
         </activity>
-    </application>
+        <activity
+            android:name="com.att.aabsampleapp.DebugSettingsPage"
+            android:label="@string/title_debug_settings"
+            android:screenOrientation="portrait" >
+        </activity>
+        </application>
 
 </manifest>

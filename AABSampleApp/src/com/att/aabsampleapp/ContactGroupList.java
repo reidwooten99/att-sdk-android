@@ -35,12 +35,16 @@ public class ContactGroupList extends Activity implements OnClickListener {
 		contactId = intent.getStringExtra("contactId");
 
 		pageParams = new PageParams("ASC", "groupName", "12", "0");
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
-				new getContactGroupsListener());
+		aabManager = new AabManager(new getContactGroupsListener());
 		aabManager.GetContactGroups(contactId, pageParams);
 	}
 
-	private class getContactGroupsListener implements AttSdkListener {
+	private class getContactGroupsListener extends AttSdkSampleListener {
+
+		public getContactGroupsListener() {
+			super("getContactGroupsAPI");
+		}
+
 		public GroupResultSet groupResultSet;
 		Group[] groupList;
 
@@ -65,9 +69,8 @@ public class ContactGroupList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactGroupsAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.att.api.aab.manager;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.att.api.aab.service.AABService;
 import com.att.api.aab.service.Contact;
@@ -14,38 +15,166 @@ import com.att.api.error.Utils;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
+import com.att.api.util.TokenUpdatedListener;
 import com.att.sdk.listener.AttSdkListener;
+import com.att.sdk.listener.AttSdkTokenUpdater;
 
 /**
-* This class encapsulates the AT&T RESTfull APIs for AddressBook.
+* This class encapsulates the AT&T RESTful APIs for AddressBook.
 * 
 * @author sm095n
 * @author ps350r
 
  */
 public class AabManager {	
-	public static AABService aabService = null;
+	//private AABService aabService = null; // Just storing the token now.
+	private static String aabSdkVersion = "att.aab.android.1.1";
 	private AttSdkListener aabListener = null;
+	private static AttSdkTokenUpdater tokenListener = null;
 	private static OAuthService osrvc = null;
+	private static OAuthToken currentToken = null;
+	private static String apiFqdn = "https://api.att.com";
+	// if lowerTokenExpiryTimeTo >= 0, over rides token expiry to this value
+	private static long lowerTokenExpiryTimeTo = -1; 
+	
+	//private final static CountDownLatch checkTokenExpirySignal = new CountDownLatch(1);
+	private final static Object lockRefreshToken = new Object();
 	
 	/**
-	 * The AabManager method creates an AabManager object.
-	 * @param fqdn - Specifies the fully qualified domain name that is used to send requests.
-	 * @param token - Specifies the OAuth token that is used for authorization.
-	 * @param aabListener - Specifies the Listener for callbacks.
+	 * This AabManager method creates an AabManager object.
+	 * @param listener - Specifies the Listener for callbacks.
 	 */	
-	public AabManager(String fqdn, OAuthToken token, AttSdkListener listener) {		
-		aabService = new AABService(fqdn, token, "att.aab.android.1.0");
+	public AabManager(final AttSdkListener listener) {
+		this(null, listener);
+	}
+	
+	/**
+	 * This AabManager method creates an AabManager object and sets the access token.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 * @param listener - Specifies the Listener for callbacks.
+	 */	
+	public AabManager(OAuthToken token, final AttSdkListener listener) {
+		if (token != null) {
+			currentToken = token;
+		}
+	
+		assert (currentToken != null); 
+		//aabService = new AABService(apiFqdn, currentToken, "att.aab.android.1.1");
 		aabListener = listener;
 	}
 	
+	/**
+	 * This AabManager method creates an AabManager object which is used to obtain AuthCode.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 * @param listener - Specifies the Listener for callbacks.
+	 */	
 	public AabManager(String fqdn, String clientId, String clientSecret, AttSdkListener listener) {
 		osrvc = new OAuthService(fqdn, clientId, clientSecret);
 		aabListener = listener;
 	}
 	
 	/**
-     * Gets an access token using the specified code.
+	 * The SetCurrentToken method updates the current access token used for the subsequent API calls.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 */	
+	public static void SetCurrentToken(OAuthToken token) {
+		currentToken = token;
+	}
+	
+	/**
+	 * The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
+	 * @param value - Override expiry time in seconds.
+	 */	
+	public static void SetLowerTokenExpiryTimeTo (long value) {
+		lowerTokenExpiryTimeTo = value;
+	}
+	
+	/**
+	 * The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
+	 */	
+	public static long GetLowerTokenExpiryTimeTo () {
+		return lowerTokenExpiryTimeTo;
+	}
+	
+	/**
+	 * The SetApiFqdn method updates the FQDN of the AT&T API end point.
+	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
+	 */	
+	public static void SetApiFqdn(String fqdn) {
+		apiFqdn = fqdn;
+	}
+	
+	/**
+	 * The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
+	 * @param listener - AttSdkTokenUpdater object.
+	 */	
+	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
+		tokenListener = listener;
+	}
+	
+	/**
+	 * The isCurrentTokenExpired method checks if the current access token is expired.
+	 */	
+	public static Boolean isCurrentTokenExpired() {
+		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
+	}
+	
+	/**
+	 * The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
+	 */	
+	public Boolean CheckAndRefreshExpiredTokenAsync() {			    
+		try {
+			OAuthToken authToken = null;
+			OAuthToken adjustedAuthToken = null;
+			synchronized (lockRefreshToken) {
+				if (isCurrentTokenExpired()) {
+					String refreshTokenValue = currentToken.getRefreshToken();
+					currentToken = null;
+					AttSdkError errorObj = new AttSdkError();
+					try {
+						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
+						authToken = osrvc.refreshToken(refreshTokenValue);
+						if (authToken != null) {
+							if (lowerTokenExpiryTimeTo >= 0) {
+								adjustedAuthToken = new OAuthToken(authToken.getAccessToken(), lowerTokenExpiryTimeTo,
+										authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+							} else {
+								adjustedAuthToken = authToken;
+							}
+							currentToken = adjustedAuthToken;
+							Log.i("getRefreshTokenListener",
+									"onSuccess Message : " + 
+									TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
+							if (tokenListener != null) {
+								tokenListener.onTokenUpdate(adjustedAuthToken);
+							}
+						} else {
+							throw new Exception("Failed during token refresh.");
+						}
+					} catch (RESTException e) {
+						Log.i("getRefreshTokenListener", "REST Error:" + e.getMessage());
+						errorObj = Utils.CreateErrorObjectFromException( e );
+					} catch (Exception e) {
+						Log.i("getRefreshTokenListener", "Error:" + e.getMessage());
+					}
+					if (currentToken == null) {
+						if (aabListener != null) {
+							aabListener.onError(errorObj);
+						}						
+						if (tokenListener != null) {
+							tokenListener.onTokenDelete();
+						}			
+					}
+				}
+			}
+		} catch (Exception /*InterruptedException*/ e) {
+			currentToken = null;
+		}	
+		return (currentToken != null);
+	}
+	
+	/**
+     * The getOAuthToken method gets an access token using the specified code.
      *
      * <p>
      * The parameters set during object creation will be used when requesting
@@ -64,8 +193,35 @@ public class AabManager {
 		getTokenUsingCodetask.execute(code);
     }
 	
+    /**
+     * The RevokeToken method revokes the current token.
+     * 
+     * @param hint a hint for the type of token to revoke
+     *
+     */
+    public void RevokeToken(String hint) {
+		RevokeTokenTask task = new RevokeTokenTask();
+		if (hint.equalsIgnoreCase("access_token")) {
+			task.execute(currentToken.getAccessToken(), hint);
+		} else if (hint.equalsIgnoreCase("refresh_token")) {
+			task.execute(currentToken.getRefreshToken(), hint);			
+		} else {
+			if (null != aabListener) {
+				aabListener.onError(new AttSdkError("Invalid token hint passed to the RevokeToken method."));
+			}			
+		}
+    }
+    
+    /**
+     * The RevokeAccessToken method revokes the access token.
+     *
+     */
+    public void RevokeAccessToken() {
+    	this.RevokeToken("access_token");    	
+    }
+    
 	/**
-     * Creates a new Contact which specifies AT&T Mobile Subscriber&#8217;s Contact data model.
+     * The CreateContact method creates a new contact.
      *
      * @param contact a new contact to be created
      * @return result a string if successful
@@ -78,7 +234,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Get Contact method enables retrieving all the contact information with some order and pagination criteria
+	 * The GetContacts method retrieves the contact information with some search and pagination parameters.
 	 * 
 	 * @param xFields Specifies field names that are expected on the response. 
 	 * @param pParams Pagination Parameters
@@ -94,7 +250,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Contact Id method enables retrieving the contact data structure via a contactId.
+	 * The GetContact method retrieves the contact data structure for the given contactId.
 	 * 
 	 * @param contactId Specifies subscriber contact ID.
 	 * @param xFields Specifies field names that are expected on the response. 
@@ -112,7 +268,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Contact Groups enables retrieving the list of groups a contact is belonging to.
+	 * The GetContactGroups method enables retrieving the list of groups a contact belongs to.
 	 * 
 	 * @param contactId Specifies subscriber contact ID
 	 * @param params Pagination Parameters 
@@ -127,8 +283,8 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Update Contact method updates a contact based on the provided contact data structure.
-	 * The contact&#8217;s Id is a mandatory field in the request
+	 * The UpdateContact method updates a contact based on the provided contact data structure.
+	 * The contact&#8217;s Id is a mandatory field in the request.
 	 * 
 	 * @param contact  Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.
 	 * 
@@ -141,7 +297,7 @@ public class AabManager {
 	}
 
 	/**
-	 * Contact identified by the contactId are moved to the trash.
+	 * The DeleteContact method deletes the contact identified by the contactId.
 	 * 
 	 * @param contactId Specifies contact id to delete
 	 * 
@@ -153,7 +309,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Create Group method enables creating a USER group, if the subscriber&#8217;s address book did not reach its configurable 
+	 * The CreateGroup method creates a new group if the subscriber&#8217;s address book did not reach its configured 
 	 * maximum number of groups (configurable at the system level, 200 by default). 
 	 * 
 	 * @param group Specifies ATT&#8217;s subscriber group data model
@@ -166,7 +322,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Get Groups method enables retrieving the list of the subscriber&#8217;s groups
+	 * The GetGroups method retrieves the list of the subscriber&#8217;s groups.
 	 * 
 	 * @param params Pagination Parameters
 	 * @param groupName Specifies group name.
@@ -180,7 +336,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Delete Group method enables deleting a list of groups.
+	 * The DeleteGroup method deletes the group identified by the groupId.
 	 * 
 	 * @param groupId Specifies group id to delete.
 	 * 
@@ -193,7 +349,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The Update Group method enables updating an existing USER group identified by its Group ID.
+	 * The UpdateGroup method updates an existing group identified by its Group ID.
 	 *  group ID is mandatory in a group
 	 *  
 	 * @param group Specifies the subscriber&#8217;s contact group object
@@ -210,7 +366,7 @@ public class AabManager {
 	}
 
 	/**
-	 * This method associates a list of contacts to a group
+	 * The AddContactsToGroup method associates a list of contacts to a group.
 	 * 
 	 * @param groupId Specifies the group identifier
 	 * @param contactIds Specifies  contact id&#8217;s to add. Note: Max 20 group ids are allowed to add.
@@ -223,7 +379,7 @@ public class AabManager {
 	}
 
 	/**
-	 * This method will remove the association between the specified group and list of contacts.
+	 * The RemoveContactsFromGroup method removes the association between the specified group and list of contacts.
 	 * 
 	 * @param groupId Specifies the group identifiers
 	 * @param contactIds Specifies list of  contact id&#8217;s to delete.
@@ -235,7 +391,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Get Groups Contact method enables retrieving the list of contacts owned by a group. 
+	 * The GetGroupContacts method retrieves the list of contacts owned by a group. 
 	 * It takes a group identifier as an argument and returns a list of contacts. 
 	 * 
 	 * @param groupId Specifies subscriber group ID.
@@ -250,7 +406,7 @@ public class AabManager {
 	}
 	
 	/**
-	 * The "myInfo" URI enables retrieving the subscriber&#8217;s personal contact card. 
+	 * The GetMyInfo method retrieves the subscriber&#8217;s personal contact card. 
 	 * This personal contact card is called myInfo or my user profile and follows the contact data model.
 	 * 
 	 * @return result string if successful
@@ -262,7 +418,7 @@ public class AabManager {
 	}
 
 	/**
-	 * The Update MyInfo method updates a subscriber personal profile MyInfo based on the provided contact data structure.
+	 * The UpdateMyInfo method updates a subscriber personal profile.
 	 * 
 	 * @param contact myInfo -- Specifies AT&T Mobile Subscriber&#8217;s Contact data structure.
 	 * 
@@ -302,6 +458,35 @@ public class AabManager {
     	
     }
 
+	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			AttSdkError errorObj = new AttSdkError();
+			try {
+				osrvc.revokeToken(params[0], params[1]);
+				result = "Success";
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != aabListener) {
+					aabListener.onError(errorObj);
+				}
+			}		
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if(null != result) {
+				if (null != aabListener) {
+					aabListener.onSuccess(result);
+				}
+			}
+		}
+    	
+    }
 	
 	public class  CreateContactTask extends AsyncTask<Contact, Void, String> {
 		@Override
@@ -310,6 +495,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createContact(
 								params[0] //contact
 							    );
@@ -341,6 +528,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				contactResultSet = aabService.getContacts(
 								params[0].getxFields(), //xFields
 							    params[0].getPageParams(), //PageParams
@@ -374,6 +563,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContact(
 								params[0], //contactId
 							    params[1] //xFields 
@@ -407,6 +598,8 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getContactGroups(
 								params[0], //contactId
 								pageParams //pageParams 
@@ -439,6 +632,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateContact(
 								params[0], //contact
 								params[0].getContactId() //contactId
@@ -471,6 +666,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteContact(
 								params[0] //contactId
 							    );
@@ -502,6 +699,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.createGroup(
 								params[0] //group
 							    );
@@ -534,6 +733,8 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroups(
 								pageParams, //pageParams 
 								params[0] //groupName
@@ -566,6 +767,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.deleteGroup(
 								params[0] //groupId
 							    );
@@ -597,6 +800,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 	
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateGroup(
 								params[0], //group
 								params[0].getGroupId() //groupId
@@ -629,6 +834,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.addContactsToGroup(
 								params[0], //groupId
 								params[1]  //contactIds
@@ -661,6 +868,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.removeContactsFromGroup(
 								params[0], //groupId
 								params[1]  //contactIds
@@ -694,6 +903,8 @@ public class AabManager {
 
 			try {
 				PageParams pageParams = new PageParams(params[1], params[2], params[3], params[4]);
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getGroupContacts(
 								params[0], //groupId
 								pageParams //pageParams 
@@ -726,6 +937,8 @@ public class AabManager {
 			AttSdkError errorObj = new AttSdkError();
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				result = aabService.getMyInfo();
 			} catch (RESTException e) {
 				errorObj = Utils.CreateErrorObjectFromException( e );
@@ -755,6 +968,8 @@ public class AabManager {
 			String result = "success";
 
 			try {
+				if (!CheckAndRefreshExpiredTokenAsync()) return null;
+				AABService aabService = new AABService(apiFqdn, currentToken, aabSdkVersion);
 				aabService.updateMyInfo(
 								params[0] //contact
 							    );

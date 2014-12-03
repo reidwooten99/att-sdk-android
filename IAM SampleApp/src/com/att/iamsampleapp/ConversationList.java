@@ -1,12 +1,7 @@
 package com.att.iamsampleapp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.att.api.error.InAppMessagingError;
-import com.att.api.immn.listener.ATTIAMListener;
 import com.att.api.immn.service.ChangeType;
 import com.att.api.immn.service.DeltaChange;
 import com.att.api.immn.service.DeltaResponse;
@@ -37,6 +31,8 @@ import com.att.api.immn.service.MessageList;
 import com.att.api.immn.service.MmsContent;
 import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.util.Preferences;
+import com.att.api.util.TokenUpdatedListener;
 
 public class ConversationList extends Activity {
 
@@ -45,10 +41,8 @@ public class ConversationList extends Activity {
 	private ListView messageListView;
 	private MessageListAdapter adapter;
 	private IAMManager iamManager;
-	private OAuthService osrvc;
 	private final int NEW_MESSAGE = 2;
 	private final int OAUTH_CODE = 1;
-	private OAuthToken authToken;
 	private MessageIndexInfo msgIndexInfo;
 	private DeltaResponse delta;
 	private MessageList msgList;
@@ -58,20 +52,17 @@ public class ConversationList extends Activity {
 	private int prevIndex;
 	private ProgressDialog pDialog;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_conversation_list);
-		showProgressDialog("Loading Messages .. ");
-		messageListView = (ListView) findViewById(R.id.messageListViewItem);
-
-		// Create service for requesting an OAuth token
-		osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
-		
-		/*
-		 * Get the oAuthCode from the Authentication page
-		 */
+	private void GetUserConsentAuthCode() {
+		// Read custom_param from Preferences
+		String strStoredCustomParam = Config.customParam;
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredCustomParam = prefs.getString(TokenUpdatedListener.customParamSettingName, "");
+			if (strStoredCustomParam.length() <= 0) {
+				strStoredCustomParam = Config.customParam;
+				prefs.setString(TokenUpdatedListener.customParamSettingName, strStoredCustomParam);
+			}
+		}
 		Intent i = new Intent(this,
 				com.att.api.consentactivity.UserConsentActivity.class);
 		i.putExtra("fqdn", Config.fqdn);
@@ -79,8 +70,49 @@ public class ConversationList extends Activity {
 		i.putExtra("clientSecret", Config.secretKey);
 		i.putExtra("redirectUri", Config.redirectUri);
 		i.putExtra("appScope", Config.appScope);
+		i.putExtra("customParam", strStoredCustomParam);
 
-		startActivityForResult(i, OAUTH_CODE);
+		startActivityForResult(i, OAUTH_CODE);		
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		OAuthToken savedToken = null;
+		String strStoredToken = null;
+
+		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.activity_conversation_list);
+		showProgressDialog("Loading Messages .. ");
+		messageListView = (ListView) findViewById(R.id.messageListViewItem);
+
+		// Create service for requesting an OAuth token
+		IAMManager.osrvc = new OAuthService(Config.fqdn, Config.clientID, Config.secretKey);
+		
+		Preferences prefs = new Preferences(getApplicationContext());
+		if (prefs != null) {
+			strStoredToken = prefs.getString(TokenUpdatedListener.accessTokenSettingName, "");
+			if (strStoredToken.length() > 0) {
+				savedToken = new OAuthToken(strStoredToken, 
+						prefs.getLong(TokenUpdatedListener.tokenExpirySettingName, 0), 
+						prefs.getString(TokenUpdatedListener.refreshTokenSettingName, ""), 0);
+			}
+		}
+		
+		// Initialize the AabManager also:
+		IAMManager.SetApiFqdn(Config.fqdn);
+		IAMManager.SetTokenUpdatedListener(new TokenUpdatedListener(getApplicationContext()));
+		IAMManager.SetLowerTokenExpiryTimeTo(Config.lowerTokenExpiryTimeTo); // This step is optional.;
+		
+		//savedToken = null; // Set it to null due to some UI issue.
+		
+		if (savedToken == null) {	
+			GetUserConsentAuthCode();
+		} else {
+			IAMManager.SetCurrentToken(savedToken);	
+			Log.i("gotSavedToken", "Saved Token: " + TokenUpdatedListener.tokenDisplayString(savedToken.getAccessToken()));
+			getMessageIndexInfo();	
+		}
 		setupMessageListListener();
 	}
 
@@ -104,7 +136,7 @@ public class ConversationList extends Activity {
 					 * Authentication page The Success/failure will be handled
 					 * by the listener : getTokenListener()
 					 */
-					osrvc.getOAuthToken(oAuthCode, new getTokenListener());
+					IAMManager.osrvc.getOAuthToken(oAuthCode, new getTokenListener());
 				} else {
 					Log.i("mainActivity", "oAuthCode: is null");
 
@@ -141,16 +173,27 @@ public class ConversationList extends Activity {
 	 * APP_KEY/ APP_SECRET /APP_SCOPE / REDIRECT_URI The Error along with the
 	 * error code is displayed to the user
 	 */
-	private class getTokenListener implements ATTIAMListener {
+	private class getTokenListener extends AttSdkSampleListener {
+
+		public getTokenListener() {
+			super("getTokenListener");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
-			authToken = (OAuthToken) response;
+			OAuthToken adjustedAuthToken = null;
+			OAuthToken authToken = (OAuthToken) response;
 			if (null != authToken) {
-				Config.token = authToken.getAccessToken();
-				Config.refreshToken = authToken.getRefreshToken();
-				Log.i("getTokenListener",
-						"onSuccess Message : " + authToken.getAccessToken());
+				if (IAMManager.GetLowerTokenExpiryTimeTo() >= 0) {
+					adjustedAuthToken = new OAuthToken(authToken.getAccessToken(),
+							IAMManager.GetLowerTokenExpiryTimeTo(),
+							authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+				} else {
+					adjustedAuthToken = authToken;
+				}
+				IAMManager.SetCurrentToken(adjustedAuthToken);
+				TokenUpdatedListener.UpdateSavedToken(adjustedAuthToken); // Store the token in preferences
+				Log.i("getTokenListener", "onSuccess Message : " + TokenUpdatedListener.tokenDisplayString(authToken.getAccessToken()));
 				/*
 				 * STEP 2: Getting the MessageIndexInfo
 				 * 
@@ -166,6 +209,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
@@ -173,7 +217,7 @@ public class ConversationList extends Activity {
 
 	/*
 	 * This operation allows the developer to get the state, status and message
-	 * count of the index cache for the subscriber’s inbox. authToken will be
+	 * count of the index cache for the subscriber's inbox. authToken will be
 	 * used to get access to GetMessageIndexInfo of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :
@@ -181,8 +225,7 @@ public class ConversationList extends Activity {
 	 */
 	public void getMessageIndexInfo() {
 
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageIndexInfoListener());
+		iamManager = new IAMManager(new getMessageIndexInfoListener());
 		iamManager.GetMessageIndexInfo();
 
 	}
@@ -199,7 +242,11 @@ public class ConversationList extends Activity {
 	 * along with the error code is displayed to the user
 	 */
 
-	private class getMessageIndexInfoListener implements ATTIAMListener {
+	private class getMessageIndexInfoListener extends AttSdkSampleListener {
+
+		public getMessageIndexInfoListener() {
+			super("getMessageIndexInfo");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -212,6 +259,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			createMessageIndex();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
@@ -219,7 +267,7 @@ public class ConversationList extends Activity {
 
 	/*
 	 * This operation allows the developer to create an index cache for the
-	 * subscriber’s inbox. authToken will be used to get access to
+	 * subscriber's inbox. authToken will be used to get access to
 	 * CreateMessageIndex of InApp Messaging.
 	 * 
 	 * The response will be handled by the listener :
@@ -227,8 +275,7 @@ public class ConversationList extends Activity {
 	 */
 
 	public void createMessageIndex() {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new createMessageIndexListener());
+		iamManager = new IAMManager(new createMessageIndexListener());
 		iamManager.CreateMessageIndex();
 	}
 
@@ -244,7 +291,11 @@ public class ConversationList extends Activity {
 	 * The Error along with the error code is displayed to the user
 	 */
 
-	private class createMessageIndexListener implements ATTIAMListener {
+	private class createMessageIndexListener extends AttSdkSampleListener {
+
+		public createMessageIndexListener() {
+			super("createMessageIndex");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -256,6 +307,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 			dismissProgressDialog();
 		}
@@ -269,8 +321,7 @@ public class ConversationList extends Activity {
 	 * The response will be handled by the listener : getMessageListListener()
 	 */
 	public void getMessageList() {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageListListener());
+		iamManager = new IAMManager(new getMessageListListener());
 		iamManager.GetMessageList(Config.messageLimit, Config.messageOffset);
 	}
 
@@ -285,7 +336,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getMessageListListener implements ATTIAMListener {
+	private class getMessageListListener extends AttSdkSampleListener {
+
+		public getMessageListListener() {
+			super("getMessageList");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -305,9 +360,9 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
-
 		}
 
 	}
@@ -322,8 +377,7 @@ public class ConversationList extends Activity {
 	public void updateDelta() {
 
 		if (msgList != null && msgList.getState() != null) {
-			iamManager = new IAMManager(Config.fqdn, authToken,
-					new getDeltaListener());
+			iamManager = new IAMManager(new getDeltaListener());
 			iamManager.GetDelta(prevMailboxState);
 		}
 	}
@@ -338,7 +392,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getDeltaListener implements ATTIAMListener {
+	private class getDeltaListener extends AttSdkSampleListener {
+
+		public getDeltaListener() {
+			super("getDelta");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -355,6 +413,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
 			Utils.toastOnError(getApplicationContext(), error);
 		}
@@ -370,8 +429,7 @@ public class ConversationList extends Activity {
 	 */
 
 	public void updateMessageStatus(DeltaChange[] statusChange) {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new updateMessageStatusListener());
+		iamManager = new IAMManager(new updateMessageStatusListener());
 		iamManager.UpdateMessages(statusChange);
 
 	}
@@ -386,7 +444,11 @@ public class ConversationList extends Activity {
 	 * the error code is displayed to the user
 	 */
 
-	private class updateMessageStatusListener implements ATTIAMListener {
+	private class updateMessageStatusListener extends AttSdkSampleListener {
+
+		public updateMessageStatusListener() {
+			super("updateMessageStatus");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -394,8 +456,7 @@ public class ConversationList extends Activity {
 			Boolean msg = (Boolean) response;
 			if (msg) {
 				deleteMessageFromList(deleteMessageID);
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(deleteMessageID);
 				deleteMessageID = null;
 			}
@@ -404,6 +465,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 		}
 	}
@@ -416,8 +478,7 @@ public class ConversationList extends Activity {
 	 * The response will be handled by the listener : getMessageListener()
 	 */
 	public void getMessage(String messageID) {
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new getMessageListener());
+		iamManager = new IAMManager(new getMessageListener());
 		iamManager.GetMessage(messageID);
 	}
 
@@ -432,7 +493,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class getMessageListener implements ATTIAMListener {
+	private class getMessageListener extends AttSdkSampleListener {
+
+		public getMessageListener() {
+			super("getMessage");
+		}
 
 		@Override
 		public void onSuccess(Object arg0) {
@@ -453,9 +518,10 @@ public class ConversationList extends Activity {
 		}
 
 		@Override
-		public void onError(InAppMessagingError arg0) {
+		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(), arg0);
+			Utils.toastOnError(getApplicationContext(), error);
 		}
 
 	}
@@ -470,8 +536,7 @@ public class ConversationList extends Activity {
 	public void deleteMessage(Message msg) {
 
 		deleteMessageID = msg.getMessageId();
-		iamManager = new IAMManager(Config.fqdn, authToken,
-				new deleteMessagesListener());
+		iamManager = new IAMManager(new deleteMessagesListener());
 		iamManager.DeleteMessage(deleteMessageID);
 	}
 
@@ -485,7 +550,11 @@ public class ConversationList extends Activity {
 	 * with the error code is displayed to the user
 	 */
 
-	private class deleteMessagesListener implements ATTIAMListener {
+	private class deleteMessagesListener extends AttSdkSampleListener {
+
+		public deleteMessagesListener() {
+			super("deleteMessages");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -500,7 +569,7 @@ public class ConversationList extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
-
+			super.onError(error);
 			Utils.toastOnError(getApplicationContext(), error);
 			dismissProgressDialog();
 		}
@@ -677,10 +746,9 @@ public class ConversationList extends Activity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	private boolean ProcessMenuCommand(int menuItemId) {
 		// Take appropriate action for each action item click
-		switch (item.getItemId()) {
+		switch (menuItemId) {
 
 		case R.id.action_new_message: {
 			/*
@@ -695,11 +763,10 @@ public class ConversationList extends Activity {
 			break;
 		}
 		case R.id.action_logout: {
-			CookieSyncManager.createInstance(this);
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeExpiredCookie();
-			cookieManager.removeSessionCookie();
+			ConversationList.RevokeToken("refresh_token");					
+			Preferences prefs = new Preferences(getApplicationContext());		
+			prefs.setString(TokenUpdatedListener.accessTokenSettingName,"");  
+			prefs.setString(TokenUpdatedListener.refreshTokenSettingName,"");  
 			finish();
 			break;
 		}
@@ -707,10 +774,32 @@ public class ConversationList extends Activity {
 			updateDelta();
 			break;
 		}
+		
+		case R.id.action_debug_settings:
+	   	 	startActivity(new Intent(getApplicationContext(), 
+	   	 			DebugSettingsPage.class));
+			break;
+
 		default:
-			return super.onOptionsItemSelected(item);
+			return false;
 		}
-		return true;
+		return true;		
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (ProcessMenuCommand(item.getItemId())) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	// Progress Dialog
@@ -756,8 +845,7 @@ public class ConversationList extends Activity {
 
 			switch (chType) {
 			case ADD: {
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;
@@ -773,8 +861,7 @@ public class ConversationList extends Activity {
 				deleteMessageFromList(deltaResponse.getDeltaChanges()[n]
 						.getMessageId());
 				adapter.notifyDataSetChanged();
-				iamManager = new IAMManager(Config.fqdn, authToken,
-						new getMessageListener());
+				iamManager = new IAMManager(new getMessageListener());
 				iamManager.GetMessage(messageID[n]);
 			}
 				break;
@@ -800,4 +887,28 @@ public class ConversationList extends Activity {
 		}
 		dismissProgressDialog();
 	}		
+	
+	public static void RevokeToken(final String hint) {
+		class revokeTokenListener extends AttSdkSampleListener {		
+			public revokeTokenListener() {
+				super("revokeToken");
+			}
+			@Override
+			public void onSuccess(Object response) {
+				Log.i("revokeTokenListener", hint + " was successfully revoked.");
+			}
+
+			@Override
+			public void onError(InAppMessagingError error) {
+				Log.i("revokeTokenListener", "Error:"+ hint + " revocation failed. " + error.getHttpResponse());
+			}
+		}
+		
+		IAMManager iamManager = new IAMManager(new revokeTokenListener());
+		if (hint.equalsIgnoreCase("access_token")) {
+			iamManager.RevokeAccessToken();
+		} else {
+			iamManager.RevokeToken(hint);		
+		}
+	}
 }

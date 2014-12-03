@@ -67,16 +67,13 @@ public class MMSContent extends Activity {
 		mmsContentName = (String[]) ext.get("MMSContentName");
 		mmsContentType = (String[]) ext.get("MMSContentName");
 		mmsContentUrl = (String[]) ext.get("MMSContentUrl");
-		token = new OAuthToken(Config.token, OAuthToken.NO_EXPIRATION,
-				Config.refreshToken);
 
 		for (int n = 0; n < mmsContentName.length; n++) {
 
 			if (mmsContentName[n].contains("smil.xml") || mmsContentName[n].length() == 0)
 				continue;
 
-			iamManager = new IAMManager(Config.fqdn, token,
-					new getMessageContentListener());
+			iamManager = new IAMManager(new getMessageContentListener());
 			String mmsContentDetails[] = mmsContentUrl[n].split("/");
 			iamManager.GetMessageContent(
 					mmsContentDetails[mmsContentDetails.length - 3],
@@ -188,7 +185,11 @@ public class MMSContent extends Activity {
 	 */
 
 
-	private class getMessageContentListener implements ATTIAMListener {
+	private class getMessageContentListener extends AttSdkSampleListener {
+
+		public getMessageContentListener() {
+			super("getMessageContent");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -202,9 +203,9 @@ public class MMSContent extends Activity {
 
 		@Override
 		public void onError(InAppMessagingError error) {
+			super.onError(error);
 			dismissProgressDialog();
-			Utils.toastOnError(getApplicationContext(),error);
-			
+			Utils.toastOnError(getApplicationContext(),error);			
 		}
 		
 	}

@@ -1,28 +1,57 @@
 package com.att.api.immn.service;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.att.api.error.InAppMessagingError;
+import com.att.api.error.Utils;
 import com.att.api.immn.listener.ATTIAMListener;
+import com.att.api.immn.listener.AttSdkTokenUpdater;
+import com.att.api.oauth.OAuthService;
 import com.att.api.oauth.OAuthToken;
+import com.att.api.rest.RESTException;
+import com.att.api.util.TokenUpdatedListener;
 /**
  * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
  * 
  * @author dg185p
  * @author ps350r
+ * @author sm095n
  * 
  */
 public class IAMManager {
 
-	public static IMMNService immnSrvc;
+	public static IMMNService immnSrvc = null;
+	public static OAuthService osrvc = null;
 	private ATTIAMListener iamListener;
+	private static AttSdkTokenUpdater tokenListener = null;
+	private static OAuthToken currentToken = null; // NOTE: This variable may not be required. Just immnSrvc can be used.
+	private final static Object lockRefreshToken = new Object();
+	private static String apiFqdn = "https://api.att.com";
+	// if lowerTokenExpiryTimeTo >= 0, over rides token expiry to this value
+	private static long lowerTokenExpiryTimeTo = -1; 
+
 	
 	/**
-	 * The IAMManager method creates an IAMManager object.
-	 * @param fqdn - Specifies the fully qualified domain name that is used to send requests.
-	 * @param token - Specifies the OAuth token that is used for authorization.
+	 * Creates an IAMManager object.
 	 * @param iamListener - Specifies the Listener for callbacks.
 	 */
-	public IAMManager(String fqdn, OAuthToken token, ATTIAMListener iamListener) {
-		
-		immnSrvc = new IMMNService(fqdn, token);
+	public IAMManager(ATTIAMListener iamListener) {
+		this(null, iamListener);
+	}
+	
+	/**
+	 * Creates an IAMManager object and initializes the saved access token.
+	 * @param token (optional) - Can be passed as null. Overrides currentToken.
+	 * @param iamListener - Specifies the Listener for callbacks.
+	 */
+	public IAMManager(OAuthToken token, ATTIAMListener iamListener) {
+		if (token != null) {
+			currentToken = token;
+		}
+		if (immnSrvc == null && currentToken != null) {
+			immnSrvc = new IMMNService(apiFqdn, currentToken);
+		}
 		this.iamListener = iamListener;
 	}
 
@@ -36,7 +65,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessage(String msgId) {
-		APIGetMessage getMessage = new APIGetMessage(msgId, immnSrvc, iamListener);
+		APIGetMessage getMessage = new APIGetMessage(msgId, this, iamListener);
 		getMessage.GetMessage(msgId);
 	}
 	
@@ -92,7 +121,7 @@ public class IAMManager {
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
 		APISendMessage sendMessage = new APISendMessage(addresses, message, subject, group, attachments, 
-														immnSrvc, iamListener);
+														this, iamListener);
 		sendMessage.SendMessage();
 	}
 
@@ -108,7 +137,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
-		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, immnSrvc, iamListener);
+		APIGetMessageContent getMessageContent = new APIGetMessageContent(msgId, partNumber, this, iamListener);
 		getMessageContent.GetMessageContent();	
 	}
 	
@@ -124,7 +153,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageList(int limit, int offset) {
-		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, immnSrvc, iamListener);
+		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, this, iamListener);
 		getMessageList.GetMessageList();
 	}
 	
@@ -139,7 +168,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetDelta(String state) {
-		APIGetDelta getDelta = new APIGetDelta(state, immnSrvc,iamListener);
+		APIGetDelta getDelta = new APIGetDelta(state, this,iamListener);
 		getDelta.GetDelta();
 	}
 	
@@ -151,7 +180,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void GetMessageIndexInfo() {
-		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(immnSrvc, iamListener);
+		APIGetMessageIndexInfo getMessageIndexInfo = new APIGetMessageIndexInfo(this, iamListener);
 		getMessageIndexInfo.GetMessageIndexInfo();
 	}
 	
@@ -172,7 +201,7 @@ public class IAMManager {
 	 */
 	public  void GetNotificationConnectionDetails(String queues) {
 		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
-						new APIGetNotificationConnectionDetails(queues,immnSrvc,iamListener); 
+						new APIGetNotificationConnectionDetails(queues,this,iamListener); 
 		getNotificationConnectionDetails.GetNotificationConnectionDetails();
 	}
 	
@@ -185,7 +214,7 @@ public class IAMManager {
 	 * @return Returns True for success or False for failure to the listener.
 	 */
 	public void CreateMessageIndex() {		
-		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(immnSrvc, iamListener);
+		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(this, iamListener);
 		createMessageIndex.CreateMessageIndex();	
 	}
 	
@@ -198,7 +227,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void DeleteMessage(String msgId) {		
-		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, immnSrvc, iamListener);
+		APIDeleteMessage deleteMessage = new APIDeleteMessage(msgId, this, iamListener);
 		deleteMessage.DeleteMessage();		
 	}
 	/**
@@ -211,7 +240,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void DeleteMessages(String[] msgIds) {
-		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, immnSrvc, iamListener);
+		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, this, iamListener);
 		deleteMessages.DeleteMessages();
 	}
 	
@@ -225,7 +254,7 @@ public class IAMManager {
 	 * 
 	 */
 	public void UpdateMessages(DeltaChange[] messages) {
-		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, immnSrvc, iamListener);
+		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, this, iamListener);
 		updateMessages.UpdateMessages();
 	}
 	/**
@@ -243,7 +272,165 @@ public class IAMManager {
 		APIUpdateMessage.APIUpdateMessageParams params = 
 					updateMessage.new APIUpdateMessageParams(msgId, isUnread, isFavorite );
 
-		updateMessage.set(params, immnSrvc, iamListener);
+		updateMessage.set(params, this, iamListener);
 		updateMessage.UpdateMessage();
 	}
+	
+	/**
+	 * The SetCurrentToken method updates the current access token used for the subsequent API calls.
+	 * @param token - Overrides the default OAuth token used for authorization.
+	 */	
+	public static void SetCurrentToken(OAuthToken token) {
+		currentToken = token;
+		immnSrvc = new IMMNService(apiFqdn, token);
+	}
+	
+	/**
+	 * The SetLowerTokenExpiryTimeTo method updates the current value for the token expiry override time.
+	 * @param value - Override expiry time in seconds.
+	 */	
+	public static void SetLowerTokenExpiryTimeTo (long value) {
+		lowerTokenExpiryTimeTo = value;
+	}
+	
+	/**
+	 * The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
+	 */	
+	public static long GetLowerTokenExpiryTimeTo () {
+		return lowerTokenExpiryTimeTo;
+	}
+	
+	/**
+	 * The SetTokenUpdatedListener method updates the listener to call back when the access token is updated.
+	 * @param listener - AttSdkTokenUpdater object.
+	 */	
+	public static void SetTokenUpdatedListener(AttSdkTokenUpdater listener) {
+		tokenListener = listener;
+	}
+	
+	/**
+	 * The isCurrentTokenExpired method checks if the current access token is expired.
+	 */	
+	public static Boolean isCurrentTokenExpired() {
+		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
+	}
+	
+	/**
+	 * The SetApiFqdn method updates the FQDN of the AT&T API end point.
+	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
+	 */	
+	public static void SetApiFqdn(String fqdn) {
+		apiFqdn = fqdn;
+	}
+	
+	/**
+	 * The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
+	 */	
+	public Boolean CheckAndRefreshExpiredTokenAsync() {
+		try {
+			OAuthToken authToken = null;
+			OAuthToken adjustedAuthToken = null;
+			synchronized (lockRefreshToken) {
+				if (isCurrentTokenExpired()) {
+					String refreshTokenValue = currentToken.getRefreshToken();
+					currentToken = null;
+					InAppMessagingError errorObj = new InAppMessagingError();
+					try {
+						if (osrvc == null) throw new Exception("Failed during token refresh. osrvc not initiazed.");
+						authToken = osrvc.refreshToken(refreshTokenValue);
+						if (authToken != null) {
+							if (lowerTokenExpiryTimeTo >= 0) {
+								adjustedAuthToken = new OAuthToken(authToken.getAccessToken(), lowerTokenExpiryTimeTo,
+										authToken.getRefreshToken(), (System.currentTimeMillis() / 1000));
+							} else {
+								adjustedAuthToken = authToken;
+							}
+							SetCurrentToken(adjustedAuthToken);
+							Log.i("getRefreshTokenListener",
+									"onSuccess Message : " + 
+									TokenUpdatedListener.tokenDisplayString(adjustedAuthToken.getAccessToken()));
+							if (tokenListener != null) {
+								tokenListener.onTokenUpdate(adjustedAuthToken);
+							}
+						} else {
+							throw new Exception("Failed during token refresh.");
+						}
+					} catch (RESTException e) {
+						Log.i("getRefreshTokenListener", "REST Error:" + e.getMessage());
+						errorObj = Utils.CreateErrorObjectFromException( e );
+					} catch (Exception e) {
+						Log.i("getRefreshTokenListener", "Error:" + e.getMessage());
+					}
+					if (currentToken == null) {
+						if (iamListener != null) {
+							iamListener.onError(errorObj);
+						}						
+						if (tokenListener != null) {
+							tokenListener.onTokenDelete();
+						}			
+					}
+				}
+			}
+		} catch (Exception /*InterruptedException*/ e) {
+			currentToken = null;
+		}	
+		return (currentToken != null);
+	}
+	
+    /**
+     * The RevokeToken method revokes the current token.
+     * 
+     * @param hint a hint for the type of token to revoke
+     *
+     */
+    public void RevokeToken(String hint) {
+		RevokeTokenTask task = new RevokeTokenTask();
+		if (hint.equalsIgnoreCase("access_token")) {
+			task.execute(currentToken.getAccessToken(), hint);
+		} else if (hint.equalsIgnoreCase("refresh_token")) {
+			task.execute(currentToken.getRefreshToken(), hint);			
+		} else {
+			if (null != iamListener) {
+				iamListener.onError(new InAppMessagingError("Invalid token hint passed to the RevokeToken method."));
+			}			
+		}
+    }
+    
+    /**
+     * The RevokeAccessToken method revokes the access token.
+     *
+     */
+    public void RevokeAccessToken() {
+    	this.RevokeToken("access_token");    	
+    }
+
+	public class RevokeTokenTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			InAppMessagingError errorObj = new InAppMessagingError("RevokeToken error.");
+			try {
+				osrvc.revokeToken(params[0], params[1]);
+				result = "Success";
+			} catch (RESTException e) {
+				errorObj = Utils.CreateErrorObjectFromException( e );
+				if (null != iamListener) {
+					iamListener.onError(errorObj);
+				}
+			}		
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if(null != result) {
+				if (null != iamListener) {
+					iamListener.onSuccess(result);
+				}
+			}
+		}
+    	
+    }
 }

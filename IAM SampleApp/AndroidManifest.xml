@@ -56,6 +56,11 @@
             android:label="@string/title_activity_mmscontent"
             android:screenOrientation="portrait" >
         </activity>
-    </application>
+        <activity
+            android:name="com.att.iamsampleapp.DebugSettingsPage"
+            android:label="@string/title_debug_settings"
+            android:screenOrientation="portrait" >
+        </activity>
+        </application>
 
 </manifest>

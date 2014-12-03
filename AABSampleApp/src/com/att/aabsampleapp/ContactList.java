@@ -48,12 +48,10 @@ public class ContactList extends Activity implements OnClickListener {
 
 		String groupId = getIntent().getStringExtra("groupId");
 		if (groupId.equalsIgnoreCase("-1")) {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new getContactsListener());
+			aabManager = new AabManager(new getContactsListener());
 			aabManager.GetContacts("", pageParams, searchParams);
 		} else {
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new getGroupContactListener());
+			aabManager = new AabManager(new getGroupContactListener());
 			aabManager.GetGroupContacts(groupId, pageParams);
 		}
 
@@ -156,8 +154,7 @@ public class ContactList extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int which) {
 				String deleteContactID;
 				deleteContactID = delcontact.getContactId();
-				aabManager = new AabManager(Config.fqdn, Config.authToken,
-						new deleteContactListener());
+				aabManager = new AabManager(new deleteContactListener());
 				aabManager.DeleteContact(deleteContactID);
 			}
 
@@ -174,7 +171,11 @@ public class ContactList extends Activity implements OnClickListener {
 
 	}
 
-	private class deleteContactListener implements AttSdkListener {
+	private class deleteContactListener extends AttSdkSampleListener {
+		
+		public deleteContactListener() {
+			super("deleteContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -184,8 +185,7 @@ public class ContactList extends Activity implements OnClickListener {
 					"Contact was succesfully deleted.", Toast.LENGTH_LONG)
 					.show();
 
-			aabManager = new AabManager(Config.fqdn, Config.authToken,
-					new getContactsListener());
+			aabManager = new AabManager(new getContactsListener());
 			pageParams = new PageParams("ASC", "firstName", "30", "0");
 			aabManager.GetContacts("", pageParams, searchParams);
 
@@ -194,9 +194,8 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("deleteContactAPI on error", "onError");
+			super.onError(error);;
 		}
-
 	}
 
 	public void refreshContactList(ListView ContactsListView) {
@@ -214,7 +213,11 @@ public class ContactList extends Activity implements OnClickListener {
 
 	}
 
-	private class getContactsListener implements AttSdkListener {
+	private class getContactsListener extends AttSdkSampleListener {
+		
+		public getContactsListener() {
+			super("getContactsAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -235,9 +238,8 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "onError");
-
-		}
+			super.onError(error);
+		}		
 	}
 
 	public void setupContactListListener() {
@@ -262,15 +264,18 @@ public class ContactList extends Activity implements OnClickListener {
 	protected void onResume() {
 		super.onResume();
 
-		aabManager = new AabManager(Config.fqdn, Config.authToken,
-				new getContactsListener());
+		aabManager = new AabManager(new getContactsListener());
 		pageParams = new PageParams("ASC", "firstName", "55", "0");
 		aabManager.GetContacts("", pageParams, searchParams);
 
 	}
 
-	private class getGroupsListener implements AttSdkListener {
+	private class getGroupsListener extends AttSdkSampleListener {
 		public GroupResultSet groupResultSet;
+		
+		public getGroupsListener() {
+			super("getGroupsAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -325,13 +330,16 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getGroupsAPI on error", "onError");
-
+			super.onError(error);
 		}
 	}
 
-	private class getGroupContactListener implements AttSdkListener {
+	private class getGroupContactListener extends AttSdkSampleListener {
 
+		public getGroupContactListener() {
+			super("getGroupContactAPI");
+		}
+		
 		@Override
 		public void onSuccess(Object response) {
 			String strText;
@@ -341,8 +349,7 @@ public class ContactList extends Activity implements OnClickListener {
 				for (int i = 0; i < result.length; i++) {
 					String contactId = result[i];
 					strText = "\n" + contactId;
-					AabManager aabManager = new AabManager(Config.fqdn,
-							Config.authToken, new getContactListener());
+					AabManager aabManager = new AabManager(new getContactListener());
 					aabManager.GetContact(contactId, " ");
 					Log.i("getGroupContactListener on success", "onSuccess"
 							+ strText);
@@ -358,12 +365,15 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactsAPI on error", "onError");
-
+			super.onError(error);
 		}
 	}
 
-	private class getContactListener implements AttSdkListener {
+	private class getContactListener extends AttSdkSampleListener {
+		
+		public getContactListener() {
+			super("getContactAPI");
+		}
 
 		@Override
 		public void onSuccess(Object response) {
@@ -385,8 +395,7 @@ public class ContactList extends Activity implements OnClickListener {
 
 		@Override
 		public void onError(AttSdkError error) {
-			Log.i("getContactAPI on error", "onError");
-
+			super.onError(error);
 		}
 	}
 }

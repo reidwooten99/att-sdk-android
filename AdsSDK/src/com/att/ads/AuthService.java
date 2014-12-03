@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -164,9 +165,7 @@ public class AuthService {
 					// get expires_in in seconds.
 					int expiresIn = object.getInt("expires_in");
 					long expiresInSeconds = 0;
-					if (expiresIn != 0) {
-						expiresInSeconds = Utils.getExpiresTimeInSeconds(expiresIn);
-					}
+					expiresInSeconds = Utils.getExpiresTimeInSeconds(expiresIn);
 					// Stores in milliseconds of respective time
 					pref.setString("expires_in", String.valueOf(expiresInSeconds));
 				} catch (JSONException e) {
@@ -250,6 +249,7 @@ public class AuthService {
 					errInfo.append(" and response: " + tempBuffer.toString());
 					Log.e(TAG, errInfo.toString());
 					if (adView != null)
+						adView.clearCache();
 						adView.setResult(null,
 								new ATTAdViewError(
 										ATTAdViewError.ERROR_OAUTH_ERROR,
@@ -258,6 +258,7 @@ public class AuthService {
 
 			} else {
 				if (adView != null)
+					adView.clearCache();
 					adView.setResult(null, new ATTAdViewError(
 							ATTAdViewError.ERROR_OAUTH_ERROR,
 							Constants.STR_EMPTY_SERVER_RESPONSE));
@@ -292,5 +293,138 @@ public class AuthService {
 		}
 
 		return object;
+	}
+	/**
+	 * Revokes the current access token and refresh token stored in preferences.
+	 * The app key, secret key and refresh token are retrieved from preferences, and 
+	 * passed to the oauthService method which makes the revoke refresh token call.
+	 * The access token, refresh token and expires_in values are cleaned from the
+	 * shared preference.
+	 * 
+	 * @param none
+	 * 
+	 * @return true or false
+	 */
+	public void revokeToken() {
+		// Invoke network operation is a separate thread
+		Thread threadRevoke = new Thread(new Runnable(){
+		    @Override
+		    public void run() {
+		        try {
+		        	revokeTokenOperation();
+		        } catch (Exception e) {
+					Log.e(TAG, "Exception in revoke token :" + e.getStackTrace());
+		        }
+		    }
+		});
+
+		threadRevoke.start();		
+	}
+	private boolean revokeTokenOperation() {
+		String appKey = null;
+		String secret = null;
+		StringBuffer revokeBody = null;
+		Preferences pref = new Preferences(context);
+		String refreshToken = null;
+		HttpPost post = null;
+		HttpResponse response = null;
+		HttpEntity httpEntity = null;
+		InputStream instream = null;
+		BufferedReader reader = null;
+		HttpClient client = HttpClientFactory.getThreadSafeClient();
+
+		try {
+			String appKeyEnc = pref.getString("app_key", null);
+			if (null != appKeyEnc) {
+				appKey = EncryptDecrypt.getDecryptedValue(appKeyEnc,
+						EncryptDecrypt.getSecretKeySpec("app_key"));
+			} else {
+				Log.e(TAG, "Unable to get the app_key info from preferences");
+				return false;
+			}
+
+			String secretEnc = pref.getString("app_secret", null);
+			if (null != secretEnc) {
+				secret = EncryptDecrypt.getDecryptedValue(secretEnc,
+						EncryptDecrypt.getSecretKeySpec("app_secret"));
+			} else {
+				Log.e(TAG, "Unable to get the secret info from preferences");
+				return false;
+			}
+
+			revokeBody = new StringBuffer("client_id=").append(appKey)
+					.append("&client_secret=").append(secret);
+		} catch (Exception e) {
+			Log.e(TAG, "Exception in decrypt keys :" + e.getStackTrace());
+			return false;
+		}
+		
+		String refreshTokenEnc = pref.getString("refresh_token", null);
+		try {
+			refreshToken = EncryptDecrypt.getDecryptedValue(
+					refreshTokenEnc,
+					EncryptDecrypt.getSecretKeySpec("refresh_token"));
+			revokeBody.append("&token=").append(refreshToken)
+					.append("&token_type_hint=refresh_token");
+		} catch (Exception e) {
+			Log.e(TAG, "Exception in revoke token :" + e.getStackTrace());
+			return false;
+		}
+
+		try {
+			Log.d(TAG, "Revoke Token Request: " + revokeBody.toString());
+			post = new HttpPost(Constants.REVOKE_URL);
+			post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			post.setEntity(new StringEntity(revokeBody.toString()));
+			response = client.execute(post);
+			httpEntity = response.getEntity();
+			StringBuffer tempBuffer = new StringBuffer();
+			if (httpEntity != null) {
+				instream = httpEntity.getContent();
+				reader = new BufferedReader(new InputStreamReader(instream));
+				String str = null;
+				while ((str = reader.readLine()) != null) {
+					tempBuffer.append(str);
+				}
+				if (response.getStatusLine().getStatusCode() == 200) {
+					Log.d(TAG, "Revoke Token status :success");					
+					// Store expiresIn as -1, make access token and refresh token blank.
+					pref.setString("expires_in", "-1"); // get new token next time.
+					pref.setString("access_token", EncryptDecrypt
+							.getEncryptedValue("", EncryptDecrypt
+									.getSecretKeySpec("access_token")));
+					pref.setString("refresh_token", EncryptDecrypt
+							.getEncryptedValue("", EncryptDecrypt
+									.getSecretKeySpec("refresh_token")));
+
+				} else {
+					StringBuffer errInfo = new StringBuffer(
+							"Revoke Token unsuccessful due to the code :"
+									+ response.getStatusLine().getStatusCode());
+					errInfo.append(" and response: " + tempBuffer.toString());
+					Log.e(TAG, errInfo.toString());
+				}
+
+			} else {
+				Log.d(TAG, "Revoke Token: failed to create HttpEntity.");
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "Exception status :" + e.fillInStackTrace());
+			return false;
+		} finally {
+			post.abort();
+			try {
+				if (instream != null) {
+					instream.close();
+				}
+				if (reader != null) {
+					reader.close();
+				}
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage() + e.fillInStackTrace());
+			}
+		}		
+
+		return true;
 	}
 }
