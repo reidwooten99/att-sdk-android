@@ -40,7 +40,13 @@ BugFixes contains the following
 
 Version 2.0.3 - Dec 27, 2013
 
-Fix for the issue - SF7411 - Thread warning output when displaying ads
+¥ Fix for the issue - SF7411 - Thread warning output when displaying ads
+
+Version 2.1.1 - December 03, 2014
+
+¥ Added RevokeToken method to the SDK
+¥ Added the ability to "Select" text displayed on the "Response" tab.
+¥ Added "Debug Settings" activity to display and modify the current token and Preferences for testing.
 
 
 Procedure to update the library.

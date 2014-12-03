@@ -64,6 +64,13 @@ Version 2.0.6 - May 28, 2014
 2. Internal changes - Updated the clientSDK name parameter for Analytics.
 3. Fix for Auth token request on application launches.
 
+Version 2.1.1 - December 03, 2014
+---------------------------------
+1. Added RevokeToken method to the SDK
+2. Added the ability to "Select" text displayed on the "Response" tab.
+3. Added "Debug Settings" activity to display and modify the current token and Preferences for testing.
+
+
 Procedure to update the library
 ===============================
 1.Open the Android project for your app in Package Explorer.
