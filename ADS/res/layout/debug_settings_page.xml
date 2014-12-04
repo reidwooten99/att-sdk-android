@@ -21,7 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="@string/title_access_token"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16sp" />
 
         <EditText
@@ -29,12 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="37dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/rounded_edit_text_layout"
             android:gravity="left|center_vertical"
             android:inputType="text"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="14sp" />
 
         <TextView
@@ -45,7 +44,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/title_refresh_token"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16sp" />
 
         <EditText
@@ -69,7 +68,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/title_access_token_expiry"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="16sp" />
 
         <EditText

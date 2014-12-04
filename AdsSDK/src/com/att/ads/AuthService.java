@@ -390,13 +390,8 @@ public class AuthService {
 					Log.d(TAG, "Revoke Token status :success");					
 					// Store expiresIn as -1, make access token and refresh token blank.
 					pref.setString("expires_in", "-1"); // get new token next time.
-					pref.setString("access_token", EncryptDecrypt
-							.getEncryptedValue("", EncryptDecrypt
-									.getSecretKeySpec("access_token")));
-					pref.setString("refresh_token", EncryptDecrypt
-							.getEncryptedValue("", EncryptDecrypt
-									.getSecretKeySpec("refresh_token")));
-
+					pref.setString("access_token", "");
+					pref.setString("refresh_token", "");
 				} else {
 					StringBuffer errInfo = new StringBuffer(
 							"Revoke Token unsuccessful due to the code :"

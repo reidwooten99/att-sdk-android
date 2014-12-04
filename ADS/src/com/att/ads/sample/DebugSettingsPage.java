@@ -60,6 +60,12 @@ public class DebugSettingsPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.debug_settings_page);
+	}
+		
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		
 		InitializeStateFromPreferences();
 
@@ -77,7 +83,7 @@ public class DebugSettingsPage extends Activity {
 									.getSecretKeySpec("refresh_token")));
 					
 					String expiresIn = m_tokenExpiresIn.getText().toString().trim();
-					if (expiresIn.isEmpty()) expiresIn = "-1";
+					if (expiresIn.length() <= 0) expiresIn = "-1";
 					prefs.setString("expires_in", expiresIn);
 					
 				} catch (Exception e) {
@@ -112,10 +118,4 @@ public class DebugSettingsPage extends Activity {
 			}
 		});
 	}	
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		InitializeStateFromPreferences();
-	}
 }
