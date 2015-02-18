@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -83,6 +84,7 @@ import com.att.ads.util.Utils;
  * @author ATT
  *
  */
+@SuppressLint("SetJavaScriptEnabled")
 public class ATTAdView extends WebView {
 
 	private static final String TAG = "ATTAdView";
@@ -187,6 +189,10 @@ public class ATTAdView extends WebView {
 			adLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 			final WebView tempView = new WebView(view.getContext());
 			tempView.setLayoutParams(adLayoutParams);
+			//XSS stands for “cross-site scripting” which is a form of hacking and by enabling JavaScript in your WebView you are opening up your application to such attacks.
+			//If you are sure that cross-site scripting is not possible (e.g. your webview generates its own content via an internal resource and does not actually access pages on the WWW then simply suppress the warning by adding the Android annotation SuppressLint above the activity declaration, @SuppressLint("SetJavaScriptEnabled")
+			//Since the webview content is generated internally by adservice provider enabling the javascript.
+			tempView.getSettings().setJavaScriptEnabled(true);
 			tempView.setWebViewClient(new WebViewClient() {
 			    public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

@@ -10,7 +10,7 @@ package com.att.ads;
  */
 public class Constants {
 
-	public static final String SDK_VERSION = "2.1.1";
+	public static final String SDK_VERSION = "2.1.2";
 	
 	public static final long AD_RELOAD_PERIOD = 120000; //in milliseconds
 	public static final int DEFAULT_REQUEST_TIMEOUT = 20000; //in seconds
