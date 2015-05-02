@@ -2,206 +2,194 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bbf4a82-1d80-4324-9fff-23e3390b61ec" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/att_logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_dn_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_up_2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_compose.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_favorite.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_notfavorite.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/commons-codec-1.6.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/commons-lang3-3.2.1-javadoc.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/commons-lang3-3.2.1-sources.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/commons-lang3-3.2.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/commons-logging-1.1.3.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/fluent-hc-4.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/httpclient-4.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/httpclient-cache-4.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/httpcore-4.3.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/httpmime-4.3.1.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_addcontact.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_attachment.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_attachment.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_attachment.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_attachment.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_audio.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_audio.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_audio.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_audio.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_audio_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_audio_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_audio_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_audio_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_compose_message.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_compose_message.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_compose_message.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_compose_message.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_image_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_image_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_image_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_image_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-hdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-mdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-xhdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-xxhdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-ldpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_launcher.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_logout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-ldpi/ic_logout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_logout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_logout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_logout.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_refresh.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_refresh.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_refresh.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_refresh.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_transparent.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_video.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_video.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_video.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_video.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_video_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_video_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_video_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xxhdpi/ic_video_black.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/libs/java-json.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APICreateMessageIndex.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIDeleteMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIDeleteMessages.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetDelta.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetMessageContent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetMessageIndexInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetMessageList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIGetNotificationConnectionDetails.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/APIResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APISendMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/service/APIService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIUpdateMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/APIUpdateMessages.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/listener/ATTIAMListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/AndroidManifest.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/AndroidManifest.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/AttSdkSampleListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/listener/AttSdkTokenUpdater.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/AttachmentListAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/CacheStatus.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/ChangeType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/Constants.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/ConversationList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/DebugSettingsPage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/Delta.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/DeltaChange.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/DeltaChangeInternal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/DeltaResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/DeltaResponseInternal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/HttpClientFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/HttpHeader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IAM.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IAMManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IMMNService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/error/InAppMessagingError.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/MMSContent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageContent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageContentType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageIndexInfo.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/MessageListAdapter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageListArgs.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MessageType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/MmsContent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/NewMessage.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/NotificationConnectionDetails.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthToken.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/Preferences.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/RESTClient.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/RESTConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/RESTException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/SDK.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/SampleApp.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/SegmentationDetails.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/SendMessageParams.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/SendResponse.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/SplashScreen.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/TokenUpdatedListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/TypeMetaData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/consentactivity/UserConsentActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/error/Utils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Utils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/menu/action_conversation_list.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/menu/action_new_message.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/activity_conversation_list.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/activity_mmscontent.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/activity_new_message.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/activity_splash_screen.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/layout/activity_user_consent.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/attachmentlist_row_view.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/build.gradle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/build.gradle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_codec_1_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_2_1_javadoc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_2_1_sources.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/commons_logging_1_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/conversationlist_row_view.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/debug_settings_page.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values-sw600dp/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values-sw720dp-land/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values-sw600dp/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values-sw720dp-land/dimens.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/fluent_hc_4_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew.bat" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpclient_4_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpclient_cache_4_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpcore_4_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpmime_4_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/java_json.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/lint.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/lint.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/menu/main.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/menu/mmscontent.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/package-info.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/package-info.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/rest/package-info.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/api/service/package-info.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/rounded_edit_text_layout.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/menu/splash_screen.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values-v11/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values-v14/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values-v11/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values-v14/styles.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_18_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/menu/user_consent.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\.classpath" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\.project" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\.settings\org.eclipse.jdt.core.prefs" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\README.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\gen\com\att\iamsampleapp\BuildConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\libs\android-support-v4.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\lint.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\proguard-project.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\project.properties" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\att_logo.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_blue_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_blue_dn_2.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_blue_up_2.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_compose.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_favorite.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\btn_notfavorite.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_addcontact.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_attachment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_audio.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_audio_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_compose_message.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_image.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_image_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_logout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_transparent.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_video.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\ic_video_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-hdpi\rounded_edit_text_layout.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-ldpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-ldpi\ic_logout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_attachment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_audio.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_audio_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_compose_message.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_image.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_image_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_logout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_video.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-mdpi\ic_video_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_attachment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_audio.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_audio_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_compose_message.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_image.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_image_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_logout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_video.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xhdpi\ic_video_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_attachment.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_audio.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_audio_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_compose_message.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_image.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_image_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_logout.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_refresh.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_video.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\drawable-xxhdpi\ic_video_black.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\activity_conversation_list.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\activity_mmscontent.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\activity_new_message.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\activity_splash_screen.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\attachmentlist_row_view.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\conversationlist_row_view.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\layout\debug_settings_page.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\menu\action_conversation_list.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\menu\action_new_message.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\menu\mmscontent.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\menu\splash_screen.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values-sw600dp\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values-sw720dp-land\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values-v11\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values-v14\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values\strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\res\values\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\AttSdkSampleListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\AttachmentListAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\Config.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\ConversationList.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\DebugSettingsPage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\MMSContent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\MessageListAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\NewMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\SplashScreen.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAM SampleApp\src\com\att\iamsampleapp\Utils.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\.classpath" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\.project" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\ReadMe .md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\ReadMe.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\ic_launcher-web.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\javadoc.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\commons-codec-1.6.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\commons-lang3-3.2.1-javadoc.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\commons-lang3-3.2.1-sources.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\commons-lang3-3.2.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\commons-logging-1.1.3.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\fluent-hc-4.3.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\httpclient-4.3.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\httpclient-cache-4.3.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\httpcore-4.3.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\httpmime-4.3.1.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\libs\java-json.jar" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\lint.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\proguard-project.txt" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\project.properties" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\drawable-hdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\drawable-mdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\drawable-xxhdpi\ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\layout\activity_user_consent.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\menu\main.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\menu\user_consent.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values-sw600dp\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values-sw720dp-land\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values-v11\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values-v14\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values\dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values\strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\res\values\styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\consentactivity\UserConsentActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\error\InAppMessagingError.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\error\Utils.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\listener\ATTIAMListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\listener\AttSdkTokenUpdater.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APICreateMessageIndex.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIDeleteMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIDeleteMessages.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetDelta.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetMessageContent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetMessageIndexInfo.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetMessageList.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIGetNotificationConnectionDetails.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APISendMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIUpdateMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\APIUpdateMessages.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\CacheStatus.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\ChangeType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\Delta.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\DeltaChange.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\DeltaChangeInternal.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\DeltaResponse.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\DeltaResponseInternal.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\IAMManager.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\IMMNService.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\Message.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageContent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageContentType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageIndexInfo.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageList.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageListArgs.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MessageType.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\MmsContent.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\NotificationConnectionDetails.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\SegmentationDetails.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\SendMessageParams.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\SendResponse.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\TypeMetaData.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\immn\service\package-info.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\oauth\OAuthService.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\oauth\OAuthToken.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\oauth\package-info.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\APIResponse.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\Constants.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\HttpClientFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\HttpHeader.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\RESTClient.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\RESTConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\RESTException.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\rest\package-info.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\service\APIService.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\service\package-info.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\util\Preferences.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\IAMSDK\src\com\att\api\util\TokenUpdatedListener.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="IAM.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -232,8 +220,8 @@
       <file leaf-file-name="Config.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40710384">
-              <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.13934426">
+              <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -1647,9 +1635,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1660,7 +1647,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1821,7 +1809,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1837,7 +1825,7 @@
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1870,31 +1858,39 @@
     <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40710384">
           <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13934426">
+          <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
           <folding />
         </state>
       </provider>
