@@ -185,27 +185,6 @@ public class IAMManager {
 	}
 	
 	/**
-	 * The GetNotificationDetails method gets details about the credentials, endpoint,
-	 * and resource information that can be used to set up a notification connection. 
-	 * 
-	 * @param queues - Specifies the name of the resource for which the notification details are returned. 
-	 * Supported resources include the following:
-	 * <ul>
-	 * 
-	 * <li>TEXT : Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
-	 * <li>MMS  : Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.
-	 * </ul>
-	 * 
-	 * @return Returns a response of type NotificationConnectionDetails to the listener.
-	 * 
-	 */
-	public  void GetNotificationConnectionDetails(String queues) {
-		APIGetNotificationConnectionDetails getNotificationConnectionDetails = 
-						new APIGetNotificationConnectionDetails(queues,this,iamListener); 
-		getNotificationConnectionDetails.GetNotificationConnectionDetails();
-	}
-	
-	/**
 	 * The CreateMessageIndex method creates an index cache for the inbox of the subscriber.
 	 * This method must be called before any of the other operations are used. 
 	 * In addition, if a message index is inactive for 30 or more days, then the index cache

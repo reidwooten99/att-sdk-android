@@ -421,20 +421,4 @@ public class IMMNService extends APIService {
 		return MessageIndexInfo.valueOf(jobj);
     }
 
-    public NotificationConnectionDetails getNotificationConnectionDetails(
-            String queues) throws RESTException, JSONException, ParseException {
-            
-        final String endpoint = getFQDN()
-                + "/myMessages/v2/notificationConnectionDetails";
-
-        final APIResponse response = new RESTClient(endpoint)
-            .setHeader("Accept", "application/json")
-            .addAuthorizationHeader(getToken())
-            .setParameter("queues", queues)
-            .httpGet();
-
-        JSONObject jobj = new JSONObject(response.getResponseBody());
-		return NotificationConnectionDetails.valueOf(jobj);
-    }
-
 }
