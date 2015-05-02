@@ -2,9 +2,9 @@ package com.att.iamsampleapp;
 
 public class Config {
 	
-	public static final String clientID = "tpnrlrxiiis9w3t8io7v5qm4x9aq7ydx";
-	public static final String secretKey = "lqcongddiyjiggyp1iaovqg1og4y4vzh";
-	public static final String redirectUri = "http://localhost";
+	public static final String clientID = COPY_YOUR_CLIENT_ID_HERE;
+	public static final String secretKey = COPY_YOUR_SECRET_KEY_HERE;
+	public static final String redirectUri = COPY_YOUR_REDIRECT_URI_HERE;
 	public static final String appScope	 			= 	 "IMMN,MIM";
 	public static final String fqdn		 			= 	 "https://api.att.com";
 
