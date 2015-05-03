@@ -12,7 +12,7 @@ import com.att.api.oauth.OAuthToken;
 import com.att.api.rest.RESTException;
 import com.att.api.util.TokenUpdatedListener;
 /**
- * This class encapsulates the AT&T RESTfull APIs for In-App Messaging.
+ * This class encapsulates the AT&amp;T REST APIs for In-App Messaging.
  * 
  * @author dg185p
  * @author ps350r
@@ -58,10 +58,8 @@ public class IAMManager {
 	/**
 	 * The getMessages method gets a message based on its message Id. 
 	 * 
-	 * @param msgId - Specifies the message identifier of a subscriber message in the AT&T 
+	 * @param msgId - Specifies the message identifier of a subscriber message in the AT&amp;T
 	 * Messages environment.
-	 * 
-	 * @return Returns a response of type Message to the listener.
 	 * 
 	 */
 	public void GetMessage(String msgId) {
@@ -95,7 +93,8 @@ public class IAMManager {
 	 * <li> Email address: This format is the standard email address format. Validation of the address must be 
 	 * performed. A maximum of 10 addresses is supported. However, this limit can be configurable at a System level.
 	 * If any of the email addresses are duplicated, the message is sent to that address only once.
-	 * 
+	 * </ul>
+	 *
 	 * @param message - The message to be sent.
 	 * <ul>
 	 * <li> If the request is detected to be an MMS message, then the following character sets are supported:
@@ -114,9 +113,6 @@ public class IAMManager {
 	 * is a broadcast mesage.
 	 * @param attachments - Specifies the filenames of attachments associated with the message.
 	 * 
-	 * 
-	 * @return Returns a response of type SendResponse to the listener.
-	 * 
 	 */
 	
 	public void SendMessage(String[] addresses, String message, String subject, boolean group, String[] attachments) {
@@ -130,10 +126,8 @@ public class IAMManager {
 	 * The GetMessageContent method gets a message attachment based on the attachment 
 	 * and message identifier. 
 	 * 
-	 * @param msgId - Specifies the identifier of a subscriber message in the AT&T Messages environment.
+	 * @param msgId - Specifies the identifier of a subscriber message in the AT&amp;T Messages environment.
 	 * @param partNumber - Specifies the content identifier of the attachment to be retrieved.
-	 * 
-	 * @return Returns a response of type MessageContent to the listener.
 	 * 
 	 */
 	public void GetMessageContent(String msgId, String partNumber) {
@@ -149,8 +143,6 @@ public class IAMManager {
 	 * @param limit - Specifies the number of messages to return. A maximum value of 500 is supported.
 	 * @param offset - Specifies the offset from the beginning of the ordered set of messages.
 	 * 
-	 * @return Returns a response of type MessageList to the listener.
-	 * 
 	 */
 	public void GetMessageList(int limit, int offset) {
 		APIGetMessageList getMessageList = new APIGetMessageList(limit, offset, this, iamListener);
@@ -164,8 +156,6 @@ public class IAMManager {
 	 * @param state - Specifies the state of the client. This string is returned by either the 
 	 * GetMessageIndex or GetMessageList method.
 	 * 
-	 * @return Returns a response of type DeltaResponse to the listener.
-	 * 
 	 */
 	public void GetDelta(String state) {
 		APIGetDelta getDelta = new APIGetDelta(state, this,iamListener);
@@ -175,8 +165,6 @@ public class IAMManager {
 	/**
 	 * The GetMessageIndexInfo method gets the state, status, and message count of the index cache for the 
 	 * inbox of the subscriber. 
-	 * 
-	 * @return Returns a response of type MessageIndexInfo to the listener.
 	 * 
 	 */
 	public void GetMessageIndexInfo() {
@@ -190,7 +178,6 @@ public class IAMManager {
 	 * In addition, if a message index is inactive for 30 or more days, then the index cache
 	 * must be recreated.
 	 * 
-	 * @return Returns True for success or False for failure to the listener.
 	 */
 	public void CreateMessageIndex() {		
 		APICreateMessageIndex createMessageIndex = new APICreateMessageIndex(this, iamListener);
@@ -201,8 +188,6 @@ public class IAMManager {
 	 * The DeleteMessage method deletes a specific message from an inbox.
 	 * 
 	 * @param msgId - Specifies the Id of the message to be deleted.
-	 * 
-	 * @return Returns True for success or False for failure to the listener.
 	 * 
 	 */
 	public void DeleteMessage(String msgId) {		
@@ -215,8 +200,6 @@ public class IAMManager {
 	 * 
 	 * @param msgIds - Specifies a comma delimited list of message identifiers.
 	 *  
-	 * @return Returns True for success or False for failure to the listener.
-	 * 
 	 */
 	public void DeleteMessages(String[] msgIds) {
 		APIDeleteMessages deleteMessages = new APIDeleteMessages(msgIds, this, iamListener);
@@ -229,8 +212,6 @@ public class IAMManager {
 	 * 
 	 * @param messages - Specifies the messages to be updated and the flags to be updated.
 	 * 
-	 * @return Returns True for success or False for failure to the listener.
-	 * 
 	 */
 	public void UpdateMessages(DeltaChange[] messages) {
 		APIUpdateMessages updateMessages = new APIUpdateMessages(messages, this, iamListener);
@@ -242,8 +223,6 @@ public class IAMManager {
 	 * @param msgId - Specifies the identifier of the message to be updated.
 	 * @param isUnread - (Optional) Indicates whether the message has (True) or has not (False) been read.
 	 * @param isFavorite - (Optional) Indicates whether the message is (True) or is not (False) a favorite.
-	 * 
-	 * @return Returns True for success or False for failure to the listener.
 	 * 
 	 */
 	public void UpdateMessage(String msgId, Boolean isUnread, Boolean isFavorite) {
@@ -274,6 +253,8 @@ public class IAMManager {
 	
 	/**
 	 * The GetLowerTokenExpiryTimeTo method returns the current expiry time override value.
+	 *
+	 * @return the current expiry time override value
 	 */	
 	public static long GetLowerTokenExpiryTimeTo () {
 		return lowerTokenExpiryTimeTo;
@@ -289,13 +270,15 @@ public class IAMManager {
 	
 	/**
 	 * The isCurrentTokenExpired method checks if the current access token is expired.
+	 *
+	 * @return true is the token is expired
 	 */	
 	public static Boolean isCurrentTokenExpired() {
 		return (currentToken.getAccessTokenExpiry() < (System.currentTimeMillis() / 1000));		
 	}
 	
 	/**
-	 * The SetApiFqdn method updates the FQDN of the AT&T API end point.
+	 * The SetApiFqdn method updates the FQDN of the AT&amp;T API end point.
 	 * @param fqdn - fully qualified domain name e.g. https://api.att.com
 	 */	
 	public static void SetApiFqdn(String fqdn) {
@@ -304,6 +287,8 @@ public class IAMManager {
 	
 	/**
 	 * The CheckAndRefreshExpiredTokenAsync method automatically updates the current token using the RefreshToken.
+	 *
+	 * @return true if the current auth token is valid
 	 */	
 	public Boolean CheckAndRefreshExpiredTokenAsync() {
 		try {

@@ -179,8 +179,8 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * @return OAuthToken object if successful
      *
      * @throws RESTException if unable to send request
-     * @throws ParseException 
-     * @throws JSONException 
+     * @throws ParseException couldn't parse response
+     * @throws JSONException couldn't parse response JSON
      */
     public OAuthToken getTokenUsingCode(String code) throws RESTException, JSONException, ParseException {
         RESTClient client =
@@ -211,8 +211,8 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * @return OAuthToken object if successful
      *
      * @throws RESTException if request was unsuccessful
-     * @throws ParseException 
-     * @throws JSONException 
+     * @throws ParseException couldn't parse response
+     * @throws JSONException couldn't parse response JSON
      */
     public OAuthToken getToken(String scope) throws RESTException, JSONException, ParseException {
     	
@@ -266,8 +266,8 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * @return OAuthToken object if successful
      *
      * @throws RESTException if request was unsuccessful
-     * @throws ParseException 
-     * @throws JSONException 
+     * @throws ParseException couldn't parse response
+     * @throws JSONException couldn't parse response JSON
      * @see OAuthToken#getRefreshToken()
      */
     public OAuthToken refreshToken(String refreshToken) throws RESTException, JSONException, ParseException {
@@ -309,10 +309,9 @@ public class OAuthService extends Activity implements ATTIAMListener {
      * Revokes a token, where the token hint set to "access_token"
      * 
      * @param token token to revoke
-     * @param hint a hint for the type of token to revoke
      *
      * @throws RESTException if request was unsuccessful
-     * @see OAuthToken#revokeToken(String, String)
+     * @see OAuthService#revokeToken(String, String)
      */
     public void revokeToken(String token) throws RESTException {
         final String hint = "access_token";
@@ -321,10 +320,6 @@ public class OAuthService extends Activity implements ATTIAMListener {
    
     /**
      * Background task to get the access token
-     * 
-     * @param code code to use when requesting access token
-     * @return OAuthToken object if successful
-     *
      */
     public class GetTokenUsingCodeTask extends AsyncTask<String, Void, OAuthToken> {
 

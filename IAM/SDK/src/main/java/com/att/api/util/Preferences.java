@@ -23,14 +23,17 @@ public final class Preferences {
 	 * returned to any callers for the same name, meaning they will see each
 	 * other's edits as soon as they are made. *
 	 * 
-	 * @param context
+	 * @param context the preferences container
 	 */
 	public Preferences(Context context) {
 		prefs = context.getSharedPreferences("ADS_API", Context.MODE_PRIVATE);
 	}
 
 	/**
-	 * Set a integer value in the preferences by given key. 
+	 * Set a integer value in the preferences by given key.
+	 * @param key preference to update
+	 * @param value value to assign to updated preference
+	 * @return true if preference was set
 	 */
 	public boolean setInt(String key, int value) {
 		Editor editor = prefs.edit();
@@ -39,7 +42,10 @@ public final class Preferences {
 	}
 
 	/**
-	 * Set a long value in the preferences by given key. 
+	 * Set a long value in the preferences by given key.
+	 * @param key preference to update
+	 * @param value value to assign to updated preference
+	 * @return true if preference was set
 	 */
 	public boolean setLong(String key, long value) {
 		Editor editor = prefs.edit();
@@ -49,6 +55,9 @@ public final class Preferences {
 
 	/**
 	 * Set a String value in the preferences by given key. 
+	 * @param key preference to update
+	 * @param value value to assign to updated preference
+	 * @return true if preference was set
 	 */
 	public boolean setString(String key, String value) {
 		Editor editor = prefs.edit();
@@ -58,6 +67,9 @@ public final class Preferences {
 
 	/**
 	 * Set a boolean value in the preferences by given key. 
+	 * @param key preference to update
+	 * @param value value to assign to updated preference
+	 * @return true if preference was set
 	 */
 	public boolean setBoolean(String key, Boolean value) {
 		Editor editor = prefs.edit();
@@ -67,6 +79,9 @@ public final class Preferences {
 
 	/**
 .	 * Retrieve a boolean value from the preferences by given key.
+	 * @param key preference value to obtain
+	 * @param defValue default returned if no preference value is available
+	 * @return the requested preference value
 	 */
 	public boolean getBoolean(String key, boolean defValue) {
 		return prefs.getBoolean(key, defValue);
@@ -74,6 +89,9 @@ public final class Preferences {
 
 	/**
 	 * Retrieve a integer value from the preferences by given key.
+	 * @param key preference value to obtain
+	 * @param defValue default returned if no preference value is available
+	 * @return the requested preference value
 	 */
 	public int getInt(String key, int defValue) {
 		return prefs.getInt(key, defValue);
@@ -81,6 +99,9 @@ public final class Preferences {
 
 	/**
 	 * Retrieve a long value from the preferences by given key.
+	 * @param key preference value to obtain
+	 * @param defValue default returned if no preference value is available
+	 * @return the requested preference value
 	 */
 	public long getLong(String key, long defValue) {
 		return prefs.getLong(key, defValue);
@@ -88,6 +109,9 @@ public final class Preferences {
 
 	/**
 	 * Retrieve a String value from the preferences by given key.
+	 * @param key preference value to obtain
+	 * @param defValue default returned if no preference value is available
+	 * @return the requested preference value
 	 */
 	public String getString(String key, String defValue) {
 		return prefs.getString(key, defValue);
@@ -95,6 +119,8 @@ public final class Preferences {
 
 	/**
 	 * Check the value availability in the preferences by given key.
+	 * @param key preference to check
+	 * @return true if the requested preference value exists
 	 */
 	public boolean containsValue(String key) {
 		return prefs.contains(key);
