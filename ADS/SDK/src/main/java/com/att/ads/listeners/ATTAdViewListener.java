@@ -9,7 +9,7 @@ import com.att.ads.ATTAdViewError;
  *  
  * @author ATT 
  */
-interface ATTAdViewListener {
+public interface ATTAdViewListener {
 	
 	/**
 	 * Success call back method.
@@ -18,7 +18,7 @@ interface ATTAdViewListener {
 	 * Generally this is the place holder for application developer to 
 	 * do the logging or debugging purposes. 
 	 */
-	public void onSuccess(String adViewResponse);
+	void onSuccess(String adViewResponse);
 	
 	/**
 	 * Error call back method.
