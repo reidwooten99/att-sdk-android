@@ -1,7 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="0bbf4a82-1d80-4324-9fff-23e3390b61ec" name="Default" comment="">
+    <list default="true" id="484ad0d5-508a-45fc-8302-22d88e3880be" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ads_tab_results.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ads_tab_settings.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/att_logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/bg_theme.9.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/btn_blue_dn_2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/btn_blue_up_2.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-hdpi/ic_action_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-mdpi/ic_action_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-xhdpi/ic_action_search.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-xhdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-ldpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-mdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-xhdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_launcher_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_launcher_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_launcher_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-ldpi/ic_launcher_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-mdpi/ic_launcher_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_logout.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn_b1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn_bup.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/splash_320x480.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/test_tab_background.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ADS.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/ATTAdView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/ATTAdViewError.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/listeners/ATTAdViewListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AdLog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AdService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/model/AdServiceRequest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/model/AdServiceResponse.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsApplication.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsEncryptDecrypt.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsMainActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsViewActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/AndroidManifest.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AuthService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/Bruce.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/Constants.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/DataManager.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/DebugSettingsPage.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/EncryptDecrypt.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/GPSListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/HttpClientFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/NetworkBroadcastReceiver.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/controllers/NetworkController.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/OnLocationInitialized.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/Preferences.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/ResponseActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/SDK.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/SampleApp.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SettingsViewActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/SplashActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/Utils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/layout/activity_main.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/menu/activity_main.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/adsview_tab_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/arrays.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/build.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/build.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/debug_settings_page.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values-w820dp/dimens.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/import-summary.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/lint.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/lint.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/resources/com/att/ads/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/resources/com/att/ads/controllers/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/resources/com/att/ads/listeners/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/resources/com/att/ads/model/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/resources/com/att/ads/util/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/package.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/response_tab_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/rounded_edit_text_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/settings.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/settings_tab_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/splash.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SDK/src/main/res/values/styles.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_18_0_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/tab_layout.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\.classpath" afterPath="$PROJECT_DIR$/../AdsSampleApp/.classpath" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\.gitignore" afterPath="$PROJECT_DIR$/../AdsSampleApp/.gitignore" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\.project" afterPath="$PROJECT_DIR$/../AdsSampleApp/.project" />
@@ -49,54 +153,57 @@
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\lint.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/lint.xml" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\proguard-project.txt" afterPath="$PROJECT_DIR$/../AdsSampleApp/proguard-project.txt" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\project.properties" afterPath="$PROJECT_DIR$/../AdsSampleApp/project.properties" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ads_tab_results.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ads_tab_results.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ads_tab_settings.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ads_tab_settings.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\att_logo.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/att_logo.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\bg_theme.9.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/bg_theme.9.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ads_tab_results.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ads_tab_results.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ads_tab_settings.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ads_tab_settings.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\att_logo.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/att_logo.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\bg_theme.9.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/bg_theme.9.png" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\btn_blue_2.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/btn_blue_2.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\btn_blue_dn_2.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/btn_blue_dn_2.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\btn_blue_up_2.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/btn_blue_up_2.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_launcher.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_launcher_bup.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_logout.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/ic_logout.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn_b1.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn_b1.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn_bup.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/popup_close_btn_bup.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\btn_blue_dn_2.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_dn_2.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\btn_blue_up_2.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/btn_blue_up_2.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-hdpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\ic_logout.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/ic_logout.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/popup_close_btn.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn_b1.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/popup_close_btn_b1.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\popup_close_btn_bup.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/popup_close_btn_bup.png" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\rounded_edit_text_layout.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/rounded_edit_text_layout.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\splash_320x480.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/splash_320x480.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\test_tab_background.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-hdpi/test_tab_background.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-ldpi\ic_launcher.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-ldpi/ic_launcher.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-ldpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-ldpi/ic_launcher_bup.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-mdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-mdpi/ic_launcher.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-mdpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-mdpi/ic_launcher_bup.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-xhdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/drawable-xhdpi/ic_launcher.png" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\adsview_tab_layout.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/adsview_tab_layout.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\splash_320x480.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/splash_320x480.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-hdpi\test_tab_background.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-hdpi/test_tab_background.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-ldpi\ic_launcher.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-ldpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-ldpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-ldpi/ic_launcher_bup.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-mdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-mdpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-mdpi\ic_launcher_bup.png" afterPath="$PROJECT_DIR$/SDK/src/main/res/drawable-mdpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\drawable-xhdpi\ic_launcher.png" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/drawable-xhdpi/ic_launcher.png" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\adsview_tab_layout.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/adsview_tab_layout.xml" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\debug_settings_page.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/debug_settings_page.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\response_tab_layout.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/response_tab_layout.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\response_tab_layout.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/response_tab_layout.xml" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\settings_tab_layout.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/settings_tab_layout.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\splash.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/splash.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\tab_layout.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/layout/tab_layout.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values-w820dp\dimens.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values-w820dp/dimens.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\arrays.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/arrays.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\dimens.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/dimens.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\strings.xml" afterPath="$PROJECT_DIR$/../AdsSampleApp/res/values/strings.xml" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsApplication.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsApplication.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\splash.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/splash.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\layout\tab_layout.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/layout/tab_layout.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values-w820dp\dimens.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values-w820dp/dimens.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\arrays.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/arrays.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\dimens.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/dimens.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\res\values\strings.xml" afterPath="$PROJECT_DIR$/SampleApp/src/main/res/values/strings.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsApplication.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsApplication.java" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsEncryptDecrypt.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsEncryptDecrypt.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsMainActivity.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsMainActivity.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsMainActivity.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsMainActivity.java" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\AdsViewActivity.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/AdsViewActivity.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\DebugSettingsPage.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/DebugSettingsPage.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\DebugSettingsPage.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/DebugSettingsPage.java" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\GPSListener.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/GPSListener.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\OnLocationInitialized.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/OnLocationInitialized.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\ResponseActivity.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/ResponseActivity.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\OnLocationInitialized.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/OnLocationInitialized.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\ResponseActivity.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/ResponseActivity.java" />
       <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\SettingsViewActivity.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/SettingsViewActivity.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\SplashActivity.java" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/SplashActivity.java" />
-      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\package.html" afterPath="$PROJECT_DIR$/../AdsSampleApp/src/com/att/ads/sample/package.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SampleApp/SampleApp.iml" afterPath="$PROJECT_DIR$/SampleApp/SampleApp.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\SplashActivity.java" afterPath="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SplashActivity.java" />
+      <change type="MOVED" beforePath="C:\Users\Bruce\Documents\GitHub\att-sdk-android\ADS\src\com\att\ads\sample\package.html" afterPath="$PROJECT_DIR$/SampleApp/src/main/resources/com/att/ads/sample/package.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../IAM/SampleApp/SampleApp.iml" afterPath="$PROJECT_DIR$/../IAM/SampleApp/SampleApp.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../IAM/.idea/misc.xml" afterPath="$PROJECT_DIR$/../IAM/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../IAM/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../IAM/.idea/workspace.xml" />
     </list>
-    <ignored path="IAM.iws" />
+    <ignored path="AdsSDK.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/.gradle/" />
+    <ignored path="$PROJECT_DIR$/app/.gradle/" />
+    <ignored path="$PROJECT_DIR$/app/build/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -117,22 +224,85 @@
     </system>
   </component>
   <component name="FavoritesManager">
-    <favorites_list name="IAM" />
+    <favorites_list name="ADS" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Config.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+      <file leaf-file-name="NetworkController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/controllers/NetworkController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dimens.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SampleApp/src/main/res/values-sw600dp/dimens.xml">
+      <file leaf-file-name="ATTAdViewListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/listeners/ATTAdViewListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/DataManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GPSListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/GPSListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+              <folding>
+                <element signature="e#3710#3937#0" expanded="true" />
+                <element signature="e#3936#3937#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lint.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/lint.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuthService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AuthService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="369" column="68" selection-start-line="369" selection-start-column="68" selection-end-line="369" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AdService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.40236688">
+              <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -141,119 +311,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDK/src/main/res/layout/activity_main.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <file leaf-file-name="SettingsViewActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SettingsViewActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/SDK/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8770492">
-              <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SampleApp/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Preferences.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/Preferences.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
-              <folding>
-                <element signature="e#2620#2621#0" expanded="false" />
-                <element signature="e#2665#2666#0" expanded="false" />
-                <element signature="e#2945#2946#0" expanded="false" />
-                <element signature="e#2986#2987#0" expanded="false" />
-                <element signature="e#3266#3267#0" expanded="false" />
-                <element signature="e#3308#3309#0" expanded="false" />
-                <element signature="e#3596#3597#0" expanded="false" />
-                <element signature="e#3640#3641#0" expanded="false" />
-                <element signature="e#3854#3855#0" expanded="false" />
-                <element signature="e#3887#3888#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IAMManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IAMManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1299#1300#0" expanded="false" />
-                <element signature="e#1329#1330#0" expanded="false" />
-                <element signature="e#9236#9237#0" expanded="false" />
-                <element signature="e#9273#9274#0" expanded="false" />
-                <element signature="e#9481#9482#0" expanded="false" />
-                <element signature="e#9517#9518#0" expanded="false" />
-                <element signature="e#10278#10279#0" expanded="false" />
-                <element signature="e#10299#10300#0" expanded="false" />
-                <element signature="e#13053#13054#0" expanded="false" />
-                <element signature="e#13103#13104#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OAuthService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="315" column="25" selection-start-line="315" selection-start-column="25" selection-end-line="315" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#12298#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OAuthToken.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthToken.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="59" selection-start-line="61" selection-start-column="59" selection-end-line="61" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#8359#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#2475#2476#0" expanded="false" />
-                <element signature="e#2531#2532#0" expanded="false" />
-                <element signature="e#4400#4401#0" expanded="false" />
-                <element signature="e#4434#4435#0" expanded="false" />
-                <element signature="e#4552#4553#0" expanded="false" />
-                <element signature="e#4587#4588#0" expanded="false" />
-                <element signature="e#4714#4715#0" expanded="false" />
-                <element signature="e#4754#4755#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -269,14 +345,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="IAM" />
+              <option name="name" value="ADS" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="IAM" />
+                <option name="name" value="ADS" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
@@ -1168,6 +1244,11 @@
                 <option name="name" value="preReleaseUnitTestBuild" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare ADS:SDK:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/SampleApp" />
+                <option name="name" value="prepareADSSDKUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/SampleApp" />
                 <option name="name" value="prepareDebugAndroidTestDependencies" />
               </ExternalTaskPojo>
@@ -1178,11 +1259,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/SampleApp" />
                 <option name="name" value="prepareDebugUnitTestDependencies" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare IAM:SDK:unspecified" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/SampleApp" />
-                <option name="name" value="prepareIAMSDKUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/SampleApp" />
@@ -1291,7 +1367,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="5722434675554" />
+        <entry key="$PROJECT_DIR$" value="5734127023837" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1457,17 +1533,7 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
-                            <option value="$MODULE_DIR$/libs/commons-codec-1.6.jar" />
-                            <option value="$MODULE_DIR$/libs/commons-lang3-3.2.1-javadoc.jar" />
-                            <option value="$MODULE_DIR$/libs/commons-lang3-3.2.1-sources.jar" />
-                            <option value="$MODULE_DIR$/libs/commons-lang3-3.2.1.jar" />
-                            <option value="$MODULE_DIR$/libs/commons-logging-1.1.3.jar" />
-                            <option value="$MODULE_DIR$/libs/fluent-hc-4.3.1.jar" />
-                            <option value="$MODULE_DIR$/libs/httpclient-4.3.1.jar" />
-                            <option value="$MODULE_DIR$/libs/httpclient-cache-4.3.1.jar" />
-                            <option value="$MODULE_DIR$/libs/httpcore-4.3.jar" />
-                            <option value="$MODULE_DIR$/libs/httpmime-4.3.1.jar" />
-                            <option value="$MODULE_DIR$/libs/java-json.jar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/SDK" />
@@ -1549,7 +1615,6 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
-                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/SampleApp" />
@@ -1639,7 +1704,7 @@
                   </entry>
                 </map>
               </option>
-              <option name="name" value="IAM" />
+              <option name="name" value="ADS" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$APPLICATION_HOME_DIR$/gradle/gradle-2.2.1/lib/ant-1.9.3.jar" />
@@ -1711,14 +1776,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/NotificationConnectionDetails.java" />
-        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IMMNService.java" />
-        <option value="$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java" />
-        <option value="$PROJECT_DIR$/SampleApp/build.gradle" />
-        <option value="$PROJECT_DIR$/SDK/build.gradle" />
-        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/Preferences.java" />
-        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IAMManager.java" />
-        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthService.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/EncryptDecrypt.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/NetworkBroadcastReceiver.java" />
+        <option value="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsEncryptDecrypt.java" />
+        <option value="$PROJECT_DIR$/SampleApp/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsViewActivity.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/ATTAdView.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SettingsViewActivity.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/controllers/NetworkController.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/listeners/ATTAdViewListener.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/DataManager.java" />
+        <option value="$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/GPSListener.java" />
+        <option value="$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AuthService.java" />
       </list>
     </option>
   </component>
@@ -1742,7 +1812,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="AndroidView" proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -1754,27 +1824,134 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="IAM" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAM" />
+              <option name="myItemId" value="ADS" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="IAM" />
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -1782,23 +1959,189 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ads" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ads" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ads" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="listeners" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ads" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ADS" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SDK" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="recentsLimit" value="5" />
-    <property name="FullScreen" value="false" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_22_x86" />
-    <property name="android.project.structure.last.selected" value="SDK" />
-    <property name="android.project.structure.proportion" value="0.15" />
-    <property name="settings.editor.selected.configurable" value="gradle.compiler" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="FullScreen" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_22_x86" />
   </component>
   <component name="RunManager" selected="Android Application.SampleApp">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1954,8 +2297,8 @@
     </configuration>
     <configuration default="false" name="SampleApp" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="SampleApp" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
+      <option name="ACTIVITY_CLASS" value="com.att.ads.sample.SplashActivity" />
+      <option name="MODE" value="specific_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
@@ -1970,10 +2313,10 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_MATRIX_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_PROJECT_ID" value="" />
+      <option name="SELECTED_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_PROJECT_ID" value="Please select a project..." />
       <option name="IS_VALID_CLOUD_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_SELECTION_ERROR" value="" />
+      <option name="INVALID_CLOUD_SELECTION_ERROR" value="Matrix configuration not specified" />
       <method />
     </configuration>
     <list size="1">
@@ -1998,10 +2341,10 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0bbf4a82-1d80-4324-9fff-23e3390b61ec" name="Default" comment="" />
-      <created>1430593082362</created>
+      <changelist id="484ad0d5-508a-45fc-8302-22d88e3880be" name="Default" comment="" />
+      <created>1433529313920</created>
       <option name="number" value="Default" />
-      <updated>1430593082362</updated>
+      <updated>1433529313920</updated>
     </task>
     <servers />
   </component>
@@ -2016,34 +2359,35 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5101523" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39901477" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32879046" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2489019" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.48984772" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39901477" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -2062,15 +2406,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/res/values-sw600dp/dimens.xml">
+    <entry file="file://$PROJECT_DIR$/import-summary.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2078,7 +2414,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/import-summary.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2086,7 +2422,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
+    <entry file="file://$PROJECT_DIR$/import-summary.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2094,7 +2430,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/build.gradle">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/EncryptDecrypt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/util/NetworkBroadcastReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsEncryptDecrypt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/res/drawable-ldpi/ic_launcher.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsMainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2102,84 +2483,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/build.gradle">
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/Preferences.java">
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/AdsViewActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
+          <caret line="102" column="50" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="50" />
           <folding>
-            <element signature="e#2620#2621#0" expanded="false" />
-            <element signature="e#2665#2666#0" expanded="false" />
-            <element signature="e#2945#2946#0" expanded="false" />
-            <element signature="e#2986#2987#0" expanded="false" />
-            <element signature="e#3266#3267#0" expanded="false" />
-            <element signature="e#3308#3309#0" expanded="false" />
-            <element signature="e#3596#3597#0" expanded="false" />
-            <element signature="e#3640#3641#0" expanded="false" />
-            <element signature="e#3854#3855#0" expanded="false" />
-            <element signature="e#3887#3888#0" expanded="false" />
+            <element signature="e#13854#14115#0" expanded="true" />
+            <element signature="e#14114#14115#0" expanded="true" />
+            <element signature="e#14264#14403#0" expanded="true" />
+            <element signature="e#14402#14403#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IAMManager.java">
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-18/android.jar!/android/view/View.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+        <state vertical-scroll-proportion="-5.08">
+          <caret line="1833" column="16" selection-start-line="1833" selection-start-column="16" selection-end-line="1833" selection-end-column="16" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1299#1300#0" expanded="false" />
-            <element signature="e#1329#1330#0" expanded="false" />
-            <element signature="e#9236#9237#0" expanded="false" />
-            <element signature="e#9273#9274#0" expanded="false" />
-            <element signature="e#9481#9482#0" expanded="false" />
-            <element signature="e#9517#9518#0" expanded="false" />
-            <element signature="e#10278#10279#0" expanded="false" />
-            <element signature="e#10299#10300#0" expanded="false" />
-            <element signature="e#13053#13054#0" expanded="false" />
-            <element signature="e#13103#13104#0" expanded="false" />
+            <element signature="e#51897#51898#0" expanded="true" />
+            <element signature="e#51948#51949#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="315" column="25" selection-start-line="315" selection-start-column="25" selection-end-line="315" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#12298#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="59" selection-start-line="61" selection-start-column="59" selection-end-line="61" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#8359#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#2475#2476#0" expanded="false" />
-            <element signature="e#2531#2532#0" expanded="false" />
-            <element signature="e#4400#4401#0" expanded="false" />
-            <element signature="e#4434#4435#0" expanded="false" />
-            <element signature="e#4552#4553#0" expanded="false" />
-            <element signature="e#4587#4588#0" expanded="false" />
-            <element signature="e#4714#4715#0" expanded="false" />
-            <element signature="e#4754#4755#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2187,15 +2523,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2203,177 +2531,179 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/res/menu/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/listener/ATTIAMListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/AttSdkSampleListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/SplashScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/NewMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="241" column="28" selection-start-line="241" selection-start-column="28" selection-end-line="241" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IMMNService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="423" column="0" selection-start-line="423" selection-start-column="0" selection-end-line="423" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/res/values-sw600dp/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/iamsampleapp/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SampleApp/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/util/Preferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
           <folding>
-            <element signature="e#2620#2621#0" expanded="false" />
-            <element signature="e#2665#2666#0" expanded="false" />
-            <element signature="e#2945#2946#0" expanded="false" />
-            <element signature="e#2986#2987#0" expanded="false" />
-            <element signature="e#3266#3267#0" expanded="false" />
-            <element signature="e#3308#3309#0" expanded="false" />
-            <element signature="e#3596#3597#0" expanded="false" />
-            <element signature="e#3640#3641#0" expanded="false" />
-            <element signature="e#3854#3855#0" expanded="false" />
-            <element signature="e#3887#3888#0" expanded="false" />
+            <element signature="e#130#153#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/immn/service/IAMManager.java">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/ATTAdView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1299#1300#0" expanded="false" />
-            <element signature="e#1329#1330#0" expanded="false" />
-            <element signature="e#9236#9237#0" expanded="false" />
-            <element signature="e#9273#9274#0" expanded="false" />
-            <element signature="e#9481#9482#0" expanded="false" />
-            <element signature="e#9517#9518#0" expanded="false" />
-            <element signature="e#10278#10279#0" expanded="false" />
-            <element signature="e#10299#10300#0" expanded="false" />
-            <element signature="e#13053#13054#0" expanded="false" />
-            <element signature="e#13103#13104#0" expanded="false" />
+            <element signature="e#9429#9586#0" expanded="true" />
+            <element signature="e#9585#9586#0" expanded="true" />
+            <element signature="e#9739#9887#0" expanded="true" />
+            <element signature="e#9886#9887#0" expanded="true" />
+            <element signature="e#13247#13248#0" expanded="true" />
+            <element signature="e#13278#13279#0" expanded="true" />
+            <element signature="e#17372#17373#0" expanded="true" />
+            <element signature="e#17407#17408#0" expanded="true" />
+            <element signature="e#17629#17630#0" expanded="true" />
+            <element signature="e#17666#17667#0" expanded="true" />
+            <element signature="e#17842#17843#0" expanded="true" />
+            <element signature="e#17871#17872#0" expanded="true" />
+            <element signature="e#18040#18041#0" expanded="true" />
+            <element signature="e#18073#18074#0" expanded="true" />
+            <element signature="e#18421#18422#0" expanded="true" />
+            <element signature="e#18458#18459#0" expanded="true" />
+            <element signature="e#18610#18611#0" expanded="true" />
+            <element signature="e#18649#18650#0" expanded="true" />
+            <element signature="e#19010#19011#0" expanded="true" />
+            <element signature="e#19048#19049#0" expanded="true" />
+            <element signature="e#19342#19343#0" expanded="true" />
+            <element signature="e#19371#19372#0" expanded="true" />
+            <element signature="e#19525#19526#0" expanded="true" />
+            <element signature="e#19559#19560#0" expanded="true" />
+            <element signature="e#19716#19717#0" expanded="true" />
+            <element signature="e#19751#19752#0" expanded="true" />
+            <element signature="e#19870#19871#0" expanded="true" />
+            <element signature="e#19906#19907#0" expanded="true" />
+            <element signature="e#20257#20258#0" expanded="true" />
+            <element signature="e#20292#20293#0" expanded="true" />
+            <element signature="e#20398#20399#0" expanded="true" />
+            <element signature="e#20434#20435#0" expanded="true" />
+            <element signature="e#20513#20514#0" expanded="true" />
+            <element signature="e#20545#20546#0" expanded="true" />
+            <element signature="e#20639#20640#0" expanded="true" />
+            <element signature="e#20675#20676#0" expanded="true" />
+            <element signature="e#20766#20767#0" expanded="true" />
+            <element signature="e#20801#20802#0" expanded="true" />
+            <element signature="e#21023#21024#0" expanded="true" />
+            <element signature="e#21060#21061#0" expanded="true" />
+            <element signature="e#21162#21163#0" expanded="true" />
+            <element signature="e#21198#21199#0" expanded="true" />
+            <element signature="e#21303#21304#0" expanded="true" />
+            <element signature="e#21340#21341#0" expanded="true" />
+            <element signature="e#21420#21421#0" expanded="true" />
+            <element signature="e#21452#21453#0" expanded="true" />
+            <element signature="e#21554#21555#0" expanded="true" />
+            <element signature="e#21590#21591#0" expanded="true" />
+            <element signature="e#21695#21696#0" expanded="true" />
+            <element signature="e#21732#21733#0" expanded="true" />
+            <element signature="e#21823#21824#0" expanded="true" />
+            <element signature="e#21858#21859#0" expanded="true" />
+            <element signature="e#22060#22061#0" expanded="true" />
+            <element signature="e#22095#22096#0" expanded="true" />
+            <element signature="e#22243#22244#0" expanded="true" />
+            <element signature="e#22263#22264#0" expanded="true" />
+            <element signature="e#22442#22443#0" expanded="true" />
+            <element signature="e#22469#22470#0" expanded="true" />
+            <element signature="e#22595#22596#0" expanded="true" />
+            <element signature="e#22623#22624#0" expanded="true" />
+            <element signature="e#23006#23007#0" expanded="true" />
+            <element signature="e#23024#23025#0" expanded="true" />
+            <element signature="e#23165#23166#0" expanded="true" />
+            <element signature="e#23188#23189#0" expanded="true" />
+            <element signature="e#23312#23313#0" expanded="true" />
+            <element signature="e#23340#23341#0" expanded="true" />
+            <element signature="e#23516#23517#0" expanded="true" />
+            <element signature="e#23559#23560#0" expanded="true" />
+            <element signature="e#23698#23699#0" expanded="true" />
+            <element signature="e#23721#23722#0" expanded="true" />
+            <element signature="e#23874#23875#0" expanded="true" />
+            <element signature="e#23907#23908#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthToken.java">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="59" selection-start-line="61" selection-start-column="59" selection-end-line="61" selection-end-column="59" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/SettingsViewActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/controllers/NetworkController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/listeners/ATTAdViewListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/DataManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SampleApp/src/main/java/com/att/ads/sample/GPSListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
           <folding>
-            <element signature="e#0#8359#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#2475#2476#0" expanded="false" />
-            <element signature="e#2531#2532#0" expanded="false" />
-            <element signature="e#4400#4401#0" expanded="false" />
-            <element signature="e#4434#4435#0" expanded="false" />
-            <element signature="e#4552#4553#0" expanded="false" />
-            <element signature="e#4587#4588#0" expanded="false" />
-            <element signature="e#4714#4715#0" expanded="false" />
-            <element signature="e#4754#4755#0" expanded="false" />
+            <element signature="e#3710#3937#0" expanded="true" />
+            <element signature="e#3936#3937#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/api/oauth/OAuthService.java">
+    <entry file="file://$PROJECT_DIR$/SDK/lint.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="315" column="25" selection-start-line="315" selection-start-column="25" selection-end-line="315" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#12298#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
+          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SDK/build.gradle">
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AuthService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8770492">
-          <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="369" column="68" selection-start-line="369" selection-start-column="68" selection-end-line="369" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDK/src/main/java/com/att/ads/AdService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40236688">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
           <folding />
         </state>
       </provider>
