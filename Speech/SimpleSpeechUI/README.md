@@ -5,7 +5,7 @@ For more information contact developer.support@att.com http://developer.att.com
 
 # SimpleSpeechUI example Android app for AT&T Speech SDK
 
-This sample app includes Android source code and an Eclipse project to show how to call the AT&T Speech SDK from an application that wants a custom speech UI.  The app displays a simple client-side mashup.  Pressing a button initiates a speech interaction, a text area shows the recognition result, and a web view uses the recognized speech to search a website.  The text area also shows the progress of the speech interaction, and the button changes to "stop" or "cancel" during the phases of the interaction.
+This sample app includes Android source code and an Android Studio project to show how to call the AT&T Speech SDK from an application that wants a custom speech UI.  The app displays a simple client-side mashup.  Pressing a button initiates a speech interaction, a text area shows the recognition result, and a web view uses the recognized speech to search a website.  The text area also shows the progress of the speech interaction, and the button changes to "stop" or "cancel" during the phases of the interaction.
 
 ## Setting up the project
 
@@ -14,7 +14,6 @@ The SimpleSpeechUI Eclipse project is already configured to link with the Speech
 1. If it's not present, create a `libs` subdirectory of this sample app.
 2. Unzip the AT&T Speech SDK for Android into its own folder.
 2. Copy the file `ATTSpeechKit.jar` into the `libs` subfolder.
-4. Expand the `libs` group within the Eclipse project window.  You should see the ATTSpeechKit JAR there.
 
 ## Running the sample
 

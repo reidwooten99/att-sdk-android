@@ -1,23 +1,21 @@
-AT&T In-App Messaging(IAM)SDK for Android
+AT&T In-App Messaging (IAM) SDK for Android
 
-Install Guide
+Sample App Install Guide
 
-1.	Open the Android project for your application in Package Explorer.
-2.	Select Project, Properties.
-3.	Select the Java Build Path entry in the navigation bar.
-4.	Click the Libraries tab.
-5.	Click the Add External JARs button on the right side of the properties window.
-6.	Browse to the folder where you extracted the IAM SDK files.
-	Select the library iamsdk.jar.
-7.	Click OK. The library should appear in Package Explorer.
-8.	Sample App - Update the following with respect to your application from the developer portal.
+1.	Browse to the folder where you extracted the IAM SDK files.
+2.	Copy the library iamsdk.jar to the 'libs' folder of the sample app.
+3.	Open the sample app project in Android Studio.
+4.	Update the following information in SpeechConfig.java (you can get this from
+    your app registration on the developer site). 
 •	appKey
 •	secret
 •	redirect url as registered in AT&T developer portal app.
 
-IAM service allows a developer to send SMS or MMS message on behalf of an AT&T mobile subscriber.
+IAM service allows a developer to send SMS or MMS message on behalf of an AT&T
+mobile subscriber.
 
-The In-App Messaging SDK is an android library for natively consuming the RESTful resources for AT&T's In-App Messaging API.
+The In-App Messaging SDK is an android library for natively consuming the
+RESTful resources for AT&T's In-App Messaging API.
 
 Quick Start
 --------------
@@ -149,13 +147,7 @@ OnSuccess call back of the SendMessage Listener, you can add your code
 		//Your code for error
 		}
 
-In-App Messaging SDK is compatible with the following versions of Android :
-
-	 Version 4.4
-	 Version 4.3
-	 Version 4.1.2
-	 Version 4.0.4
-	 Version 4.0.4
+In-App Messaging SDK is compatible with Android version Version 4.0.4 and up.
 	 
 
 Legal Disclaimer
@@ -171,3 +163,7 @@ Initial release of IAM SDK.
 Relase 1.2.1 - Dec 2 2014
 
 Added support for AT&T's OAuth 2.0 version 4 impementation for RememberMe, Refresh Token and Revoke Token functionality.
+
+Release 1.3 - June 2015
+
+Converted from ADT to Android Studio. Removed the Address Book (AAB) service.
