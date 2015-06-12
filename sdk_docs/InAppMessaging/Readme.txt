@@ -7,7 +7,7 @@ Install Guide
 3.	Select the Java Build Path entry in the navigation bar.
 4.	Click the Libraries tab.
 5.	Click the Add External JARs button on the right side of the properties window.
-6.	Browse to the folder where you extracted the AAB SDK files.
+6.	Browse to the folder where you extracted the IAM SDK files.
 	Select the library iamsdk.jar.
 7.	Click OK. The library should appear in Package Explorer.
 8.	Sample App - Update the following with respect to your application from the developer portal.
