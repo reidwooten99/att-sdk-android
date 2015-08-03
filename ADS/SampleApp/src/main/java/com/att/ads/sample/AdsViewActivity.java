@@ -97,10 +97,8 @@ public class AdsViewActivity extends Activity implements ATTAdViewListener {
 		} catch (Exception e) {
 			Log.e(TAG, "Eror :" + e.fillInStackTrace());
 		}*/
-//		appKey = UPDATE_APP_KEY_HERE;
-//		secret = UPDATE_SECRET_KEY_HERE;
-		appKey = "aasmnhdcynkp3iqqiwxos3qko2xuganq";
-		secret = "npidaeds5kauel2yfqdjgtcnla52wmo5";
+		appKey = UPDATE_APP_KEY_HERE;
+		secret = UPDATE_SECRET_KEY_HERE;
 
 		attAdView = new ATTAdView(this, appKey, secret, getResources().getString(R.string.udid),
 				selectedCategory);
