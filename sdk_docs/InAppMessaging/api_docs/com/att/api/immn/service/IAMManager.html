@@ -258,15 +258,6 @@ This class encapsulates AT&Ts REST APIs for In-App Messaging
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
-<CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#GetNotificationConnectionDetails(java.lang.String)">GetNotificationConnectionDetails</A></B>(java.lang.String&nbsp;queues)</CODE>
-
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This  provides capability to retrieve details about the credentials, 
- endpoint and resource information to setup a notification connection.</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
 <TD><CODE><B><A HREF="../../../../../com/att/api/immn/service/IAMManager.html#isCurrentTokenExpired()">isCurrentTokenExpired</A></B>()</CODE>
 
@@ -538,25 +529,6 @@ public void <B>GetMessageIndexInfo</B>()</PRE>
 <P>
 <DD><DL>
 </DL>
-</DD>
-</DL>
-<HR>
-
-<A NAME="GetNotificationConnectionDetails(java.lang.String)"><!-- --></A><H3>
-GetNotificationConnectionDetails</H3>
-<PRE>
-public void <B>GetNotificationConnectionDetails</B>(java.lang.String&nbsp;queues)</PRE>
-<DL>
-<DD>This  provides capability to retrieve details about the credentials, 
- endpoint and resource information to setup a notification connection. 
- The background task returns the response of the type  NotificationConnectionDetails to the listener
-<P>
-<DD><DL>
-<DT><B>Parameters:</B><DD><CODE>queues</CODE> - - The name of the resource the client is interested in subscribing for notifications. 
- Currently supported resource is -
- 
- 1)TEXT : Subscription to this resource will provide notification related to messages stored as TEXT in the cloud inbox.
- 2)MMS  : Subscription to this resource will provide notification related to messages stored as MMS in the cloud inbox.</DL>
 </DD>
 </DL>
 <HR>
