@@ -1,2 +1,0 @@
-This directory was created using the files from the developer portal Android SDK Zip 1.0_7.23.2014
-Plus some docx files obtained from Dinesh Ganesh dg185p@att.com (dineshkumar.gdd@wipro.com)
