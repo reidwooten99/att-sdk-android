@@ -18,5 +18,5 @@ android {
 }
 
 dependencies {
-    compile files('C:/Users/Bruce/Documents/GitHub/att-sdk-android/Speech/SimpleSpeechUI/libs/ATTSpeechKit.jar')
+    compile files('../libs/ATTSpeechKit.jar')
 }
